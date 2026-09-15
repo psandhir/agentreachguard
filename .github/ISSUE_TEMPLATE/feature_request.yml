@@ -1,0 +1,24 @@
+name: Feature request
+about: Propose a new analyser capability, adapter, output, or workflow
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Security problem / user need
+      description: Describe the problem before proposing implementation details.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence AgentReachGuard could observe
+      description: What deterministic source/config/cloud evidence would support this feature?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+    validations:
+      required: true

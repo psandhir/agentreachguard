@@ -1,0 +1,25 @@
+version: 1
+agents:
+  - name: Secure finance analyst
+    data:
+      - name: finance-reports
+        classification: confidential
+        selector: /finance/approved-reports/**
+    policy:
+      required: [data.read, external.write, network.external]
+      allowed_resources: ['/finance/approved-reports/**']
+      allowed_destinations: ['https://mail.example.internal/**']
+      require_approval_for: [external.write]
+      max_privileged_capabilities: 1
+    identities:
+      - name: finance-reader
+        provider: gcp
+        roles: [roles/storage.objectViewer]
+        resource_scope: projects/finance/buckets/approved-reports
+        credential_source: workload_identity
+    tools:
+      - name: send_email
+        capabilities: [external.write, network.external]
+        human_approval: true
+        guardrails: true
+        destinations: ['https://mail.example.internal/send']

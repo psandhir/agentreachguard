@@ -1,0 +1,666 @@
+from __future__ import annotations
+
+import ast
+from pathlib import Path
+from typing import Any
+from urllib.parse import urlparse
+
+from agentreachguard.heuristics import infer_capabilities
+from agentreachguard.models import (
+    Agent,
+    Graph,
+    Identity,
+    InputSource,
+    MCPServer,
+    NetworkDestination,
+    ResourceScope,
+    SourceLocation,
+    Tool,
+)
+
+AGENT_TYPES = {"Agent", "LlmAgent", "SequentialAgent", "ParallelAgent", "LoopAgent", "RemoteA2aAgent"}
+WORKFLOW_TYPES = {"SequentialAgent", "ParallelAgent", "LoopAgent"}
+CODE_EXECUTORS = {
+    "UnsafeLocalCodeExecutor": (False, "local"),
+    "BuiltInCodeExecutor": (True, "gemini"),
+    "AgentEngineSandboxCodeExecutor": (True, "agent-runtime"),
+    "GkeCodeExecutor": (True, "gke"),
+}
+REMOTE_MCP_PARAMS = {"SseConnectionParams": "sse", "StreamableHTTPConnectionParams": "streamable-http"}
+STDIO_MCP_PARAMS = {"StdioConnectionParams", "StdioServerParameters"}
+
+# Security semantics for current ADK built-ins. Unknown toolsets still receive name-based inference.
+BUILTIN_TOOL_CAPABILITIES: dict[str, set[str]] = {
+    "ExecuteBashTool": {"process.execute", "data.read", "data.write", "network.external"},
+    "EnvironmentToolset": {"process.execute", "data.read", "data.write"},
+    "ComputerUseToolset": {"computer.control", "data.read", "data.write", "external.write", "network.external"},
+    "GoogleSearchTool": {"data.read", "network.external"},
+    "google_search": {"data.read", "network.external"},
+    "UrlContextTool": {"data.read", "network.external"},
+    "url_context": {"data.read", "network.external"},
+    "load_web_page": {"data.read", "network.external"},
+    "DiscoveryEngineSearchTool": {"data.read", "network.external"},
+    "VertexAiSearchTool": {"data.read", "network.external"},
+    "EnterpriseWebSearchTool": {"data.read", "network.external"},
+    "BigQueryToolset": {"data.read", "data.write", "network.external"},
+    "BigtableToolset": {"data.read", "data.write", "network.external"},
+    "DataAgentToolset": {"data.read", "data.write", "network.external"},
+    "GmailToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "CalendarToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "DocsToolset": {"data.read", "data.write", "network.external"},
+    "SheetsToolset": {"data.read", "data.write", "network.external"},
+    "SlidesToolset": {"data.read", "data.write", "network.external"},
+    "YoutubeToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "GoogleApiToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "APIHubToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "ApplicationIntegrationToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "OpenAPIToolset": {"data.read", "data.write", "external.write", "network.external"},
+    "RestApiTool": {"data.read", "data.write", "external.write", "network.external"},
+    "LoadMemoryTool": {"data.read"},
+    "load_memory": {"data.read"},
+    "LoadArtifactsTool": {"data.read"},
+    "load_artifacts_tool": {"data.read"},
+    "LoadMcpResourceTool": {"data.read", "mcp.remote"},
+    "TransferToAgentTool": {"agent.delegate"},
+}
+
+RETRIEVAL_TOOLS = {
+    "GoogleSearchTool", "google_search", "UrlContextTool", "url_context", "load_web_page",
+    "DiscoveryEngineSearchTool", "VertexAiSearchTool", "EnterpriseWebSearchTool",
+}
+BROAD_TOOLSETS = {
+    "GoogleApiToolset", "GmailToolset", "CalendarToolset", "DocsToolset", "SheetsToolset", "SlidesToolset",
+    "YoutubeToolset", "APIHubToolset", "ApplicationIntegrationToolset", "OpenAPIToolset", "BigQueryToolset",
+    "BigtableToolset", "DataAgentToolset",
+}
+
+
+def _location(path: Path, node: ast.AST) -> SourceLocation:
+    return SourceLocation(path=path, line=getattr(node, "lineno", 1), column=getattr(node, "col_offset", 0) + 1)
+
+
+def _call_name(node: ast.AST) -> str | None:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    return None
+
+
+def _dotted_name(node: ast.AST) -> str | None:
+    parts: list[str] = []
+    cur = node
+    while isinstance(cur, ast.Attribute):
+        parts.append(cur.attr)
+        cur = cur.value
+    if isinstance(cur, ast.Name):
+        parts.append(cur.id)
+        return ".".join(reversed(parts))
+    return None
+
+
+def _literal(node: ast.AST | None) -> Any:
+    if node is None:
+        return None
+    try:
+        return ast.literal_eval(node)
+    except (ValueError, TypeError):
+        return None
+
+
+def _kw(call: ast.Call, name: str) -> ast.AST | None:
+    return next((kw.value for kw in call.keywords if kw.arg == name), None)
+
+
+def _arg(call: ast.Call, pos: int, kw_name: str) -> ast.AST | None:
+    value = _kw(call, kw_name)
+    if value is not None:
+        return value
+    return call.args[pos] if len(call.args) > pos else None
+
+
+def _bool(node: ast.AST | None) -> bool | None:
+    value = _literal(node)
+    return value if isinstance(value, bool) else None
+
+
+def _string(node: ast.AST | None) -> str | None:
+    value = _literal(node)
+    return value if isinstance(value, str) else None
+
+
+def _list_strings(node: ast.AST | None) -> list[str]:
+    value = _literal(node)
+    if isinstance(value, (list, tuple, set)):
+        return [str(x) for x in value if isinstance(x, (str, int, float))]
+    if isinstance(value, str):
+        return [value]
+    return []
+
+
+def _uses_google_adk(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and (node.module or "").startswith("google.adk"):
+            return True
+        if isinstance(node, ast.Import) and any(alias.name.startswith("google.adk") for alias in node.names):
+            return True
+    return False
+
+
+def is_google_adk_file(path: Path) -> bool:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except (OSError, UnicodeDecodeError, SyntaxError):
+        return False
+    return _uses_google_adk(tree)
+
+
+def _infer_function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> tuple[set[str], list[NetworkDestination]]:
+    caps = set(infer_capabilities(node.name))
+    destinations: list[NetworkDestination] = []
+    for child in ast.walk(node):
+        if isinstance(child, ast.Call):
+            called = (_dotted_name(child.func) or _call_name(child.func) or "").lower()
+            caps.update(infer_capabilities(called))
+            if any(marker in called for marker in ("subprocess", "os.system", "popen", "exec", "shell")):
+                caps.add("process.execute")
+            if any(marker in called for marker in ("requests.", "httpx.", "urllib", "aiohttp", "socket")):
+                caps.add("network.external")
+            if called.endswith("open") or called == "open":
+                mode = _string(_arg(child, 1, "mode")) or "r"
+                caps.add("data.write" if any(ch in mode for ch in "wax+") else "data.read")
+        if isinstance(child, ast.Constant) and isinstance(child.value, str) and child.value.startswith(("http://", "https://")):
+            parsed = urlparse(child.value)
+            if parsed.hostname:
+                caps.add("network.external")
+                destinations.append(NetworkDestination(target=child.value, restricted=True))
+    return caps, destinations
+
+
+def _resolve_sequence(expr: ast.AST | None, sequences: dict[str, list[ast.AST]]) -> list[ast.AST]:
+    if isinstance(expr, (ast.List, ast.Tuple, ast.Set)):
+        return list(expr.elts)
+    if isinstance(expr, ast.Name):
+        return list(sequences.get(expr.id, []))
+    return [expr] if expr is not None else []
+
+
+def _resolve_call(expr: ast.AST | None, calls: dict[str, ast.Call]) -> ast.Call | None:
+    if isinstance(expr, ast.Call):
+        return expr
+    if isinstance(expr, ast.Name):
+        return calls.get(expr.id)
+    return None
+
+
+def _tool_filter(call: ast.Call) -> tuple[list[str], bool]:
+    node = _kw(call, "tool_filter")
+    values = _list_strings(node)
+    if values:
+        return values, False
+    if node is not None:
+        return [], True
+    return [], False
+
+
+def _auth_present(call: ast.Call, nested: ast.Call | None = None) -> bool | None:
+    for c in (call, nested):
+        if c is None:
+            continue
+        if any(_kw(c, name) is not None for name in ("auth_scheme", "auth_credential", "header_provider")):
+            return True
+        headers = _literal(_kw(c, "headers"))
+        if isinstance(headers, dict):
+            keys = {str(k).lower() for k in headers}
+            if {"authorization", "x-api-key", "proxy-authorization"} & keys:
+                return True
+    return False
+
+
+def _mcp_from_toolset(path: Path, call: ast.Call, alias: str, calls: dict[str, ast.Call]) -> MCPServer | None:
+    if _call_name(call.func) not in {"McpToolset", "MCPToolset"}:
+        return None
+    conn = _resolve_call(_kw(call, "connection_params"), calls)
+    transport = "unknown"
+    url: str | None = None
+    command: str | None = None
+    args: list[str] = []
+    auth: bool | None = None
+    metadata: dict[str, Any] = {"framework": "google-adk"}
+
+    if conn:
+        conn_name = _call_name(conn.func) or ""
+        if conn_name in REMOTE_MCP_PARAMS:
+            transport = REMOTE_MCP_PARAMS[conn_name]
+            url = _string(_kw(conn, "url"))
+            auth = _auth_present(call, conn)
+        elif conn_name in STDIO_MCP_PARAMS:
+            transport = "stdio"
+            server_params = _resolve_call(_kw(conn, "server_params"), calls) or conn
+            command = _string(_kw(server_params, "command"))
+            args = _list_strings(_kw(server_params, "args"))
+        metadata["connection_type"] = conn_name
+    allowed, dynamic_filter = _tool_filter(call)
+    if dynamic_filter:
+        metadata["dynamic_tool_filter"] = True
+    require_confirmation = _bool(_kw(call, "require_confirmation"))
+    return MCPServer(
+        name=alias,
+        transport=transport,
+        url=url,
+        command=command,
+        args=args,
+        authenticated=auth if url else None,
+        approval=require_confirmation,
+        allowed_tools=allowed,
+        guardrails=require_confirmation is True,
+        location=_location(path, call),
+        metadata=metadata,
+    )
+
+
+def _tool_from_call(
+    path: Path,
+    call: ast.Call,
+    alias: str,
+    calls: dict[str, ast.Call],
+    functions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef],
+) -> Tool | None:
+    name = _call_name(call.func) or ""
+
+    if name in {"FunctionTool", "LongRunningFunctionTool", "AuthenticatedFunctionTool"}:
+        func_node = _arg(call, 0, "func")
+        func_name = _call_name(func_node) or alias
+        caps = set(infer_capabilities(func_name))
+        destinations: list[NetworkDestination] = []
+        if func_name in functions:
+            inferred, destinations = _infer_function_capabilities(functions[func_name])
+            caps.update(inferred)
+        approval = _bool(_kw(call, "require_confirmation"))
+        return Tool(
+            name=func_name,
+            kind="adk_function",
+            capabilities=caps,
+            approval=approval,
+            guardrails=approval is True,
+            destinations=destinations,
+            location=_location(path, call),
+            metadata={"framework": "google-adk", "wrapper": name, "authenticated": name == "AuthenticatedFunctionTool"},
+        )
+
+    if name == "AgentTool":
+        target_node = _arg(call, 0, "agent")
+        target = _call_name(target_node) or _string(target_node) or "unknown-agent"
+        if isinstance(target_node, ast.Name) and target_node.id in calls:
+            target_call = calls[target_node.id]
+            if (_call_name(target_call.func) or "") in AGENT_TYPES:
+                target = _string(_kw(target_call, "name")) or target
+        return Tool(
+            name=alias,
+            kind="adk_agent_tool",
+            capabilities={"agent.delegate"},
+            location=_location(path, call),
+            metadata={
+                "framework": "google-adk",
+                "delegate_target": target,
+                "include_plugins": _bool(_kw(call, "include_plugins")),
+                "skip_summarization": _bool(_kw(call, "skip_summarization")),
+            },
+        )
+
+    if name in CODE_EXECUTORS:
+        sandboxed, executor_kind = CODE_EXECUTORS[name]
+        return Tool(
+            name=alias,
+            kind="adk_code_executor",
+            capabilities={"process.execute", "data.read", "data.write"},
+            approval=None,
+            guardrails=sandboxed,
+            location=_location(path, call),
+            metadata={"framework": "google-adk", "code_executor": name, "sandboxed": sandboxed, "executor_kind": executor_kind},
+        )
+
+    if name in BUILTIN_TOOL_CAPABILITIES or name.endswith(("Toolset", "Tool")):
+        caps = set(BUILTIN_TOOL_CAPABILITIES.get(name, set())) or set(infer_capabilities(name))
+        approval = _bool(_kw(call, "require_confirmation"))
+        allowed, dynamic_filter = _tool_filter(call)
+        metadata: dict[str, Any] = {
+            "framework": "google-adk",
+            "adk_builtin": name,
+            "tool_filter": allowed,
+            "dynamic_tool_filter": dynamic_filter,
+        }
+        if name == "ExecuteBashTool":
+            policy = _resolve_call(_kw(call, "policy"), calls)
+            metadata["bash_policy_present"] = policy is not None
+            if policy:
+                metadata["allowed_command_prefixes"] = _list_strings(_kw(policy, "allowed_command_prefixes"))
+                metadata["blocked_operators"] = _list_strings(_kw(policy, "blocked_operators"))
+        if name == "EnvironmentToolset":
+            env_call = _resolve_call(_kw(call, "environment"), calls)
+            env_name = _call_name(env_call.func) if env_call else None
+            metadata["environment"] = env_name
+            if env_name == "LocalEnvironment" and env_call:
+                working_dir = _string(_kw(env_call, "working_dir")) or "temporary-directory"
+                metadata["working_dir"] = working_dir
+        if name == "BigQueryToolset":
+            config = _resolve_call(_kw(call, "bigquery_tool_config"), calls)
+            write_mode = None
+            if config:
+                raw = _kw(config, "write_mode")
+                write_mode = _dotted_name(raw) or _string(raw)
+            metadata["write_mode"] = write_mode
+            if write_mode and write_mode.lower().endswith("blocked"):
+                caps.discard("data.write")
+        if name in {"GoogleApiToolset", "GmailToolset", "CalendarToolset", "DocsToolset", "SheetsToolset", "SlidesToolset", "YoutubeToolset"}:
+            metadata["additional_scopes"] = _list_strings(_kw(call, "additional_scopes"))
+            metadata["service_account"] = _kw(call, "service_account") is not None
+            metadata["client_secret_literal"] = bool(_string(_kw(call, "client_secret")))
+        if name == "ComputerUseToolset":
+            metadata["interactive_control"] = True
+        tool = Tool(
+            name=alias,
+            kind="adk_builtin",
+            capabilities=caps,
+            approval=approval,
+            guardrails=approval is True,
+            location=_location(path, call),
+            metadata=metadata,
+        )
+        # Search/retrieval tools ingest external content.
+        if name in RETRIEVAL_TOOLS:
+            tool.metadata["untrusted_input"] = True
+        # Resource scoping where ADK exposes a literal data source identifier.
+        for key, kind in (("data_store_id", "vertex-search"), ("search_engine_id", "vertex-search"), ("project", "gcp-project"), ("dataset", "bigquery")):
+            value = _string(_kw(call, key))
+            if value:
+                tool.resources.append(ResourceScope(kind=kind, selector=value, access=set(caps), location=tool.location))
+        return tool
+
+    return None
+
+
+def _plain_function_tool(path: Path, func: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool:
+    caps, destinations = _infer_function_capabilities(func)
+    return Tool(
+        name=func.name,
+        kind="adk_function",
+        capabilities=caps,
+        destinations=[NetworkDestination(target=d.target, restricted=d.restricted, location=_location(path, func)) for d in destinations],
+        location=_location(path, func),
+        metadata={"framework": "google-adk", "plain_function": True},
+    )
+
+
+def _identity_from_call(path: Path, alias: str, call: ast.Call) -> Identity | None:
+    name = _call_name(call.func) or ""
+    if name in {"BigQueryCredentialsConfig", "BigtableCredentialsConfig", "DataAgentCredentialsConfig"}:
+        source = "workload/default"
+        if _string(_kw(call, "client_secret")):
+            source = "hardcoded"
+        elif _kw(call, "credentials") is not None:
+            source = "application-default-credentials"
+        elif _kw(call, "external_access_token_key") is not None:
+            source = "session-token"
+        return Identity(name=alias, provider="gcp", credential_source=source, location=_location(path, call), metadata={"framework": "google-adk"})
+    dotted = (_dotted_name(call.func) or "").lower()
+    if dotted.endswith("from_service_account_file"):
+        return Identity(name=alias, provider="gcp", credential_source="file", location=_location(path, call), metadata={"framework": "google-adk"})
+    if dotted.endswith("google.auth.default") or dotted == "google.auth.default":
+        return Identity(name=alias, provider="gcp", oauth_scopes=set(_list_strings(_kw(call, "scopes"))), credential_source="application-default-credentials", location=_location(path, call), metadata={"framework": "google-adk"})
+    return None
+
+
+def _callbacks(call: ast.Call) -> dict[str, str]:
+    names = (
+        "before_agent_callback", "after_agent_callback", "before_model_callback", "after_model_callback",
+        "before_tool_callback", "after_tool_callback", "on_model_error_callback", "on_tool_error_callback",
+    )
+    result: dict[str, str] = {}
+    for key in names:
+        node = _kw(call, key)
+        if node is not None:
+            result[key] = _call_name(node) or _dotted_name(node) or "configured"
+    return result
+
+
+def _agent_from_call(
+    path: Path,
+    call: ast.Call,
+    alias: str,
+    tools: dict[str, Tool],
+    mcp_servers: dict[str, MCPServer],
+    calls: dict[str, ast.Call],
+    sequences: dict[str, list[ast.AST]],
+    functions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef],
+) -> Agent | None:
+    agent_type = _call_name(call.func) or ""
+    if agent_type not in AGENT_TYPES:
+        return None
+    name = _string(_kw(call, "name")) or alias
+    metadata: dict[str, Any] = {"framework": "google-adk", "agent_type": agent_type}
+    instruction = _string(_kw(call, "instruction")) or _string(_kw(call, "instructions"))
+    if instruction:
+        metadata["instruction"] = instruction
+    model = _string(_kw(call, "model"))
+    if model:
+        metadata["model"] = model
+    callbacks = _callbacks(call)
+    if callbacks:
+        metadata["callbacks"] = callbacks
+    metadata["disallow_transfer_to_parent"] = _bool(_kw(call, "disallow_transfer_to_parent"))
+    metadata["disallow_transfer_to_peers"] = _bool(_kw(call, "disallow_transfer_to_peers"))
+    metadata["mode"] = _string(_kw(call, "mode"))
+
+    agent = Agent(name=name, location=_location(path, call), metadata=metadata)
+    # A top-level LLM agent receives user-controlled input unless the manifest later narrows trust.
+    if alias == "root_agent" or agent_type == "RemoteA2aAgent":
+        agent.inputs.append(InputSource(name="user-or-remote-input", trust="untrusted", kind="external" if agent_type == "RemoteA2aAgent" else "user", location=agent.location))
+
+    if agent_type == "RemoteA2aAgent":
+        card = _string(_arg(call, 1, "agent_card"))
+        auth = any(_kw(call, k) is not None for k in ("auth_scheme", "auth_credential", "credential_key"))
+        agent.metadata.update({"remote_a2a": True, "agent_card": card, "authenticated": auth})
+        remote_tool = Tool(
+            name=f"{name}:a2a",
+            kind="adk_a2a_remote",
+            capabilities={"agent.delegate", "data.read", "external.write", "network.external"},
+            location=agent.location,
+            metadata={"framework": "google-adk", "authenticated": auth, "agent_card": card},
+        )
+        if card and card.startswith(("http://", "https://")):
+            remote_tool.destinations.append(NetworkDestination(target=card, restricted=True, location=agent.location))
+        agent.tools.append(remote_tool)
+        return agent
+
+    for element in _resolve_sequence(_kw(call, "tools"), sequences):
+        if isinstance(element, ast.Name):
+            if element.id in mcp_servers:
+                agent.mcp_servers.append(mcp_servers[element.id])
+            elif element.id in tools:
+                agent.tools.append(tools[element.id])
+            elif element.id in functions:
+                agent.tools.append(_plain_function_tool(path, functions[element.id]))
+            elif element.id in calls:
+                direct = _tool_from_call(path, calls[element.id], element.id, calls, functions)
+                if direct:
+                    agent.tools.append(direct)
+        elif isinstance(element, ast.Call):
+            direct_mcp = _mcp_from_toolset(path, element, _call_name(element.func) or "mcp", calls)
+            if direct_mcp:
+                agent.mcp_servers.append(direct_mcp)
+            else:
+                direct = _tool_from_call(path, element, _call_name(element.func) or "tool", calls, functions)
+                if direct:
+                    agent.tools.append(direct)
+        elif isinstance(element, ast.Attribute):
+            tool_name = _call_name(element) or "tool"
+            caps = set(BUILTIN_TOOL_CAPABILITIES.get(tool_name, set())) or set(infer_capabilities(tool_name))
+            tool = Tool(name=tool_name, kind="adk_builtin", capabilities=caps, location=_location(path, element), metadata={"framework": "google-adk", "adk_builtin": tool_name})
+            if tool_name in RETRIEVAL_TOOLS:
+                tool.metadata["untrusted_input"] = True
+            agent.tools.append(tool)
+
+    code_node = _kw(call, "code_executor")
+    code_call = _resolve_call(code_node, calls)
+    if code_call:
+        executor = _tool_from_call(path, code_call, _call_name(code_call.func) or "code_executor", calls, functions)
+        if executor:
+            agent.tools.append(executor)
+
+    delegates: list[str] = []
+    for element in _resolve_sequence(_kw(call, "sub_agents"), sequences):
+        target = _call_name(element)
+        if isinstance(element, ast.Name) and element.id in calls:
+            target_call = calls[element.id]
+            if (_call_name(target_call.func) or "") in AGENT_TYPES:
+                target = _string(_kw(target_call, "name")) or target
+        if isinstance(element, ast.Call):
+            target = _string(_kw(element, "name")) or _call_name(element.func)
+        if target:
+            delegates.append(target)
+    for tool in agent.tools:
+        target = tool.metadata.get("delegate_target")
+        if isinstance(target, str):
+            delegates.append(target)
+    if delegates:
+        agent.metadata["delegates_to"] = list(dict.fromkeys(delegates))
+
+    if agent_type in WORKFLOW_TYPES:
+        agent.metadata["workflow"] = agent_type
+
+    if any(t.metadata.get("untrusted_input") for t in agent.tools) or any(s.url for s in agent.mcp_servers):
+        agent.inputs.append(InputSource(name="retrieved-external-content", trust="untrusted", kind="retrieval", location=agent.location, metadata={"inferred": True}))
+
+    return agent
+
+
+def scan_python_file(path: Path) -> Graph:
+    graph = Graph()
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except (SyntaxError, UnicodeDecodeError, OSError):
+        return graph
+    if not _uses_google_adk(tree):
+        return graph
+
+    functions = {node.name: node for node in ast.walk(tree) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    calls: dict[str, ast.Call] = {}
+    sequences: dict[str, list[ast.AST]] = {}
+    tools: dict[str, Tool] = {}
+    mcp_servers: dict[str, MCPServer] = {}
+    identities: dict[str, Identity] = {}
+    agent_calls: list[tuple[str, ast.Call]] = []
+    safety_plugins: set[str] = set()
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Assign, ast.AnnAssign)):
+            value = node.value
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            alias = next((t.id for t in targets if isinstance(t, ast.Name)), None)
+            if not alias:
+                continue
+            if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
+                sequences[alias] = list(value.elts)
+                continue
+            if isinstance(value, ast.Call):
+                calls[alias] = value
+                call_name = _call_name(value.func) or ""
+                if call_name in AGENT_TYPES:
+                    agent_calls.append((alias, value))
+                    continue
+                mcp = _mcp_from_toolset(path, value, alias, calls)
+                if mcp:
+                    mcp_servers[alias] = mcp
+                    continue
+                identity = _identity_from_call(path, alias, value)
+                if identity:
+                    identities[alias] = identity
+                tool = _tool_from_call(path, value, alias, calls, functions)
+                if tool:
+                    tools[alias] = tool
+                if "plugin" in call_name.lower() and any(k in call_name.lower() for k in ("guard", "security", "safety", "defense", "threat", "policy")):
+                    safety_plugins.add(alias)
+
+    # Second pass catches aliases whose nested calls were declared later in the file.
+    for alias, call in list(calls.items()):
+        mcp = _mcp_from_toolset(path, call, alias, calls)
+        if mcp:
+            mcp_servers[alias] = mcp
+        tool = _tool_from_call(path, call, alias, calls, functions)
+        if tool:
+            tools[alias] = tool
+
+    agents_by_alias: dict[str, Agent] = {}
+    for alias, call in agent_calls:
+        agent = _agent_from_call(path, call, alias, tools, mcp_servers, calls, sequences, functions)
+        if agent:
+            agents_by_alias[alias] = agent
+            graph.agents.append(agent)
+
+    # App/Runner plugins and A2A exposure are security controls/exposure points.
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        call_name = _call_name(node.func) or ""
+        if call_name in {"App", "Runner", "InMemoryRunner"}:
+            agent_ref = _call_name(_kw(node, "root_agent")) or _call_name(_kw(node, "agent"))
+            plugin_nodes = _resolve_sequence(_kw(node, "plugins"), sequences)
+            plugin_names = [_call_name(p.func) if isinstance(p, ast.Call) else _call_name(p) for p in plugin_nodes]
+            plugin_names = [p for p in plugin_names if p]
+            if agent_ref in agents_by_alias and plugin_names:
+                agents_by_alias[agent_ref].metadata["plugins"] = plugin_names
+                if any(any(k in p.lower() for k in ("guard", "security", "safety", "defense", "threat", "policy")) for p in plugin_names):
+                    agents_by_alias[agent_ref].metadata["safety_plugin"] = True
+                    for tool in agents_by_alias[agent_ref].tools:
+                        tool.guardrails = True
+        if call_name == "to_a2a":
+            ref = _call_name(_arg(node, 0, "agent"))
+            if ref in agents_by_alias:
+                agents_by_alias[ref].metadata["a2a_exposed"] = True
+                if not any(i.name == "a2a-request" for i in agents_by_alias[ref].inputs):
+                    agents_by_alias[ref].inputs.append(InputSource(name="a2a-request", trust="untrusted", kind="external", location=_location(path, node)))
+
+    # Attach credentials to toolsets when directly referenced by alias, and
+    # materialize OAuth/service-account authority exposed directly on Google
+    # API toolsets so Layer 3 can reason about scopes and credential source.
+    for alias, tool in tools.items():
+        call = calls.get(alias)
+        if not call:
+            continue
+        cred_ref = _call_name(_kw(call, "credentials_config")) or _call_name(_kw(call, "service_account"))
+        if cred_ref and cred_ref in identities:
+            tool.identity = identities[cred_ref].name
+
+        scopes = set(tool.metadata.get("additional_scopes") or [])
+        client_secret_literal = bool(tool.metadata.get("client_secret_literal"))
+        service_account_configured = bool(tool.metadata.get("service_account"))
+        if scopes or client_secret_literal or service_account_configured:
+            identity_name = f"{alias}:google-api-auth"
+            credential_source = (
+                "hardcoded" if client_secret_literal
+                else "service-account" if service_account_configured
+                else "oauth"
+            )
+            synthetic = Identity(
+                name=identity_name,
+                provider="gcp",
+                oauth_scopes=scopes,
+                credential_source=credential_source,
+                location=tool.location,
+                metadata={"framework": "google-adk", "source_tool": alias},
+            )
+            existing = identities.get(identity_name)
+            if existing:
+                existing.oauth_scopes.update(synthetic.oauth_scopes)
+                existing.credential_source = synthetic.credential_source or existing.credential_source
+            else:
+                identities[identity_name] = synthetic
+            tool.identity = identity_name
+
+    graph.identities.extend(identities.values())
+    bound_tools = {id(t) for a in graph.agents for t in a.tools}
+    bound_mcp = {id(s) for a in graph.agents for s in a.mcp_servers}
+    graph.unbound_tools.extend(t for t in tools.values() if id(t) not in bound_tools)
+    graph.unbound_mcp_servers.extend(s for s in mcp_servers.values() if id(s) not in bound_mcp)
+    return graph

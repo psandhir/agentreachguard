@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@2026.8.1", "./approved-reports"]
+    },
+    "internal-tools": {
+      "url": "https://mcp.example.internal/mcp",
+      "headers": {
+        "Authorization": "${MCP_TOKEN}"
+      },
+      "allowedTools": ["lookup_policy"]
+    }
+  }
+}

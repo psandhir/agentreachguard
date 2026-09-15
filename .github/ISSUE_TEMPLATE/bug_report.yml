@@ -1,0 +1,33 @@
+name: Bug / false positive
+about: Report incorrect scanner behaviour or a false positive
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include real credentials, proprietary source code, or customer data. Use a minimal synthetic example."
+  - type: input
+    id: version
+    attributes:
+      label: AgentReachGuard version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Include the command and a small synthetic code/config snippet.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true

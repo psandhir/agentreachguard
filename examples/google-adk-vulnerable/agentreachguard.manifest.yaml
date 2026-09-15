@@ -1,0 +1,16 @@
+version: 1
+agents:
+  - name: adk_coordinator
+    data:
+      - name: finance-forecast
+        classification: confidential
+        selector: /finance/forecast/**
+    network:
+      - target: "*"
+        restricted: false
+    policy:
+      required: [data.read]
+      denied_capabilities: [process.execute]
+      allowed_resources: [/finance/forecast/**]
+      allowed_destinations: [https://approved.example.com/**]
+      max_privileged_capabilities: 1

@@ -1,0 +1,16 @@
+version: 1
+agents:
+  - name: secure_adk_analyst
+    data:
+      - name: approved-finance-view
+        classification: internal
+        selector: /finance/approved/**
+    network:
+      - target: https://mcp.approved.example.com/**
+        restricted: true
+    policy:
+      required: [data.read, mcp.remote, network.external]
+      denied_capabilities: [process.execute, destructive.write]
+      allowed_resources: [/finance/approved/**]
+      allowed_destinations: [https://mcp.approved.example.com/**]
+      max_privileged_capabilities: 2

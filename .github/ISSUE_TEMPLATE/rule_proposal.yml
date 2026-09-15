@@ -1,0 +1,38 @@
+name: Security rule proposal
+about: Propose a deterministic AgentReachGuard rule
+labels: [enhancement]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Proposed rule name
+      placeholder: Privileged capability reachable from untrusted input
+    validations:
+      required: true
+  - type: textarea
+    id: condition
+    attributes:
+      label: Security condition
+      description: State precisely what should trigger the rule.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Static evidence
+      description: What can AgentReachGuard deterministically observe to prove the condition?
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Suggested severity
+      options: [low, medium, high, critical]
+    validations:
+      required: true
+  - type: textarea
+    id: safe
+    attributes:
+      label: Secure counterexample / remediation
+    validations:
+      required: true

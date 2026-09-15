@@ -1,0 +1,33 @@
+version: 1
+agents:
+  - name: Vulnerable finance analyst
+    inputs:
+      - name: supplier-portal-content
+        kind: web
+        trust: untrusted
+    data:
+      - name: finance-reports
+        classification: confidential
+        selector: /finance/reports/**
+    identities:
+      - name: finance-agent-sa
+        provider: gcp
+        roles: [roles/owner]
+        permissions: ['*']
+        oauth_scopes: ['https://www.googleapis.com/auth/cloud-platform']
+        credential_source: hardcoded
+    network:
+      - target: '*'
+        restricted: false
+    policy:
+      required: [data.read]
+      denied_capabilities: [destructive.write]
+      allowed_resources: ['/finance/reports/**']
+      allowed_destinations: ['https://mail.example.internal/**']
+      require_approval_for: [external.write, process.execute]
+      max_privileged_capabilities: 1
+    tools:
+      - name: send_email
+        capabilities: [external.write, network.external]
+        human_approval: false
+        destinations: ['https://mail.example.internal/send']

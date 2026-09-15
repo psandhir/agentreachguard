@@ -1,0 +1,30 @@
+name: AgentReachGuard Security Scan
+description: Static policy-as-code security analysis for AI agent projects
+inputs:
+  path:
+    description: Path to scan
+    required: false
+    default: .
+  fail-on:
+    description: Minimum severity that fails the action
+    required: false
+    default: high
+  format:
+    description: Output format (console, json, sarif)
+    required: false
+    default: console
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install AgentReachGuard
+      shell: bash
+      run: python -m pip install "$GITHUB_ACTION_PATH"
+    - name: Scan agent project
+      shell: bash
+      run: agentreachguard scan "${{ inputs.path }}" --fail-on "${{ inputs.fail-on }}" --format "${{ inputs.format }}"
+branding:
+  icon: shield
+  color: blue

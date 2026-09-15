@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentreachguard"
+version = "0.1.0"
+description = "Policy-as-code security analysis for AI agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "AgentReachGuard contributors" }]
+keywords = ["ai-security", "agents", "mcp", "openai", "google-adk", "gcp", "security", "static-analysis"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Security",
+]
+dependencies = ["PyYAML>=6.0.2,<7"]
+
+[project.urls]
+Homepage = "https://github.com/psandhir/agentreachguard"
+Repository = "https://github.com/psandhir/agentreachguard"
+Issues = "https://github.com/psandhir/agentreachguard/issues"
+Security = "https://github.com/psandhir/agentreachguard/security/policy"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3,<9", "ruff>=0.12,<1"]
+
+[project.scripts]
+agentreachguard = "agentreachguard.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
