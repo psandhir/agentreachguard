@@ -1,0 +1,32 @@
+version: 1
+cases:
+  - name: secure-reviewed-publisher
+    path: cases/secure-review
+    expected: []
+  - name: delegated-unapproved-operations
+    path: cases/delegated-ops
+    expected:
+      - ADK001@coordinator
+      - ADK001@worker
+      - ADK004@worker
+      - AGT020@coordinator
+      - AGT020@worker
+      - AGT040@coordinator
+      - AGT040@worker
+      - CAP002@coordinator
+      - CAP004@coordinator
+      - CAP004@worker
+      - CAP005@coordinator
+      - CAP005@worker
+      - NET002@coordinator
+      - NET002@worker
+      - PATH001@coordinator
+  - name: sensitive-reports-with-wildcard-egress
+    path: cases/identity-egress
+    expected:
+      - AGT010@reports
+      - AGT040@reports
+      - DATA003@reports
+      - IDN002@reports
+      - NET001@reports
+      - PATH003@reports

@@ -12,7 +12,7 @@ AgentReachGuard statically discovers agent configuration and evaluates five conn
 2. **Capability analysis** — effective authority, capability budgets, prohibited actions and dangerous combinations.
 3. **Identity & permissions** — cloud/IAM roles, wildcard permissions, OAuth scopes and credential source.
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
-5. **Attack-path analysis** — exploitable chains such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
+5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
 > Status: **v0.1 alpha**. Static findings are deterministic. The schema and rule catalogue may evolve before v1.0.
 
@@ -132,6 +132,135 @@ Fail CI on high/critical findings:
 agentreachguard scan . --fail-on high
 ```
 
+Malformed, unreadable, or structurally invalid policy manifests stop the scan with exit
+code 1 and an error on stderr. This also applies with `--fail-on none`; that option
+only disables failure for security findings. No report is written for a failed scan.
+
+### Coverage and strict CI
+
+```bash
+agentreachguard scan . --strict --format json --output report.json
+```
+
+All report formats include file counts and coverage diagnostics. JSON exposes a
+`coverage` object; SARIF exposes coverage in run properties and diagnostics as tool
+execution notifications. Console output separates coverage from findings by layer.
+`--strict` returns exit code 1 for detected incomplete analysis, regardless of
+`--fail-on`. Unlike a fatal manifest error, incomplete analysis still writes the
+report so CI can retain the diagnostics. Security threshold failures return exit
+code 2; incomplete analysis takes precedence in strict mode.
+
+Diagnostics currently cover read/parse failures, unresolved Python tool/MCP
+references, unresolved delegation, dynamic agent configuration sequences or
+expanded keyword arguments, and scans with no supported security targets.
+Files in default ignored directories, and subtrees containing an
+`.agentreachguard-ignore` marker, are excluded from file counts. Other unsupported
+file types are counted as skipped. A scanned file was read and parsed;
+that count does not mean its entire application behavior was understood.
+
+No detected coverage gaps is not proof of complete analysis. Runtime-generated
+behavior, arbitrary function semantics, cloud authorization, and control effectiveness
+remain outside these diagnostics. A clean report means no supported rules triggered.
+
+### Fingerprints, baselines and suppressions
+
+Every finding has an `arg-v1:` fingerprint based on its rule, agent, repository-relative
+path, and evidence. Line numbers and checkout roots are excluded, so fingerprints
+survive routine source movement and different CI workspaces. A material evidence or
+scope change produces a new fingerprint.
+
+Create an initial baseline of current findings:
+
+```bash
+agentreachguard baseline . \
+  --output .agentreachguard.suppressions.yaml \
+  --reason "Initial adoption backlog SEC-42" \
+  --expires 2026-12-31
+```
+
+Baseline creation scans without applying existing suppressions. It requires a reason
+and a non-past expiry and refuses to replace an existing file unless `--force` is
+passed. It also refuses to write when coverage diagnostics show incomplete analysis.
+Review the generated entries before committing them; a baseline records
+temporary risk acceptance rather than making the findings safe.
+
+Suppression files use this schema:
+
+```yaml
+version: 1
+suppressions:
+  - id: accepted-shell-migration
+    reason: Temporary migration path owned by SEC-42
+    expires: 2026-12-31
+    fingerprint: arg-v1:0123456789abcdef01234567
+    rule_id: AGT020
+```
+
+A fingerprint is the narrowest scope. A rule suppression without a fingerprint must
+also specify `agent` or a repository-relative `path` glob. IDs, reasons, and expiry
+dates are mandatory; unknown fields and duplicate IDs or YAML keys fail closed.
+IDs use letters, digits, dots, underscores, and dashes; reasons are single-line;
+path scopes cannot be absolute or escape the scan root.
+Expired entries never hide findings. Stale, matched, and expired entries remain in
+console, JSON, and SARIF audit output. `--strict` also fails when an exception has
+expired. Use `--suppressions path/to/file.yaml` to select a non-default file.
+
+### Reviewed benchmark
+
+```bash
+agentreachguard benchmark benchmarks/cases.yaml
+```
+
+The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
+Unexpected findings are measured as false positives, missing findings as false
+negatives, and incomplete coverage fails the case. The command exits nonzero on any
+drift and supports `--format json` for CI artifacts. The starter corpus covers a
+secure approved publisher, transitive privileged delegation, and sensitive data with
+wildcard identity and egress. See [`benchmarks/README.md`](benchmarks/README.md).
+
+### Evidence and control semantics
+
+Findings retain their rule IDs and severity thresholds and now include:
+
+- `assessment`: `static_configuration`, `policy_violation`, `heuristic_risk`, or
+  `potential_risk`.
+- `provenance`: facts with a subject, origin, and source location. `observed` means
+  a supported static configuration was discovered; `declared` means a manifest
+  assertion; `inferred` means a heuristic or derived relationship.
+- `limitations`: uncertainty about runtime authority, controls, and exploitability.
+
+Configuration findings include local evidence; aggregate capability/data/path
+findings include agent context, which is not a formal data-flow trace. A manifest
+policy violation may involve declared or inferred capabilities; it does not establish
+runtime authority. Function capabilities are heuristic, while recognized built-in
+capabilities follow the scanner's supported static semantics.
+
+`control_observations` in JSON and SARIF distinguish approval configuration,
+callback hooks, plugin-name inference, sandbox configuration, and possible network
+destinations. Their runtime effectiveness is always `not_verified`. Callback or
+plugin presence can satisfy a missing-hook rule, but does not prove that arbitrary
+callback/plugin code authorizes actions safely. Approval callbacks alone do not
+establish an approval requirement. Mixed hosted-MCP approval policies are treated
+as unknown rather than blanket approval.
+
+Attack paths are labeled potential risks with `basis: capability_cooccurrence` and
+`exploitability: not_verified`. Their severity reflects potential impact, not proven
+exploitability. A literal URL inside a function establishes a possible destination,
+not an egress allowlist; such functions now trigger the missing-restriction rule.
+No runtime enforcement is inferred from those literals.
+
+### Manifest schema
+
+Manifests support schema version `1`. Omitting `version` retains the legacy v1
+behavior. Unknown fields, unsupported versions, duplicate YAML keys, invalid nested
+types, cyclic YAML aliases, and negative capability limits are rejected. Approval,
+guardrail, authentication, and restriction fields require actual booleans;
+capability/scope fields accept strings or lists of strings. Policy errors identify
+the field and source line/column without printing its value. Existing documented
+field aliases remain supported. The schema definitions live in
+[`manifest_schema.py`](src/agentreachguard/manifest_schema.py).
+
+
 ## ADK-specific rule highlights
 
 - `ADK001` — privileged ADK agent lacks a detected tool-control callback/plugin/confirmation boundary.
@@ -196,6 +325,8 @@ This enables least-privilege comparison between **required** and **effective** c
   with:
     path: .
     fail-on: high
+    strict: "true"
+    suppressions: .agentreachguard.suppressions.yaml
 ```
 
 ## Design principles

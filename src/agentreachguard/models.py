@@ -32,6 +32,19 @@ class SourceLocation:
 
 
 @dataclass(slots=True)
+class EvidenceFact:
+    subject: str
+    fact: str
+    origin: str
+    location: SourceLocation | None = None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {"subject": self.subject, "fact": self.fact, "origin": self.origin,
+                "location": ({"path": str(self.location.path), "line": self.location.line,
+                              "column": self.location.column} if self.location else None)}
+
+
+@dataclass(slots=True)
 class ResourceScope:
     kind: str
     selector: str
@@ -39,6 +52,8 @@ class ResourceScope:
     classification: str = "internal"
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -48,6 +63,8 @@ class NetworkDestination:
     restricted: bool = True
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -57,6 +74,8 @@ class InputSource:
     kind: str = "user"
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -70,6 +89,8 @@ class Identity:
     credential_source: str | None = None
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+
+    provenance: list[EvidenceFact] = field(default_factory=list)
 
     @property
     def effective_permissions(self) -> set[str]:
@@ -90,6 +111,8 @@ class Tool:
     identity: str | None = None
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -107,6 +130,8 @@ class MCPServer:
     identity: str | None = None
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -116,6 +141,8 @@ class DataSource:
     capability: str = "data.read"
     selector: str | None = None
     location: SourceLocation | None = None
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -126,6 +153,8 @@ class AgentPolicy:
     allowed_destinations: list[str] = field(default_factory=list)
     require_approval_for: set[str] = field(default_factory=set)
     max_privileged_capabilities: int | None = None
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
 
 
 @dataclass(slots=True)
@@ -140,6 +169,8 @@ class Agent:
     policy: AgentPolicy = field(default_factory=AgentPolicy)
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+
+    provenance: list[EvidenceFact] = field(default_factory=list)
 
     @property
     def capabilities(self) -> set[str]:
@@ -163,13 +194,35 @@ class Agent:
                 selector=source.selector or source.name,
                 access={source.capability},
                 classification=source.classification,
-                location=source.location,
+                location=source.location, provenance=list(source.provenance),
             )
             for source in self.data_sources
         )
         for tool in self.tools:
             resources.extend(tool.resources)
         return resources
+
+    @property
+    def sensitive_data_sources(self) -> list[DataSource]:
+        """Sensitive data reachable directly or through tool/delegated resources."""
+        from agentreachguard.heuristics import SENSITIVE_CLASSES
+
+        sources = [d for d in self.data_sources if d.classification in SENSITIVE_CLASSES]
+        for tool in self.tools:
+            for resource in tool.resources:
+                access = resource.access or tool.capabilities
+                if resource.classification not in SENSITIVE_CLASSES:
+                    continue
+                if not {"data.read", "secrets.read"} & access:
+                    continue
+                source = DataSource(
+                    name=resource.selector, classification=resource.classification,
+                    selector=resource.selector, location=resource.location,
+                    provenance=list(resource.provenance),
+                )
+                if source not in sources:
+                    sources.append(source)
+        return sources
 
     @property
     def effective_destinations(self) -> list[NetworkDestination]:
@@ -184,7 +237,7 @@ class Agent:
                         direction="outbound",
                         restricted=True,
                         location=server.location,
-                        metadata={"source": "mcp"},
+                        metadata={"source": "mcp"}, provenance=list(server.provenance),
                     )
                 )
         return destinations
@@ -203,12 +256,47 @@ class AttackPath:
 
 
 @dataclass(slots=True)
+class ScanDiagnostic:
+    code: str
+    message: str
+    location: SourceLocation | None = None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {"code": self.code, "message": self.message, "location": (
+            {"path": str(self.location.path), "line": self.location.line,
+             "column": self.location.column} if self.location else None
+        )}
+
+
+@dataclass(slots=True)
+class ScanCoverage:
+    files_considered: int = 0
+    files_scanned: int = 0
+    files_skipped: int = 0
+    files_failed: int = 0
+    diagnostics: list[ScanDiagnostic] = field(default_factory=list)
+
+    @property
+    def incomplete(self) -> bool:
+        return bool(self.diagnostics)
+
+    def as_dict(self) -> dict[str, Any]:
+        return {"files_considered": self.files_considered, "files_scanned": self.files_scanned,
+                "files_skipped": self.files_skipped, "files_failed": self.files_failed,
+                "incomplete": self.incomplete,
+                "diagnostics": [d.as_dict() for d in self.diagnostics]}
+
+
+@dataclass(slots=True)
 class Graph:
+    coverage: ScanCoverage = field(default_factory=ScanCoverage)
     agents: list[Agent] = field(default_factory=list)
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
     identities: list[Identity] = field(default_factory=list)
     attack_paths: list[AttackPath] = field(default_factory=list)
+    suppressed_findings: list[Any] = field(default_factory=list)
+    suppression_diagnostics: list[dict[str, Any]] = field(default_factory=list)
 
     def all_tools(self) -> list[Tool]:
         tools = list(self.unbound_tools)
@@ -241,6 +329,10 @@ class Finding:
     agent: str | None = None
     evidence: list[str] = field(default_factory=list)
     standards: list[str] = field(default_factory=list)
+    assessment: str = "static_configuration"
+    provenance: list[EvidenceFact] = field(default_factory=list)
+    limitations: list[str] = field(default_factory=list)
+    fingerprint: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -253,6 +345,10 @@ class Finding:
             "agent": self.agent,
             "evidence": self.evidence,
             "standards": self.standards,
+            "assessment": self.assessment,
+            "provenance": [fact.as_dict() for fact in self.provenance],
+            "limitations": self.limitations,
+            "fingerprint": self.fingerprint,
             "location": (
                 {
                     "path": str(self.location.path),

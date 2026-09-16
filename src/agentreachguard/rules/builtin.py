@@ -5,7 +5,6 @@ from urllib.parse import urlparse
 from agentreachguard.heuristics import (
     BROAD_OAUTH_SCOPES,
     PRIVILEGED_CAPABILITIES,
-    SENSITIVE_CLASSES,
     destination_is_broad,
     matches_any,
     package_is_unpinned,
@@ -93,7 +92,7 @@ def evaluate(graph: Graph) -> list[Finding]:
             if "data.write" in tool.capabilities and tool.approval is not True and tool.kind in {"apply_patch", "generic", "function"}:
                 findings.append(Finding("AGT022", Severity.MEDIUM, "State-changing tool without approval", f"Tool '{tool.name}' can modify state without explicit approval.", "Require approval for material state changes or constrain the tool to low-risk, reversible operations.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=data.write", f"approval={tool.approval}"]))
             if tool.capabilities & PRIVILEGED_CAPABILITIES and not tool.guardrails and tool.approval is not True:
-                findings.append(Finding("AGT040", Severity.MEDIUM, "Privileged tool lacks explicit guardrail or approval", f"Privileged tool '{tool.name}' has no detected guardrail or enforced approval.", "Add tool input/output guardrails and/or explicit approval appropriate to the action.", layer=1, location=tool.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(tool.capabilities))]))
+                findings.append(Finding("AGT040", Severity.MEDIUM, "Privileged tool lacks explicit guardrail or approval", f"Privileged tool '{tool.name}' has no detected guardrail or approval configuration.", "Add tool input/output guardrails and/or explicit approval appropriate to the action.", layer=1, location=tool.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(tool.capabilities))]))
 
     # Google ADK framework-specific controls. These rules consume normalized
     # Tool metadata emitted by the first-class ADK Python/YAML adapters.
@@ -177,11 +176,18 @@ def evaluate(graph: Graph) -> list[Finding]:
         for required_approval in sorted(policy.require_approval_for & caps):
             relevant = [t for t in agent.tools if required_approval in t.capabilities]
             if relevant and any(t.approval is not True for t in relevant):
-                findings.append(Finding("CAP006", Severity.HIGH, "Policy-required approval is not enforced", f"Agent '{agent.name}' uses '{required_approval}' without approval on every relevant tool.", "Enforce approval on each tool providing this capability.", layer=2, location=agent.location, agent=agent.name, evidence=[f"capability={required_approval}"]))
+                findings.append(Finding("CAP006", Severity.HIGH, "Policy-required approval is not configured on every tool", f"Agent '{agent.name}' uses '{required_approval}' without approval on every relevant tool.", "Enforce approval on each tool providing this capability.", layer=2, location=agent.location, agent=agent.name, evidence=[f"capability={required_approval}"]))
 
     # Layer 3: identity and permissions.
     seen_identity_keys: set[tuple[str, str, str | None]] = set()
+    linked_identities = {
+        (identity.name, identity.provider)
+        for agent in graph.agents
+        for identity in agent.identities
+    }
     for identity in graph.identities:
+        if (identity.name, identity.provider) in linked_identities:
+            continue
         key = (identity.name, identity.provider, None)
         if key not in seen_identity_keys:
             seen_identity_keys.add(key)
@@ -195,7 +201,7 @@ def evaluate(graph: Graph) -> list[Finding]:
 
     # Layer 4: data/resource/network reachability.
     for agent in graph.agents:
-        sensitive = [d for d in agent.data_sources if d.classification in SENSITIVE_CLASSES]
+        sensitive = agent.sensitive_data_sources
         resources = agent.effective_resources
         destinations = agent.effective_destinations
         outbound_caps = bool({"network.external", "external.write"} & agent.capabilities)
@@ -206,7 +212,7 @@ def evaluate(graph: Graph) -> list[Finding]:
 
         explicit_broad_destinations = [d for d in destinations if destination_is_broad(d.target) or not d.restricted]
         if explicit_broad_destinations:
-            findings.append(Finding("NET001", Severity.HIGH, "Unrestricted outbound network reachability", f"Agent '{agent.name}' has unrestricted outbound destinations.", "Use egress allowlists/proxies and restrict outbound connectivity to required hosts.", layer=4, location=agent.location, agent=agent.name, evidence=["destinations=" + ",".join(d.target for d in explicit_broad_destinations)]))
+            findings.append(Finding("NET001", Severity.HIGH, "Outbound reachability lacks a detected restriction", f"Agent '{agent.name}' has broad destinations or no detected restriction for a possible outbound destination.", "Use egress allowlists/proxies and restrict outbound connectivity to required hosts.", layer=4, location=agent.location, agent=agent.name, evidence=["destinations=" + ",".join(d.target for d in explicit_broad_destinations)]))
         elif outbound_caps and not destinations:
             findings.append(Finding("NET002", Severity.MEDIUM, "Outbound capability has no destination constraint", f"Agent '{agent.name}' has external network/write capability but no explicit destination allowlist was detected.", "Declare and enforce permitted destinations for outbound tools.", layer=4, location=agent.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(agent.capabilities & {"network.external", "external.write"}))]))
 
@@ -223,7 +229,7 @@ def evaluate(graph: Graph) -> list[Finding]:
         if sensitive and outbound_caps:
             outbound_tools = [t for t in agent.tools if {"network.external", "external.write"} & t.capabilities]
             if outbound_tools and any(t.approval is not True for t in outbound_tools):
-                findings.append(Finding("AGT010", Severity.CRITICAL, "Sensitive data exfiltration path", f"Agent '{agent.name}' can read sensitive data and reach an external write/network capability without consistently enforced approval.", "Restrict outbound destinations, reduce data scope, or require human approval before sensitive information can leave the trust boundary.", layer=4, location=agent.location, agent=agent.name, evidence=["sensitive=" + ",".join(d.name for d in sensitive), "outbound=" + ",".join(t.name for t in outbound_tools)]))
+                findings.append(Finding("AGT010", Severity.CRITICAL, "Potential sensitive-data exfiltration path", f"Agent '{agent.name}' combines sensitive-data access and outbound capability without an approval requirement detected on every outbound tool.", "Restrict outbound destinations, reduce data scope, or require human approval before sensitive information can leave the trust boundary.", layer=4, location=agent.location, agent=agent.name, evidence=["sensitive=" + ",".join(d.name for d in sensitive), "outbound=" + ",".join(t.name for t in outbound_tools)]))
 
         if sensitive and (explicit_broad_destinations or (outbound_caps and not destinations)):
             findings.append(Finding("DATA003", Severity.CRITICAL, "Sensitive data has broad egress reachability", f"Agent '{agent.name}' combines sensitive data access with broadly constrained or unconstrained outbound capability.", "Restrict outbound destinations and require approval/DLP controls before sensitive data can leave the trust boundary.", layer=4, location=agent.location, agent=agent.name, evidence=["sensitive=" + ",".join(d.name for d in sensitive)]))

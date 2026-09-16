@@ -111,7 +111,8 @@ def scan_adk_config(path: Path) -> Graph:
         },
     )
     if path.name == "root_agent.yaml":
-        agent.inputs.append(InputSource(name="user-message", trust="untrusted", kind="user", location=agent.location))
+        agent.inputs.append(InputSource(name="user-message", trust="untrusted", kind="user", location=agent.location,
+                                        metadata={"inferred": True}))
 
     for raw in data.get("tools", []) or []:
         tool, server = _tool_from_config(raw, path)

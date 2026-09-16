@@ -2,6 +2,35 @@
 
 AgentReachGuard is an alpha-stage static security analyser for AI agents. The roadmap is ordered around increasing confidence in **effective authority** and **attack-path** analysis rather than simply increasing rule count.
 
+## Reliability milestone
+
+Implemented in the working tree:
+
+- Coverage counts and diagnostics in console, JSON, and SARIF.
+- Strict CI failure for detected incomplete analysis.
+- Version 1 manifest field/type validation and source locations.
+- Regression tests for ordering, delegation cycles, cross-file resources,
+  identity enrichment, shared tools, and policy/source interaction.
+
+- Distinguish source observations, manifest declarations, and heuristic inferences
+  in finding evidence, preserving source locations through delegation.
+- Report control observations separately from unverified runtime effectiveness.
+- Label capability combinations as potential paths with explicit limitations.
+- Treat approval callbacks and literal function URLs as observations rather than
+  blanket approval or enforced egress controls.
+- Add versioned finding fingerprints and scoped suppressions that require a reason
+  and expiry, with matched/stale/expired audit output.
+- Add baseline generation that refuses accidental replacement and scans the full
+  unsuppressed current state.
+- Add an exact reviewed benchmark gate with precision, recall, coverage, and CI
+  enforcement, plus three initial trust-boundary scenarios.
+
+Next:
+
+- Deepen control semantics with stronger static evidence for specific mechanisms.
+- Expand the benchmark from focused scenarios to sanitized representative projects
+  and publish historical precision/recall trends before expanding adapters.
+
 ## v0.4 — Live GCP authority resolution
 
 - Resolve deployed/runtime service-account identities.
@@ -16,7 +45,7 @@ AgentReachGuard is an alpha-stage static security analyser for AI agents. The ro
 - Add `agentreachguard diff <base>..<head>`.
 - Detect newly introduced capabilities, data access, egress, identities, and delegated authority.
 - Produce PR-focused SARIF/Markdown findings.
-- Add suppressions/baselines with explicit rationale and expiry.
+- Add change-aware handling for existing fingerprints and suppressions.
 
 ## v0.6 — Reachability and deployment context
 

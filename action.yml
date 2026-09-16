@@ -9,6 +9,14 @@ inputs:
     description: Minimum severity that fails the action
     required: false
     default: high
+  strict:
+    description: Fail on incomplete analysis or expired suppressions (true or false)
+    required: false
+    default: "false"
+  suppressions:
+    description: Optional explicit suppression YAML path
+    required: false
+    default: ""
   format:
     description: Output format (console, json, sarif)
     required: false
@@ -24,7 +32,23 @@ runs:
       run: python -m pip install "$GITHUB_ACTION_PATH"
     - name: Scan agent project
       shell: bash
-      run: agentreachguard scan "${{ inputs.path }}" --fail-on "${{ inputs.fail-on }}" --format "${{ inputs.format }}"
+      env:
+        SCAN_PATH: ${{ inputs.path }}
+        SCAN_FAIL_ON: ${{ inputs.fail-on }}
+        SCAN_FORMAT: ${{ inputs.format }}
+        SCAN_STRICT: ${{ inputs.strict }}
+        SCAN_SUPPRESSIONS: ${{ inputs.suppressions }}
+      run: |
+        scan_args=(scan "$SCAN_PATH" --fail-on "$SCAN_FAIL_ON" --format "$SCAN_FORMAT")
+        case "$SCAN_STRICT" in
+          true) scan_args+=(--strict) ;;
+          false) ;;
+          *) echo "strict must be true or false" >&2; exit 1 ;;
+        esac
+        if [[ -n "$SCAN_SUPPRESSIONS" ]]; then
+          scan_args+=(--suppressions "$SCAN_SUPPRESSIONS")
+        fi
+        agentreachguard "${scan_args[@]}"
 branding:
   icon: shield
   color: blue

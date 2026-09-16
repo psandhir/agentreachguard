@@ -35,7 +35,7 @@
 - `CAP003` — high aggregate privileged authority.
 - `CAP004` — command execution combined with external network access.
 - `CAP005` — combined data read and state-change authority.
-- `CAP006` — policy-required approval is not enforced.
+- `CAP006` — policy-required approval is not configured on every relevant tool.
 
 ## Layer 3 — Identity & permissions
 
@@ -50,7 +50,7 @@
 - `DATA001` — broad resource scope.
 - `DATA002` — resource access exceeds declared allowlist.
 - `DATA003` — sensitive data has broad/unconstrained egress reachability.
-- `NET001` — unrestricted outbound network reachability.
+- `NET001` — broad destinations or a possible destination without a detected restriction.
 - `NET002` — outbound capability has no destination constraint.
 - `NET003` — destination exceeds declared network allowlist.
 
@@ -62,3 +62,12 @@
 - `PATH004` — untrusted input plus sensitive data plus arbitrary execution.
 - `PATH005` — untrusted input to secret access and egress.
 - `PATH006` — untrusted input reaches multiple high-risk capability classes.
+
+## Interpreting evidence
+
+Rule IDs and severities describe configuration risks and potential impact, not
+proof of exploitability. Reports distinguish observed configuration, manifest
+assertions, and inferred facts. PATH findings are potential capability combinations;
+no executable data-flow trace or successful attack is established. Callback,
+plugin, sandbox and approval observations do not verify runtime effectiveness.
+Literal URLs in function bodies are possible destinations, not egress restrictions.

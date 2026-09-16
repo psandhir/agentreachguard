@@ -173,7 +173,8 @@ def _infer_function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -
             parsed = urlparse(child.value)
             if parsed.hostname:
                 caps.add("network.external")
-                destinations.append(NetworkDestination(target=child.value, restricted=True))
+                destinations.append(NetworkDestination(target=child.value, restricted=False,
+                                                        metadata={"source": "literal_url"}))
     return caps, destinations
 
 
@@ -386,7 +387,8 @@ def _plain_function_tool(path: Path, func: ast.FunctionDef | ast.AsyncFunctionDe
         name=func.name,
         kind="adk_function",
         capabilities=caps,
-        destinations=[NetworkDestination(target=d.target, restricted=d.restricted, location=_location(path, func)) for d in destinations],
+        destinations=[NetworkDestination(target=d.target, restricted=d.restricted,
+                                         location=_location(path, func), metadata=dict(d.metadata)) for d in destinations],
         location=_location(path, func),
         metadata={"framework": "google-adk", "plain_function": True},
     )
@@ -455,7 +457,8 @@ def _agent_from_call(
     agent = Agent(name=name, location=_location(path, call), metadata=metadata)
     # A top-level LLM agent receives user-controlled input unless the manifest later narrows trust.
     if alias == "root_agent" or agent_type == "RemoteA2aAgent":
-        agent.inputs.append(InputSource(name="user-or-remote-input", trust="untrusted", kind="external" if agent_type == "RemoteA2aAgent" else "user", location=agent.location))
+        agent.inputs.append(InputSource(name="user-or-remote-input", trust="untrusted", kind="external" if agent_type == "RemoteA2aAgent" else "user", location=agent.location,
+                                         metadata={"inferred": True}))
 
     if agent_type == "RemoteA2aAgent":
         card = _string(_arg(call, 1, "agent_card"))
@@ -481,6 +484,16 @@ def _agent_from_call(
                 agent.tools.append(tools[element.id])
             elif element.id in functions:
                 agent.tools.append(_plain_function_tool(path, functions[element.id]))
+            elif element.id in BUILTIN_TOOL_CAPABILITIES:
+                tool = Tool(
+                    name=element.id, kind="adk_builtin",
+                    capabilities=set(BUILTIN_TOOL_CAPABILITIES[element.id]),
+                    location=_location(path, element),
+                    metadata={"framework": "google-adk", "adk_builtin": element.id},
+                )
+                if element.id in RETRIEVAL_TOOLS:
+                    tool.metadata["untrusted_input"] = True
+                agent.tools.append(tool)
             elif element.id in calls:
                 direct = _tool_from_call(path, calls[element.id], element.id, calls, functions)
                 if direct:
@@ -614,6 +627,7 @@ def scan_python_file(path: Path) -> Graph:
                     agents_by_alias[agent_ref].metadata["safety_plugin"] = True
                     for tool in agents_by_alias[agent_ref].tools:
                         tool.guardrails = True
+                        tool.metadata["guardrail_origin"] = "inferred_plugin_name"
         if call_name == "to_a2a":
             ref = _call_name(_arg(node, 0, "agent"))
             if ref in agents_by_alias:

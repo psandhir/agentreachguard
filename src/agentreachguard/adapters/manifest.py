@@ -22,6 +22,57 @@ from agentreachguard.models import (
 MANIFEST_FILENAMES = {"agentreachguard.manifest.yaml", "agentreachguard.manifest.yml"}
 
 
+class ManifestError(ValueError):
+    """A policy manifest could not be read or interpreted safely."""
+
+
+class _ManifestLoader(yaml.SafeLoader):
+    def construct_mapping(self, node, deep=False):
+        keys = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            try:
+                duplicate = key in keys
+                keys.add(key)
+            except TypeError as exc:
+                raise yaml.YAMLError("invalid mapping key") from exc
+            if duplicate:
+                raise yaml.constructor.ConstructorError(
+                    None, None, "duplicate mapping key", key_node.start_mark,
+                )
+        return super().construct_mapping(node, deep=deep)
+
+
+def _validate_manifest(raw: object, path: Path, text: str) -> None:
+    from agentreachguard.manifest_schema import validate
+
+    positions = {}
+
+    def visit(node, field="document", ancestors=frozenset()):
+        if id(node) in ancestors:
+            raise ManifestError(f"{path}: invalid manifest: cyclic YAML aliases are unsupported")
+        ancestors = ancestors | {id(node)}
+        positions[field] = node.start_mark
+        if isinstance(node, yaml.MappingNode):
+            for key, value in node.value:
+                child = key.value if field == "document" else f"{field}.{key.value}"
+                visit(value, child, ancestors)
+        elif isinstance(node, yaml.SequenceNode):
+            for index, value in enumerate(node.value):
+                visit(value, f"{field}[{index}]", ancestors)
+
+    node = yaml.compose(text, Loader=_ManifestLoader)
+    if node is not None:
+        visit(node)
+
+    def fail(field, message):
+        mark = positions.get(field)
+        position = f":{mark.line + 1}:{mark.column + 1}" if mark else ""
+        raise ManifestError(f"{path}{position}: invalid manifest: {field} {message}")
+
+    validate(raw, fail)
+
+
 def _strings(value) -> list[str]:
     if value is None:
         return []
@@ -49,9 +100,18 @@ def _identity(raw: dict, path: Path) -> Identity:
 def scan_manifest(path: Path) -> Graph:
     graph = Graph()
     try:
-        raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    except (yaml.YAMLError, UnicodeDecodeError, OSError):
-        return graph
+        text = path.read_text(encoding="utf-8")
+        raw = yaml.load(text, Loader=_ManifestLoader)
+    except yaml.YAMLError as exc:
+        # Parser exception text can include manifest contents, including secrets.
+        mark = getattr(exc, "problem_mark", None)
+        position = f" at line {mark.line + 1}, column {mark.column + 1}" if mark else ""
+        raise ManifestError(f"{path}: invalid manifest YAML{position}") from exc
+    except UnicodeDecodeError as exc:
+        raise ManifestError(f"{path}: manifest is not valid UTF-8") from exc
+    except OSError as exc:
+        raise ManifestError(f"{path}: cannot read manifest") from exc
+    _validate_manifest(raw, path, text)
 
     for raw_identity in raw.get("identities", []) or []:
         if isinstance(raw_identity, dict):
@@ -140,6 +200,7 @@ def scan_manifest(path: Path) -> Graph:
                 guardrails=bool(raw_tool.get("guardrails", False)),
                 identity=str(raw_tool.get("identity")) if raw_tool.get("identity") else None,
                 location=SourceLocation(path=path),
+                metadata={"capability_origin": "declared" if caps else "inferred"},
             )
             for raw_resource in raw_tool.get("resources", []) or []:
                 if isinstance(raw_resource, str):

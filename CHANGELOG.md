@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Fix transitive delegation, classified tool-resource checks, source-location merging,
+  identity enrichment, and shared-agent tool overlay isolation.
+- Reject invalid manifests with versioned field/type validation and safe error reporting.
+- Add coverage diagnostics and strict CI mode to all report formats and the GitHub Action.
+- Add finding assessments, evidence origins and explicit static-analysis limitations.
+- Report control observations with unverified runtime effectiveness.
+- Describe inferred attack paths as potential capability combinations.
+- Stop treating approval callbacks and literal function URLs as enforced controls.
+- Add stable finding fingerprints, baseline generation, and scoped, reasoned,
+  expiring suppressions with audit output.
+- Add a reviewed benchmark command and CI corpus with exact precision/recall checks.
+
 ## 0.1.0
 
 - Add first-class Google ADK Python static analysis.

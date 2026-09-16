@@ -1,0 +1,5 @@
+version: 1
+agents:
+  - name: coordinator
+    policy:
+      denied_capabilities: [process.execute]

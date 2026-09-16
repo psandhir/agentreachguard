@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import ast
+import json
+from copy import deepcopy
 from pathlib import Path
+
+import yaml
 
 from agentreachguard.adapters.adk_config import scan_adk_config, scan_adk_env
 from agentreachguard.adapters.google_adk import is_google_adk_file
@@ -10,20 +15,55 @@ from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.analysis import build_attack_paths
-from agentreachguard.models import Agent, Graph, Identity, NetworkDestination, ResourceScope, Tool
+from agentreachguard.coverage import diagnose_python
+from agentreachguard.models import (
+    Agent,
+    EvidenceFact,
+    Graph,
+    Identity,
+    NetworkDestination,
+    ResourceScope,
+    ScanDiagnostic,
+    SourceLocation,
+    Tool,
+)
+from agentreachguard.provenance import annotate, attach_findings, context
 from agentreachguard.rules.builtin import evaluate
+from agentreachguard.suppressions import SUPPRESSION_FILENAMES, SuppressionError
+from agentreachguard.suppressions import apply as apply_suppressions
 
-DEFAULT_IGNORES = {".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__"}
+DEFAULT_IGNORES = {
+    ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
+}
+IGNORE_MARKER = ".agentreachguard-ignore"
 
 
-def _merge(target: Graph, source: Graph) -> None:
+def _ignored(path: Path, root: Path) -> bool:
+    relative = path.relative_to(root)
+    if any(part in DEFAULT_IGNORES for part in relative.parts):
+        return True
+    current = path.parent
+    while current != root and root in current.parents:
+        if (current / IGNORE_MARKER).exists():
+            return True
+        current = current.parent
+    return False
+
+
+def _merge(target: Graph, source: Graph, path: Path) -> None:
+    annotate(source, path)
+    # Manifest overlays must not alter another agent sharing the same source tool.
+    for agent in source.agents:
+        agent.tools = deepcopy(agent.tools)
     target.agents.extend(source.agents)
     target.unbound_tools.extend(source.unbound_tools)
     target.unbound_mcp_servers.extend(source.unbound_mcp_servers)
     target.identities.extend(source.identities)
+    target.coverage.diagnostics.extend(source.coverage.diagnostics)
 
 
 def _merge_tool(existing: Tool, incoming: Tool) -> None:
+    existing.provenance.extend(f for f in incoming.provenance if f not in existing.provenance)
     existing.capabilities.update(incoming.capabilities)
     if existing.approval is not False:
         if incoming.approval is False:
@@ -42,6 +82,7 @@ def _merge_tool(existing: Tool, incoming: Tool) -> None:
 
 
 def _merge_identity(existing: Identity, incoming: Identity) -> None:
+    existing.provenance.extend(f for f in incoming.provenance if f not in existing.provenance)
     existing.roles.update(incoming.roles)
     existing.permissions.update(incoming.permissions)
     existing.oauth_scopes.update(incoming.oauth_scopes)
@@ -69,6 +110,12 @@ def _consolidate_agents(graph: Graph) -> None:
         if existing is None:
             by_name[incoming.name] = incoming
             continue
+
+        # Keep a framework source location when policy was discovered first;
+        # delegation aliases depend on the actual module/config filename.
+        if (existing.location and existing.location.path.name in MANIFEST_FILENAMES
+                and incoming.location and incoming.location.path.name not in MANIFEST_FILENAMES):
+            existing.location = incoming.location
 
         tool_by_name = {tool.name: tool for tool in existing.tools}
         for tool in incoming.tools:
@@ -119,6 +166,7 @@ def _consolidate_agents(graph: Graph) -> None:
             or p.max_privileged_capabilities is not None
         ):
             existing.policy = p
+        existing.provenance.extend(f for f in incoming.provenance if f not in existing.provenance)
         existing.metadata.update(incoming.metadata)
 
     graph.agents = list(by_name.values())
@@ -144,47 +192,81 @@ def _propagate_adk_delegation(graph: Graph) -> None:
             for alias in aliases:
                 if alias and alias not in by_alias:
                     by_alias[alias] = agent
-    for _ in range(max(1, len(graph.agents))):
-        changed = False
-        for parent in graph.agents:
-            targets = list(parent.metadata.get("delegates_to") or [])
-            existing_targets = {t.metadata.get("delegate_target") for t in parent.tools if t.kind == "delegated_agent"}
-            for target_name in targets:
-                target = str(target_name)
-                child = by_name.get(target) or by_alias.get(target)
-                if child is None:
-                    # Common ADK naming convention: specialist_agent variable
-                    # defined in specialist/agent.py or specialist.py.
-                    base = target.removesuffix("_agent")
-                    child = by_alias.get(base) or by_alias.get(f"{base}_agent")
-                if child is None or child is parent or child.name in existing_targets:
+    # Resolve edges before adding synthetic tools. Traverse original authority
+    # for each edge so results are independent of scan order and cycles terminate.
+    children: dict[str, list[Agent]] = {}
+    for parent in graph.agents:
+        children[parent.name] = []
+        for target_name in parent.metadata.get("delegates_to") or []:
+            target = str(target_name)
+            child = by_name.get(target) or by_alias.get(target)
+            if child is None:
+                base = target.removesuffix("_agent")
+                child = by_alias.get(base) or by_alias.get(f"{base}_agent")
+            if child is None:
+                graph.coverage.diagnostics.append(ScanDiagnostic(
+                    "unresolved_delegation", "Delegated agent could not be resolved.", parent.location,
+                ))
+            if (
+                child is not None and child is not parent
+                and child.name not in {a.name for a in children[parent.name]}
+            ):
+                children[parent.name].append(child)
+
+    authority = {
+        a.name: (set(a.capabilities), a.effective_resources, a.effective_destinations, context(a))
+        for a in graph.agents
+    }
+    for parent in graph.agents:
+        for child in children[parent.name]:
+            provenance = [EvidenceFact(parent.name, f"delegates_to={child.name}",
+                                       "inferred", parent.location)]
+            capabilities = {"agent.delegate"}
+            resources: list[ResourceScope] = []
+            destinations: list[NetworkDestination] = []
+            pending = [child]
+            visited = {parent.name}
+            while pending:
+                reachable = pending.pop()
+                if reachable.name in visited:
                     continue
-                delegated = Tool(
-                    name=f"delegate:{child.name}",
-                    kind="delegated_agent",
-                    capabilities=set(child.capabilities) | {"agent.delegate"},
-                    approval=None,
-                    guardrails=bool(child.metadata.get("safety_plugin")) or bool((child.metadata.get("callbacks") or {}).get("before_tool_callback")),
-                    resources=[
-                        ResourceScope(
-                            kind=r.kind, selector=r.selector, access=set(r.access), classification=r.classification,
-                            location=r.location, metadata={**r.metadata, "via_agent": child.name}
-                        ) for r in child.effective_resources
-                    ],
-                    destinations=[
-                        NetworkDestination(
-                            target=d.target, direction=d.direction, restricted=d.restricted, location=d.location,
-                            metadata={**d.metadata, "via_agent": child.name}
-                        ) for d in child.effective_destinations
-                    ],
-                    location=parent.location,
-                    metadata={"framework": "google-adk", "delegate_target": child.name, "transitive": True},
-                )
-                parent.tools.append(delegated)
-                existing_targets.add(child.name)
-                changed = True
-        if not changed:
-            break
+                visited.add(reachable.name)
+                caps, scopes, targets, original_facts = authority[reachable.name]
+                provenance.extend(f for f in original_facts if f not in provenance)
+                capabilities.update(caps)
+                if children[reachable.name]:
+                    capabilities.add("agent.delegate")
+                for resource in scopes:
+                    copied = ResourceScope(
+                        kind=resource.kind, selector=resource.selector,
+                        access=set(resource.access), classification=resource.classification,
+                        location=resource.location,
+                        metadata={**resource.metadata, "via_agent": reachable.name},
+                        provenance=list(resource.provenance),
+                    )
+                    if copied not in resources:
+                        resources.append(copied)
+                for destination in targets:
+                    copied_destination = NetworkDestination(
+                        target=destination.target, direction=destination.direction,
+                        restricted=destination.restricted, location=destination.location,
+                        metadata={**destination.metadata, "via_agent": reachable.name},
+                        provenance=list(destination.provenance),
+                    )
+                    if copied_destination not in destinations:
+                        destinations.append(copied_destination)
+                pending.extend(children[reachable.name])
+            parent.tools.append(Tool(
+                name=f"delegate:{child.name}", kind="delegated_agent",
+                capabilities=capabilities, approval=None,
+                guardrails=bool(child.metadata.get("safety_plugin")) or bool(
+                    (child.metadata.get("callbacks") or {}).get("before_tool_callback")
+                ),
+                resources=resources, destinations=destinations, location=parent.location,
+                provenance=provenance,
+                metadata={"framework": "google-adk", "delegate_target": child.name,
+                          "transitive": True},
+            ))
 
 
 def _link_global_identities(graph: Graph) -> None:
@@ -192,6 +274,13 @@ def _link_global_identities(graph: Graph) -> None:
     by_name = {identity.name: identity for identity in graph.identities}
     for agent in graph.agents:
         existing = {identity.name for identity in agent.identities}
+        for identity in agent.identities:
+            discovered = by_name.get(identity.name)
+            if discovered is not None and discovered.provider in {identity.provider, "generic"}:
+                _merge_identity(identity, discovered)
+            elif discovered is not None and identity.provider == "generic":
+                identity.provider = discovered.provider
+                _merge_identity(identity, discovered)
         referenced = {tool.identity for tool in agent.tools if tool.identity}
         referenced.update(server.identity for server in agent.mcp_servers if server.identity)
         for name in referenced:
@@ -199,7 +288,11 @@ def _link_global_identities(graph: Graph) -> None:
                 agent.identities.append(by_name[name])
 
 
-def scan(path: Path) -> tuple[Graph, list]:
+def scan(
+    path: Path,
+    suppressions_path: Path | None = None,
+    use_default_suppressions: bool = True,
+) -> tuple[Graph, list]:
     root = path.resolve()
     graph = Graph()
 
@@ -209,29 +302,79 @@ def scan(path: Path) -> tuple[Graph, list]:
         candidates = [
             p
             for p in root.rglob("*")
-            if p.is_file() and not any(part in DEFAULT_IGNORES for part in p.relative_to(root).parts)
+                if p.is_file() and not _ignored(p, root)
         ]
 
-    for candidate in candidates:
+    for candidate in sorted(candidates):
+        graph.coverage.files_considered += 1
+        supported = (candidate.suffix.lower() in {".py", ".tf", ".yaml", ".yml"}
+                     or candidate.name in MCP_FILENAMES | MANIFEST_FILENAMES | SUPPRESSION_FILENAMES
+                     or candidate.name == ".env" or candidate.name.startswith(".env."))
+        if not supported:
+            graph.coverage.files_skipped += 1
+            continue
+        # Manifests remain fatal input errors; other parse failures are reported
+        # as incomplete analysis, which strict CI mode can reject.
+        if candidate.name not in MANIFEST_FILENAMES | SUPPRESSION_FILENAMES:
+            try:
+                text = candidate.read_text(encoding="utf-8")
+                if candidate.suffix == ".py":
+                    ast.parse(text)
+                elif candidate.name in MCP_FILENAMES:
+                    raw = json.loads(text)
+                    if not isinstance(raw, dict):
+                        raise ValueError("invalid MCP configuration")
+                elif candidate.suffix.lower() in {".yaml", ".yml"}:
+                    yaml.safe_load(text)
+            except (OSError, UnicodeDecodeError, SyntaxError, ValueError, yaml.YAMLError) as exc:
+                graph.coverage.files_failed += 1
+                graph.coverage.diagnostics.append(ScanDiagnostic(
+                    "parse_error", "File could not be read or parsed; analysis was skipped.",
+                    SourceLocation(candidate, line=getattr(exc, "lineno", 1) or 1),
+                ))
+                continue
+        graph.coverage.files_scanned += 1
+        if candidate.name in SUPPRESSION_FILENAMES:
+            continue
         if candidate.suffix == ".py":
             if is_google_adk_file(candidate):
-                _merge(graph, scan_google_adk_python(candidate))
+                _merge(graph, scan_google_adk_python(candidate), candidate)
             else:
-                _merge(graph, scan_python_file(candidate))
+                _merge(graph, scan_python_file(candidate), candidate)
+            diagnose_python(candidate, graph)
         elif candidate.suffix == ".tf":
-            _merge(graph, scan_terraform(candidate))
+            _merge(graph, scan_terraform(candidate), candidate)
         elif candidate.name in MCP_FILENAMES:
-            _merge(graph, scan_mcp_config(candidate))
+            _merge(graph, scan_mcp_config(candidate), candidate)
         elif candidate.name in MANIFEST_FILENAMES:
-            _merge(graph, scan_manifest(candidate))
+            _merge(graph, scan_manifest(candidate), candidate)
         elif candidate.suffix.lower() in {".yaml", ".yml"}:
-            _merge(graph, scan_adk_config(candidate))
+            _merge(graph, scan_adk_config(candidate), candidate)
         elif candidate.name == ".env" or candidate.name.startswith(".env."):
-            _merge(graph, scan_adk_env(candidate))
+            _merge(graph, scan_adk_env(candidate), candidate)
 
     _consolidate_global_identities(graph)
     _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
+    if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
+        graph.coverage.diagnostics.append(ScanDiagnostic(
+            "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
+        ))
     graph.attack_paths = build_attack_paths(graph)
-    return graph, evaluate(graph)
+    findings = evaluate(graph)
+    attach_findings(graph, findings)
+    suppression_file = suppressions_path
+    if suppression_file is None and use_default_suppressions:
+        base = root if root.is_dir() else root.parent
+        defaults = [base / name for name in sorted(SUPPRESSION_FILENAMES)
+                    if (base / name).exists()]
+        if len(defaults) > 1:
+            raise SuppressionError(f"{base}: multiple default suppression files found")
+        suppression_file = defaults[0] if defaults else None
+    elif suppression_file is not None and not suppression_file.exists():
+        raise SuppressionError(f"{suppression_file}: suppression file does not exist")
+    findings, graph.suppressed_findings, graph.suppression_diagnostics = apply_suppressions(
+        findings, root if root.is_dir() else root.parent, suppression_file,
+    )
+    return graph, findings

@@ -58,9 +58,9 @@ def _approval_value(value: Any) -> bool | None:
             return False
     if isinstance(value, dict):
         values = list(value.values())
-        if "always" in values or "always" in value or True in values:
+        if values and all(v == "always" or v is True for v in values):
             return True
-        if values and all(v in {"never", False} for v in values):
+        if values and all(v == "never" or v is False for v in values):
             return False
     return None
 
@@ -76,26 +76,24 @@ def _tool_from_call(path: Path, node: ast.Call, alias: str | None = None) -> Too
 
     if name == "ShellTool":
         approval = _approval_value(_literal(_kw(node, "needs_approval")))
-        if approval is None:
-            approval = _kw(node, "on_approval") is not None
         return Tool(
             name=alias or "ShellTool",
             kind="shell",
             capabilities={"process.execute", "data.read", "data.write", "network.external"},
             approval=approval,
             location=_location(path, node),
-            metadata={"implicit_network": True},
+            metadata={"implicit_network": True,
+                      "approval_hook_detected": _kw(node, "on_approval") is not None},
         )
 
     if name == "ApplyPatchTool":
         approval = _approval_value(_literal(_kw(node, "needs_approval")))
-        if approval is None:
-            approval = _kw(node, "on_approval") is not None
         return Tool(
             name=alias or "ApplyPatchTool",
             kind="apply_patch",
             capabilities={"data.write"},
             approval=approval,
+            metadata={"approval_hook_detected": _kw(node, "on_approval") is not None},
             location=_location(path, node),
         )
 
@@ -187,7 +185,7 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
                 guardrails=guardrails,
                 location=_location(path, node),
             )
-            # Infer fixed network destinations from literal URLs in the function body.
+            # Literal URLs are possible destinations, not evidence of restricted egress.
             for child in ast.walk(node):
                 if isinstance(child, ast.Constant) and isinstance(child.value, str):
                     value = child.value
@@ -195,7 +193,8 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
                         parsed = urlparse(value)
                         if parsed.hostname:
                             tool.destinations.append(
-                                NetworkDestination(target=value, restricted=True, location=_location(path, child))
+                                NetworkDestination(target=value, restricted=False, location=_location(path, child),
+                                                   metadata={"source": "literal_url"})
                             )
             return tool
     return None

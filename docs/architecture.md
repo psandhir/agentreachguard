@@ -58,7 +58,7 @@ AgentReachGuard intentionally distinguishes between facts discovered from source
 
 For example, static code can discover `ShellTool`, but it cannot prove that shell access is required for the business purpose. The manifest therefore declares the capability budget and allowed resource/network boundary. Layer 2 and Layer 4 compare effective authority against that declared intent.
 
-## Attack-path derivation
+## Potential attack-path derivation
 
 Layer 5 consumes facts from prior layers. Example:
 
@@ -72,7 +72,10 @@ ShellTool
 process.execute
 ```
 
-The path is only emitted when the relevant nodes and control conditions are present. An outbound tool by itself is not treated as an inbound untrusted source.
+The potential path is only emitted when the normalized nodes and rule conditions are present.
+It represents capability co-occurrence, not a verified data-flow trace or exploit.
+Evidence origins survive source/manifest consolidation and delegated authority propagation.
+Control observations describe detected configuration or hooks; runtime effectiveness remains unverified. An outbound tool by itself is not treated as an inbound untrusted source.
 
 
 ## Google ADK composition
