@@ -364,9 +364,13 @@ class Finding:
 
     def as_dict(self) -> dict[str, Any]:
         from agentreachguard.rule_registry import get_rule_metadata
+        try:
+            default_severity = get_rule_metadata(self.rule_id).default_severity.label()
+        except KeyError:
+            default_severity = self.severity.label()
         return {
             "rule_id": self.rule_id,
-            "default_severity": get_rule_metadata(self.rule_id).default_severity.label(),
+            "default_severity": default_severity,
             "severity": self.severity.label(),
             "title": self.title,
             "message": self.message,

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from agentreachguard.models import Finding, ScanCoverage
+from agentreachguard.rule_registry import get_rule_metadata
 
 LEVELS = {
     "critical": "error",
@@ -28,13 +29,18 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                 "properties": {"standards": finding.standards},
             },
         )
+        try:
+            default_severity = get_rule_metadata(finding.rule_id).default_severity.label()
+        except KeyError:
+            # Synthetic findings used by integrations may not be in the built-in catalogue.
+            default_severity = finding.severity.label()
         result = {
             "ruleId": finding.rule_id,
             "level": LEVELS[finding.severity.label()],
             "message": {"text": finding.message},
             "properties": {
                 "agentreachguardLayer": finding.layer,
-                "default_severity": __import__("agentreachguard.rule_registry", fromlist=["get_rule_metadata"]).get_rule_metadata(finding.rule_id).default_severity.label(),
+                "default_severity": default_severity,
                 "effective_severity": finding.severity.label(),
                 "agent": finding.agent,
                 "evidence": finding.evidence,
