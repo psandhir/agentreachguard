@@ -1,5 +1,15 @@
+version: 1
 agents:
-  - name: reports
-    data: [{name: reports, classification: confidential}]
-    network: [{target: "*", restricted: false}]
-    tools: [{name: publish, capabilities: [external.write]}]
+  - name: scoped
+    policy:
+      allowed_resources: ['/approved/**']
+      allowed_destinations: ['https://api.example.com/**']
+    tools:
+      - name: upload
+        capabilities: [external.write]
+        approval: true
+        resources:
+          - kind: file
+            selector: /other/file.txt
+        destinations:
+          - https://evil.example.test/upload

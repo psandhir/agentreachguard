@@ -53,3 +53,16 @@ def test_internal_symlink_target_is_scanned_once(tmp_path: Path) -> None:
 
     assert graph.coverage.files_scanned == 1
     assert len([finding for finding in findings if finding.rule_id == "AGT020"]) == 1
+
+
+def test_symlink_loop_terminates_without_scanning_external_content(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    (project / "a.py").symlink_to(project / "b.py")
+    (project / "b.py").symlink_to(project / "a.py")
+
+    graph, findings = scan(project)
+
+    assert findings == []
+    assert graph.coverage.files_scanned == 0
+    assert graph.coverage.incomplete

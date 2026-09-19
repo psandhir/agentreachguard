@@ -1,3 +1,5 @@
-from agents import Agent, ShellTool
+from google.adk import Agent
+from google.adk.tools.computer_use.computer_use_toolset import ComputerUseToolset
 
-agent = Agent(name='ops', tools=[ShellTool()])
+computer = ComputerUseToolset(computer=object())
+root_agent = Agent(name="browser", model="gemini-computer-use", tools=[computer])

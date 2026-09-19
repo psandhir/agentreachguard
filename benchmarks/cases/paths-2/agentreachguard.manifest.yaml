@@ -1,4 +1,14 @@
+version: 1
 agents:
   - name: ops
-    inputs: [{name: web, trust: untrusted}]
-    tools: [{name: shell, capabilities: [process.execute]}]
+    inputs:
+      - name: webhook
+        kind: webhook
+        trust: untrusted
+    tools:
+      - name: read_secret
+        capabilities: [secrets.read]
+        approval: true
+      - name: publish
+        capabilities: [external.write, network.external]
+        approval: true

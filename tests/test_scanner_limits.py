@@ -2,7 +2,13 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.limits import MAX_FILE_SIZE_BYTES, MAX_JSON_BYTES, MAX_YAML_ALIAS_COUNT
+from agentreachguard.limits import (
+    MAX_FILE_SIZE_BYTES,
+    MAX_JSON_BYTES,
+    MAX_YAML_ALIAS_COUNT,
+    MAX_YAML_BYTES,
+    MAX_YAML_NESTING,
+)
 from agentreachguard.scanner import ScannerError, scan
 
 
@@ -27,6 +33,31 @@ def test_alias_heavy_manifest_fails_closed(tmp_path: Path) -> None:
     )
     with pytest.raises(ScannerError, match="alias limit"):
         scan(tmp_path)
+
+
+def test_deep_yaml_manifest_fails_closed(tmp_path: Path) -> None:
+    nested = "value"
+    for _ in range(MAX_YAML_NESTING + 2):
+        nested = f"[ {nested} ]"
+    (tmp_path / "agentreachguard.manifest.yaml").write_text(
+        f"version: 1\nextra: {nested}\n", encoding="utf-8"
+    )
+    with pytest.raises(ScannerError, match="nesting limit"):
+        scan(tmp_path)
+
+
+def test_oversized_yaml_manifest_fails_closed(tmp_path: Path) -> None:
+    payload = "#" * (MAX_YAML_BYTES + 1)
+    (tmp_path / "agentreachguard.manifest.yaml").write_text(payload, encoding="utf-8")
+    with pytest.raises(ScannerError, match="size limit"):
+        scan(tmp_path)
+
+
+def test_malformed_utf8_source_becomes_incomplete_coverage(tmp_path: Path) -> None:
+    (tmp_path / "broken.py").write_bytes(b"from google.adk import Agent\n\xff\xfe\n")
+    graph, _ = scan(tmp_path)
+    assert graph.coverage.incomplete
+    assert any(diagnostic.kind == "parse_error" for diagnostic in graph.coverage.diagnostics)
 
 
 def test_traversal_limit_aborts_safely(tmp_path: Path, monkeypatch) -> None:

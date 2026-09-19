@@ -14,14 +14,20 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
     manifest = REPOSITORY / "benchmarks" / "cases.yaml"
     report = run(manifest)
     assert report["summary"] == {
-        "cases": 25, "passed": 25, "true_positive": 108,
+        "cases": 26, "passed": 26, "true_positive": 96,
         "false_positive": 0, "false_negative": 0,
         "precision": 1.0, "recall": 1.0,
     }
-    assert all(not case["coverage"]["incomplete"] for case in report["cases"])
+    incomplete = [case for case in report["cases"] if case["coverage"]["incomplete"]]
+    assert [case["name"] for case in incomplete] == ["dynamic-tools-unresolved"]
+    dynamic = incomplete[0]
+    assert dynamic["expect_incomplete"] is True
+    assert dynamic["expected_diagnostics"] == ["ARG-COV-004"]
+    assert dynamic["missing_diagnostics"] == []
+
     assert main(["benchmark", str(manifest)]) == 0
     output = capsys.readouterr().out
-    assert "25/25 passed" in output
+    assert "26/26 passed" in output
     assert "Precision: 1.000" in output
     assert "Recall:    1.000" in output
 
@@ -90,14 +96,18 @@ def test_duplicate_benchmark_keys_fail_closed(tmp_path: Path):
 
 
 def test_reviewed_corpus_has_at_least_25_cases() -> None:
-    report = run(Path(__file__).resolve().parents[1] / "benchmarks" / "cases.yaml")
+    report = run(REPOSITORY / "benchmarks" / "cases.yaml")
     assert report["summary"]["cases"] >= 25
     assert report["summary"]["passed"] == report["summary"]["cases"]
+    assert any(case["expect_incomplete"] for case in report["cases"])
 
 
 def test_benchmark_reports_per_rule_metrics() -> None:
     report = run(REPOSITORY / "benchmarks" / "cases.yaml")
     metrics = report["metrics"]
-    assert metrics["cases_total"] == 25
+    assert metrics["cases_total"] == 26
     assert metrics["per_rule"]["ADK004"]["true_positives"] > 0
     assert metrics["per_rule"]["ADK004"]["precision"] == 1.0
+    assert metrics["per_rule"]["ADK002"]["true_positives"] == 1
+    assert metrics["per_rule"]["AGT050"]["true_positives"] == 1
+    assert metrics["per_rule"]["PATH005"]["true_positives"] == 1

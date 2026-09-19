@@ -1,38 +1,41 @@
 # AgentReachGuard Roadmap
 
-AgentReachGuard is an alpha-stage static security analyser for AI agents. The roadmap is ordered around increasing confidence in **effective authority** and **attack-path** analysis rather than simply increasing rule count.
+AgentReachGuard is a **beta-stage / pilot-ready** static security analyser for AI agents. The roadmap is ordered around increasing confidence in **effective authority** and **attack-path** analysis rather than simply increasing rule count.
 
-## Reliability milestone
+## v0.2 — Reliability and validation milestone
 
-Implemented in the working tree:
+Completed in the v0.2 release candidate:
 
-- Coverage counts and diagnostics in console, JSON, and SARIF.
+- Coverage counts and stable `ARG-COV-*` diagnostics in console, JSON, and SARIF.
 - Strict CI failure for detected incomplete analysis.
 - Version 1 manifest field/type validation and source locations.
 - Regression tests for ordering, delegation cycles, cross-file resources,
   identity enrichment, shared tools, and policy/source interaction.
-
 - Distinguish source observations, manifest declarations, and heuristic inferences
   in finding evidence, preserving source locations through delegation.
 - Report control observations separately from unverified runtime effectiveness.
 - Label capability combinations as potential paths with explicit limitations.
 - Treat approval callbacks and literal function URLs as observations rather than
   blanket approval or enforced egress controls.
-- Add versioned finding fingerprints and scoped suppressions that require a reason
-  and expiry, with matched/stale/expired audit output.
-- Add baseline generation that refuses accidental replacement and scans the full
+- Versioned finding fingerprints and scoped suppressions requiring reason and expiry,
+  with matched/stale/expired audit output.
+- Baseline generation that refuses accidental replacement and scans the full
   unsuppressed current state.
-- Add an exact reviewed benchmark gate with precision, recall, coverage, and CI
-  enforcement across distinct secure, delegation, execution, identity, MCP, path,
-  and dynamic-configuration scenarios.
-- Recognize supported static evidence for restrictive Bash policies, MCP tool
-  allowlists, sandbox timeout/network/filesystem limits, and egress allowlist
-  coverage without claiming runtime enforcement.
+- Structured rule metadata, rule catalogue CLI, and OWASP Agentic mappings.
+- Explicit attack-path confidence semantics without claiming verified exploitability.
+- Repository `.agentreachguard.yaml` configuration with rule enable/disable and
+  severity overrides applied before suppressions.
+- Hostile-repository protections including resource ceilings, canonical-path
+  containment/deduplication, bounded diagnostics, and non-execution regression tests.
+- A reviewed benchmark gate with 26 distinct scenarios, including expected incomplete
+  analysis, with aggregate and per-rule precision/recall metrics.
+- Immutable-SHA GitHub Actions dependencies and package/wheel smoke testing.
 
-Next:
+## Next reliability work
 
-- Expand the benchmark with sanitized representative projects and publish historical
-  precision/recall trends before expanding adapters.
+- Add sanitized representative real-world projects to the benchmark corpus.
+- Publish benchmark history across releases rather than relying on a single snapshot.
+- Expand false-positive traps and multi-file enterprise agent configurations.
 
 ## v0.4 — Live GCP authority resolution
 
@@ -68,7 +71,7 @@ Planned as separate adapters with independent tests rather than generic regex su
 
 ## Ongoing
 
-- Map rules to OWASP Agentic/GenAI guidance and other relevant frameworks.
-- Expand secure/vulnerable fixture corpus.
+- Maintain OWASP Agentic/GenAI and other relevant framework mappings.
+- Expand secure/vulnerable fixture coverage.
 - Improve source locations and remediation quality.
 - Keep false-positive rates conservative and findings explainable.

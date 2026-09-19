@@ -157,9 +157,11 @@ execution notifications. Console output separates coverage from findings by laye
 report so CI can retain the diagnostics. Security threshold failures return exit
 code 2; incomplete analysis takes precedence in strict mode.
 
-Diagnostics currently cover read/parse failures, unresolved Python tool/MCP
-references, unresolved delegation, dynamic agent configuration sequences or
-expanded keyword arguments, and scans with no supported security targets.
+Diagnostics use stable `ARG-COV-*` identifiers and currently cover read/parse
+failures, unresolved Python tool/MCP references, unresolved delegation, dynamic
+agent configuration sequences or expanded keyword arguments, unresolved external
+helper semantics, dynamic MCP endpoints/tool filters, and scans with no supported
+security targets.
 Files in default ignored directories, and subtrees containing an
 `.agentreachguard-ignore` marker, are excluded from file counts. Other unsupported
 file types are counted as skipped. A scanned file was read and parsed;
@@ -219,11 +221,13 @@ agentreachguard benchmark benchmarks/cases.yaml
 ```
 
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
-Unexpected findings are measured as false positives, missing findings as false
-negatives, and incomplete coverage fails the case. The command exits nonzero on any
-drift and supports `--format json` for CI artifacts. The corpus covers distinct secure,
-delegation, execution, identity, MCP, path, and dynamic-configuration scenarios,
-including an expected-incomplete case. See [`benchmarks/README.md`](benchmarks/README.md).
+Unexpected findings are measured as false positives and missing findings as false
+negatives. The v0.2 corpus contains 26 reviewed scenarios across secure, execution,
+delegation, MCP, identity, data/network, attack-path and dynamic/unresolved analysis.
+One case intentionally expects incomplete analysis and an exact coverage diagnostic;
+all other cases fail on incomplete coverage. The command exits nonzero on any drift
+and supports `--format json` for CI artifacts. See
+[`benchmarks/README.md`](benchmarks/README.md).
 
 ### Evidence and control semantics
 
@@ -332,7 +336,7 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/agentreachguard@v0.2.0
+- uses: psandhir/agentreachguard@main  # pre-release; use @v0.2.0 after the tag is published
   with:
     path: .
     fail-on: high
@@ -392,4 +396,4 @@ Use `agentreachguard scan . --config path/to/config.yaml` to select a file expli
 
 ### v0.2 release notes
 
-v0.2 adds a rule catalogue, OWASP Agentic mappings as coverage references, explicit potential attack-path confidence, stable incomplete-analysis diagnostics, hostile-repository limits, path containment, and a 25-case reviewed benchmark. These additions do not claim runtime control effectiveness or complete OWASP coverage. There are no intended breaking changes to documented v0.1 commands or manifest formats.
+v0.2 adds a rule catalogue, OWASP Agentic mappings as coverage references, explicit potential attack-path confidence, stable incomplete-analysis diagnostics, hostile-repository limits, path containment, and a 26-case reviewed benchmark with an expected-incomplete coverage case. These additions do not claim runtime control effectiveness or complete OWASP coverage. There are no intended breaking changes to documented v0.1 commands or manifest formats.

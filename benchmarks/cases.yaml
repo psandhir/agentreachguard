@@ -1,5 +1,11 @@
 version: 1
 cases:
+- name: dynamic-tools-unresolved
+  path: cases/dynamic-tools-unresolved
+  expected: []
+  expected_diagnostics:
+  - ARG-COV-004
+  expect_incomplete: true
 - name: secure-reviewed-publisher
   path: cases/secure-review
   expected: []
@@ -30,7 +36,7 @@ cases:
   - IDN002@reports
   - NET001@reports
   - PATH003@reports
-- name: data_network_1
+- name: data-network-sensitive-egress
   path: cases/data-network-1
   expected:
   - AGT010@reports
@@ -38,15 +44,12 @@ cases:
   - DATA003@reports
   - NET001@reports
   - PATH003@reports
-- name: data_network_2
+- name: data-network-allowlist-violation
   path: cases/data-network-2
   expected:
-  - AGT010@reports
-  - AGT040@reports
-  - DATA003@reports
-  - NET001@reports
-  - PATH003@reports
-- name: delegation_1
+  - DATA002@scoped
+  - NET003@scoped
+- name: delegation-direct-privileged-child
   path: cases/delegation-1
   expected:
   - ADK001@coordinator
@@ -64,7 +67,7 @@ cases:
   - NET002@coordinator
   - NET002@worker
   - PATH001@coordinator
-- name: delegation_2
+- name: delegation-second-reviewed-path
   path: cases/delegation-2
   expected:
   - ADK001@coordinator
@@ -82,7 +85,7 @@ cases:
   - NET002@coordinator
   - NET002@worker
   - PATH001@coordinator
-- name: execution_1
+- name: execution-shell-baseline
   path: cases/execution-1
   expected:
   - AGT020@ops
@@ -90,34 +93,34 @@ cases:
   - CAP004@ops
   - CAP005@ops
   - NET002@ops
-- name: execution_2
+- name: execution-unsafe-local-code
   path: cases/execution-2
   expected:
-  - AGT020@ops
-  - AGT040@ops
-  - CAP004@ops
-  - CAP005@ops
-  - NET002@ops
-- name: execution_3
+  - ADK001@coder
+  - ADK002@coder
+  - AGT020@coder
+  - AGT040@coder
+  - CAP005@coder
+  - PATH001@coder
+- name: execution-computer-use-without-boundary
   path: cases/execution-3
   expected:
-  - AGT020@ops
-  - AGT040@ops
-  - CAP004@ops
-  - CAP005@ops
-  - NET002@ops
-- name: execution_4
+  - ADK001@browser
+  - ADK005@browser
+  - AGT040@browser
+  - CAP005@browser
+  - NET002@browser
+- name: execution-sandbox-missing-limits
   path: cases/execution-4
   expected:
-  - AGT020@ops
-  - AGT040@ops
-  - CAP004@ops
-  - CAP005@ops
-  - NET002@ops
-- name: false_positive_trap
+  - ADK012@coder
+  - AGT020@coder
+  - CAP005@coder
+  - PATH001@coder
+- name: false-positive-trap
   path: cases/false-positive-trap
   expected: []
-- name: identity_1
+- name: identity-wildcard-egress
   path: cases/identity-1
   expected:
   - AGT010@reports
@@ -126,60 +129,51 @@ cases:
   - IDN002@reports
   - NET001@reports
   - PATH003@reports
-- name: identity_2
+- name: identity-broad-oauth-hardcoded-credential
   path: cases/identity-2
   expected:
-  - AGT010@reports
-  - AGT040@reports
-  - DATA003@reports
-  - IDN002@reports
-  - NET001@reports
-  - PATH003@reports
-- name: mcp_1
+  - IDN003@-
+  - IDN004@-
+- name: mcp-remote-plaintext-unauthenticated
   path: cases/mcp-1
   expected:
   - AGT030@-
   - AGT031@-
   - AGT032@-
-- name: mcp_2
+- name: mcp-unpinned-broad-filesystem
   path: cases/mcp-2
   expected:
-  - AGT030@-
-  - AGT031@-
-  - AGT032@-
-- name: mcp_3
+  - AGT001@-
+  - AGT050@-
+- name: mcp-secure-authenticated-allowlisted
   path: cases/mcp-3
-  expected:
-  - AGT030@-
-  - AGT031@-
-  - AGT032@-
-- name: paths_1
+  expected: []
+- name: path-untrusted-to-shell
   path: cases/paths-1
   expected:
   - AGT020@ops
   - AGT040@ops
   - PATH001@ops
-- name: paths_2
+- name: path-untrusted-secret-to-egress
   path: cases/paths-2
   expected:
-  - AGT020@ops
-  - AGT040@ops
-  - PATH001@ops
-- name: secure_1
+  - NET002@ops
+  - PATH005@ops
+- name: secure-1
   path: cases/secure-1
   expected: []
-- name: secure_2
+- name: secure-2
   path: cases/secure-2
   expected: []
-- name: secure_3
+- name: secure-3
   path: cases/secure-3
   expected: []
-- name: secure_4
+- name: secure-4
   path: cases/secure-4
   expected: []
-- name: secure_5
+- name: secure-5
   path: cases/secure-5
   expected: []
-- name: secure_6
+- name: secure-6
   path: cases/secure-6
   expected: []

@@ -1,1 +1,9 @@
-{"mcpServers":{"remote":{"url":"http://mcp.example.test"}}}
+{
+  "mcpServers": {
+    "tickets": {
+      "url": "https://mcp.example.com/mcp",
+      "token": "runtime-provided",
+      "allowedTools": ["read_ticket"]
+    }
+  }
+}

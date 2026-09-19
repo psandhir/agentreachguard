@@ -1,3 +1,8 @@
-from agents import Agent, ShellTool
+from google.adk import Agent
+from google.adk.code_executors import UnsafeLocalCodeExecutor
 
-agent = Agent(name='ops', tools=[ShellTool()])
+root_agent = Agent(
+    name="coder",
+    model="gemini-flash-latest",
+    code_executor=UnsafeLocalCodeExecutor(),
+)

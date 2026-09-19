@@ -12,12 +12,20 @@
 - Stop treating approval callbacks and literal function URLs as enforced controls.
 - Add stable finding fingerprints, baseline generation, and scoped, reasoned,
   expiring suppressions with audit output.
-- Add a reviewed benchmark command and CI corpus with exact precision/recall checks.
-- Reject duplicate YAML configuration keys and apply repository rule configuration
-  before suppressions, with JSON/SARIF configuration and severity audit data.
+- Add structured rule metadata, the `agentreachguard rules` catalogue command, and
+  OWASP Agentic coverage mappings.
+- Add explicit attack-path confidence values while retaining `not_verified` runtime
+  exploitability semantics.
+- Reject duplicate YAML repository-configuration keys and apply repository rule
+  configuration before suppressions, with default/effective severity audit data.
 - Bound coverage diagnostics, deduplicate canonical paths and symlink aliases, and
   report unresolved external helper semantics as `ARG-COV-008`.
-- Pin GitHub Actions dependencies to verified immutable commit SHAs.
+- Expand hostile-repository regression coverage for deep/oversized YAML, malformed
+  UTF-8, symlink loops, side-effecting Python, and non-executed MCP commands.
+- Expand the reviewed benchmark to 26 materially different scenarios, including an
+  expected-incomplete dynamic configuration case, with aggregate and per-rule metrics.
+- Build and install the wheel in CI as a release smoke test.
+- Pin GitHub Actions dependencies to verified immutable SHAs using current releases.
 
 ## Unreleased
 
