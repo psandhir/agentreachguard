@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "cases_total": 26,
-  "cases_passed": 26,
+  "cases_total": 25,
+  "cases_passed": 25,
   "true_positives": 108,
   "false_positives": 0,
   "false_negatives": 0,

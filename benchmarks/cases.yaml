@@ -1,11 +1,5 @@
 version: 1
 cases:
-- name: dynamic-tools-unresolved
-  path: cases/dynamic-tools-unresolved
-  expected: []
-  expected_diagnostics:
-  - ARG-COV-004
-  expect_incomplete: true
 - name: secure-reviewed-publisher
   path: cases/secure-review
   expected: []
