@@ -4,6 +4,9 @@ from pathlib import Path
 import pytest
 
 from agentreachguard.cli import main
+from agentreachguard.coverage import add_diagnostic
+from agentreachguard.limits import ScanLimitError
+from agentreachguard.models import ScanCoverage, ScanDiagnostic
 from agentreachguard.scanner import scan
 
 
@@ -45,3 +48,27 @@ def test_json_and_sarif_keep_machine_diagnostic_identifiers(tmp_path: Path, caps
     sarif = json.loads(capsys.readouterr().out)
     notification = sarif["runs"][0]["invocations"][0]["toolExecutionNotifications"][0]
     assert notification["properties"]["diagnostic_id"] == "ARG-COV-004"
+
+
+def test_external_helper_semantics_are_explicitly_incomplete(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        "from google.adk import Agent\n"
+        "from external_tools import build_tools\n"
+        "root_agent = Agent(name='ops', tools=[build_tools])\n",
+        encoding="utf-8",
+    )
+    graph, _ = scan(tmp_path)
+    diagnostic = next(
+        item for item in graph.coverage.diagnostics
+        if item.kind == "external_helper_semantics_unresolved"
+    )
+    assert diagnostic.diagnostic_id == "ARG-COV-008"
+    assert diagnostic.incomplete
+
+
+def test_coverage_diagnostic_ceiling_is_enforced() -> None:
+    coverage = ScanCoverage()
+    for index in range(1000):
+        add_diagnostic(coverage, ScanDiagnostic("dynamic_configuration", str(index)))
+    with pytest.raises(ScanLimitError):
+        add_diagnostic(coverage, ScanDiagnostic("dynamic_configuration", "overflow"))

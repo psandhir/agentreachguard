@@ -16,8 +16,8 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: github/codeql-action/init@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3
         with:
           languages: python
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3

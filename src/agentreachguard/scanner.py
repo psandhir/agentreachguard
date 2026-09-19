@@ -15,7 +15,9 @@ from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.analysis import build_attack_paths
-from agentreachguard.coverage import diagnose_dynamic_constructs, diagnose_python
+from agentreachguard.config import ScanConfig
+from agentreachguard.config import apply as apply_config
+from agentreachguard.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
 from agentreachguard.limits import (
     MAX_FILE_SIZE_BYTES,
     MAX_FILES_VISITED,
@@ -71,7 +73,8 @@ def _merge(target: Graph, source: Graph, path: Path) -> None:
     target.unbound_tools.extend(source.unbound_tools)
     target.unbound_mcp_servers.extend(source.unbound_mcp_servers)
     target.identities.extend(source.identities)
-    target.coverage.diagnostics.extend(source.coverage.diagnostics)
+    for diagnostic in source.coverage.diagnostics:
+        add_diagnostic(target.coverage, diagnostic)
 
 
 def _merge_tool(existing: Tool, incoming: Tool) -> None:
@@ -216,7 +219,7 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                 base = target.removesuffix("_agent")
                 child = by_alias.get(base) or by_alias.get(f"{base}_agent")
             if child is None:
-                graph.coverage.diagnostics.append(ScanDiagnostic(
+                add_diagnostic(graph.coverage, ScanDiagnostic(
                     "unresolved_delegation", "Delegated agent could not be resolved.", parent.location,
                 ))
             if (
@@ -304,6 +307,7 @@ def scan(
     path: Path,
     suppressions_path: Path | None = None,
     use_default_suppressions: bool = True,
+    config: ScanConfig | None = None,
 ) -> tuple[Graph, list]:
     root = path.resolve()
     containment_root = canonical_root(root)
@@ -321,15 +325,20 @@ def scan(
             if candidate.is_file() and not _ignored(candidate, root):
                 candidates.append(candidate)
 
+    seen_real_paths: set[Path] = set()
     for candidate in sorted(candidates):
         graph.coverage.files_considered += 1
+        real_candidate = candidate.resolve()
         if not is_within_root(candidate, containment_root):
             graph.coverage.files_skipped += 1
-            graph.coverage.diagnostics.append(ScanDiagnostic(
+            add_diagnostic(graph.coverage, ScanDiagnostic(
                 "unsupported_security_construct",
                 "Path resolves outside the scan root; analysis was skipped.",
                 SourceLocation(candidate),
             ))
+            continue
+        if real_candidate in seen_real_paths:
+            graph.coverage.files_skipped += 1
             continue
         supported = (candidate.suffix.lower() in {".py", ".tf", ".yaml", ".yml"}
                      or candidate.name in MCP_FILENAMES | MANIFEST_FILENAMES | SUPPRESSION_FILENAMES
@@ -338,6 +347,7 @@ def scan(
             graph.coverage.files_skipped += 1
             continue
         security_config = candidate.name in MANIFEST_FILENAMES | MCP_FILENAMES | SUPPRESSION_FILENAMES
+        seen_real_paths.add(real_candidate)
         try:
             if candidate.stat().st_size > MAX_FILE_SIZE_BYTES:
                 raise ScanLimitError("file exceeds the configured size limit")
@@ -361,7 +371,7 @@ def scan(
                 raise ScannerError(f"{candidate}: cannot safely analyze security configuration ({exc})") from exc
             else:
                 graph.coverage.files_failed += 1
-                graph.coverage.diagnostics.append(ScanDiagnostic(
+                add_diagnostic(graph.coverage, ScanDiagnostic(
                     "unsupported_security_construct" if isinstance(exc, ScanLimitError) else "parse_error",
                     "File exceeded a scanner safety limit or could not be parsed; analysis was skipped.",
                     SourceLocation(candidate, line=getattr(exc, "lineno", 1) or 1),
@@ -393,12 +403,14 @@ def scan(
     _link_global_identities(graph)
     diagnose_dynamic_constructs(graph)
     if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
-        graph.coverage.diagnostics.append(ScanDiagnostic(
+        add_diagnostic(graph.coverage, ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
         ))
     graph.attack_paths = build_attack_paths(graph)
     findings = evaluate(graph)
     attach_findings(graph, findings)
+    findings, disabled_rules = apply_config(config or ScanConfig(), findings)
+    graph.configuration_audit = {"disabled_rules": disabled_rules}
     suppression_file = suppressions_path
     if suppression_file is None and use_default_suppressions:
         base = root if root.is_dir() else root.parent

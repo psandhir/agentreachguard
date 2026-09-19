@@ -19,3 +19,14 @@ def test_config_disables_rule_and_overrides_severity(tmp_path: Path, capsys):
 def test_invalid_config_fails_closed(tmp_path: Path):
  (tmp_path/'.agentreachguard.yaml').write_text('version: 1\nrules: {NOPE: {enabled: true}}')
  with pytest.raises(ConfigError): load_config(tmp_path)
+
+
+@pytest.mark.parametrize("contents", [
+    "version: 1\nversion: 1\n",
+    "version: 1\nrules:\n  ADK004: {enabled: false}\n  ADK004: {enabled: true}\n",
+    "version: 1\nrules:\n  ADK004: {enabled: false, enabled: true}\n",
+])
+def test_duplicate_config_keys_fail_closed(tmp_path: Path, contents: str) -> None:
+    (tmp_path / ".agentreachguard.yaml").write_text(contents)
+    with pytest.raises(ConfigError, match="duplicate configuration key"):
+        load_config(tmp_path)

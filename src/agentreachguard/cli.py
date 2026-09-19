@@ -13,7 +13,7 @@ from agentreachguard.benchmark import render_console as render_benchmark_console
 from agentreachguard.benchmark import render_json as render_benchmark_json
 from agentreachguard.benchmark import run as run_benchmark
 from agentreachguard.config import ConfigError, load_config
-from agentreachguard.config import apply as apply_config
+from agentreachguard.limits import ScanLimitError
 from agentreachguard.models import Severity
 from agentreachguard.provenance import control_observations
 from agentreachguard.reporters.console import render as render_console
@@ -162,10 +162,10 @@ def main(argv: list[str] | None = None) -> int:
             write_baseline(findings, baseline_root, args.output, args.reason.strip(), expiry)
             print(f"Wrote {len(findings)} expiring suppressions to {args.output}")
             return 0
-        graph, findings = scan(target, suppressions_path=args.suppressions)
         config = load_config(target if target.is_dir() else target.parent, args.config)
-        findings, disabled_rules = apply_config(config, findings)
-    except (ConfigError, ManifestError, ScannerError, SuppressionError) as exc:
+        graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
+        disabled_rules = graph.configuration_audit.get("disabled_rules", [])
+    except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
         print(f"agentreachguard: {exc}", file=sys.stderr)
         return 1
     if args.format == "console":
@@ -176,7 +176,7 @@ def main(argv: list[str] | None = None) -> int:
                 "version": __version__,
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
-                "configuration": {"disabled_rules": disabled_rules, "strict": config.strict},
+                "configuration": {"path": str(config.source_path) if config.source_path else None, "strict": config.strict, "disabled_rules": disabled_rules, "rule_overrides": {rule_id: {"enabled": override.enabled, "severity": override.severity.label() if override.severity else None} for rule_id, override in config.rules.items()}},
                 "suppressions": {
                     "suppressed_findings": [f.as_dict() for f in graph.suppressed_findings],
                     "diagnostics": graph.suppression_diagnostics,

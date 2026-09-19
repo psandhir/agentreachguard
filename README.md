@@ -44,7 +44,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 ## Google ADK coverage
 
-AgentReachGuard v0.1 understands security-relevant ADK composition rather than only matching `Agent(...)`.
+AgentReachGuard v0.2 understands security-relevant ADK composition rather than only matching `Agent(...)`.
 
 ### Agents and orchestration
 
@@ -221,9 +221,9 @@ agentreachguard benchmark benchmarks/cases.yaml
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
 Unexpected findings are measured as false positives, missing findings as false
 negatives, and incomplete coverage fails the case. The command exits nonzero on any
-drift and supports `--format json` for CI artifacts. The starter corpus covers a
-secure approved publisher, transitive privileged delegation, and sensitive data with
-wildcard identity and egress. See [`benchmarks/README.md`](benchmarks/README.md).
+drift and supports `--format json` for CI artifacts. The corpus covers distinct secure,
+delegation, execution, identity, MCP, path, and dynamic-configuration scenarios,
+including an expected-incomplete case. See [`benchmarks/README.md`](benchmarks/README.md).
 
 ### Evidence and control semantics
 
@@ -332,7 +332,7 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/agentreachguard@v0.1.0
+- uses: psandhir/agentreachguard@v0.2.0
   with:
     path: .
     fail-on: high

@@ -3,7 +3,15 @@
 import ast
 from pathlib import Path
 
-from agentreachguard.models import Graph, ScanDiagnostic, SourceLocation
+from agentreachguard.limits import MAX_DIAGNOSTICS, ScanLimitError
+from agentreachguard.models import Graph, ScanCoverage, ScanDiagnostic, SourceLocation
+
+
+def add_diagnostic(coverage: ScanCoverage, diagnostic: ScanDiagnostic) -> None:
+    """Append a bounded coverage diagnostic without allowing memory exhaustion."""
+    if len(coverage.diagnostics) >= MAX_DIAGNOSTICS:
+        raise ScanLimitError(f"coverage diagnostic limit exceeded ({MAX_DIAGNOSTICS})")
+    coverage.diagnostics.append(diagnostic)
 
 
 def diagnose_python(path: Path, graph: Graph) -> None:
@@ -26,7 +34,7 @@ def diagnose_python(path: Path, graph: Graph) -> None:
         for keyword in node.keywords:
             if keyword.arg not in {"tools", "mcp_servers", "sub_agents"}:
                 if keyword.arg is None:
-                    graph.coverage.diagnostics.append(ScanDiagnostic(
+                    add_diagnostic(graph.coverage, ScanDiagnostic(
                         "dynamic_configuration", "Expanded agent keyword arguments are not resolved.",
                         SourceLocation(path, node.lineno),
                     ))
@@ -38,7 +46,7 @@ def diagnose_python(path: Path, graph: Graph) -> None:
             elif isinstance(value, ast.Name):
                 elements = sequences.get(value.id)
             if elements is None:
-                graph.coverage.diagnostics.append(ScanDiagnostic(
+                add_diagnostic(graph.coverage, ScanDiagnostic(
                     "dynamic_configuration", "Agent configuration sequence could not be resolved.",
                     SourceLocation(path, value.lineno),
                 ))
@@ -68,7 +76,7 @@ def diagnose_python(path: Path, graph: Graph) -> None:
                         t.location and t.location.line == element.lineno for t in agent.tools
                     ) or any(s.location and s.location.line == element.lineno for s in agent.mcp_servers)
                 if not recognized:
-                    graph.coverage.diagnostics.append(ScanDiagnostic(
+                    add_diagnostic(graph.coverage, ScanDiagnostic(
                         "unresolved_tool", "A configured tool or MCP server could not be resolved.",
                         SourceLocation(path, element.lineno),
                     ))
@@ -88,7 +96,7 @@ def diagnose_dynamic_constructs(graph: Graph) -> None:
             key = (diagnostic.kind, tool.location.path if tool.location else None,
                    tool.location.line if tool.location else None)
             if key not in existing:
-                graph.coverage.diagnostics.append(diagnostic)
+                add_diagnostic(graph.coverage, diagnostic)
                 existing.add(key)
     for server in graph.all_mcp_servers():
         if server.metadata.get("dynamic_mcp_endpoint"):
@@ -99,5 +107,17 @@ def diagnose_dynamic_constructs(graph: Graph) -> None:
             key = (diagnostic.kind, server.location.path if server.location else None,
                    server.location.line if server.location else None)
             if key not in existing:
-                graph.coverage.diagnostics.append(diagnostic)
+                add_diagnostic(graph.coverage, diagnostic)
+                existing.add(key)
+    for agent in graph.agents:
+        if agent.metadata.get("external_helper_semantics_unresolved"):
+            diagnostic = ScanDiagnostic(
+                "external_helper_semantics_unresolved",
+                "An agent tool references an imported or arbitrary helper whose semantics could not be resolved.",
+                agent.location,
+            )
+            key = (diagnostic.kind, agent.location.path if agent.location else None,
+                   agent.location.line if agent.location else None)
+            if key not in existing:
+                add_diagnostic(graph.coverage, diagnostic)
                 existing.add(key)

@@ -34,6 +34,8 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
             "message": {"text": finding.message},
             "properties": {
                 "agentreachguardLayer": finding.layer,
+                "default_severity": __import__("agentreachguard.rule_registry", fromlist=["get_rule_metadata"]).get_rule_metadata(finding.rule_id).default_severity.label(),
+                "effective_severity": finding.severity.label(),
                 "agent": finding.agent,
                 "evidence": finding.evidence,
                 "standards": finding.standards,

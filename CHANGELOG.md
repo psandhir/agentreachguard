@@ -13,6 +13,11 @@
 - Add stable finding fingerprints, baseline generation, and scoped, reasoned,
   expiring suppressions with audit output.
 - Add a reviewed benchmark command and CI corpus with exact precision/recall checks.
+- Reject duplicate YAML configuration keys and apply repository rule configuration
+  before suppressions, with JSON/SARIF configuration and severity audit data.
+- Bound coverage diagnostics, deduplicate canonical paths and symlink aliases, and
+  report unresolved external helper semantics as `ARG-COV-008`.
+- Pin GitHub Actions dependencies to verified immutable commit SHAs.
 
 ## Unreleased
 

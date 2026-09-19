@@ -52,7 +52,8 @@ def run(manifest: Path) -> dict[str, Any]:
     total_tp = total_fp = total_fn = 0
     names = set()
     for index, case in enumerate(raw["cases"]):
-        if not isinstance(case, dict) or set(case) != {"name", "path", "expected"}:
+        allowed_fields = {"name", "path", "expected", "expected_diagnostics", "expect_incomplete"}
+        if not isinstance(case, dict) or set(case) - allowed_fields or not {"name", "path", "expected"} <= set(case):
             raise BenchmarkError(f"{manifest}: cases[{index}] has invalid fields")
         if not all(isinstance(case.get(key), str) and case[key] for key in ("name", "path")):
             raise BenchmarkError(f"{manifest}: cases[{index}] needs name and path")
@@ -65,6 +66,14 @@ def run(manifest: Path) -> dict[str, Any]:
         ):
             raise BenchmarkError(f"{manifest}: cases[{index}].expected must contain RULE@agent keys")
         expected = Counter(expected_list)
+        expected_diagnostics = case.get("expected_diagnostics", [])
+        if not isinstance(expected_diagnostics, list) or not all(
+            isinstance(value, str) and value.startswith("ARG-COV-") for value in expected_diagnostics
+        ):
+            raise BenchmarkError(f"{manifest}: cases[{index}].expected_diagnostics must contain diagnostic IDs")
+        expect_incomplete = case.get("expect_incomplete", False)
+        if type(expect_incomplete) is not bool:
+            raise BenchmarkError(f"{manifest}: cases[{index}].expect_incomplete must be boolean")
         target = (manifest.parent / case["path"]).resolve()
         if not target.exists():
             raise BenchmarkError(f"{manifest}: benchmark path does not exist: {case['path']}")
@@ -73,14 +82,20 @@ def run(manifest: Path) -> dict[str, Any]:
         true_positive = sorted((actual & expected).elements())
         false_positive = sorted((actual - expected).elements())
         false_negative = sorted((expected - actual).elements())
+        actual_diagnostics = {d.diagnostic_id for d in graph.coverage.diagnostics}
+        missing_diagnostics = sorted(set(expected_diagnostics) - actual_diagnostics)
+        unexpected_incomplete = graph.coverage.incomplete != expect_incomplete
         total_tp += len(true_positive)
         total_fp += len(false_positive)
         total_fn += len(false_negative)
         results.append({
             "name": case["name"], "path": case["path"],
-            "passed": not false_positive and not false_negative and not graph.coverage.incomplete,
+            "passed": not false_positive and not false_negative and not missing_diagnostics and not unexpected_incomplete,
             "true_positive": true_positive, "false_positive": false_positive,
             "false_negative": false_negative, "coverage": graph.coverage.as_dict(),
+            "expected_diagnostics": expected_diagnostics,
+            "missing_diagnostics": missing_diagnostics,
+            "expect_incomplete": expect_incomplete,
         })
     precision = total_tp / (total_tp + total_fp) if total_tp + total_fp else 1.0
     recall = total_tp / (total_tp + total_fn) if total_tp + total_fn else 1.0
@@ -135,6 +150,8 @@ def render_console(report: dict[str, Any]) -> str:
             lines.append("  Unexpected: " + ", ".join(case["false_positive"]))
         if case["false_negative"]:
             lines.append("  Missing: " + ", ".join(case["false_negative"]))
+        if case["missing_diagnostics"]:
+            lines.append("  Missing diagnostics: " + ", ".join(case["missing_diagnostics"]))
         if case["coverage"]["incomplete"]:
             lines.append("  Coverage incomplete")
     return "\n".join(lines).rstrip()

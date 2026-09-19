@@ -23,15 +23,16 @@ Implemented in the working tree:
 - Add baseline generation that refuses accidental replacement and scans the full
   unsuppressed current state.
 - Add an exact reviewed benchmark gate with precision, recall, coverage, and CI
-  enforcement, plus three initial trust-boundary scenarios.
+  enforcement across distinct secure, delegation, execution, identity, MCP, path,
+  and dynamic-configuration scenarios.
 - Recognize supported static evidence for restrictive Bash policies, MCP tool
   allowlists, sandbox timeout/network/filesystem limits, and egress allowlist
   coverage without claiming runtime enforcement.
 
 Next:
 
-- Expand the benchmark from focused scenarios to sanitized representative projects
-  and publish historical precision/recall trends before expanding adapters.
+- Expand the benchmark with sanitized representative projects and publish historical
+  precision/recall trends before expanding adapters.
 
 ## v0.4 — Live GCP authority resolution
 

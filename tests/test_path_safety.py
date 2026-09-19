@@ -39,3 +39,17 @@ def test_external_explicit_suppression_file_is_rejected(tmp_path: Path) -> None:
 
     with pytest.raises(ScannerError, match="outside the scan root"):
         scan(project, suppressions_path=outside)
+
+
+def test_internal_symlink_target_is_scanned_once(tmp_path: Path) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    source = project / "agent.py"
+    source.write_text("from agents import Agent, ShellTool\nagent = Agent(name='ops', tools=[ShellTool()])\n")
+    (project / "one.py").symlink_to(source)
+    (project / "two.py").symlink_to(source)
+
+    graph, findings = scan(project)
+
+    assert graph.coverage.files_scanned == 1
+    assert len([finding for finding in findings if finding.rule_id == "AGT020"]) == 1

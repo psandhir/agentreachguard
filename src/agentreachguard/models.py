@@ -323,6 +323,7 @@ class Graph:
     attack_paths: list[AttackPath] = field(default_factory=list)
     suppressed_findings: list[Any] = field(default_factory=list)
     suppression_diagnostics: list[dict[str, Any]] = field(default_factory=list)
+    configuration_audit: dict[str, Any] = field(default_factory=dict)
 
     def all_tools(self) -> list[Tool]:
         tools = list(self.unbound_tools)
@@ -362,8 +363,10 @@ class Finding:
     confidence: Confidence | None = None
 
     def as_dict(self) -> dict[str, Any]:
+        from agentreachguard.rule_registry import get_rule_metadata
         return {
             "rule_id": self.rule_id,
+            "default_severity": get_rule_metadata(self.rule_id).default_severity.label(),
             "severity": self.severity.label(),
             "title": self.title,
             "message": self.message,

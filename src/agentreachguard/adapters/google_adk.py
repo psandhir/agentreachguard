@@ -546,6 +546,10 @@ def _agent_from_call(
                 direct = _tool_from_call(path, calls[element.id], element.id, calls, functions)
                 if direct:
                     agent.tools.append(direct)
+            else:
+                # Imported or arbitrary helpers can carry capabilities that
+                # static analysis cannot safely infer.
+                agent.metadata["external_helper_semantics_unresolved"] = True
         elif isinstance(element, ast.Call):
             direct_mcp = _mcp_from_toolset(path, element, _call_name(element.func) or "mcp", calls)
             if direct_mcp:
