@@ -31,7 +31,7 @@ Issues = "https://github.com/psandhir/agentreachguard/issues"
 Security = "https://github.com/psandhir/agentreachguard/security/policy"
 
 [project.optional-dependencies]
-dev = ["pytest>=8.3,<9", "ruff>=0.12,<1"]
+dev = ["pytest>=8.3,<10", "ruff>=0.12,<1"]
 
 [project.scripts]
 agentreachguard = "agentreachguard.cli:main"
