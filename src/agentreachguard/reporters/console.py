@@ -94,6 +94,8 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
                 finding.message,
             ]
         )
+        if finding.confidence is not None:
+            lines.append(f"Confidence: {finding.confidence.value}")
         if finding.evidence:
             lines.append("Evidence: " + " | ".join(finding.evidence))
         if finding.provenance:

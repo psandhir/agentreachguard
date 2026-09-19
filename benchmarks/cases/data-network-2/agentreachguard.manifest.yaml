@@ -1,0 +1,5 @@
+agents:
+  - name: reports
+    data: [{name: reports, classification: confidential}]
+    network: [{target: "*", restricted: false}]
+    tools: [{name: publish, capabilities: [external.write]}]

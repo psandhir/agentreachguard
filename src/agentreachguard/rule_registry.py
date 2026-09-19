@@ -1,0 +1,136 @@
+"""Canonical metadata for every security rule emitted by AgentReachGuard."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, replace
+
+from agentreachguard.models import Severity
+
+
+@dataclass(frozen=True)
+class RuleMetadata:
+    rule_id: str
+    layer: int
+    title: str
+    default_severity: Severity
+    category: str
+    assessment: str
+    rationale: str
+    remediation: str
+    references: tuple[str, ...] = ()
+    owasp_agentic: tuple[str, ...] = ()
+
+
+def _rule(
+    rule_id: str,
+    layer: int,
+    severity: Severity,
+    category: str,
+    assessment: str,
+    title: str,
+    rationale: str,
+    remediation: str,
+) -> RuleMetadata:
+    return RuleMetadata(
+        rule_id=rule_id,
+        layer=layer,
+        title=title,
+        default_severity=severity,
+        category=category,
+        assessment=assessment,
+        rationale=rationale,
+        remediation=remediation,
+    )
+
+
+RULE_REGISTRY: dict[str, RuleMetadata] = {
+    rule.rule_id: rule
+    for rule in (
+        _rule("AGT001", 1, Severity.MEDIUM, "mcp", "static_configuration", "Broad local MCP filesystem scope", "A local MCP server can expose more of the filesystem than the agent requires.", "Restrict filesystem MCP access to the smallest application-specific directory."),
+        _rule("AGT020", 1, Severity.HIGH, "execution", "static_configuration", "Shell or process execution without approval", "Process execution without an approval requirement can perform high-impact actions.", "Require approval for process execution and run the tool inside a constrained sandbox."),
+        _rule("AGT021", 1, Severity.HIGH, "agent_config", "static_configuration", "Destructive action without human approval", "Destructive writes without approval can alter or delete state without review.", "Gate destructive operations with human approval and least-privilege authorization."),
+        _rule("AGT022", 1, Severity.MEDIUM, "agent_config", "static_configuration", "State-changing tool without approval", "State-changing tools can make material changes without an explicit review boundary.", "Require approval for material state changes or constrain the tool to low-risk, reversible operations."),
+        _rule("AGT030", 1, Severity.HIGH, "mcp", "static_configuration", "Remote MCP server has no detected authentication", "An unauthenticated remote MCP endpoint can expose agent tools to unauthorized callers.", "Require authenticated MCP access using a scoped token, OAuth, or workload identity."),
+        _rule("AGT031", 1, Severity.HIGH, "mcp", "static_configuration", "Unencrypted remote MCP transport", "Plaintext MCP transport can expose requests, responses, and credentials in transit.", "Use HTTPS or WSS with certificate validation for remote MCP connections."),
+        _rule("AGT032", 1, Severity.MEDIUM, "mcp", "static_configuration", "Remote MCP lacks an explicit tool allowlist", "Without an explicit allowlist, the MCP tool surface may include unreviewed operations.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers."),
+        _rule("AGT040", 1, Severity.MEDIUM, "agent_config", "static_configuration", "Privileged tool lacks explicit guardrail or approval", "Privileged tools need an explicit control boundary before they perform sensitive actions.", "Add tool input/output guardrails and/or explicit approval appropriate to the action."),
+        _rule("AGT050", 1, Severity.MEDIUM, "mcp", "static_configuration", "Unpinned MCP package execution", "Unpinned package execution can install an unreviewed or changed MCP server version.", "Pin MCP server packages to a reviewed version or immutable digest."),
+        _rule("ADK001", 1, Severity.MEDIUM, "agent_config", "static_configuration", "Privileged ADK agent has no detected tool-control callback/plugin", "Privileged ADK capabilities lack a detected callback, plugin, or confirmation control boundary.", "Add before-tool callback or security plugin controls and require confirmation for high-impact tools."),
+        _rule("ADK002", 1, Severity.CRITICAL, "execution", "static_configuration", "Unsafe local ADK code execution", "Unsandboxed local execution can access host processes, files, and credentials.", "Use Agent Runtime, GKE, or built-in sandboxed execution and apply resource, timeout, network, and approval controls."),
+        _rule("ADK003", 1, Severity.HIGH, "execution", "static_configuration", "ADK LocalEnvironment exposes shell and file I/O", "LocalEnvironment exposes host command execution and file operations to the agent.", "Run execution in a disposable sandbox, constrain working_dir, remove secrets, and gate mutating actions."),
+        _rule("ADK004", 1, Severity.HIGH, "execution", "static_configuration", "ADK Bash tool lacks a restrictive policy", "Bash execution without both command allowlist and blocklist controls can run unsafe commands.", "Configure BashToolPolicy with allowed command prefixes and blocked operators or commands."),
+        _rule("ADK005", 1, Severity.HIGH, "agent_config", "static_configuration", "Computer-use agent lacks an explicit action boundary", "Computer control can navigate, type, download, upload, and change state without a detected boundary.", "Add action confirmation or guardrails for sensitive UI actions and isolate the browser profile."),
+        _rule("ADK006", 1, Severity.MEDIUM, "agent_config", "static_configuration", "BigQuery toolset permits write-capable operation", "A BigQuery toolset can modify data when write operations are not statically blocked.", "Use BigQueryToolConfig(write_mode=WriteMode.BLOCKED) for read-only agents and least-privilege IAM."),
+        _rule("ADK007", 1, Severity.MEDIUM, "agent_config", "static_configuration", "Broad ADK toolset surface", "An unfiltered generated or API toolset can expose more operations than intended.", "Restrict available tools to the exact operations required by the agent."),
+        _rule("ADK008", 1, Severity.MEDIUM, "agent_config", "static_configuration", "Delegated ADK AgentTool disables inherited plugins", "A delegated agent that disables inherited plugins can bypass parent safety and observability controls.", "Ensure the child has equivalent security plugins or inherit parent plugins."),
+        _rule("ADK009", 1, Severity.HIGH, "agent_config", "static_configuration", "Remote A2A agent uses plaintext HTTP", "A plaintext A2A agent card can be intercepted or modified in transit.", "Use HTTPS with certificate validation and authenticate card retrieval and A2A requests."),
+        _rule("ADK010", 1, Severity.HIGH, "agent_config", "static_configuration", "Remote A2A agent has no detected authentication", "An unauthenticated A2A agent can accept requests without a detected caller identity boundary.", "Configure A2A authentication and scope credentials to the intended remote agent and audience."),
+        _rule("ADK011", 1, Severity.HIGH, "agent_config", "static_configuration", "Privileged ADK agent is exposed over A2A without detected safety control", "An A2A-exposed privileged agent lacks a detected safety callback or plugin.", "Authenticate and authorize the A2A endpoint and enforce tool-level policy before privileged actions."),
+        _rule("ADK012", 1, Severity.MEDIUM, "execution", "static_configuration", "Sandboxed ADK executor lacks explicit limits", "A sandbox without explicit timeout, network, and filesystem limits can retain broad execution authority.", "Configure a positive timeout, restrict network access, and constrain the executor workspace or allowed paths."),
+        _rule("CAP001", 2, Severity.HIGH, "capability", "policy_violation", "Agent exceeds declared capability budget", "The normalized agent exposes capabilities beyond its declared business requirement.", "Remove unnecessary tools or capabilities, or update the budget only after security review."),
+        _rule("CAP002", 2, Severity.CRITICAL, "capability", "policy_violation", "Agent has explicitly forbidden capability", "The agent exposes a capability that its policy explicitly forbids.", "Remove the tool or capability, or change policy through an explicit risk-acceptance process."),
+        _rule("CAP003", 2, Severity.HIGH, "capability", "heuristic_risk", "High aggregate agent authority", "Combining multiple privileged capability classes increases the potential impact of compromise.", "Split duties across narrower agents or tools and introduce explicit control boundaries."),
+        _rule("CAP004", 2, Severity.HIGH, "capability", "heuristic_risk", "Command execution combined with external network access", "Execution plus network access can create a pathway for remote command retrieval or exfiltration.", "Sandbox execution and restrict egress to an explicit destination allowlist."),
+        _rule("CAP005", 2, Severity.MEDIUM, "capability", "heuristic_risk", "Combined read and write authority", "An agent that reads and changes data has a larger authority surface than a read-only agent.", "Apply resource-level least privilege and separate analysis from mutation where practical."),
+        _rule("CAP006", 2, Severity.HIGH, "capability", "policy_violation", "Policy-required approval is not configured on every tool", "At least one tool exposes a capability that policy requires to be approved without that setting.", "Enforce approval on each tool providing this capability."),
+        _rule("IDN001", 3, Severity.HIGH, "identity", "static_configuration", "Broad administrative identity role", "Broad administrative roles grant more authority than a workload should usually require.", "Replace broad roles with workload-specific least-privilege roles scoped to required resources."),
+        _rule("IDN002", 3, Severity.CRITICAL, "identity", "static_configuration", "Wildcard identity permission", "Wildcard permissions grant actions beyond a narrowly reviewed set.", "Enumerate the exact API actions required by the agent and remove wildcard permissions."),
+        _rule("IDN003", 3, Severity.HIGH, "identity", "static_configuration", "Broad OAuth scope", "Broad OAuth scopes can authorize access outside the agent's required data boundary.", "Use narrow OAuth scopes and resource-level authorization appropriate to the tool action."),
+        _rule("IDN004", 3, Severity.HIGH, "identity", "static_configuration", "Unsafe credential source", "Static or plaintext credentials are exposed to source and filesystem compromise.", "Use workload identity or a managed secret store; do not embed long-lived credentials in source or configuration."),
+        _rule("AGT010", 4, Severity.CRITICAL, "data", "heuristic_risk", "Potential sensitive-data exfiltration path", "Sensitive data and outbound capability can form an exfiltration path when approval is not detected on every outbound tool.", "Restrict outbound destinations, reduce data scope, or require human approval before sensitive information leaves the trust boundary."),
+        _rule("DATA001", 4, Severity.HIGH, "data", "heuristic_risk", "Broad resource scope", "Broad resource selectors can expose data beyond the intended workload boundary.", "Constrain files, data stores, buckets, or records to the smallest required resource scope."),
+        _rule("DATA002", 4, Severity.HIGH, "data", "policy_violation", "Resource access exceeds declared allowlist", "The agent can reach resources outside its declared allowlist.", "Narrow tool and resource configuration to the declared resource boundary."),
+        _rule("DATA003", 4, Severity.CRITICAL, "data", "heuristic_risk", "Sensitive data has broad egress reachability", "Sensitive data combined with broad or unconstrained outbound capability creates potential exposure.", "Restrict outbound destinations and require approval or DLP controls before sensitive data leaves the trust boundary."),
+        _rule("NET001", 4, Severity.HIGH, "network", "heuristic_risk", "Outbound reachability lacks a detected restriction", "Broad or unrestrained destinations can allow data to leave the intended trust boundary.", "Use egress allowlists or proxies and restrict outbound connectivity to required hosts."),
+        _rule("NET002", 4, Severity.MEDIUM, "network", "heuristic_risk", "Outbound capability has no destination constraint", "An outbound-capable agent without a declared destination constraint has unknown egress scope.", "Declare and enforce permitted destinations for outbound tools."),
+        _rule("NET003", 4, Severity.HIGH, "network", "policy_violation", "Network destination exceeds declared allowlist", "The agent can reach a destination outside its declared network allowlist.", "Restrict tool and MCP egress to the approved destination set."),
+        _rule("PATH001", 5, Severity.CRITICAL, "attack_path", "potential_risk", "Potential untrusted-input path to command execution", "Untrusted input and process execution coexist without a detected approval requirement.", "Break the path by validating untrusted input, reducing execution authority, sandboxing, or enforcing approval."),
+        _rule("PATH002", 5, Severity.HIGH, "attack_path", "potential_risk", "Potential untrusted-input path to destructive action", "Untrusted input and destructive-write capability coexist without a detected approval requirement.", "Break the path by validating untrusted input, reducing write authority, or enforcing approval."),
+        _rule("PATH003", 5, Severity.CRITICAL, "attack_path", "potential_risk", "Potential sensitive-data path to an external destination", "Sensitive-data access and outbound capability coexist without a detected approval requirement.", "Break the path by reducing data access, restricting egress, or enforcing approval."),
+        _rule("PATH004", 5, Severity.CRITICAL, "attack_path", "potential_risk", "Potential combination of untrusted input, sensitive data and execution", "Untrusted input, sensitive data, and execution capability coexist in the same normalized agent model.", "Break the path by separating duties, reducing privilege, validating input, and sandboxing execution."),
+        _rule("PATH005", 5, Severity.CRITICAL, "attack_path", "potential_risk", "Potential untrusted-input path to secret access and egress", "Untrusted input, secret-reading capability, and outbound capability coexist in the same normalized agent model.", "Break the path by isolating secret access, validating input, and restricting egress."),
+        _rule("PATH006", 5, Severity.HIGH, "attack_path", "potential_risk", "Potential untrusted-input exposure to multiple high-risk capabilities", "Untrusted input can reach an agent that combines multiple high-risk capability classes.", "Break the path by narrowing the agent's capability set and validating untrusted input."),
+    )
+}
+
+OWASP_AGENTIC_IDS = frozenset({
+    "ASI01", "ASI02", "ASI03", "ASI04", "ASI05", "ASI06", "ASI07", "ASI08", "ASI09", "ASI10",
+})
+
+_OWASP_MAPPINGS = {
+    "AGT020": ("ASI05",),
+    "AGT021": ("ASI02",),
+    "AGT022": ("ASI02",),
+    "AGT030": ("ASI07",),
+    "AGT031": ("ASI07",),
+    "AGT032": ("ASI02",),
+    "AGT050": ("ASI04",),
+    "ADK002": ("ASI05",),
+    "ADK003": ("ASI05",),
+    "ADK004": ("ASI05",),
+    "ADK005": ("ASI02",),
+    "ADK009": ("ASI07",),
+    "ADK010": ("ASI07",),
+    "ADK011": ("ASI07",),
+    "ADK012": ("ASI05",),
+    "IDN001": ("ASI03",),
+    "IDN002": ("ASI03",),
+    "IDN003": ("ASI03",),
+    "IDN004": ("ASI03",),
+    "PATH001": ("ASI01", "ASI05"),
+}
+
+RULE_REGISTRY = {
+    rule_id: replace(metadata, owasp_agentic=_OWASP_MAPPINGS.get(rule_id, ()))
+    for rule_id, metadata in RULE_REGISTRY.items()
+}
+
+
+def get_rule_metadata(rule_id: str) -> RuleMetadata:
+    """Return metadata for a known rule, raising KeyError for an unknown ID."""
+    return RULE_REGISTRY[rule_id]
+
+
+def iter_rule_metadata() -> tuple[RuleMetadata, ...]:
+    """Return metadata ordered by analysis layer and rule identifier."""
+    return tuple(sorted(RULE_REGISTRY.values(), key=lambda rule: (rule.layer, rule.rule_id)))

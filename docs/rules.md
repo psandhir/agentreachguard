@@ -1,5 +1,9 @@
 # Rule catalogue
 
+[`rule_registry.py`](../src/agentreachguard/rule_registry.py) is the canonical
+source of rule metadata. This catalogue mirrors its complete rule-ID set; rule
+metadata will become available through the CLI in WP02.
+
 ## Layer 1 — Agent/framework configuration
 
 ### Framework-neutral
@@ -20,7 +24,6 @@
 - `ADK002` — unsafe local ADK code execution.
 - `ADK003` — `EnvironmentToolset` with `LocalEnvironment` exposes local shell/file I/O.
 - `ADK004` — `ExecuteBashTool` lacks a detected restrictive `BashToolPolicy`.
-- `ADK012` — sandboxed ADK code executor lacks explicit timeout, network, or filesystem limits.
 - `ADK005` — computer-use capability lacks explicit action confirmation/guardrail.
 - `ADK006` — BigQuery writes are not statically blocked.
 - `ADK007` — broad ADK generated/API toolset has no detected tool filter.
@@ -28,6 +31,7 @@
 - `ADK009` — remote A2A agent card uses plaintext HTTP.
 - `ADK010` — remote A2A agent has no detected authentication configuration.
 - `ADK011` — privileged ADK agent is exposed over A2A without a detected safety control.
+- `ADK012` — sandboxed ADK code executor lacks explicit timeout, network, or filesystem limits.
 
 ## Layer 2 — Capability analysis
 

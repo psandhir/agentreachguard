@@ -1,4 +1,5 @@
 """Conservative diagnostics for unresolved Python agent configuration."""
+
 import ast
 from pathlib import Path
 
@@ -43,7 +44,7 @@ def diagnose_python(path: Path, graph: Graph) -> None:
                 ))
                 continue
             if keyword.arg == "sub_agents":
-                continue  # Resolved edges are checked during graph linking.
+                continue
             resolved = {t.name for t in agent.tools} | {s.name for s in agent.mcp_servers}
             builtins = {str(t.metadata.get("adk_builtin")) for t in agent.tools}
             for element in elements:
@@ -71,3 +72,32 @@ def diagnose_python(path: Path, graph: Graph) -> None:
                         "unresolved_tool", "A configured tool or MCP server could not be resolved.",
                         SourceLocation(path, element.lineno),
                     ))
+
+
+def diagnose_dynamic_constructs(graph: Graph) -> None:
+    """Record unsupported dynamic security configuration without claiming a safe default."""
+    existing = {(diagnostic.kind, diagnostic.location.path if diagnostic.location else None,
+                 diagnostic.location.line if diagnostic.location else None)
+                for diagnostic in graph.coverage.diagnostics}
+    for tool in graph.all_tools():
+        if tool.metadata.get("dynamic_tool_filter"):
+            diagnostic = ScanDiagnostic(
+                "dynamic_tool_filter", "Tool filter exists but its allowed tool set could not be resolved.",
+                tool.location,
+            )
+            key = (diagnostic.kind, tool.location.path if tool.location else None,
+                   tool.location.line if tool.location else None)
+            if key not in existing:
+                graph.coverage.diagnostics.append(diagnostic)
+                existing.add(key)
+    for server in graph.all_mcp_servers():
+        if server.metadata.get("dynamic_mcp_endpoint"):
+            diagnostic = ScanDiagnostic(
+                "dynamic_mcp_endpoint", "MCP endpoint or connection parameters could not be resolved.",
+                server.location,
+            )
+            key = (diagnostic.kind, server.location.path if server.location else None,
+                   server.location.line if server.location else None)
+            if key not in existing:
+                graph.coverage.diagnostics.append(diagnostic)
+                existing.add(key)

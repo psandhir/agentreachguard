@@ -75,7 +75,7 @@ process.execute
 The potential path is only emitted when the normalized nodes and rule conditions are present.
 It represents capability co-occurrence, not a verified data-flow trace or exploit.
 Evidence origins survive source/manifest consolidation and delegated authority propagation.
-Control observations describe detected configuration or hooks; runtime effectiveness remains unverified. An outbound tool by itself is not treated as an inbound untrusted source.
+Control observations describe detected configuration or hooks; runtime effectiveness remains unverified. PATH findings have an explicit confidence value. v0.2 emits `potential` only: it describes capability co-occurrence, not verified authority, executable flow, or exploitability. An outbound tool by itself is not treated as an inbound untrusted source.
 
 
 ## Google ADK composition

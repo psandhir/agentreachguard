@@ -25,3 +25,12 @@ The static scanner must not:
 - resolve or fetch remote dependencies as part of ordinary scanning.
 
 Parser denial-of-service, path traversal, unsafe deserialization, credential disclosure, or any behaviour that causes target code to execute should be treated as security-relevant defects.
+
+## Hostile repository scanning guarantees
+
+AgentReachGuard statically parses supported source and configuration files. It does not
+import scanned Python modules, execute target code, launch subprocesses, start MCP
+servers, or fetch dependencies. The adversarial fixture suite covers import and process
+side effects, hostile MCP commands, malformed source, dynamic configuration, oversized
+input limits, YAML alias limits, and symlink escapes. A coverage diagnostic means the
+scanner did not fully analyze that construct; it does not mean the construct is safe.

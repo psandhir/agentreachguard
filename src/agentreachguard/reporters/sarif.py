@@ -25,6 +25,7 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                 "id": finding.rule_id,
                 "shortDescription": {"text": finding.title},
                 "help": {"text": finding.recommendation},
+                "properties": {"standards": finding.standards},
             },
         )
         result = {
@@ -40,6 +41,7 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                 "provenance": [fact.as_dict() for fact in finding.provenance],
                 "limitations": finding.limitations,
                 "fingerprint": finding.fingerprint,
+                "confidence": finding.confidence.value if finding.confidence else None,
             },
         }
         if finding.fingerprint:
@@ -83,8 +85,11 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                 }, "invocations": [{
                     "executionSuccessful": not coverage.incomplete,
                     "toolExecutionNotifications": [
-                        {"descriptor": {"id": d.code}, "level": "warning",
-                         "message": {"text": d.message}} for d in coverage.diagnostics
+                        {"descriptor": {"id": d.diagnostic_id}, "level": "warning",
+                         "message": {"text": d.message}, "properties": {
+                             "diagnostic_id": d.diagnostic_id, "kind": d.kind,
+                             "incomplete": d.incomplete,
+                         }} for d in coverage.diagnostics
                     ],
                 }]} if coverage is not None else {}),
             }

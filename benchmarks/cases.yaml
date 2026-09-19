@@ -1,32 +1,185 @@
 version: 1
 cases:
-  - name: secure-reviewed-publisher
-    path: cases/secure-review
-    expected: []
-  - name: delegated-unapproved-operations
-    path: cases/delegated-ops
-    expected:
-      - ADK001@coordinator
-      - ADK001@worker
-      - ADK004@worker
-      - AGT020@coordinator
-      - AGT020@worker
-      - AGT040@coordinator
-      - AGT040@worker
-      - CAP002@coordinator
-      - CAP004@coordinator
-      - CAP004@worker
-      - CAP005@coordinator
-      - CAP005@worker
-      - NET002@coordinator
-      - NET002@worker
-      - PATH001@coordinator
-  - name: sensitive-reports-with-wildcard-egress
-    path: cases/identity-egress
-    expected:
-      - AGT010@reports
-      - AGT040@reports
-      - DATA003@reports
-      - IDN002@reports
-      - NET001@reports
-      - PATH003@reports
+- name: secure-reviewed-publisher
+  path: cases/secure-review
+  expected: []
+- name: delegated-unapproved-operations
+  path: cases/delegated-ops
+  expected:
+  - ADK001@coordinator
+  - ADK001@worker
+  - ADK004@worker
+  - AGT020@coordinator
+  - AGT020@worker
+  - AGT040@coordinator
+  - AGT040@worker
+  - CAP002@coordinator
+  - CAP004@coordinator
+  - CAP004@worker
+  - CAP005@coordinator
+  - CAP005@worker
+  - NET002@coordinator
+  - NET002@worker
+  - PATH001@coordinator
+- name: sensitive-reports-with-wildcard-egress
+  path: cases/identity-egress
+  expected:
+  - AGT010@reports
+  - AGT040@reports
+  - DATA003@reports
+  - IDN002@reports
+  - NET001@reports
+  - PATH003@reports
+- name: data_network_1
+  path: cases/data-network-1
+  expected:
+  - AGT010@reports
+  - AGT040@reports
+  - DATA003@reports
+  - NET001@reports
+  - PATH003@reports
+- name: data_network_2
+  path: cases/data-network-2
+  expected:
+  - AGT010@reports
+  - AGT040@reports
+  - DATA003@reports
+  - NET001@reports
+  - PATH003@reports
+- name: delegation_1
+  path: cases/delegation-1
+  expected:
+  - ADK001@coordinator
+  - ADK001@worker
+  - ADK004@worker
+  - AGT020@coordinator
+  - AGT020@worker
+  - AGT040@coordinator
+  - AGT040@worker
+  - CAP002@coordinator
+  - CAP004@coordinator
+  - CAP004@worker
+  - CAP005@coordinator
+  - CAP005@worker
+  - NET002@coordinator
+  - NET002@worker
+  - PATH001@coordinator
+- name: delegation_2
+  path: cases/delegation-2
+  expected:
+  - ADK001@coordinator
+  - ADK001@worker
+  - ADK004@worker
+  - AGT020@coordinator
+  - AGT020@worker
+  - AGT040@coordinator
+  - AGT040@worker
+  - CAP002@coordinator
+  - CAP004@coordinator
+  - CAP004@worker
+  - CAP005@coordinator
+  - CAP005@worker
+  - NET002@coordinator
+  - NET002@worker
+  - PATH001@coordinator
+- name: execution_1
+  path: cases/execution-1
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - CAP004@ops
+  - CAP005@ops
+  - NET002@ops
+- name: execution_2
+  path: cases/execution-2
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - CAP004@ops
+  - CAP005@ops
+  - NET002@ops
+- name: execution_3
+  path: cases/execution-3
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - CAP004@ops
+  - CAP005@ops
+  - NET002@ops
+- name: execution_4
+  path: cases/execution-4
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - CAP004@ops
+  - CAP005@ops
+  - NET002@ops
+- name: false_positive_trap
+  path: cases/false-positive-trap
+  expected: []
+- name: identity_1
+  path: cases/identity-1
+  expected:
+  - AGT010@reports
+  - AGT040@reports
+  - DATA003@reports
+  - IDN002@reports
+  - NET001@reports
+  - PATH003@reports
+- name: identity_2
+  path: cases/identity-2
+  expected:
+  - AGT010@reports
+  - AGT040@reports
+  - DATA003@reports
+  - IDN002@reports
+  - NET001@reports
+  - PATH003@reports
+- name: mcp_1
+  path: cases/mcp-1
+  expected:
+  - AGT030@-
+  - AGT031@-
+  - AGT032@-
+- name: mcp_2
+  path: cases/mcp-2
+  expected:
+  - AGT030@-
+  - AGT031@-
+  - AGT032@-
+- name: mcp_3
+  path: cases/mcp-3
+  expected:
+  - AGT030@-
+  - AGT031@-
+  - AGT032@-
+- name: paths_1
+  path: cases/paths-1
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - PATH001@ops
+- name: paths_2
+  path: cases/paths-2
+  expected:
+  - AGT020@ops
+  - AGT040@ops
+  - PATH001@ops
+- name: secure_1
+  path: cases/secure-1
+  expected: []
+- name: secure_2
+  path: cases/secure-2
+  expected: []
+- name: secure_3
+  path: cases/secure-3
+  expected: []
+- name: secure_4
+  path: cases/secure-4
+  expected: []
+- name: secure_5
+  path: cases/secure-5
+  expected: []
+- name: secure_6
+  path: cases/secure-6
+  expected: []

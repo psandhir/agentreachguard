@@ -1,0 +1,15 @@
+version: 1
+agents:
+  - name: reviewer
+    data:
+      - name: public-notes
+        classification: public
+    tools:
+      - name: publish_reviewed_summary
+        capabilities: [external.write]
+        approval: true
+        destinations: [https://publishing.example.test/**]
+    policy:
+      required: [data.read, external.write, network.external]
+      require_approval_for: [external.write]
+      allowed_destinations: [https://publishing.example.test/**]

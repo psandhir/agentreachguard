@@ -2,7 +2,8 @@
 import fnmatch
 
 from agentreachguard.adapters.google_adk import BUILTIN_TOOL_CAPABILITIES
-from agentreachguard.models import EvidenceFact, Graph, SourceLocation
+from agentreachguard.models import Confidence, EvidenceFact, Graph, SourceLocation
+from agentreachguard.rule_registry import get_rule_metadata
 
 MANIFEST_NAMES = {'agentreachguard.manifest.yaml', 'agentreachguard.manifest.yml'}
 
@@ -91,6 +92,9 @@ def context(agent):
 def attach_findings(graph, findings):
     by_name = {agent.name: agent for agent in graph.agents}
     for finding in findings:
+        finding.standards = {
+            'owasp_agentic': list(get_rule_metadata(finding.rule_id).owasp_agentic),
+        }
         agent = by_name.get(finding.agent)
         if agent:
             if finding.layer in {1, 3}:
@@ -107,6 +111,8 @@ def attach_findings(graph, findings):
         if finding.rule_id.startswith('PATH') or finding.rule_id in {'AGT010', 'DATA003'}:
             finding.assessment = 'potential_risk'
             finding.limitations.append('Capability co-occurrence does not prove an executable data-flow path or exploitability.')
+        if finding.rule_id.startswith('PATH'):
+            finding.confidence = Confidence.POTENTIAL
         elif finding.rule_id in {'CAP001', 'CAP002', 'CAP006', 'DATA002', 'NET003'}:
             finding.assessment = 'policy_violation'
         elif finding.rule_id == 'IDN001' or any(f.origin == 'inferred' for f in finding.provenance):

@@ -15,7 +15,14 @@ from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.analysis import build_attack_paths
-from agentreachguard.coverage import diagnose_python
+from agentreachguard.coverage import diagnose_dynamic_constructs, diagnose_python
+from agentreachguard.limits import (
+    MAX_FILE_SIZE_BYTES,
+    MAX_FILES_VISITED,
+    ScanLimitError,
+    validate_json_safety,
+    validate_yaml_safety,
+)
 from agentreachguard.models import (
     Agent,
     EvidenceFact,
@@ -27,10 +34,15 @@ from agentreachguard.models import (
     SourceLocation,
     Tool,
 )
+from agentreachguard.path_safety import canonical_root, is_within_root
 from agentreachguard.provenance import annotate, attach_findings, context
 from agentreachguard.rules.builtin import evaluate
 from agentreachguard.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from agentreachguard.suppressions import apply as apply_suppressions
+
+
+class ScannerError(ValueError):
+    """A scan could not continue safely."""
 
 DEFAULT_IGNORES = {
     ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
@@ -294,42 +306,64 @@ def scan(
     use_default_suppressions: bool = True,
 ) -> tuple[Graph, list]:
     root = path.resolve()
+    containment_root = canonical_root(root)
     graph = Graph()
 
     if root.is_file():
         candidates = [root]
     else:
-        candidates = [
-            p
-            for p in root.rglob("*")
-                if p.is_file() and not _ignored(p, root)
-        ]
+        candidates = []
+        for candidate in root.rglob("*"):
+            if len(candidates) >= MAX_FILES_VISITED:
+                raise ScannerError(
+                    f"{root}: repository traversal exceeds the {MAX_FILES_VISITED}-file safety limit"
+                )
+            if candidate.is_file() and not _ignored(candidate, root):
+                candidates.append(candidate)
 
     for candidate in sorted(candidates):
         graph.coverage.files_considered += 1
+        if not is_within_root(candidate, containment_root):
+            graph.coverage.files_skipped += 1
+            graph.coverage.diagnostics.append(ScanDiagnostic(
+                "unsupported_security_construct",
+                "Path resolves outside the scan root; analysis was skipped.",
+                SourceLocation(candidate),
+            ))
+            continue
         supported = (candidate.suffix.lower() in {".py", ".tf", ".yaml", ".yml"}
                      or candidate.name in MCP_FILENAMES | MANIFEST_FILENAMES | SUPPRESSION_FILENAMES
                      or candidate.name == ".env" or candidate.name.startswith(".env."))
         if not supported:
             graph.coverage.files_skipped += 1
             continue
-        # Manifests remain fatal input errors; other parse failures are reported
-        # as incomplete analysis, which strict CI mode can reject.
-        if candidate.name not in MANIFEST_FILENAMES | SUPPRESSION_FILENAMES:
-            try:
-                text = candidate.read_text(encoding="utf-8")
-                if candidate.suffix == ".py":
-                    ast.parse(text)
-                elif candidate.name in MCP_FILENAMES:
-                    raw = json.loads(text)
-                    if not isinstance(raw, dict):
-                        raise ValueError("invalid MCP configuration")
-                elif candidate.suffix.lower() in {".yaml", ".yml"}:
-                    yaml.safe_load(text)
-            except (OSError, UnicodeDecodeError, SyntaxError, ValueError, yaml.YAMLError) as exc:
+        security_config = candidate.name in MANIFEST_FILENAMES | MCP_FILENAMES | SUPPRESSION_FILENAMES
+        try:
+            if candidate.stat().st_size > MAX_FILE_SIZE_BYTES:
+                raise ScanLimitError("file exceeds the configured size limit")
+            text = candidate.read_text(encoding="utf-8")
+            if candidate.name in MCP_FILENAMES:
+                validate_json_safety(text)
+                raw = json.loads(text)
+                if not isinstance(raw, dict):
+                    raise ValueError("invalid MCP configuration")
+            elif candidate.suffix.lower() in {".yaml", ".yml"}:
+                validate_yaml_safety(text)
+                yaml.safe_load(text)
+            elif candidate.suffix == ".py":
+                ast.parse(text)
+        except (OSError, UnicodeDecodeError, SyntaxError, ValueError, yaml.YAMLError) as exc:
+            if candidate.name in MANIFEST_FILENAMES and not isinstance(exc, ScanLimitError):
+                # Keep the manifest adapter's established fail-closed diagnostics,
+                # including its secret-safe YAML and encoding error messages.
+                pass
+            elif security_config:
+                raise ScannerError(f"{candidate}: cannot safely analyze security configuration ({exc})") from exc
+            else:
                 graph.coverage.files_failed += 1
                 graph.coverage.diagnostics.append(ScanDiagnostic(
-                    "parse_error", "File could not be read or parsed; analysis was skipped.",
+                    "unsupported_security_construct" if isinstance(exc, ScanLimitError) else "parse_error",
+                    "File exceeded a scanner safety limit or could not be parsed; analysis was skipped.",
                     SourceLocation(candidate, line=getattr(exc, "lineno", 1) or 1),
                 ))
                 continue
@@ -357,6 +391,7 @@ def scan(
     _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
+    diagnose_dynamic_constructs(graph)
     if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
         graph.coverage.diagnostics.append(ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
@@ -374,6 +409,8 @@ def scan(
         suppression_file = defaults[0] if defaults else None
     elif suppression_file is not None and not suppression_file.exists():
         raise SuppressionError(f"{suppression_file}: suppression file does not exist")
+    if suppression_file is not None and not is_within_root(suppression_file, containment_root):
+        raise ScannerError(f"{suppression_file}: suppression file resolves outside the scan root")
     findings, graph.suppressed_findings, graph.suppression_diagnostics = apply_suppressions(
         findings, root if root.is_dir() else root.parent, suppression_file,
     )

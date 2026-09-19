@@ -14,7 +14,7 @@ AgentReachGuard statically discovers agent configuration and evaluates five conn
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.1 alpha**. Static findings are deterministic. The schema and rule catalogue may evolve before v1.0.
+> Status: **v0.2 beta / pilot-ready**. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -109,6 +109,13 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .
 agentreachguard scan .
+```
+
+List the built-in rule catalogue without scanning a project:
+
+```bash
+agentreachguard rules
+agentreachguard rules --format json --output rules.json
 ```
 
 ### ADK demo
@@ -367,3 +374,22 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
+
+### Repository scanner configuration
+
+Use `.agentreachguard.yaml` to tune scanner policy separately from the security intent manifest and temporary suppressions:
+
+```yaml
+version: 1
+scanner:
+  strict: true
+rules:
+  ADK007: {severity: high}
+  AGT022: {enabled: false}
+```
+
+Use `agentreachguard scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
+
+### v0.2 release notes
+
+v0.2 adds a rule catalogue, OWASP Agentic mappings as coverage references, explicit potential attack-path confidence, stable incomplete-analysis diagnostics, hostile-repository limits, path containment, and a 25-case reviewed benchmark. These additions do not claim runtime control effectiveness or complete OWASP coverage. There are no intended breaking changes to documented v0.1 commands or manifest formats.

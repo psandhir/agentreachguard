@@ -12,11 +12,14 @@ from agentreachguard.benchmark import BenchmarkError
 from agentreachguard.benchmark import render_console as render_benchmark_console
 from agentreachguard.benchmark import render_json as render_benchmark_json
 from agentreachguard.benchmark import run as run_benchmark
+from agentreachguard.config import ConfigError, load_config
+from agentreachguard.config import apply as apply_config
 from agentreachguard.models import Severity
 from agentreachguard.provenance import control_observations
 from agentreachguard.reporters.console import render as render_console
 from agentreachguard.reporters.sarif import render as render_sarif
-from agentreachguard.scanner import scan
+from agentreachguard.rule_registry import iter_rule_metadata
+from agentreachguard.scanner import ScannerError, scan
 from agentreachguard.suppressions import SuppressionError, write_baseline
 
 
@@ -29,6 +32,7 @@ def _parser() -> argparse.ArgumentParser:
     scan_parser.add_argument("path", nargs="?", default=".")
     scan_parser.add_argument("--format", choices=["console", "json", "sarif"], default="console")
     scan_parser.add_argument("--output", type=Path)
+    scan_parser.add_argument("--config", type=Path, help="Repository scanner configuration YAML file.")
     scan_parser.add_argument("--suppressions", type=Path,
                              help="Explicit suppression YAML file.")
     scan_parser.add_argument("--strict", action="store_true",
@@ -53,11 +57,66 @@ def _parser() -> argparse.ArgumentParser:
                                   default=Path("benchmarks/cases.yaml"))
     benchmark_parser.add_argument("--format", choices=["console", "json"], default="console")
     benchmark_parser.add_argument("--output", type=Path)
+    rules_parser = sub.add_parser("rules", help="List the built-in security rule catalogue")
+    rules_parser.add_argument("--format", default="console", metavar="FORMAT")
+    rules_parser.add_argument("--output", type=Path)
     return parser
+
+
+def _rule_catalogue_json() -> str:
+    return json.dumps(
+        {
+            "schema_version": 1,
+            "rules": [
+                {
+                    "rule_id": rule.rule_id,
+                    "layer": rule.layer,
+                    "title": rule.title,
+                    "default_severity": rule.default_severity.label(),
+                    "category": rule.category,
+                    "assessment": rule.assessment,
+                    "rationale": rule.rationale,
+                    "remediation": rule.remediation,
+                    "references": list(rule.references),
+                    "owasp_agentic": list(rule.owasp_agentic),
+                }
+                for rule in iter_rule_metadata()
+            ],
+        },
+        indent=2,
+    )
+
+
+def _rule_catalogue_console() -> str:
+    lines = ["AgentReachGuard Rule Catalogue", "=" * 30, ""]
+    for rule in iter_rule_metadata():
+        lines.extend(
+            [
+                f"{rule.rule_id}  L{rule.layer}  {rule.default_severity.label()}  {rule.title}",
+                f"  Category: {rule.category}; assessment: {rule.assessment}",
+                f"  Rationale: {rule.rationale}",
+                f"  Remediation: {rule.remediation}",
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "rules":
+        if args.format not in {"console", "json"}:
+            print(
+                "agentreachguard: rules --format must be one of: console, json",
+                file=sys.stderr,
+            )
+            return 1
+        output = _rule_catalogue_json() if args.format == "json" else _rule_catalogue_console()
+        if args.output:
+            args.output.write_text(output + "\n", encoding="utf-8")
+        else:
+            print(output)
+        return 0
     if args.command == "benchmark":
         try:
             report = run_benchmark(args.manifest)
@@ -104,7 +163,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Wrote {len(findings)} expiring suppressions to {args.output}")
             return 0
         graph, findings = scan(target, suppressions_path=args.suppressions)
-    except (ManifestError, SuppressionError) as exc:
+        config = load_config(target if target.is_dir() else target.parent, args.config)
+        findings, disabled_rules = apply_config(config, findings)
+    except (ConfigError, ManifestError, ScannerError, SuppressionError) as exc:
         print(f"agentreachguard: {exc}", file=sys.stderr)
         return 1
     if args.format == "console":
@@ -115,6 +176,7 @@ def main(argv: list[str] | None = None) -> int:
                 "version": __version__,
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
+                "configuration": {"disabled_rules": disabled_rules, "strict": config.strict},
                 "suppressions": {
                     "suppressed_findings": [f.as_dict() for f in graph.suppressed_findings],
                     "diagnostics": graph.suppression_diagnostics,
@@ -143,6 +205,16 @@ def main(argv: list[str] | None = None) -> int:
                         "assessment": path.metadata.get("assessment", "potential_risk"),
                         "basis": path.metadata.get("basis", "capability_cooccurrence"),
                         "exploitability": "not_verified",
+                        "confidence": next(
+                            (
+                                finding.confidence.value
+                                for finding in findings
+                                if finding.rule_id == path.path_id
+                                and finding.agent == path.agent
+                                and finding.confidence is not None
+                            ),
+                            None,
+                        ),
                         "limitations": path.metadata.get("limitations", []),
                     }
                     for path in graph.attack_paths
@@ -163,7 +235,7 @@ def main(argv: list[str] | None = None) -> int:
         print(output)
 
     expired_suppression = any(d["status"] == "expired" for d in graph.suppression_diagnostics)
-    if args.strict and (graph.coverage.incomplete or expired_suppression):
+    if (args.strict or config.strict) and (graph.coverage.incomplete or expired_suppression):
         return 1
 
     if args.fail_on != "none":

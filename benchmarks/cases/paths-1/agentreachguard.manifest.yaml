@@ -1,0 +1,4 @@
+agents:
+  - name: ops
+    inputs: [{name: web, trust: untrusted}]
+    tools: [{name: shell, capabilities: [process.execute]}]

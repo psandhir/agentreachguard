@@ -265,7 +265,10 @@ def _mcp_from_toolset(path: Path, call: ast.Call, alias: str, calls: dict[str, a
         conn_name = _call_name(conn.func) or ""
         if conn_name in REMOTE_MCP_PARAMS:
             transport = REMOTE_MCP_PARAMS[conn_name]
-            url = _string(_kw(conn, "url"))
+            url_node = _kw(conn, "url")
+            url = _string(url_node)
+            if url_node is not None and url is None:
+                metadata["dynamic_mcp_endpoint"] = True
             auth = _auth_present(call, conn)
         elif conn_name in STDIO_MCP_PARAMS:
             transport = "stdio"

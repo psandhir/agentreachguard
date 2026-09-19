@@ -84,8 +84,30 @@ def run(manifest: Path) -> dict[str, Any]:
         })
     precision = total_tp / (total_tp + total_fp) if total_tp + total_fp else 1.0
     recall = total_tp / (total_tp + total_fn) if total_tp + total_fn else 1.0
+    per_rule: dict[str, dict[str, int | float | None]] = {}
+    expected_by_rule = Counter(key.split("@", 1)[0] for case in results for key in case["true_positive"] + case["false_negative"])
+    actual_by_rule = Counter(key.split("@", 1)[0] for case in results for key in case["true_positive"] + case["false_positive"])
+    for rule_id in sorted(expected_by_rule.keys() | actual_by_rule.keys()):
+        true_positive = sum(key.startswith(f"{rule_id}@") for case in results for key in case["true_positive"])
+        false_positive = sum(key.startswith(f"{rule_id}@") for case in results for key in case["false_positive"])
+        false_negative = sum(key.startswith(f"{rule_id}@") for case in results for key in case["false_negative"])
+        per_rule[rule_id] = {
+            "true_positives": true_positive, "false_positives": false_positive,
+            "false_negatives": false_negative,
+            "precision": true_positive / (true_positive + false_positive) if true_positive + false_positive else None,
+            "recall": true_positive / (true_positive + false_negative) if true_positive + false_negative else None,
+        }
     return {
         "version": 1, "manifest": str(manifest),
+        "metrics": {
+            "schema_version": 1, "cases_total": len(results),
+            "cases_passed": sum(case["passed"] for case in results),
+            "true_positives": total_tp, "false_positives": total_fp,
+            "false_negatives": total_fn,
+            "precision": precision if total_tp + total_fp else None,
+            "recall": recall if total_tp + total_fn else None,
+            "per_rule": per_rule,
+        },
         "summary": {
             "cases": len(results), "passed": sum(case["passed"] for case in results),
             "true_positive": total_tp, "false_positive": total_fp,

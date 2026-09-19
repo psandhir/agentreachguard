@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import IntEnum
+from enum import Enum, IntEnum
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +22,13 @@ class Severity(IntEnum):
 
     def label(self) -> str:
         return self.name.lower()
+
+
+class Confidence(str, Enum):
+    POTENTIAL = "potential"
+    SUPPORTED = "supported"
+    AUTHORITY_CONFIRMED = "authority_confirmed"
+    RUNTIME_VERIFIED = "runtime_verified"
 
 
 @dataclass(slots=True)
@@ -260,9 +267,28 @@ class ScanDiagnostic:
     code: str
     message: str
     location: SourceLocation | None = None
+    diagnostic_id: str | None = None
+    kind: str | None = None
+    incomplete: bool = True
+
+    def __post_init__(self) -> None:
+        mapping = {
+            "parse_error": "ARG-COV-001",
+            "unresolved_tool": "ARG-COV-002",
+            "unresolved_delegation": "ARG-COV-003",
+            "dynamic_configuration": "ARG-COV-004",
+            "dynamic_mcp_endpoint": "ARG-COV-005",
+            "dynamic_tool_filter": "ARG-COV-006",
+            "unsupported_security_construct": "ARG-COV-007",
+            "external_helper_semantics_unresolved": "ARG-COV-008",
+            "no_targets": "ARG-COV-009",
+        }
+        self.kind = self.kind or self.code
+        self.diagnostic_id = self.diagnostic_id or mapping.get(self.kind, "ARG-COV-007")
 
     def as_dict(self) -> dict[str, Any]:
-        return {"code": self.code, "message": self.message, "location": (
+        return {"code": self.code, "diagnostic_id": self.diagnostic_id, "kind": self.kind,
+                "incomplete": self.incomplete, "message": self.message, "location": (
             {"path": str(self.location.path), "line": self.location.line,
              "column": self.location.column} if self.location else None
         )}
@@ -278,7 +304,7 @@ class ScanCoverage:
 
     @property
     def incomplete(self) -> bool:
-        return bool(self.diagnostics)
+        return any(diagnostic.incomplete for diagnostic in self.diagnostics)
 
     def as_dict(self) -> dict[str, Any]:
         return {"files_considered": self.files_considered, "files_scanned": self.files_scanned,
@@ -328,11 +354,12 @@ class Finding:
     location: SourceLocation | None = None
     agent: str | None = None
     evidence: list[str] = field(default_factory=list)
-    standards: list[str] = field(default_factory=list)
+    standards: dict[str, list[str]] = field(default_factory=lambda: {"owasp_agentic": []})
     assessment: str = "static_configuration"
     provenance: list[EvidenceFact] = field(default_factory=list)
     limitations: list[str] = field(default_factory=list)
     fingerprint: str | None = None
+    confidence: Confidence | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -349,6 +376,7 @@ class Finding:
             "provenance": [fact.as_dict() for fact in self.provenance],
             "limitations": self.limitations,
             "fingerprint": self.fingerprint,
+            "confidence": self.confidence.value if self.confidence else None,
             "location": (
                 {
                     "path": str(self.location.path),

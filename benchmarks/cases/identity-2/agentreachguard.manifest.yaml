@@ -1,0 +1,22 @@
+version: 1
+identities:
+  - name: report-service
+    provider: aws
+    permissions: ['*']
+agents:
+  - name: reports
+    inputs:
+      - name: webhook
+        kind: webhook
+        trust: untrusted
+    data:
+      - name: financial-results
+        classification: confidential
+    identities: [report-service]
+    network:
+      - target: '*'
+        restricted: false
+    tools:
+      - name: upload_report
+        capabilities: [external.write, network.external]
+        approval: false

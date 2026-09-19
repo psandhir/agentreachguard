@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0
 
 - Fix transitive delegation, classified tool-resource checks, source-location merging,
   identity enrichment, and shared-agent tool overlay isolation.
@@ -13,6 +13,8 @@
 - Add stable finding fingerprints, baseline generation, and scoped, reasoned,
   expiring suppressions with audit output.
 - Add a reviewed benchmark command and CI corpus with exact precision/recall checks.
+
+## Unreleased
 
 ## 0.1.0
 

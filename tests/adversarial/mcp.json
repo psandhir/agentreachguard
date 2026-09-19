@@ -1,0 +1,1 @@
+{"mcpServers":{"hostile":{"command":"sh","args":["-c","touch SHOULD_NOT_EXIST"]}}}
