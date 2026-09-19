@@ -112,8 +112,24 @@ def evaluate(graph: Graph) -> list[Finding]:
                 findings.append(Finding("ADK002", Severity.CRITICAL, "Unsafe local ADK code execution", f"Agent '{agent.name}' uses UnsafeLocalCodeExecutor or an explicitly unsandboxed executor.", "Use Agent Runtime/GKE/BuiltIn sandboxed execution and apply resource, timeout, network, and approval controls.", layer=1, location=tool.location, agent=agent.name, evidence=[f"executor={executor or tool.name}", "sandboxed=false"]))
             if builtin == "EnvironmentToolset" and tool.metadata.get("environment") == "LocalEnvironment":
                 findings.append(Finding("ADK003", Severity.HIGH, "ADK LocalEnvironment exposes shell and file I/O", f"Agent '{agent.name}' uses EnvironmentToolset with LocalEnvironment, enabling local command execution and file operations.", "Run agent execution in a disposable sandbox/container, constrain working_dir, remove secrets from the environment, and gate mutating/execution actions.", layer=1, location=tool.location, agent=agent.name, evidence=[f"working_dir={tool.metadata.get('working_dir')}"]))
-            if builtin == "ExecuteBashTool" and not tool.metadata.get("bash_policy_present"):
-                findings.append(Finding("ADK004", Severity.HIGH, "ADK Bash tool has no detected restrictive policy", f"Agent '{agent.name}' uses ExecuteBashTool without a detected BashToolPolicy.", "Configure BashToolPolicy with allowed command prefixes, blocked operators, timeouts and resource limits; require confirmation for dangerous commands.", layer=1, location=tool.location, agent=agent.name, evidence=["bash_policy_present=false"]))
+            if builtin == "ExecuteBashTool" and not tool.metadata.get("bash_policy_restrictive"):
+                missing = []
+                if not tool.metadata.get("bash_policy_present"):
+                    missing.append("policy")
+                if not tool.metadata.get("allowed_command_prefixes"):
+                    missing.append("allowed_command_prefixes")
+                if not tool.metadata.get("blocked_operators"):
+                    missing.append("blocked_operators")
+                findings.append(Finding("ADK004", Severity.HIGH, "ADK Bash tool lacks a restrictive policy", f"Agent '{agent.name}' uses ExecuteBashTool without both a command allowlist and blocked-command/operator controls.", "Configure BashToolPolicy with allowed command prefixes and blocked operators/commands; add timeout, resource, and approval controls for dangerous commands.", layer=1, location=tool.location, agent=agent.name, evidence=["missing=" + ",".join(missing)]))
+            if tool.kind == "adk_code_executor" and tool.metadata.get("sandboxed") is True and not tool.metadata.get("sandbox_constraints_complete"):
+                missing = []
+                if not tool.metadata.get("sandbox_timeout_configured"):
+                    missing.append("timeout")
+                if not tool.metadata.get("sandbox_network_disabled"):
+                    missing.append("network_restriction")
+                if not tool.metadata.get("sandbox_filesystem_constrained"):
+                    missing.append("filesystem_restriction")
+                findings.append(Finding("ADK012", Severity.MEDIUM, "Sandboxed ADK executor lacks explicit limits", f"Agent '{agent.name}' uses a sandboxed executor without explicit static evidence for all timeout, network, and filesystem limits.", "Configure a positive timeout, disable or restrict network access, and constrain the executor workspace/allowed paths.", layer=1, location=tool.location, agent=agent.name, evidence=["missing=" + ",".join(missing)]))
             if builtin == "ComputerUseToolset" and tool.approval is not True and not tool.guardrails:
                 findings.append(Finding("ADK005", Severity.HIGH, "Computer-use agent lacks an explicit action boundary", f"Agent '{agent.name}' can control a browser/computer without detected confirmation or guardrail controls.", "Add action confirmation/guardrails for navigation, typing, downloads, uploads and state-changing UI actions; isolate the browser profile.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=computer.control"]))
             if builtin == "BigQueryToolset" and "data.write" in tool.capabilities:
@@ -139,8 +155,8 @@ def evaluate(graph: Graph) -> list[Finding]:
                 findings.append(Finding("AGT031", Severity.HIGH, "Unencrypted remote MCP transport", f"MCP server '{server.name}' uses plaintext HTTP: {server.url}", "Use HTTPS/WSS with certificate validation for remote MCP connections.", layer=1, location=server.location, evidence=[f"url={server.url}"]))
             if server.authenticated is not True:
                 findings.append(Finding("AGT030", Severity.HIGH, "Remote MCP server has no detected authentication", f"No recognized authentication mechanism was detected for remote MCP server '{server.name}'.", "Require authenticated MCP access using a scoped token/OAuth or workload identity.", layer=1, location=server.location, evidence=[f"url={server.url}", f"authenticated={server.authenticated}"]))
-            if not server.allowed_tools and not server.denied_tools:
-                findings.append(Finding("AGT032", Severity.MEDIUM, "Remote MCP exposes an unrestricted tool surface", f"Remote MCP server '{server.name}' has no detected allow/deny tool filter.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers.", layer=1, location=server.location, evidence=[f"url={server.url}"]))
+            if not server.allowed_tools:
+                findings.append(Finding("AGT032", Severity.MEDIUM, "Remote MCP lacks an explicit tool allowlist", f"Remote MCP server '{server.name}' has no detected explicit tool allowlist.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers. A denylist alone cannot prove the remaining surface is safe.", layer=1, location=server.location, evidence=[f"url={server.url}", "allowed_tools=none"]))
         if package_is_unpinned(server.command, server.args):
             findings.append(Finding("AGT050", Severity.MEDIUM, "Unpinned MCP package execution", f"MCP server '{server.name}' launches a package runner without an explicit package version.", "Pin MCP server packages to a reviewed version or immutable digest.", layer=1, location=server.location, evidence=[f"command={server.command}", "args=" + " ".join(server.args)]))
         if (

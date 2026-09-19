@@ -24,10 +24,12 @@ Implemented in the working tree:
   unsuppressed current state.
 - Add an exact reviewed benchmark gate with precision, recall, coverage, and CI
   enforcement, plus three initial trust-boundary scenarios.
+- Recognize supported static evidence for restrictive Bash policies, MCP tool
+  allowlists, sandbox timeout/network/filesystem limits, and egress allowlist
+  coverage without claiming runtime enforcement.
 
 Next:
 
-- Deepen control semantics with stronger static evidence for specific mechanisms.
 - Expand the benchmark from focused scenarios to sanitized representative projects
   and publish historical precision/recall trends before expanding adapters.
 

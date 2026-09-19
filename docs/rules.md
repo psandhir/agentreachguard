@@ -10,7 +10,7 @@
 - `AGT022` — state-changing tool without approval.
 - `AGT030` — remote MCP without recognized authentication.
 - `AGT031` — unencrypted remote MCP transport.
-- `AGT032` — unrestricted remote MCP tool surface.
+- `AGT032` — remote MCP lacks an explicit tool allowlist; a denylist alone is insufficient.
 - `AGT040` — privileged tool without guardrail or approval.
 - `AGT050` — unpinned MCP package execution.
 
@@ -20,6 +20,7 @@
 - `ADK002` — unsafe local ADK code execution.
 - `ADK003` — `EnvironmentToolset` with `LocalEnvironment` exposes local shell/file I/O.
 - `ADK004` — `ExecuteBashTool` lacks a detected restrictive `BashToolPolicy`.
+- `ADK012` — sandboxed ADK code executor lacks explicit timeout, network, or filesystem limits.
 - `ADK005` — computer-use capability lacks explicit action confirmation/guardrail.
 - `ADK006` — BigQuery writes are not statically blocked.
 - `ADK007` — broad ADK generated/API toolset has no detected tool filter.
@@ -71,3 +72,7 @@ assertions, and inferred facts. PATH findings are potential capability combinati
 no executable data-flow trace or successful attack is established. Callback,
 plugin, sandbox and approval observations do not verify runtime effectiveness.
 Literal URLs in function bodies are possible destinations, not egress restrictions.
+For supported ADK and MCP configuration, a Bash policy is only considered restrictive
+when both command allowlist and blocklist evidence are present; remote MCP requires
+an explicit tool allowlist. Sandbox limits require static evidence for a positive
+timeout, disabled/restricted network, and constrained workspace or paths.

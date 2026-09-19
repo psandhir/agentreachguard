@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from agentreachguard.heuristics import infer_capabilities
+from agentreachguard.heuristics import infer_capabilities, resource_is_broad
 from agentreachguard.models import (
     Agent,
     Graph,
@@ -204,6 +204,38 @@ def _tool_filter(call: ast.Call) -> tuple[list[str], bool]:
     return [], False
 
 
+def _execution_constraints(call: ast.Call) -> dict[str, bool]:
+    """Extract explicit sandbox limits without assuming executor defaults."""
+    timeout = False
+    for key in ("timeout", "timeout_seconds", "max_execution_time", "max_execution_time_seconds"):
+        value = _literal(_kw(call, key))
+        if isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0:
+            timeout = True
+            break
+
+    network_disabled = False
+    for key in ("allow_network", "network_access", "network_enabled"):
+        value = _literal(_kw(call, key))
+        if value is False or isinstance(value, str) and value.lower() in {"none", "disabled", "deny"}:
+            network_disabled = True
+            break
+
+    filesystem_constrained = False
+    for key in ("working_dir", "workspace", "allowed_paths", "allowed_directories"):
+        value = _literal(_kw(call, key))
+        values = value if isinstance(value, list) else [value]
+        if any(isinstance(item, str) and item and not resource_is_broad(item) for item in values):
+            filesystem_constrained = True
+            break
+
+    return {
+        "sandbox_timeout_configured": timeout,
+        "sandbox_network_disabled": network_disabled,
+        "sandbox_filesystem_constrained": filesystem_constrained,
+        "sandbox_constraints_complete": timeout and network_disabled and filesystem_constrained,
+    }
+
+
 def _auth_present(call: ast.Call, nested: ast.Call | None = None) -> bool | None:
     for c in (call, nested):
         if c is None:
@@ -311,6 +343,12 @@ def _tool_from_call(
 
     if name in CODE_EXECUTORS:
         sandboxed, executor_kind = CODE_EXECUTORS[name]
+        metadata = {
+            "framework": "google-adk", "code_executor": name, "sandboxed": sandboxed,
+            "executor_kind": executor_kind,
+        }
+        if sandboxed:
+            metadata.update(_execution_constraints(call))
         return Tool(
             name=alias,
             kind="adk_code_executor",
@@ -318,7 +356,7 @@ def _tool_from_call(
             approval=None,
             guardrails=sandboxed,
             location=_location(path, call),
-            metadata={"framework": "google-adk", "code_executor": name, "sandboxed": sandboxed, "executor_kind": executor_kind},
+            metadata=metadata,
         )
 
     if name in BUILTIN_TOOL_CAPABILITIES or name.endswith(("Toolset", "Tool")):
@@ -335,8 +373,15 @@ def _tool_from_call(
             policy = _resolve_call(_kw(call, "policy"), calls)
             metadata["bash_policy_present"] = policy is not None
             if policy:
-                metadata["allowed_command_prefixes"] = _list_strings(_kw(policy, "allowed_command_prefixes"))
-                metadata["blocked_operators"] = _list_strings(_kw(policy, "blocked_operators"))
+                allowed_prefixes = []
+                for key in ("allowed_command_prefixes", "allowed_commands", "allowed_command_patterns"):
+                    allowed_prefixes.extend(_list_strings(_kw(policy, key)))
+                blocked_operators = []
+                for key in ("blocked_operators", "denied_commands", "blocked_commands"):
+                    blocked_operators.extend(_list_strings(_kw(policy, key)))
+                metadata["allowed_command_prefixes"] = list(dict.fromkeys(allowed_prefixes))
+                metadata["blocked_operators"] = list(dict.fromkeys(blocked_operators))
+                metadata["bash_policy_restrictive"] = bool(allowed_prefixes and blocked_operators)
         if name == "EnvironmentToolset":
             env_call = _resolve_call(_kw(call, "environment"), calls)
             env_name = _call_name(env_call.func) if env_call else None

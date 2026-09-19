@@ -237,11 +237,14 @@ capabilities follow the scanner's supported static semantics.
 
 `control_observations` in JSON and SARIF distinguish approval configuration,
 callback hooks, plugin-name inference, sandbox configuration, and possible network
-destinations. Their runtime effectiveness is always `not_verified`. Callback or
-plugin presence can satisfy a missing-hook rule, but does not prove that arbitrary
-callback/plugin code authorizes actions safely. Approval callbacks alone do not
-establish an approval requirement. Mixed hosted-MCP approval policies are treated
-as unknown rather than blanket approval.
+destinations. For supported ADK and MCP configuration, they also record static
+evidence of sandbox timeout/network/filesystem limits, Bash allowlist plus blocklist
+policies, MCP tool allowlists, and whether every discovered egress destination fits
+a declared allowlist. Their runtime effectiveness is always `not_verified`.
+Callback or plugin presence can satisfy a missing-hook rule, but does not prove that
+arbitrary callback/plugin code authorizes actions safely. Approval callbacks alone
+do not establish an approval requirement. Mixed hosted-MCP approval policies are
+treated as unknown rather than blanket approval.
 
 Attack paths are labeled potential risks with `basis: capability_cooccurrence` and
 `exploitability: not_verified`. Their severity reflects potential impact, not proven
@@ -267,6 +270,7 @@ field aliases remain supported. The schema definitions live in
 - `ADK002` — unsafe local code executor.
 - `ADK003` — `LocalEnvironment` exposes local shell/file I/O.
 - `ADK004` — bash execution without a detected restrictive `BashToolPolicy`.
+- `ADK012` — sandboxed code execution lacks an explicit timeout, network, or filesystem limit.
 - `ADK005` — computer-use capability lacks an explicit action boundary.
 - `ADK006` — BigQuery write capability is not statically blocked.
 - `ADK007` — broad generated/API toolset without a tool filter.

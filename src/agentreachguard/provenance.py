@@ -1,4 +1,6 @@
 """Evidence origins and static control observations; neither proves runtime enforcement."""
+import fnmatch
+
 from agentreachguard.adapters.google_adk import BUILTIN_TOOL_CAPABILITIES
 from agentreachguard.models import EvidenceFact, Graph, SourceLocation
 
@@ -135,10 +137,33 @@ def control_observations(graph):
         if tool.metadata.get('sandboxed') is not None:
             add(tool.name, 'sandbox', 'configured' if tool.metadata['sandboxed'] else
                 'disabled', tool.location)
+        if getattr(tool, 'kind', None) == 'adk_code_executor' and tool.metadata.get('sandboxed') is True:
+            add(tool.name, 'sandbox_limits',
+                'timeout_network_filesystem_configured'
+                if tool.metadata.get('sandbox_constraints_complete')
+                else 'limits_incomplete', tool.location)
+        if tool.metadata.get('adk_builtin') == 'ExecuteBashTool':
+            add(tool.name, 'bash_policy',
+                'allowlist_and_blocklist_detected'
+                if tool.metadata.get('bash_policy_restrictive')
+                else 'restrictive_policy_not_detected', tool.location)
+        if hasattr(tool, 'allowed_tools'):
+            add(tool.name, 'mcp_tool_allowlist',
+                'configured' if tool.allowed_tools else 'not_detected', tool.location)
     for agent in graph.agents:
         for destination in agent.effective_destinations:
             add(agent.name, 'network_destination',
                 'possible_destination_only' if destination.metadata.get('source') == 'literal_url'
                 else 'restriction_configured' if destination.restricted else 'restriction_not_detected',
                 destination.location)
+        if agent.policy.allowed_destinations:
+            destinations = agent.effective_destinations
+            all_allowed = bool(destinations) and all(
+                any(fnmatch.fnmatch(destination.target, pattern)
+                    for pattern in agent.policy.allowed_destinations)
+                for destination in destinations
+            )
+            add(agent.name, 'egress_allowlist',
+                'all_discovered_destinations_allowed' if all_allowed
+                else 'declared_allowlist_does_not_cover_all_destinations', agent.location)
     return observations

@@ -6,7 +6,7 @@ from typing import Any
 import yaml
 
 from agentreachguard.adapters.google_adk import BUILTIN_TOOL_CAPABILITIES, RETRIEVAL_TOOLS
-from agentreachguard.heuristics import infer_capabilities
+from agentreachguard.heuristics import infer_capabilities, resource_is_broad
 from agentreachguard.models import Agent, Graph, InputSource, MCPServer, SourceLocation, Tool
 
 
@@ -18,6 +18,35 @@ def _strings(value: Any) -> list[str]:
     if isinstance(value, (list, tuple, set)):
         return [str(x) for x in value]
     return []
+
+
+def _sandbox_constraints(args: dict[str, Any]) -> dict[str, bool]:
+    timeout = any(
+        isinstance(args.get(key), (int, float)) and not isinstance(args.get(key), bool)
+        and args[key] > 0
+        for key in ("timeout", "timeout_seconds", "max_execution_time", "max_execution_time_seconds")
+    )
+    network_disabled = any(
+        args.get(key) is False
+        or (
+            isinstance(args.get(key), str)
+            and args[key].lower() in {"none", "disabled", "deny"}
+        )
+        for key in ("allow_network", "network_access", "network_enabled")
+    )
+    filesystem_constrained = False
+    for key in ("working_dir", "workspace", "allowed_paths", "allowed_directories"):
+        value = args.get(key)
+        values = value if isinstance(value, list) else [value]
+        if any(isinstance(item, str) and item and not resource_is_broad(item) for item in values):
+            filesystem_constrained = True
+            break
+    return {
+        "sandbox_timeout_configured": timeout,
+        "sandbox_network_disabled": network_disabled,
+        "sandbox_filesystem_constrained": filesystem_constrained,
+        "sandbox_constraints_complete": timeout and network_disabled and filesystem_constrained,
+    }
 
 
 def _looks_like_adk(data: Any, path: Path) -> bool:
@@ -84,7 +113,7 @@ def _tool_from_config(raw: Any, path: Path) -> tuple[Tool | None, MCPServer | No
         tool.kind = "adk_code_executor"
         tool.capabilities.update({"process.execute", "data.read", "data.write"})
         tool.guardrails = True
-        tool.metadata.update({"sandboxed": True, "code_executor": name})
+        tool.metadata.update({"sandboxed": True, "code_executor": name, **_sandbox_constraints(args)})
     return tool, None
 
 
