@@ -90,6 +90,7 @@ RULE_REGISTRY: dict[str, RuleMetadata] = {
         _rule("PATH004", 5, Severity.CRITICAL, "attack_path", "potential_risk", "Potential combination of untrusted input, sensitive data and execution", "Untrusted input, sensitive data, and execution capability coexist in the same normalized agent model.", "Break the path by separating duties, reducing privilege, validating input, and sandboxing execution."),
         _rule("PATH005", 5, Severity.HIGH, "attack_path", "potential_risk", "Potential untrusted-input path to secret access and egress", "Untrusted input, secret-reading capability, and outbound capability coexist in the same normalized agent model.", "Break the path by isolating secret access, validating input, and restricting egress."),
         _rule("PATH006", 5, Severity.HIGH, "attack_path", "potential_risk", "Potential untrusted-input exposure to multiple high-risk capabilities", "Untrusted input can reach an agent that combines multiple high-risk capability classes.", "Break the path by narrowing the agent's capability set and validating untrusted input."),
+        _rule("PATH007", 5, Severity.HIGH, "attack_path", "potential_risk", "Potential untrusted-input path to persistent memory write", "Untrusted input that reaches persistent agent memory or checkpoint state can influence later agent behavior.", "Validate and constrain untrusted content before persistent memory writes; isolate memory scope and require review for high-impact state."),
     )
 }
 

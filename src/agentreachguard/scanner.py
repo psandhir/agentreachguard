@@ -17,6 +17,7 @@ from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.adapters.repository_adk import enrich_repository_graph
 from agentreachguard.adg import build_adg
 from agentreachguard.analysis import build_attack_paths
+from agentreachguard.flow import analyze_repository_flows
 from agentreachguard.config import ScanConfig
 from agentreachguard.config import apply as apply_config
 from agentreachguard.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
@@ -466,6 +467,9 @@ def scan(
         tool.kind == "delegated_agent"
         for tool in graph.all_tools()
     )
+    analysis_root = root if root.is_dir() else root.parent
+    graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
+
     graph.coverage.resolution = {
         "tools": {
             "resolved_entities": resolved_tools,
@@ -490,10 +494,13 @@ def scan(
             diagnostic.kind == "external_helper_semantics_unresolved"
             for diagnostic in graph.coverage.diagnostics
         ),
+        "flows": {
+            "supported_paths": len(graph.flow_paths),
+            "agent_mapped": sum(flow.agent is not None for flow in graph.flow_paths),
+        },
     }
 
     graph.attack_paths = build_attack_paths(graph)
-    analysis_root = root if root.is_dir() else root.parent
     graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
     attach_findings(graph, findings)

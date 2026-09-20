@@ -108,16 +108,40 @@ def attach_findings(graph, findings):
             entities = [*graph.all_tools(), *graph.all_mcp_servers(), *graph.all_identities()]
             finding.provenance = [fact for entity in entities if entity.location == finding.location
                                   for fact in entity.provenance]
+        attack_path = None
+        if finding.rule_id.startswith('PATH'):
+            attack_path = next((
+                path for path in graph.attack_paths
+                if path.path_id == finding.rule_id
+                and path.agent == finding.agent
+                and " -> ".join(path.nodes) in finding.evidence
+            ), None)
         if finding.rule_id.startswith('PATH') or finding.rule_id in {'AGT010', 'DATA003'}:
             finding.assessment = 'potential_risk'
-            finding.limitations.append('Capability co-occurrence does not prove an executable data-flow path or exploitability.')
         if finding.rule_id.startswith('PATH'):
-            finding.confidence = Confidence.POTENTIAL
+            basis = attack_path.metadata.get('basis') if attack_path else 'capability_cooccurrence'
+            finding.confidence = (
+                Confidence.SUPPORTED if basis == 'static_dataflow' else Confidence.POTENTIAL
+            )
+            if attack_path:
+                for limitation in attack_path.metadata.get('limitations', []):
+                    if limitation not in finding.limitations:
+                        finding.limitations.append(limitation)
+            elif basis != 'static_dataflow':
+                finding.limitations.append(
+                    'Capability co-occurrence does not prove an executable data-flow path or exploitability.'
+                )
+        elif finding.rule_id in {'AGT010', 'DATA003'}:
+            finding.limitations.append(
+                'Capability co-occurrence does not prove an executable data-flow path or exploitability.'
+            )
         elif finding.rule_id in {'CAP001', 'CAP002', 'CAP006', 'DATA002', 'NET003'}:
             finding.assessment = 'policy_violation'
         elif finding.rule_id == 'IDN001' or any(f.origin == 'inferred' for f in finding.provenance):
             finding.assessment = 'heuristic_risk'
-        finding.limitations.append('Runtime authorization and control effectiveness are not verified by this static scan.')
+        runtime_limit = 'Runtime authorization and control effectiveness are not verified by this static scan.'
+        if runtime_limit not in finding.limitations:
+            finding.limitations.append(runtime_limit)
 
 
 def control_observations(graph):

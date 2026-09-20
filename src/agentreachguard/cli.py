@@ -214,13 +214,22 @@ def main(argv: list[str] | None = None) -> int:
                     "tools": len(graph.all_tools()),
                     "mcp_servers": len(graph.all_mcp_servers()),
                     "identities": len(graph.all_identities()),
+                    "flow_paths": len(graph.flow_paths),
                     "attack_paths": len(graph.attack_paths),
+                    "adg_nodes": len(graph.adg.nodes) if graph.adg else 0,
+                    "adg_edges": len(graph.adg.edges) if graph.adg else 0,
                     "findings": len(findings),
                     "suppressed_findings": len(graph.suppressed_findings),
                     "findings_by_layer": {
                         str(layer): sum(1 for finding in findings if finding.layer == layer)
                         for layer in range(1, 6)
                     },
+                },
+                "flow_paths": [flow.as_dict() for flow in graph.flow_paths],
+                "adg": {
+                    "schema_version": 1,
+                    "digest": graph.adg.canonical_digest() if graph.adg else None,
+                    "summary": graph.adg.as_dict()["summary"] if graph.adg else None,
                 },
                 "attack_paths": [
                     {
@@ -232,6 +241,7 @@ def main(argv: list[str] | None = None) -> int:
                         "rationale": path.rationale,
                         "assessment": path.metadata.get("assessment", "potential_risk"),
                         "basis": path.metadata.get("basis", "capability_cooccurrence"),
+                        "flow_id": path.metadata.get("flow_id"),
                         "exploitability": "not_verified",
                         "confidence": next(
                             (
@@ -255,6 +265,7 @@ def main(argv: list[str] | None = None) -> int:
         output = json.dumps(render_sarif(
             findings, graph.coverage, control_observations(graph),
             graph.suppressed_findings, graph.suppression_diagnostics,
+            graph.flow_paths,
         ), indent=2)
 
     if args.output:
