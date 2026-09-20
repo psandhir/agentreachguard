@@ -15,7 +15,8 @@ steps. Prompt nodes store a digest and length rather than prompt contents.
 The relationship vocabulary includes `INVOKES`, `DELEGATES_TO`,
 `RECEIVES_INPUT_FROM`, `READS_FROM`, `WRITES_TO`, `USES_IDENTITY`,
 `USES_MODEL`, `USES_PROMPT`, `CONNECTS_TO`, `READS_MEMORY`,
-`WRITES_MEMORY`, `GUARDED_BY`, `CONTROL_FLOWS_TO`, and `DATA_FLOWS_TO`.
+`WRITES_MEMORY`, `GUARDED_BY`, `CONTROL_FLOWS_TO`, `DATA_FLOWS_TO`, and
+`CAN_REACH_AUTHORITY`.
 
 The graph separates three security dimensions:
 

@@ -506,6 +506,33 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             if left and right:
                 builder.edge("CONTROL_FLOWS_TO", left, right, location=agent.location)
 
+    agents_by_name = {agent.name: agent for agent in graph.agents}
+    for parent in graph.agents:
+        parent_id = agent_ids.get(parent.name)
+        if parent_id is None:
+            continue
+        pending = [str(name) for name in parent.metadata.get("delegates_to") or []]
+        visited = {parent.name}
+        while pending:
+            child_name = pending.pop()
+            if child_name in visited:
+                continue
+            visited.add(child_name)
+            child = agents_by_name.get(child_name)
+            if child is None:
+                continue
+            for identity in child.identities:
+                identity_id = identity_ids.get(identity.name)
+                if identity_id:
+                    builder.edge(
+                        "CAN_REACH_AUTHORITY",
+                        parent_id,
+                        identity_id,
+                        location=parent.location,
+                        attributes={"via_agent": child.name},
+                    )
+            pending.extend(str(name) for name in child.metadata.get("delegates_to") or [])
+
     for flow in graph.flow_paths:
         _add_flow_edges(builder, flow)
 
