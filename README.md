@@ -14,7 +14,7 @@ AgentReachGuard statically discovers agent configuration and evaluates five conn
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.2 beta / pilot-ready**. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.3 beta / pilot-ready**. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -44,7 +44,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 ## Google ADK coverage
 
-AgentReachGuard v0.2 understands security-relevant ADK composition rather than only matching `Agent(...)`.
+AgentReachGuard v0.3 performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
 
 ### Agents and orchestration
 
@@ -160,8 +160,8 @@ code 2; incomplete analysis takes precedence in strict mode.
 Diagnostics use stable `ARG-COV-*` identifiers and currently cover read/parse
 failures, unresolved Python tool/MCP references, unresolved delegation, dynamic
 agent configuration sequences or expanded keyword arguments, unresolved external
-helper semantics, dynamic MCP endpoints/tool filters, and scans with no supported
-security targets.
+helper semantics, dynamic MCP endpoints/tool filters, unknown MCP authentication
+state, and scans with no supported security targets.
 Files in default ignored directories, and subtrees containing an
 `.agentreachguard-ignore` marker, are excluded from file counts. Other unsupported
 file types are counted as skipped. A scanned file was read and parsed;
@@ -222,7 +222,7 @@ agentreachguard benchmark benchmarks/cases.yaml
 
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
 Unexpected findings are measured as false positives and missing findings as false
-negatives. The v0.2 corpus contains 26 reviewed scenarios across secure, execution,
+negatives. The v0.3 corpus contains 26 reviewed scenarios across secure, execution,
 delegation, MCP, identity, data/network, attack-path and dynamic/unresolved analysis.
 One case intentionally expects incomplete analysis and an exact coverage diagnostic;
 all other cases fail on incomplete coverage. The command exits nonzero on any drift
@@ -336,7 +336,7 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/agentreachguard@main  # pre-release; use @v0.2.0 after the tag is published
+- uses: psandhir/agentreachguard@v0.3.0
   with:
     path: .
     fail-on: high
@@ -394,6 +394,6 @@ rules:
 
 Use `agentreachguard scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
 
-### v0.2 release notes
+### v0.3 release notes
 
-v0.2 adds a rule catalogue, OWASP Agentic mappings as coverage references, explicit potential attack-path confidence, stable incomplete-analysis diagnostics, hostile-repository limits, path containment, and a 26-case reviewed benchmark with an expected-incomplete coverage case. These additions do not claim runtime control effectiveness or complete OWASP coverage. There are no intended breaking changes to documented v0.1 commands or manifest formats.
+v0.3 moves AgentReachGuard from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.

@@ -31,6 +31,29 @@ Completed in the v0.2 release candidate:
   analysis, with aggregate and per-rule precision/recall metrics.
 - Immutable-SHA GitHub Actions dependencies and package/wheel smoke testing.
 
+## v0.3 — Repository-level reachability milestone
+
+Completed for v0.3:
+
+- Repository-aware Google ADK analysis across Python modules rather than isolated
+  file-only interpretation.
+- Cross-file resolution for imported tools, helper functions, identities, OAuth
+  scope declarations, MCP toolsets, and delegation relationships.
+- Conservative static resolution for simple agent factories, nested workflow agents,
+  conditional tool references, and common list construction patterns.
+- Static module-constant resolution for MCP endpoints while preserving genuinely
+  runtime-derived endpoints as coverage gaps.
+- More accurate ADK semantics for built-in Bash confirmation and provider-managed
+  code execution.
+- Lower-noise function capability inference that avoids treating generic
+  `.execute()` calls, arbitrary URL strings, and ordinary dictionary access as
+  privileged execution, network reach, or secret access.
+- Managed-service network classification to avoid generic unrestricted-egress
+  findings where the destination is framework-fixed.
+- Repository coverage metrics for resolved and unresolved tools, delegations,
+  identities, and external helper semantics.
+- Regression coverage derived from representative public Google ADK repositories.
+
 ## Next reliability work
 
 - Add sanitized representative real-world projects to the benchmark corpus.

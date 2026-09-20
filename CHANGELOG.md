@@ -1,5 +1,33 @@
 # Changelog
 
+## Unreleased
+
+## 0.3.0
+
+- Add repository-aware Google ADK analysis with cross-file tool, helper, delegation,
+  identity, OAuth, MCP, and execution-boundary resolution.
+- Resolve simple agent factories, nested workflow agents, local tool collections,
+  conditional tool references, and common `append`/`extend` construction patterns
+  without executing target code.
+- Resolve static module constants used for MCP endpoints while retaining runtime
+  endpoints as explicit incomplete-analysis diagnostics.
+- Model ADK `ExecuteBashTool` built-in confirmation semantics and provider-managed
+  code execution more accurately.
+- Prevent delegated synthetic capabilities from creating duplicate execution findings
+  while preserving potential attack paths through delegation.
+- Reduce false positives from generic `.execute()` methods, arbitrary URL literals,
+  dictionary lookups, and fixed managed-service destinations.
+- Improve MCP authentication detection, including dynamic header dictionaries and
+  `X-Goog-Api-Key`; report unknown authentication state as coverage uncertainty.
+- Link repository OAuth helper scopes and credential evidence to the tools that use
+  them.
+- Restrict repository resolution to scanner-approved files so ignore rules, path
+  containment, and hostile-repository limits remain authoritative.
+- Add repository resolution metrics to coverage output.
+- Expand public-repository regression coverage and correctness tests.
+- Validate the release with 228 automated tests and the 26-case reviewed benchmark;
+  the benchmark fixture corpus reports precision 1.000 and recall 1.000.
+
 ## 0.2.0
 
 - Fix transitive delegation, classified tool-resource checks, source-location merging,
@@ -27,8 +55,6 @@
 - Build and install the wheel in CI as a release smoke test.
 - Pin GitHub Actions dependencies to verified immutable SHAs using current releases.
 
-## Unreleased
-
 ## 0.1.0
 
 - Add first-class Google ADK Python static analysis.
@@ -41,3 +67,10 @@
 - Add ADK-specific rules `ADK001` through `ADK011`.
 - Add vulnerable and secure Google ADK reference fixtures.
 - Expand regression suite to 32 tests.
+
+
+## 0.3.0
+
+Repository-level ADK analysis and public-corpus correctness fixes.
+
+- Complete v0.3 public-corpus semantics: repository ignore parity, delegated control propagation, managed-service egress, loopback MCP context, auth-unknown coverage, provider-managed executor handling, resolution metrics, and helper/OAuth resolution.

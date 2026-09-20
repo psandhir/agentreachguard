@@ -1,6 +1,6 @@
 # Google ADK security coverage
 
-AgentReachGuard v0.1 contains a first-class static adapter for Google Agent Development Kit (ADK) Python projects and native ADK Agent Config YAML.
+AgentReachGuard v0.3 contains a first-class, repository-aware static adapter for Google Agent Development Kit (ADK) Python projects and native ADK Agent Config YAML.
 
 ## Analysis pipeline
 
