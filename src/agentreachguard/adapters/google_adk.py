@@ -3,7 +3,6 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
 
 from agentreachguard.heuristics import infer_capabilities, resource_is_broad
 from agentreachguard.models import (
@@ -22,7 +21,7 @@ AGENT_TYPES = {"Agent", "LlmAgent", "SequentialAgent", "ParallelAgent", "LoopAge
 WORKFLOW_TYPES = {"SequentialAgent", "ParallelAgent", "LoopAgent"}
 CODE_EXECUTORS = {
     "UnsafeLocalCodeExecutor": (False, "local"),
-    "BuiltInCodeExecutor": (True, "gemini"),
+    "BuiltInCodeExecutor": (True, "provider-managed"),
     "AgentEngineSandboxCodeExecutor": (True, "agent-runtime"),
     "GkeCodeExecutor": (True, "gke"),
 }
@@ -60,6 +59,7 @@ BUILTIN_TOOL_CAPABILITIES: dict[str, set[str]] = {
     "load_memory": {"data.read"},
     "LoadArtifactsTool": {"data.read"},
     "load_artifacts_tool": {"data.read"},
+    "load_artifacts": {"data.read"},
     "LoadMcpResourceTool": {"data.read", "mcp.remote"},
     "TransferToAgentTool": {"agent.delegate"},
 }
@@ -155,28 +155,197 @@ def is_google_adk_file(path: Path) -> bool:
     return _uses_google_adk(tree)
 
 
-def _infer_function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> tuple[set[str], list[NetworkDestination]]:
+def _infer_function_capabilities(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> tuple[set[str], list[NetworkDestination]]:
     caps = set(infer_capabilities(node.name))
-    destinations: list[NetworkDestination] = []
-    for child in ast.walk(node):
-        if isinstance(child, ast.Call):
-            called = (_dotted_name(child.func) or _call_name(child.func) or "").lower()
-            caps.update(infer_capabilities(called))
-            if any(marker in called for marker in ("subprocess", "os.system", "popen", "exec", "shell")):
-                caps.add("process.execute")
-            if any(marker in called for marker in ("requests.", "httpx.", "urllib", "aiohttp", "socket")):
-                caps.add("network.external")
-            if called.endswith("open") or called == "open":
-                mode = _string(_arg(child, 1, "mode")) or "r"
-                caps.add("data.write" if any(ch in mode for ch in "wax+") else "data.read")
-        if isinstance(child, ast.Constant) and isinstance(child.value, str) and child.value.startswith(("http://", "https://")):
-            parsed = urlparse(child.value)
-            if parsed.hostname:
-                caps.add("network.external")
-                destinations.append(NetworkDestination(target=child.value, restricted=False,
-                                                        metadata={"source": "literal_url"}))
-    return caps, destinations
 
+    # Generic "execute" in a function name is not enough to prove process
+    # execution (for example execute_sql or Google API .execute()).
+    name_tokens = set(
+        node.name.lower().replace("-", "_").replace(".", "_").split("_")
+    )
+    if "process.execute" in caps and not (
+        name_tokens
+        & {"shell", "bash", "powershell", "command", "terminal", "exec"}
+    ):
+        caps.discard("process.execute")
+
+    destinations: list[NetworkDestination] = []
+
+    literal_urls: dict[str, str] = {}
+    for statement in ast.walk(node):
+        if (
+            isinstance(statement, ast.Assign)
+            and isinstance(statement.value, ast.Constant)
+            and isinstance(statement.value.value, str)
+            and statement.value.value.startswith(("http://", "https://"))
+        ):
+            for target_node in statement.targets:
+                if isinstance(target_node, ast.Name):
+                    literal_urls[target_node.id] = statement.value.value
+        elif (
+            isinstance(statement, ast.AnnAssign)
+            and isinstance(statement.target, ast.Name)
+            and isinstance(statement.value, ast.Constant)
+            and isinstance(statement.value.value, str)
+            and statement.value.value.startswith(("http://", "https://"))
+        ):
+            literal_urls[statement.target.id] = statement.value.value
+
+    for child in ast.walk(node):
+        if not isinstance(child, ast.Call):
+            continue
+
+        called = (_dotted_name(child.func) or _call_name(child.func) or "").lower()
+        leaf = (_call_name(child.func) or "").lower()
+
+        # Only known execution APIs establish process execution.
+        if (
+            leaf in {"exec", "eval", "compile"}
+            or called == "os.system"
+            or called == "os.popen"
+            or called.startswith("subprocess.")
+            or "create_subprocess_" in called
+            or called.endswith(".popen")
+        ):
+            caps.add("process.execute")
+
+        if called.endswith("open") or called == "open":
+            mode = _string(_arg(child, 1, "mode")) or "r"
+            caps.add(
+                "data.write"
+                if any(ch in mode for ch in "wax+")
+                else "data.read"
+            )
+
+        if leaf in {
+            "get",
+            "list",
+            "search",
+            "fetch",
+            "download",
+            "export",
+            "get_media",
+        }:
+            caps.add("data.read")
+        if leaf in {
+            "set",
+            "create",
+            "update",
+            "insert",
+            "upload",
+            "write",
+            "save_artifact",
+        }:
+            caps.add("data.write")
+        if leaf in {"delete", "remove", "destroy", "purge"}:
+            caps.update({"data.write", "destructive.write"})
+
+        network_call = any(
+            marker in called
+            for marker in (
+                "requests.",
+                "httpx.",
+                "aiohttp",
+                "urllib",
+                "session.get",
+                "session.post",
+                "session.put",
+                "session.patch",
+                "session.delete",
+            )
+        )
+        if network_call:
+            caps.add("network.external")
+            if leaf in {"post", "put", "patch", "delete"}:
+                caps.add("external.write")
+
+            target_expr = child.args[0] if child.args else None
+            target = _string(target_expr)
+
+            if target and target.startswith(("http://", "https://")):
+                destinations.append(
+                    NetworkDestination(
+                        target=target,
+                        restricted=False,
+                        metadata={"source": "literal_url"},
+                    )
+                )
+            else:
+                # Retain literal fallbacks as possible destinations, but also
+                # record that the actual call target can be dynamic.
+                possible_urls: list[str] = []
+                if target_expr is not None:
+                    for part in ast.walk(target_expr):
+                        possible: str | None = None
+                        if (
+                            isinstance(part, ast.Constant)
+                            and isinstance(part.value, str)
+                            and part.value.startswith(("http://", "https://"))
+                        ):
+                            possible = part.value
+                        elif isinstance(part, ast.Name):
+                            possible = literal_urls.get(part.id)
+
+                        if possible and possible not in possible_urls:
+                            possible_urls.append(possible)
+
+                for possible in possible_urls:
+                    destinations.append(
+                        NetworkDestination(
+                            target=possible,
+                            restricted=False,
+                            metadata={"source": "literal_url"},
+                        )
+                    )
+
+                destinations.append(
+                    NetworkDestination(
+                        target="<dynamic-url>",
+                        restricted=False,
+                        metadata={"source": "dynamic_network_call"},
+                    )
+                )
+
+        # High-signal secret access only; arbitrary dict.get() is not secret
+        # access.
+        if (
+            "secretmanager" in called
+            or leaf in {"get_secret", "access_secret_version"}
+            or "vault" in called
+        ):
+            caps.add("secrets.read")
+
+        if called in {"os.getenv", "os.environ.get"}:
+            env_name = _string(child.args[0]) if child.args else None
+            if env_name and any(
+                marker in env_name.lower()
+                for marker in (
+                    "secret",
+                    "token",
+                    "password",
+                    "api_key",
+                    "apikey",
+                    "private_key",
+                    "credential",
+                )
+            ):
+                caps.add("secrets.read")
+
+    unique: list[NetworkDestination] = []
+    seen: set[tuple[str, bool, str]] = set()
+    for destination in destinations:
+        key = (
+            destination.target,
+            destination.restricted,
+            str(destination.metadata.get("source") or ""),
+        )
+        if key not in seen:
+            seen.add(key)
+            unique.append(destination)
+
+    return caps, unique
 
 def _resolve_sequence(expr: ast.AST | None, sequences: dict[str, list[ast.AST]]) -> list[ast.AST]:
     if isinstance(expr, (ast.List, ast.Tuple, ast.Set)):
@@ -237,16 +406,23 @@ def _execution_constraints(call: ast.Call) -> dict[str, bool]:
 
 
 def _auth_present(call: ast.Call, nested: ast.Call | None = None) -> bool | None:
+    auth_headers = {"authorization", "x-api-key", "x-goog-api-key", "proxy-authorization"}
     for c in (call, nested):
         if c is None:
             continue
         if any(_kw(c, name) is not None for name in ("auth_scheme", "auth_credential", "header_provider")):
             return True
-        headers = _literal(_kw(c, "headers"))
-        if isinstance(headers, dict):
-            keys = {str(k).lower() for k in headers}
-            if {"authorization", "x-api-key", "proxy-authorization"} & keys:
-                return True
+        headers_node = _kw(c, "headers")
+        if isinstance(headers_node, ast.Dict):
+            for key_node in headers_node.keys:
+                key = _string(key_node)
+                if key and key.lower() in auth_headers:
+                    return True
+        elif headers_node is not None:
+            return None
+        headers = _literal(headers_node)
+        if isinstance(headers, dict) and auth_headers & {str(k).lower() for k in headers}:
+            return True
     return False
 
 
@@ -350,8 +526,10 @@ def _tool_from_call(
             "framework": "google-adk", "code_executor": name, "sandboxed": sandboxed,
             "executor_kind": executor_kind,
         }
-        if sandboxed:
+        if sandboxed and executor_kind != "provider-managed":
             metadata.update(_execution_constraints(call))
+        elif executor_kind == "provider-managed":
+            metadata.update({"execution_boundary": "provider-managed", "sandbox_constraints_applicable": False})
         return Tool(
             name=alias,
             kind="adk_code_executor",
@@ -373,6 +551,9 @@ def _tool_from_call(
             "dynamic_tool_filter": dynamic_filter,
         }
         if name == "ExecuteBashTool":
+            approval = True
+            metadata["built_in_confirmation"] = True
+            metadata["confirmation_source"] = "google-adk"
             policy = _resolve_call(_kw(call, "policy"), calls)
             metadata["bash_policy_present"] = policy is not None
             if policy:
@@ -407,6 +588,12 @@ def _tool_from_call(
             metadata["client_secret_literal"] = bool(_string(_kw(call, "client_secret")))
         if name == "ComputerUseToolset":
             metadata["interactive_control"] = True
+        if name in RETRIEVAL_TOOLS:
+            metadata["network_scope"] = "fixed_managed_service"
+            metadata["network_provider"] = "google"
+        if name in {"BigQueryToolset", "BigtableToolset", "DataAgentToolset"}:
+            metadata["network_scope"] = "fixed_managed_service"
+            metadata["network_provider"] = "google-cloud"
         tool = Tool(
             name=alias,
             kind="adk_builtin",
@@ -541,6 +728,8 @@ def _agent_from_call(
                 )
                 if element.id in RETRIEVAL_TOOLS:
                     tool.metadata["untrusted_input"] = True
+                    tool.metadata["network_scope"] = "fixed_managed_service"
+                    tool.metadata["network_provider"] = "google"
                 agent.tools.append(tool)
             elif element.id in calls:
                 direct = _tool_from_call(path, calls[element.id], element.id, calls, functions)
@@ -550,6 +739,7 @@ def _agent_from_call(
                 # Imported or arbitrary helpers can carry capabilities that
                 # static analysis cannot safely infer.
                 agent.metadata["external_helper_semantics_unresolved"] = True
+                agent.metadata.setdefault("unresolved_helpers", []).append(element.id)
         elif isinstance(element, ast.Call):
             direct_mcp = _mcp_from_toolset(path, element, _call_name(element.func) or "mcp", calls)
             if direct_mcp:
@@ -564,6 +754,8 @@ def _agent_from_call(
             tool = Tool(name=tool_name, kind="adk_builtin", capabilities=caps, location=_location(path, element), metadata={"framework": "google-adk", "adk_builtin": tool_name})
             if tool_name in RETRIEVAL_TOOLS:
                 tool.metadata["untrusted_input"] = True
+                tool.metadata["network_scope"] = "fixed_managed_service"
+                tool.metadata["network_provider"] = "google"
             agent.tools.append(tool)
 
     code_node = _kw(call, "code_executor")
@@ -647,6 +839,24 @@ def scan_python_file(path: Path) -> Graph:
                 if "plugin" in call_name.lower() and any(k in call_name.lower() for k in ("guard", "security", "safety", "defense", "threat", "policy")):
                     safety_plugins.add(alias)
 
+    # Resolve common flow-sensitive collection construction without executing code.
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            continue
+        if not isinstance(node.func.value, ast.Name):
+            continue
+        sequence = sequences.get(node.func.value.id)
+        if sequence is None:
+            continue
+        if node.func.attr == "append" and len(node.args) == 1:
+            sequence.append(node.args[0])
+        elif node.func.attr == "extend" and len(node.args) == 1:
+            arg = node.args[0]
+            if isinstance(arg, (ast.List, ast.Tuple, ast.Set)):
+                sequence.extend(arg.elts)
+            elif isinstance(arg, ast.Name) and arg.id in sequences:
+                sequence.extend(sequences[arg.id])
+
     # Second pass catches aliases whose nested calls were declared later in the file.
     for alias, call in list(calls.items()):
         mcp = _mcp_from_toolset(path, call, alias, calls)
@@ -655,6 +865,25 @@ def scan_python_file(path: Path) -> Graph:
         tool = _tool_from_call(path, call, alias, calls, functions)
         if tool:
             tools[alias] = tool
+
+    # Resolve named literal tool-filter constants after all assignments are known.
+    for alias, call in calls.items():
+        filter_node = _kw(call, "tool_filter")
+        if not isinstance(filter_node, ast.Name) or filter_node.id not in sequences:
+            continue
+        values = [
+            value
+            for element in sequences[filter_node.id]
+            if (value := (_string(element) or _dotted_name(element))) is not None
+        ]
+        if not values:
+            continue
+        if alias in tools:
+            tools[alias].metadata["tool_filter"] = values
+            tools[alias].metadata["dynamic_tool_filter"] = False
+        if alias in mcp_servers:
+            mcp_servers[alias].allowed_tools = values
+            mcp_servers[alias].metadata["dynamic_tool_filter"] = False
 
     agents_by_alias: dict[str, Agent] = {}
     for alias, call in agent_calls:

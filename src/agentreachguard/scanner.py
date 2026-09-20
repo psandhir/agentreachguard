@@ -14,10 +14,12 @@ from agentreachguard.adapters.iac_identity import scan_terraform
 from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
+from agentreachguard.adapters.repository_adk import enrich_repository_graph
 from agentreachguard.analysis import build_attack_paths
 from agentreachguard.config import ScanConfig
 from agentreachguard.config import apply as apply_config
 from agentreachguard.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
+from agentreachguard.heuristics import PRIVILEGED_CAPABILITIES
 from agentreachguard.limits import (
     MAX_FILE_SIZE_BYTES,
     MAX_FILES_VISITED,
@@ -229,7 +231,13 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                 children[parent.name].append(child)
 
     authority = {
-        a.name: (set(a.capabilities), a.effective_resources, a.effective_destinations, context(a))
+        a.name: (
+            set(a.capabilities),
+            a.effective_resources,
+            a.effective_destinations,
+            context(a),
+            list(a.tools),
+        )
         for a in graph.agents
     }
     for parent in graph.agents:
@@ -239,6 +247,8 @@ def _propagate_adk_delegation(graph: Graph) -> None:
             capabilities = {"agent.delegate"}
             resources: list[ResourceScope] = []
             destinations: list[NetworkDestination] = []
+            privileged_tools: list[Tool] = []
+            outbound_tools: list[Tool] = []
             pending = [child]
             visited = {parent.name}
             while pending:
@@ -246,7 +256,18 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                 if reachable.name in visited:
                     continue
                 visited.add(reachable.name)
-                caps, scopes, targets, original_facts = authority[reachable.name]
+                caps, scopes, targets, original_facts, original_tools = authority[reachable.name]
+                for original_tool in original_tools:
+                    if (
+                        original_tool.capabilities & PRIVILEGED_CAPABILITIES
+                        and original_tool not in privileged_tools
+                    ):
+                        privileged_tools.append(original_tool)
+                    if (
+                        {"network.external", "external.write"} & original_tool.capabilities
+                        and original_tool not in outbound_tools
+                    ):
+                        outbound_tools.append(original_tool)
                 provenance.extend(f for f in original_facts if f not in provenance)
                 capabilities.update(caps)
                 if children[reachable.name]:
@@ -271,16 +292,33 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                     if copied_destination not in destinations:
                         destinations.append(copied_destination)
                 pending.extend(children[reachable.name])
+            delegated_approval = (
+                True
+                if privileged_tools
+                and all(tool.approval is True for tool in privileged_tools)
+                else None
+            )
+            managed_outbound = bool(outbound_tools) and all(
+                tool.metadata.get("network_scope") == "fixed_managed_service"
+                for tool in outbound_tools
+            )
             parent.tools.append(Tool(
                 name=f"delegate:{child.name}", kind="delegated_agent",
-                capabilities=capabilities, approval=None,
+                capabilities=capabilities, approval=delegated_approval,
                 guardrails=bool(child.metadata.get("safety_plugin")) or bool(
                     (child.metadata.get("callbacks") or {}).get("before_tool_callback")
                 ),
                 resources=resources, destinations=destinations, location=parent.location,
                 provenance=provenance,
-                metadata={"framework": "google-adk", "delegate_target": child.name,
-                          "transitive": True},
+                metadata={
+                    "framework": "google-adk",
+                    "delegate_target": child.name,
+                    "transitive": True,
+                    "approval_inherited": delegated_approval is True,
+                    "network_scope": (
+                        "fixed_managed_service" if managed_outbound else "inherited"
+                    ),
+                },
             ))
 
 
@@ -326,6 +364,7 @@ def scan(
                 candidates.append(candidate)
 
     seen_real_paths: set[Path] = set()
+    approved_python_paths: list[Path] = []
     for candidate in sorted(candidates):
         graph.coverage.files_considered += 1
         real_candidate = candidate.resolve()
@@ -381,6 +420,7 @@ def scan(
         if candidate.name in SUPPRESSION_FILENAMES:
             continue
         if candidate.suffix == ".py":
+            approved_python_paths.append(candidate)
             if is_google_adk_file(candidate):
                 _merge(graph, scan_google_adk_python(candidate), candidate)
             else:
@@ -399,6 +439,12 @@ def scan(
 
     _consolidate_global_identities(graph)
     _consolidate_agents(graph)
+    enrich_repository_graph(
+        graph,
+        root if root.is_dir() else root.parent,
+        python_paths=approved_python_paths,
+    )
+    _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
     diagnose_dynamic_constructs(graph)
@@ -406,6 +452,45 @@ def scan(
         add_diagnostic(graph.coverage, ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
         ))
+    unresolved_tools = sum(
+        diagnostic.kind == "unresolved_tool"
+        for diagnostic in graph.coverage.diagnostics
+    )
+    resolved_tools = len(graph.all_tools()) + len(graph.all_mcp_servers())
+    unresolved_delegations = sum(
+        diagnostic.kind == "unresolved_delegation"
+        for diagnostic in graph.coverage.diagnostics
+    )
+    resolved_delegations = sum(
+        tool.kind == "delegated_agent"
+        for tool in graph.all_tools()
+    )
+    graph.coverage.resolution = {
+        "tools": {
+            "resolved_entities": resolved_tools,
+            "unresolved_references": unresolved_tools,
+            "ratio": (
+                resolved_tools / (resolved_tools + unresolved_tools)
+                if resolved_tools + unresolved_tools
+                else 1.0
+            ),
+        },
+        "delegations": {
+            "resolved": resolved_delegations,
+            "unresolved": unresolved_delegations,
+            "ratio": (
+                resolved_delegations / (resolved_delegations + unresolved_delegations)
+                if resolved_delegations + unresolved_delegations
+                else 1.0
+            ),
+        },
+        "identities": {"discovered": len(graph.all_identities())},
+        "external_helpers_unresolved": sum(
+            diagnostic.kind == "external_helper_semantics_unresolved"
+            for diagnostic in graph.coverage.diagnostics
+        ),
+    }
+
     graph.attack_paths = build_attack_paths(graph)
     findings = evaluate(graph)
     attach_findings(graph, findings)

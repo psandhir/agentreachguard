@@ -176,7 +176,7 @@ def main(argv: list[str] | None = None) -> int:
                 "version": __version__,
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
-                "configuration": {"path": str(config.source_path) if config.source_path else None, "strict": config.strict, "disabled_rules": disabled_rules, "rule_overrides": {rule_id: {"enabled": override.enabled, "severity": override.severity.label() if override.severity else None} for rule_id, override in config.rules.items()}},
+                "configuration": {"path": str(config.source_path) if config.source_path else None, "repository": {"strict": config.strict}, "cli_overrides": {"strict": bool(args.strict)}, "effective": {"strict": bool(args.strict or config.strict)}, "disabled_rules": disabled_rules, "rule_overrides": {rule_id: {"enabled": override.enabled, "severity": override.severity.label() if override.severity else None} for rule_id, override in config.rules.items()}},
                 "suppressions": {
                     "suppressed_findings": [f.as_dict() for f in graph.suppressed_findings],
                     "diagnostics": graph.suppression_diagnostics,

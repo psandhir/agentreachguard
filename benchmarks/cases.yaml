@@ -12,13 +12,7 @@ cases:
 - name: delegated-unapproved-operations
   path: cases/delegated-ops
   expected:
-  - ADK001@coordinator
-  - ADK001@worker
   - ADK004@worker
-  - AGT020@coordinator
-  - AGT020@worker
-  - AGT040@coordinator
-  - AGT040@worker
   - CAP002@coordinator
   - CAP004@coordinator
   - CAP004@worker
@@ -26,7 +20,6 @@ cases:
   - CAP005@worker
   - NET002@coordinator
   - NET002@worker
-  - PATH001@coordinator
 - name: sensitive-reports-with-wildcard-egress
   path: cases/identity-egress
   expected:
@@ -52,13 +45,7 @@ cases:
 - name: delegation-direct-privileged-child
   path: cases/delegation-1
   expected:
-  - ADK001@coordinator
-  - ADK001@worker
   - ADK004@worker
-  - AGT020@coordinator
-  - AGT020@worker
-  - AGT040@coordinator
-  - AGT040@worker
   - CAP002@coordinator
   - CAP004@coordinator
   - CAP004@worker
@@ -66,17 +53,10 @@ cases:
   - CAP005@worker
   - NET002@coordinator
   - NET002@worker
-  - PATH001@coordinator
 - name: delegation-second-reviewed-path
   path: cases/delegation-2
   expected:
-  - ADK001@coordinator
-  - ADK001@worker
   - ADK004@worker
-  - AGT020@coordinator
-  - AGT020@worker
-  - AGT040@coordinator
-  - AGT040@worker
   - CAP002@coordinator
   - CAP004@coordinator
   - CAP004@worker
@@ -84,7 +64,6 @@ cases:
   - CAP005@worker
   - NET002@coordinator
   - NET002@worker
-  - PATH001@coordinator
 - name: execution-shell-baseline
   path: cases/execution-1
   expected:
@@ -113,7 +92,6 @@ cases:
 - name: execution-sandbox-missing-limits
   path: cases/execution-4
   expected:
-  - ADK012@coder
   - AGT020@coder
   - CAP005@coder
   - PATH001@coder

@@ -8,7 +8,22 @@ from agentreachguard.models import Graph, ScanCoverage, ScanDiagnostic, SourceLo
 
 
 def add_diagnostic(coverage: ScanCoverage, diagnostic: ScanDiagnostic) -> None:
-    """Append a bounded coverage diagnostic without allowing memory exhaustion."""
+    """Append a bounded, de-duplicated coverage diagnostic."""
+    key = (
+        diagnostic.kind,
+        diagnostic.location.path if diagnostic.location else None,
+        diagnostic.location.line if diagnostic.location else None,
+        diagnostic.message,
+    )
+    for existing in coverage.diagnostics:
+        existing_key = (
+            existing.kind,
+            existing.location.path if existing.location else None,
+            existing.location.line if existing.location else None,
+            existing.message,
+        )
+        if existing_key == key:
+            return
     if len(coverage.diagnostics) >= MAX_DIAGNOSTICS:
         raise ScanLimitError(f"coverage diagnostic limit exceeded ({MAX_DIAGNOSTICS})")
     coverage.diagnostics.append(diagnostic)
@@ -26,6 +41,23 @@ def diagnose_python(path: Path, graph: Graph) -> None:
                     assignments[target.id] = node.value
                     if isinstance(node.value, (ast.List, ast.Tuple, ast.Set)):
                         sequences[target.id] = node.value.elts
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            continue
+        if not isinstance(node.func.value, ast.Name):
+            continue
+        sequence = sequences.get(node.func.value.id)
+        if sequence is None:
+            continue
+        if node.func.attr == "append" and len(node.args) == 1:
+            sequence.append(node.args[0])
+        elif node.func.attr == "extend" and len(node.args) == 1:
+            arg = node.args[0]
+            if isinstance(arg, (ast.List, ast.Tuple, ast.Set)):
+                sequence.extend(arg.elts)
+            elif isinstance(arg, ast.Name) and arg.id in sequences:
+                sequence.extend(sequences[arg.id])
+
     agents = {a.location.line: a for a in graph.agents if a.location and a.location.path == path}
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call) or node.lineno not in agents:
@@ -99,6 +131,20 @@ def diagnose_dynamic_constructs(graph: Graph) -> None:
                 add_diagnostic(graph.coverage, diagnostic)
                 existing.add(key)
     for server in graph.all_mcp_servers():
+        if server.url and server.authenticated is None:
+            diagnostic = ScanDiagnostic(
+                "authentication_unknown",
+                "MCP authentication configuration could not be resolved statically.",
+                server.location,
+            )
+            key = (
+                diagnostic.kind,
+                server.location.path if server.location else None,
+                server.location.line if server.location else None,
+            )
+            if key not in existing:
+                add_diagnostic(graph.coverage, diagnostic)
+                existing.add(key)
         if server.metadata.get("dynamic_mcp_endpoint"):
             diagnostic = ScanDiagnostic(
                 "dynamic_mcp_endpoint", "MCP endpoint or connection parameters could not be resolved.",

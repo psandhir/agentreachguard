@@ -144,10 +144,13 @@ def control_observations(graph):
             add(tool.name, 'sandbox', 'configured' if tool.metadata['sandboxed'] else
                 'disabled', tool.location)
         if getattr(tool, 'kind', None) == 'adk_code_executor' and tool.metadata.get('sandboxed') is True:
-            add(tool.name, 'sandbox_limits',
-                'timeout_network_filesystem_configured'
-                if tool.metadata.get('sandbox_constraints_complete')
-                else 'limits_incomplete', tool.location)
+            if tool.metadata.get('sandbox_constraints_applicable', True) is False:
+                add(tool.name, 'sandbox_limits', 'provider_managed', tool.location)
+            else:
+                add(tool.name, 'sandbox_limits',
+                    'timeout_network_filesystem_configured'
+                    if tool.metadata.get('sandbox_constraints_complete')
+                    else 'limits_incomplete', tool.location)
         if tool.metadata.get('adk_builtin') == 'ExecuteBashTool':
             add(tool.name, 'bash_policy',
                 'allowlist_and_blocklist_detected'
@@ -172,4 +175,18 @@ def control_observations(graph):
             add(agent.name, 'egress_allowlist',
                 'all_discovered_destinations_allowed' if all_allowed
                 else 'declared_allowlist_does_not_cover_all_destinations', agent.location)
-    return observations
+    deduplicated = []
+    seen = set()
+    for observation in observations:
+        location = observation.get("location") or {}
+        key = (
+            observation["subject"],
+            observation["control"],
+            observation["configuration"],
+            location.get("path"),
+            location.get("line"),
+        )
+        if key not in seen:
+            seen.add(key)
+            deduplicated.append(observation)
+    return deduplicated

@@ -75,7 +75,9 @@ reader = Agent(name="reader")
         assert root.sensitive_data_sources[0].selector == "/finance/records"
         assert root.effective_destinations[0].target == "*"
         root_ids = {f.rule_id for f in findings if f.agent == "root"}
-        assert {"AGT010", "DATA003", "PATH003"} <= root_ids
+        assert "DATA003" in root_ids
+        assert ("AGT010" in root_ids) is not approval
+        assert ("PATH003" in root_ids) is not approval
 
 
 def test_write_only_sensitive_resource_does_not_imply_data_read():

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ipaddress
 from urllib.parse import urlparse
 
 from agentreachguard.heuristics import (
@@ -13,6 +14,16 @@ from agentreachguard.heuristics import (
     role_looks_admin,
 )
 from agentreachguard.models import Finding, Graph, Identity, Severity
+
+
+def _is_loopback_url(url: str) -> bool:
+    host = (urlparse(url).hostname or "").lower()
+    if host == "localhost" or host.endswith(".localhost"):
+        return True
+    try:
+        return ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        return False
 
 
 def _identity_findings(identity: Identity, agent: str | None = None) -> list[Finding]:
@@ -84,14 +95,27 @@ def evaluate(graph: Graph) -> list[Finding]:
 
     # Layer 1: agent/framework/MCP configuration controls.
     for agent in graph.agents:
+        callbacks = agent.metadata.get("callbacks") or {}
+        agent_tool_control = bool(agent.metadata.get("safety_plugin")) or bool(
+            callbacks.get("before_tool_callback")
+        )
         for tool in agent.tools:
-            if "process.execute" in tool.capabilities and tool.approval is not True:
+            if (
+                "process.execute" in tool.capabilities
+                and tool.approval is not True
+                and tool.kind != "delegated_agent"
+            ):
                 findings.append(Finding("AGT020", Severity.HIGH, "Shell or process execution without approval", f"Tool '{tool.name}' can execute processes without an explicit approval requirement.", "Require approval for process execution and run the tool inside a constrained sandbox.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=process.execute", f"approval={tool.approval}"]))
             if "destructive.write" in tool.capabilities and tool.approval is not True:
                 findings.append(Finding("AGT021", Severity.HIGH, "Destructive action without human approval", f"Tool '{tool.name}' appears able to perform destructive writes without approval.", "Gate destructive operations with human approval and least-privilege authorization.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=destructive.write", f"approval={tool.approval}"]))
             if "data.write" in tool.capabilities and tool.approval is not True and tool.kind in {"apply_patch", "generic", "function"}:
                 findings.append(Finding("AGT022", Severity.MEDIUM, "State-changing tool without approval", f"Tool '{tool.name}' can modify state without explicit approval.", "Require approval for material state changes or constrain the tool to low-risk, reversible operations.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=data.write", f"approval={tool.approval}"]))
-            if tool.capabilities & PRIVILEGED_CAPABILITIES and not tool.guardrails and tool.approval is not True:
+            if (
+                tool.capabilities & PRIVILEGED_CAPABILITIES
+                and not tool.guardrails
+                and tool.approval is not True
+                and not agent_tool_control
+            ):
                 findings.append(Finding("AGT040", Severity.MEDIUM, "Privileged tool lacks explicit guardrail or approval", f"Privileged tool '{tool.name}' has no detected guardrail or approval configuration.", "Add tool input/output guardrails and/or explicit approval appropriate to the action.", layer=1, location=tool.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(tool.capabilities))]))
 
     # Google ADK framework-specific controls. These rules consume normalized
@@ -121,7 +145,12 @@ def evaluate(graph: Graph) -> list[Finding]:
                 if not tool.metadata.get("blocked_operators"):
                     missing.append("blocked_operators")
                 findings.append(Finding("ADK004", Severity.HIGH, "ADK Bash tool lacks a restrictive policy", f"Agent '{agent.name}' uses ExecuteBashTool without both a command allowlist and blocked-command/operator controls.", "Configure BashToolPolicy with allowed command prefixes and blocked operators/commands; add timeout, resource, and approval controls for dangerous commands.", layer=1, location=tool.location, agent=agent.name, evidence=["missing=" + ",".join(missing)]))
-            if tool.kind == "adk_code_executor" and tool.metadata.get("sandboxed") is True and not tool.metadata.get("sandbox_constraints_complete"):
+            if (
+                tool.kind == "adk_code_executor"
+                and tool.metadata.get("sandboxed") is True
+                and tool.metadata.get("sandbox_constraints_applicable", True) is not False
+                and not tool.metadata.get("sandbox_constraints_complete")
+            ):
                 missing = []
                 if not tool.metadata.get("sandbox_timeout_configured"):
                     missing.append("timeout")
@@ -151,9 +180,10 @@ def evaluate(graph: Graph) -> list[Finding]:
     for server in graph.all_mcp_servers():
         if server.url:
             parsed = urlparse(server.url)
-            if parsed.scheme.lower() == "http":
+            loopback = _is_loopback_url(server.url)
+            if parsed.scheme.lower() == "http" and not loopback:
                 findings.append(Finding("AGT031", Severity.HIGH, "Unencrypted remote MCP transport", f"MCP server '{server.name}' uses plaintext HTTP: {server.url}", "Use HTTPS/WSS with certificate validation for remote MCP connections.", layer=1, location=server.location, evidence=[f"url={server.url}"]))
-            if server.authenticated is not True:
+            if server.authenticated is False and not loopback:
                 findings.append(Finding("AGT030", Severity.HIGH, "Remote MCP server has no detected authentication", f"No recognized authentication mechanism was detected for remote MCP server '{server.name}'.", "Require authenticated MCP access using a scoped token/OAuth or workload identity.", layer=1, location=server.location, evidence=[f"url={server.url}", f"authenticated={server.authenticated}"]))
             if not server.allowed_tools:
                 findings.append(Finding("AGT032", Severity.MEDIUM, "Remote MCP lacks an explicit tool allowlist", f"Remote MCP server '{server.name}' has no detected explicit tool allowlist.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers. A denylist alone cannot prove the remaining surface is safe.", layer=1, location=server.location, evidence=[f"url={server.url}", "allowed_tools=none"]))
@@ -226,10 +256,22 @@ def evaluate(graph: Graph) -> list[Finding]:
         if broad_resources:
             findings.append(Finding("DATA001", Severity.HIGH, "Broad resource scope", f"Agent '{agent.name}' has broad resource selectors.", "Constrain files, data stores, buckets or records to the smallest resource scope required.", layer=4, location=agent.location, agent=agent.name, evidence=["resources=" + ",".join(r.selector for r in broad_resources)]))
 
-        explicit_broad_destinations = [d for d in destinations if destination_is_broad(d.target) or not d.restricted]
+        explicit_broad_destinations = [
+            d for d in destinations if destination_is_broad(d.target) or not d.restricted
+        ]
+        outbound_tools = [
+            tool
+            for tool in agent.tools
+            if {"network.external", "external.write"} & tool.capabilities
+        ]
+        unconstrained_outbound_tools = [
+            tool
+            for tool in outbound_tools
+            if tool.metadata.get("network_scope") != "fixed_managed_service"
+        ]
         if explicit_broad_destinations:
             findings.append(Finding("NET001", Severity.HIGH, "Outbound reachability lacks a detected restriction", f"Agent '{agent.name}' has broad destinations or no detected restriction for a possible outbound destination.", "Use egress allowlists/proxies and restrict outbound connectivity to required hosts.", layer=4, location=agent.location, agent=agent.name, evidence=["destinations=" + ",".join(d.target for d in explicit_broad_destinations)]))
-        elif outbound_caps and not destinations:
+        elif outbound_caps and not destinations and unconstrained_outbound_tools:
             findings.append(Finding("NET002", Severity.MEDIUM, "Outbound capability has no destination constraint", f"Agent '{agent.name}' has external network/write capability but no explicit destination allowlist was detected.", "Declare and enforce permitted destinations for outbound tools.", layer=4, location=agent.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(agent.capabilities & {"network.external", "external.write"}))]))
 
         if policy := agent.policy:
@@ -247,7 +289,10 @@ def evaluate(graph: Graph) -> list[Finding]:
             if outbound_tools and any(t.approval is not True for t in outbound_tools):
                 findings.append(Finding("AGT010", Severity.CRITICAL, "Potential sensitive-data exfiltration path", f"Agent '{agent.name}' combines sensitive-data access and outbound capability without an approval requirement detected on every outbound tool.", "Restrict outbound destinations, reduce data scope, or require human approval before sensitive information can leave the trust boundary.", layer=4, location=agent.location, agent=agent.name, evidence=["sensitive=" + ",".join(d.name for d in sensitive), "outbound=" + ",".join(t.name for t in outbound_tools)]))
 
-        if sensitive and (explicit_broad_destinations or (outbound_caps and not destinations)):
+        if sensitive and (
+            explicit_broad_destinations
+            or (outbound_caps and not destinations and unconstrained_outbound_tools)
+        ):
             findings.append(Finding("DATA003", Severity.CRITICAL, "Sensitive data has broad egress reachability", f"Agent '{agent.name}' combines sensitive data access with broadly constrained or unconstrained outbound capability.", "Restrict outbound destinations and require approval/DLP controls before sensitive data can leave the trust boundary.", layer=4, location=agent.location, agent=agent.name, evidence=["sensitive=" + ",".join(d.name for d in sensitive)]))
 
     # Layer 5: attack paths generated by the graph analyser.

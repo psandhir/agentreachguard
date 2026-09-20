@@ -14,7 +14,15 @@ def _auth_from_config(config: dict[str, Any]) -> tuple[bool | None, list[str]]:
     auth_keys: list[str] = []
     if isinstance(headers, dict):
         normalized = {str(key).lower() for key in headers}
-        auth_keys = sorted(normalized & {"authorization", "proxy-authorization", "x-api-key"})
+        auth_keys = sorted(
+            normalized
+            & {
+                "authorization",
+                "proxy-authorization",
+                "x-api-key",
+                "x-goog-api-key",
+            }
+        )
         if auth_keys:
             return True, auth_keys
     if config.get("authorization"):
@@ -23,7 +31,10 @@ def _auth_from_config(config: dict[str, Any]) -> tuple[bool | None, list[str]]:
         return True, ["oauth"]
     if config.get("token"):
         return True, ["token"]
-    return None, auth_keys
+    # A parsed static MCP configuration with no recognised auth field
+    # is evidence that authentication is absent. None is reserved for
+    # genuinely dynamic/unresolved authentication configuration.
+    return False, auth_keys
 
 
 def scan_mcp_config(path: Path) -> Graph:

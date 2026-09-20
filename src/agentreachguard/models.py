@@ -282,6 +282,7 @@ class ScanDiagnostic:
             "unsupported_security_construct": "ARG-COV-007",
             "external_helper_semantics_unresolved": "ARG-COV-008",
             "no_targets": "ARG-COV-009",
+            "authentication_unknown": "ARG-COV-010",
         }
         self.kind = self.kind or self.code
         self.diagnostic_id = self.diagnostic_id or mapping.get(self.kind, "ARG-COV-007")
@@ -301,6 +302,7 @@ class ScanCoverage:
     files_skipped: int = 0
     files_failed: int = 0
     diagnostics: list[ScanDiagnostic] = field(default_factory=list)
+    resolution: dict[str, Any] = field(default_factory=dict)
 
     @property
     def incomplete(self) -> bool:
@@ -310,6 +312,7 @@ class ScanCoverage:
         return {"files_considered": self.files_considered, "files_scanned": self.files_scanned,
                 "files_skipped": self.files_skipped, "files_failed": self.files_failed,
                 "incomplete": self.incomplete,
+                "resolution": self.resolution,
                 "diagnostics": [d.as_dict() for d in self.diagnostics]}
 
 

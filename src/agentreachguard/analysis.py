@@ -16,6 +16,12 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
         outbound = [
             t for t in agent.tools if {"network.external", "external.write"} & t.capabilities
         ]
+        unconstrained_outbound = [
+            t
+            for t in outbound
+            if t.metadata.get("network_scope") not in {"fixed_managed_service", "explicit_destination"}
+            and not (t.destinations and all(destination.restricted for destination in t.destinations))
+        ]
         execution = [t for t in agent.tools if "process.execute" in t.capabilities]
         destructive = [t for t in agent.tools if "destructive.write" in t.capabilities]
         secret_tools = [t for t in agent.tools if "secrets.read" in t.capabilities]
@@ -75,15 +81,15 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                 )
             )
 
-        if untrusted and secret_tools and outbound:
+        if untrusted and secret_tools and unconstrained_outbound:
             paths.append(
                 AttackPath(
                     path_id="PATH005",
                     title="Potential untrusted-input path to secret access and egress",
                     agent=agent.name,
-                    nodes=[untrusted[0].name, agent.name, secret_tools[0].name, outbound[0].name],
-                    severity=Severity.CRITICAL,
-                    rationale="The normalized agent model combines untrusted input, secret-reading capability and outbound capability.",
+                    nodes=[untrusted[0].name, agent.name, secret_tools[0].name, unconstrained_outbound[0].name],
+                    severity=Severity.HIGH,
+                    rationale="The normalized agent model combines untrusted input, secret-reading capability and unconstrained outbound capability.",
                     location=agent.location,
                 )
             )

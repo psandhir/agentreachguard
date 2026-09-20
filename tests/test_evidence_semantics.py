@@ -83,8 +83,12 @@ agent = Agent(name="ops", tools=[{tool_class}(on_approval=callback)])
 def test_adk_callback_presence_does_not_remove_execution_risk(tmp_path: Path):
     (tmp_path / 'agent.py').write_text('''
 from google.adk import Agent
-from google.adk.tools.bash_tool import ExecuteBashTool
-root_agent = Agent(name="ops", tools=[ExecuteBashTool()], before_tool_callback=policy_gate)
+from google.adk.code_executors import UnsafeLocalCodeExecutor
+root_agent = Agent(
+    name="ops",
+    code_executor=UnsafeLocalCodeExecutor(),
+    before_tool_callback=policy_gate,
+)
 ''')
     graph, findings = scan(tmp_path)
     assert any(f.rule_id == 'PATH001' for f in findings)
@@ -172,7 +176,7 @@ child = Agent(name="child", tools=[ExecuteBashTool()])
 root_agent = Agent(name="root", sub_agents=[child])
 ''')
     _, findings = scan(tmp_path)
-    finding = next(f for f in findings if f.rule_id == 'PATH001' and f.agent == 'root')
+    finding = next(f for f in findings if f.rule_id == 'CAP004' and f.agent == 'root')
     assert any(f.fact == 'capability=process.execute' and f.origin == 'observed'
                and f.location.path == source and f.location.line == 4 for f in finding.provenance)
 

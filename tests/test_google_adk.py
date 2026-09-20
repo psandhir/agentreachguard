@@ -119,7 +119,9 @@ root_agent = Agent(name="coordinator", model="gemini-flash-latest", sub_agents=[
     graph, findings = scan(tmp_path)
     parent = next(a for a in graph.agents if a.name == "coordinator")
     assert "process.execute" in parent.capabilities
-    assert any(f.rule_id == "PATH001" and f.agent == "coordinator" for f in findings)
+    delegated = next(tool for tool in parent.tools if tool.kind == "delegated_agent")
+    assert delegated.approval is True
+    assert not any(f.rule_id == "PATH001" and f.agent == "coordinator" for f in findings)
 
 
 def test_adk_remote_a2a_http_unauthenticated(tmp_path: Path) -> None:
