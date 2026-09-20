@@ -1,9 +1,9 @@
 """Framework adapter registry for Python agent source files."""
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
 
 from agentreachguard.adapters.google_adk import is_google_adk_file
 from agentreachguard.adapters.google_adk import scan_python_file as scan_google_adk_python
