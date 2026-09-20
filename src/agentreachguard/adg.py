@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from agentreachguard.limits import MAX_ADG_EDGES, MAX_ADG_NODES, ScanLimitError
-from agentreachguard.models import Graph, SourceLocation
+from agentreachguard.models import FlowPath, Graph, SourceLocation
 
 ADG_SCHEMA_VERSION = 1
 
@@ -183,11 +183,32 @@ def _framework(metadata: dict[str, Any]) -> str:
     return str(metadata.get("framework") or "generic")
 
 
+def _add_flow_edges(builder: _Builder, flow: FlowPath) -> None:
+    previous: str | None = None
+    for index, step in enumerate(flow.steps):
+        node_id = builder.node(
+            "flow_step",
+            f"{flow.flow_id}:{index}:{step.label}",
+            location=step.location,
+            attributes={"step_kind": step.kind, "label": step.label},
+        )
+        if previous is not None:
+            builder.edge(
+                "DATA_FLOWS_TO",
+                previous,
+                node_id,
+                location=step.location,
+                attributes={"flow_id": flow.flow_id, "basis": flow.basis},
+            )
+        previous = node_id
+
+
 def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
     """Project the normalized scanner graph into ADG schema version 1."""
     builder = _Builder(root)
     identity_ids: dict[str, str] = {}
     agent_ids: dict[str, str] = {}
+    tool_ids: dict[tuple[str, str], str] = {}
 
     identities = sorted(
         graph.all_identities(),
@@ -247,6 +268,24 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 framework=framework,
             )
             builder.edge("USES_MODEL", agent_id, model_id, location=agent.location)
+
+        for memory in agent.metadata.get("memory") or []:
+            if not isinstance(memory, dict):
+                continue
+            memory_name = str(memory.get("name") or f"{agent.name}:memory")
+            memory_id = builder.node(
+                "memory",
+                memory_name,
+                location=agent.location,
+                framework=framework,
+                attributes={
+                    "persistent": memory.get("persistent"),
+                    "backend": memory.get("backend"),
+                },
+            )
+            builder.edge("READS_MEMORY", agent_id, memory_id, location=agent.location)
+            if memory.get("writable", True):
+                builder.edge("WRITES_MEMORY", agent_id, memory_id, location=agent.location)
 
         for source in agent.inputs:
             input_id = builder.node(
@@ -361,6 +400,7 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                     "guardrails": tool.guardrails,
                 },
             )
+            tool_ids[(agent.name, tool.name)] = tool_id
             builder.edge("INVOKES", agent_id, tool_id, location=tool.location)
             if tool.identity:
                 identity_id = identity_ids.get(tool.identity)
@@ -458,6 +498,16 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                     target_id,
                     location=agent.location,
                 )
+        for control_edge in agent.metadata.get("control_edges") or []:
+            if not isinstance(control_edge, (tuple, list)) or len(control_edge) != 2:
+                continue
+            left = tool_ids.get((agent.name, str(control_edge[0])))
+            right = tool_ids.get((agent.name, str(control_edge[1])))
+            if left and right:
+                builder.edge("CONTROL_FLOWS_TO", left, right, location=agent.location)
+
+    for flow in graph.flow_paths:
+        _add_flow_edges(builder, flow)
 
     return AgentDependencyGraph(
         nodes=list(builder.nodes.values()),

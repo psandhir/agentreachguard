@@ -11,6 +11,8 @@ from agentreachguard.adapters.adk_config import scan_adk_config, scan_adk_env
 from agentreachguard.adapters.google_adk import is_google_adk_file
 from agentreachguard.adapters.google_adk import scan_python_file as scan_google_adk_python
 from agentreachguard.adapters.iac_identity import scan_terraform
+from agentreachguard.adapters.langgraph import is_langgraph_file
+from agentreachguard.adapters.langgraph import scan_python_file as scan_langgraph_python
 from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
@@ -313,7 +315,7 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                 resources=resources, destinations=destinations, location=parent.location,
                 provenance=provenance,
                 metadata={
-                    "framework": "google-adk",
+                    "framework": parent.metadata.get("framework", "generic"),
                     "delegate_target": child.name,
                     "transitive": True,
                     "approval_inherited": delegated_approval is True,
@@ -425,6 +427,8 @@ def scan(
             approved_python_paths.append(candidate)
             if is_google_adk_file(candidate):
                 _merge(graph, scan_google_adk_python(candidate), candidate)
+            elif is_langgraph_file(candidate):
+                _merge(graph, scan_langgraph_python(candidate), candidate)
             else:
                 _merge(graph, scan_python_file(candidate), candidate)
             diagnose_python(candidate, graph)
@@ -450,6 +454,16 @@ def scan(
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
     diagnose_dynamic_constructs(graph)
+    for agent in graph.agents:
+        if agent.metadata.get("dynamic_control_flow"):
+            add_diagnostic(
+                graph.coverage,
+                ScanDiagnostic(
+                    "unresolved_handoff",
+                    "Dynamic graph/handoff control flow could not be fully resolved.",
+                    agent.location,
+                ),
+            )
     if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
         add_diagnostic(graph.coverage, ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",

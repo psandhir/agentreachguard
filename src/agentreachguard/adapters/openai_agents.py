@@ -252,6 +252,19 @@ def scan_python_file(path: Path) -> Graph:
                 if server:
                     mcp_servers[alias] = server
 
+    agent_names_by_alias: dict[str, str] = {}
+    for statement in ast.walk(tree):
+        if not isinstance(statement, (ast.Assign, ast.AnnAssign)):
+            continue
+        value = statement.value
+        if not isinstance(value, ast.Call) or _call_name(value.func) != "Agent":
+            continue
+        targets = statement.targets if isinstance(statement, ast.Assign) else [statement.target]
+        alias = next((target.id for target in targets if isinstance(target, ast.Name)), None)
+        if alias:
+            runtime_name = _literal(_kw(value, "name"))
+            agent_names_by_alias[alias] = str(runtime_name or alias)
+
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call) or _call_name(node.func) != "Agent":
             continue
@@ -281,6 +294,19 @@ def scan_python_file(path: Path) -> Graph:
         for element in _resolve_sequence(_kw(node, "mcp_servers"), sequences):
             if isinstance(element, ast.Name) and element.id in mcp_servers:
                 agent.mcp_servers.append(mcp_servers[element.id])
+
+        delegates: list[str] = []
+        for element in _resolve_sequence(_kw(node, "handoffs"), sequences):
+            if isinstance(element, ast.Name):
+                delegates.append(agent_names_by_alias.get(element.id, element.id))
+            elif isinstance(element, ast.Call):
+                target_node = element.args[0] if element.args else _kw(element, "agent")
+                target = _call_name(target_node)
+                if target:
+                    delegates.append(agent_names_by_alias.get(target, target))
+        if delegates:
+            agent.metadata["delegates_to"] = list(dict.fromkeys(delegates))
+            agent.metadata["handoff_semantics"] = True
 
         # Infer inbound untrusted content only for tools whose names/kinds imply retrieval/browser input.
         inbound_markers = ("search", "browser", "fetch", "retrieve", "web_read", "read_email", "inbox", "webhook")
