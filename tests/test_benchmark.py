@@ -139,7 +139,7 @@ version: 1
 cases:
   - name: supported-http-to-shell
     path: case
-    expected: [PATH001@ops]
+    expected: [PATH001@ops, NET001@ops]
     expected_paths:
       - rule_id: PATH001
         agent: ops
@@ -181,7 +181,7 @@ version: 1
 cases:
   - name: wrong-flow-basis
     path: case
-    expected: [PATH001@ops]
+    expected: [PATH001@ops, NET001@ops]
     expected_paths:
       - rule_id: PATH001
         agent: ops
