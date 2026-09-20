@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import ast
 import hashlib
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
 
 from agentreachguard.coverage import add_diagnostic
 from agentreachguard.limits import (
@@ -243,8 +243,10 @@ def _sink_kind(called: str) -> tuple[str, str] | None:
     ):
         return "process_execute", called
     if (
-        lower.startswith(("requests.post", "requests.put", "requests.patch", "requests.delete"))
-        or lower.startswith(("httpx.post", "httpx.put", "httpx.patch", "httpx.delete"))
+        lower.startswith((
+            "requests.post", "requests.put", "requests.patch", "requests.delete",
+            "httpx.post", "httpx.put", "httpx.patch", "httpx.delete",
+        ))
         or leaf in {"send_email", "send_message", "upload_file", "publish_message"}
     ):
         return "external_send", called
@@ -428,9 +430,12 @@ class _FunctionAnalyzer:
         source = _source_kind(called)
         if source is None and lower_called in {"os.getenv", "os.environ.get"} and node.args:
             key = node.args[0]
-            if isinstance(key, ast.Constant) and isinstance(key.value, str):
-                if any(marker in key.value.lower() for marker in _SECRET_ENV_MARKERS):
-                    source = ("secret_value", called)
+            if (
+                isinstance(key, ast.Constant)
+                and isinstance(key.value, str)
+                and any(marker in key.value.lower() for marker in _SECRET_ENV_MARKERS)
+            ):
+                source = ("secret_value", called)
         if source:
             location = _location(self.info.path, node)
             relative = self.info.path.as_posix()
