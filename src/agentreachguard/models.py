@@ -323,6 +323,7 @@ class Graph:
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
     identities: list[Identity] = field(default_factory=list)
+    adg: Any | None = None
     attack_paths: list[AttackPath] = field(default_factory=list)
     suppressed_findings: list[Any] = field(default_factory=list)
     suppression_diagnostics: list[dict[str, Any]] = field(default_factory=list)

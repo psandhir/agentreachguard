@@ -15,6 +15,7 @@ from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
 from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.adapters.repository_adk import enrich_repository_graph
+from agentreachguard.adg import build_adg
 from agentreachguard.analysis import build_attack_paths
 from agentreachguard.config import ScanConfig
 from agentreachguard.config import apply as apply_config
@@ -492,6 +493,8 @@ def scan(
     }
 
     graph.attack_paths = build_attack_paths(graph)
+    analysis_root = root if root.is_dir() else root.parent
+    graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
     attach_findings(graph, findings)
     findings, disabled_rules = apply_config(config or ScanConfig(), findings)

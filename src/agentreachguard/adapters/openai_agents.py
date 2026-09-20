@@ -258,10 +258,16 @@ def scan_python_file(path: Path) -> Graph:
 
         name_value = _literal(_kw(node, "name"))
         instructions = _literal(_kw(node, "instructions"))
+        metadata: dict[str, Any] = {"framework": "openai-agents"}
+        if isinstance(instructions, str):
+            metadata["instructions"] = instructions
+        model = _literal(_kw(node, "model"))
+        if isinstance(model, str):
+            metadata["model"] = model
         agent = Agent(
             name=str(name_value or f"agent@{getattr(node, 'lineno', 1)}"),
             location=_location(path, node),
-            metadata={"instructions": instructions} if isinstance(instructions, str) else {},
+            metadata=metadata,
         )
 
         for element in _resolve_sequence(_kw(node, "tools"), sequences):

@@ -7,6 +7,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from agentreachguard import __version__
+from agentreachguard.aibom import build_aibom
 from agentreachguard.adapters.manifest import ManifestError
 from agentreachguard.benchmark import BenchmarkError
 from agentreachguard.benchmark import render_console as render_benchmark_console
@@ -60,6 +61,14 @@ def _parser() -> argparse.ArgumentParser:
     rules_parser = sub.add_parser("rules", help="List the built-in security rule catalogue")
     rules_parser.add_argument("--format", default="console", metavar="FORMAT")
     rules_parser.add_argument("--output", type=Path)
+    graph_parser = sub.add_parser("graph", help="Export the Agent Dependency Graph")
+    graph_parser.add_argument("path", nargs="?", default=".")
+    graph_parser.add_argument("--output", type=Path)
+    graph_parser.add_argument("--config", type=Path)
+    aibom_parser = sub.add_parser("aibom", help="Generate an Agent Bill of Materials")
+    aibom_parser.add_argument("path", nargs="?", default=".")
+    aibom_parser.add_argument("--output", type=Path)
+    aibom_parser.add_argument("--config", type=Path)
     return parser
 
 
@@ -135,6 +144,25 @@ def main(argv: list[str] | None = None) -> int:
     if not target.exists():
         print(f"agentreachguard: target does not exist: {target}", file=sys.stderr)
         return 1
+
+    if args.command in {"graph", "aibom"}:
+        try:
+            root = target if target.is_dir() else target.parent
+            config = load_config(root, args.config)
+            graph, _ = scan(target, config=config)
+        except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
+            print(f"agentreachguard: {exc}", file=sys.stderr)
+            return 1
+        if graph.adg is None:
+            print("agentreachguard: Agent Dependency Graph was not generated", file=sys.stderr)
+            return 1
+        document = graph.adg.as_dict() if args.command == "graph" else build_aibom(graph.adg)
+        output = json.dumps(document, indent=2)
+        if args.output:
+            args.output.write_text(output + "\n", encoding="utf-8")
+        else:
+            print(output)
+        return 0
 
     try:
         if args.command == "baseline":
