@@ -7,8 +7,8 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from agentreachguard import __version__
-from agentreachguard.aibom import build_aibom
 from agentreachguard.adapters.manifest import ManifestError
+from agentreachguard.aibom import build_aibom
 from agentreachguard.benchmark import BenchmarkError
 from agentreachguard.benchmark import render_console as render_benchmark_console
 from agentreachguard.benchmark import render_json as render_benchmark_json
