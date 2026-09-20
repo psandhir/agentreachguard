@@ -8,14 +8,10 @@ from pathlib import Path
 import yaml
 
 from agentreachguard.adapters.adk_config import scan_adk_config, scan_adk_env
-from agentreachguard.adapters.google_adk import is_google_adk_file
-from agentreachguard.adapters.google_adk import scan_python_file as scan_google_adk_python
 from agentreachguard.adapters.iac_identity import scan_terraform
-from agentreachguard.adapters.langgraph import is_langgraph_file
-from agentreachguard.adapters.langgraph import scan_python_file as scan_langgraph_python
 from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
-from agentreachguard.adapters.openai_agents import scan_python_file
+from agentreachguard.adapters.registry import scan_python_file
 from agentreachguard.adapters.repository_adk import enrich_repository_graph
 from agentreachguard.adg import build_adg
 from agentreachguard.analysis import build_attack_paths
@@ -425,12 +421,7 @@ def scan(
             continue
         if candidate.suffix == ".py":
             approved_python_paths.append(candidate)
-            if is_google_adk_file(candidate):
-                _merge(graph, scan_google_adk_python(candidate), candidate)
-            elif is_langgraph_file(candidate):
-                _merge(graph, scan_langgraph_python(candidate), candidate)
-            else:
-                _merge(graph, scan_python_file(candidate), candidate)
+            _merge(graph, scan_python_file(candidate), candidate)
             diagnose_python(candidate, graph)
         elif candidate.suffix == ".tf":
             _merge(graph, scan_terraform(candidate), candidate)

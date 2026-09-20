@@ -16,6 +16,30 @@ from agentreachguard.models import (
     Tool,
 )
 
+def _uses_openai_agents(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            if module == "agents" or module.startswith("agents.") or module.startswith("openai.agents"):
+                return True
+        if isinstance(node, ast.Import) and any(
+            alias.name == "agents"
+            or alias.name.startswith("agents.")
+            or alias.name.startswith("openai.agents")
+            for alias in node.names
+        ):
+            return True
+    return False
+
+
+def is_openai_agents_file(path: Path) -> bool:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except (OSError, UnicodeDecodeError, SyntaxError):
+        return False
+    return _uses_openai_agents(tree)
+
+
 MCP_TYPES = {
     "MCPServerStdio": "stdio",
     "MCPServerSse": "sse",
@@ -213,6 +237,8 @@ def scan_python_file(path: Path) -> Graph:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     except (SyntaxError, UnicodeDecodeError, OSError):
+        return graph
+    if not _uses_openai_agents(tree):
         return graph
 
     tools: dict[str, Tool] = {}

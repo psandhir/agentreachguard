@@ -85,8 +85,18 @@ def is_langgraph_file(path: Path) -> bool:
     return _uses_langgraph(tree)
 
 
+def _name_capabilities(name: str) -> set[str]:
+    caps = set(infer_capabilities(name))
+    tokens = set(name.lower().replace("-", "_").replace(".", "_").split("_"))
+    if "process.execute" in caps and not (
+        tokens & {"shell", "bash", "powershell", "command", "terminal", "exec"}
+    ):
+        caps.discard("process.execute")
+    return caps
+
+
 def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[str]:
-    caps = set(infer_capabilities(node.name))
+    caps = _name_capabilities(node.name)
     for child in ast.walk(node):
         if not isinstance(child, ast.Call):
             continue
@@ -187,7 +197,7 @@ def scan_python_file(path: Path) -> Graph:
                 function_name = _call_name(function_node)
                 if not node_name:
                     continue
-                caps = set(infer_capabilities(node_name))
+                caps = _name_capabilities(node_name)
                 if function_name and function_name in functions:
                     caps.update(_function_capabilities(functions[function_name]))
                 tool = Tool(
