@@ -16,11 +16,12 @@ from agentreachguard.models import (
     Tool,
 )
 
+
 def _uses_openai_agents(tree: ast.AST) -> bool:
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
             module = node.module or ""
-            if module == "agents" or module.startswith("agents.") or module.startswith("openai.agents"):
+            if module == "agents" or module.startswith(("agents.", "openai.agents")):
                 return True
         if isinstance(node, ast.Import) and any(
             alias.name == "agents"
