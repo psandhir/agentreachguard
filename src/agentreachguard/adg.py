@@ -37,7 +37,7 @@ def _stable_id(kind: str, name: str, location: SourceLocation | None, root: Path
 
 def _edge_id(kind: str, source: str, target: str, attributes: dict[str, Any]) -> str:
     qualifier = json.dumps(attributes, sort_keys=True, separators=(",", ":"), default=str)
-    payload = "\0".join((kind, source, target, qualifier))
+    payload = f"{kind}\0{source}\0{target}\0{qualifier}"
     digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
     return f"edge-v1:{digest}"
 
