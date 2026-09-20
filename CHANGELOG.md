@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+### 0.4 development
+
+- Add a versioned, deterministic Agent Dependency Graph (ADG) with typed nodes and
+  relationships across agents, tools, models, prompt digests, memory, identities,
+  resources, destinations, MCP servers, and policy controls.
+- Add bounded cross-file source-to-sink analysis for supported Python constructs,
+  including supported static paths to process execution, external sends, and
+  agent-memory/checkpoint writes.
+- Distinguish `supported` static data-flow attack paths from `potential`
+  capability-co-occurrence paths without claiming runtime exploitability.
+- Add `PATH007` for supported untrusted-input to persistent-memory write paths.
+- Add SARIF code flows for supported static paths.
+- Add `agentreachguard graph` and `agentreachguard aibom` export commands.
+- Add initial LangGraph StateGraph normalization and OpenAI Agents handoff/delegation
+  relationships.
+- Add ADG and flow-analysis safety ceilings plus unresolved data-flow/handoff
+  coverage diagnostics.
+
+
 ## 0.3.0
 
 - Add repository-aware Google ADK analysis with cross-file tool, helper, delegation,

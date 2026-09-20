@@ -14,7 +14,7 @@ AgentReachGuard statically discovers agent configuration and evaluates five conn
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.3 beta / pilot-ready**. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.4 development** on the `v0.4-dev` branch; v0.3.0 remains the current published release. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -36,7 +36,8 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 - **Google Agent Development Kit (ADK) Python 2.x — first-class adapter**.
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
-- OpenAI Agents SDK Python constructs.
+- OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
+- Initial LangGraph `StateGraph` / `MessageGraph` normalization in v0.4 development.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `agentreachguard.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
