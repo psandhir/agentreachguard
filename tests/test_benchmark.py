@@ -14,7 +14,7 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
     manifest = REPOSITORY / "benchmarks" / "cases.yaml"
     report = run(manifest)
     assert report["summary"] == {
-        "cases": 26, "passed": 26, "true_positive": 74,
+        "cases": 31, "passed": 31, "true_positive": 79,
         "false_positive": 0, "false_negative": 0,
         "precision": 1.0, "recall": 1.0,
     }
@@ -27,7 +27,7 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
 
     assert main(["benchmark", str(manifest)]) == 0
     output = capsys.readouterr().out
-    assert "26/26 passed" in output
+    assert "31/31 passed" in output
     assert "Precision: 1.000" in output
     assert "Recall:    1.000" in output
 
@@ -97,7 +97,7 @@ def test_duplicate_benchmark_keys_fail_closed(tmp_path: Path):
 
 def test_reviewed_corpus_has_at_least_25_cases() -> None:
     report = run(REPOSITORY / "benchmarks" / "cases.yaml")
-    assert report["summary"]["cases"] >= 25
+    assert report["summary"]["cases"] >= 30
     assert report["summary"]["passed"] == report["summary"]["cases"]
     assert any(case["expect_incomplete"] for case in report["cases"])
 
@@ -105,7 +105,7 @@ def test_reviewed_corpus_has_at_least_25_cases() -> None:
 def test_benchmark_reports_per_rule_metrics() -> None:
     report = run(REPOSITORY / "benchmarks" / "cases.yaml")
     metrics = report["metrics"]
-    assert metrics["cases_total"] == 26
+    assert metrics["cases_total"] == 31
     assert metrics["per_rule"]["ADK004"]["true_positives"] > 0
     assert metrics["per_rule"]["ADK004"]["precision"] == 1.0
     assert metrics["per_rule"]["ADK002"]["true_positives"] == 1
