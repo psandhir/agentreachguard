@@ -19,10 +19,10 @@ from agentreachguard.adapters.openai_agents import scan_python_file
 from agentreachguard.adapters.repository_adk import enrich_repository_graph
 from agentreachguard.adg import build_adg
 from agentreachguard.analysis import build_attack_paths
-from agentreachguard.flow import analyze_repository_flows
 from agentreachguard.config import ScanConfig
 from agentreachguard.config import apply as apply_config
 from agentreachguard.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
+from agentreachguard.flow import analyze_repository_flows
 from agentreachguard.heuristics import PRIVILEGED_CAPABILITIES
 from agentreachguard.limits import (
     MAX_FILE_SIZE_BYTES,
