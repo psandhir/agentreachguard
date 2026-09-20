@@ -38,6 +38,66 @@ def _key(rule_id: str, agent: str | None) -> str:
     return f"{rule_id}@{agent or '-'}"
 
 
+def _validate_path_expectations(manifest: Path, case: dict[str, Any], index: int) -> list[dict[str, str]]:
+    expectations = case.get("expected_paths", [])
+    if not isinstance(expectations, list):
+        raise BenchmarkError(f"{manifest}: cases[{index}].expected_paths must be a list")
+    allowed = {"rule_id", "agent", "source_kind", "sink_kind", "basis", "confidence"}
+    required = {"rule_id", "source_kind", "sink_kind", "basis"}
+    result: list[dict[str, str]] = []
+    for path_index, item in enumerate(expectations):
+        field = f"cases[{index}].expected_paths[{path_index}]"
+        if not isinstance(item, dict) or set(item) - allowed or not required <= set(item):
+            raise BenchmarkError(f"{manifest}: {field} has invalid fields")
+        if not all(isinstance(value, str) and value for value in item.values()):
+            raise BenchmarkError(f"{manifest}: {field} values must be nonempty strings")
+        result.append(dict(item))
+    return result
+
+
+def _path_expectation_label(expectation: dict[str, str]) -> str:
+    agent = expectation.get("agent", "-")
+    confidence = expectation.get("confidence", "*")
+    return (
+        f"{expectation['rule_id']}@{agent}:"
+        f"{expectation['source_kind']}->{expectation['sink_kind']}:"
+        f"{expectation['basis']}:{confidence}"
+    )
+
+
+def _path_expectation_matches(expectation: dict[str, str], graph, findings) -> bool:
+    flow_by_id = {flow.flow_id: flow for flow in graph.flow_paths}
+    for path in graph.attack_paths:
+        if path.path_id != expectation["rule_id"]:
+            continue
+        if expectation.get("agent") and path.agent != expectation["agent"]:
+            continue
+        if path.metadata.get("basis", "capability_cooccurrence") != expectation["basis"]:
+            continue
+        flow_id = path.metadata.get("flow_id")
+        flow = flow_by_id.get(flow_id)
+        if flow is None:
+            continue
+        if flow.source_kind != expectation["source_kind"] or flow.sink_kind != expectation["sink_kind"]:
+            continue
+        expected_confidence = expectation.get("confidence")
+        if expected_confidence:
+            finding = next(
+                (
+                    item for item in findings
+                    if item.rule_id == path.path_id
+                    and item.agent == path.agent
+                    and " -> ".join(path.nodes) in item.evidence
+                ),
+                None,
+            )
+            actual_confidence = finding.confidence.value if finding and finding.confidence else None
+            if actual_confidence != expected_confidence:
+                continue
+        return True
+    return False
+
+
 def run(manifest: Path) -> dict[str, Any]:
     try:
         raw = yaml.load(manifest.read_text(encoding="utf-8"), Loader=_UniqueLoader)
@@ -52,7 +112,10 @@ def run(manifest: Path) -> dict[str, Any]:
     total_tp = total_fp = total_fn = 0
     names = set()
     for index, case in enumerate(raw["cases"]):
-        allowed_fields = {"name", "path", "expected", "expected_diagnostics", "expect_incomplete"}
+        allowed_fields = {
+            "name", "path", "expected", "expected_diagnostics", "expect_incomplete",
+            "expected_paths",
+        }
         if not isinstance(case, dict) or set(case) - allowed_fields or not {"name", "path", "expected"} <= set(case):
             raise BenchmarkError(f"{manifest}: cases[{index}] has invalid fields")
         if not all(isinstance(case.get(key), str) and case[key] for key in ("name", "path")):
@@ -66,6 +129,7 @@ def run(manifest: Path) -> dict[str, Any]:
         ):
             raise BenchmarkError(f"{manifest}: cases[{index}].expected must contain RULE@agent keys")
         expected = Counter(expected_list)
+        expected_paths = _validate_path_expectations(manifest, case, index)
         expected_diagnostics = case.get("expected_diagnostics", [])
         if not isinstance(expected_diagnostics, list) or not all(
             isinstance(value, str) and value.startswith("ARG-COV-") for value in expected_diagnostics
@@ -84,17 +148,30 @@ def run(manifest: Path) -> dict[str, Any]:
         false_negative = sorted((expected - actual).elements())
         actual_diagnostics = {d.diagnostic_id for d in graph.coverage.diagnostics}
         missing_diagnostics = sorted(set(expected_diagnostics) - actual_diagnostics)
+        missing_path_expectations = [
+            _path_expectation_label(expectation)
+            for expectation in expected_paths
+            if not _path_expectation_matches(expectation, graph, findings)
+        ]
         unexpected_incomplete = graph.coverage.incomplete != expect_incomplete
         total_tp += len(true_positive)
         total_fp += len(false_positive)
         total_fn += len(false_negative)
         results.append({
             "name": case["name"], "path": case["path"],
-            "passed": not false_positive and not false_negative and not missing_diagnostics and not unexpected_incomplete,
+            "passed": (
+                not false_positive
+                and not false_negative
+                and not missing_diagnostics
+                and not missing_path_expectations
+                and not unexpected_incomplete
+            ),
             "true_positive": true_positive, "false_positive": false_positive,
             "false_negative": false_negative, "coverage": graph.coverage.as_dict(),
             "expected_diagnostics": expected_diagnostics,
             "missing_diagnostics": missing_diagnostics,
+            "expected_paths": expected_paths,
+            "missing_path_expectations": missing_path_expectations,
             "expect_incomplete": expect_incomplete,
         })
     precision = total_tp / (total_tp + total_fp) if total_tp + total_fp else 1.0
@@ -152,6 +229,11 @@ def render_console(report: dict[str, Any]) -> str:
             lines.append("  Missing: " + ", ".join(case["false_negative"]))
         if case["missing_diagnostics"]:
             lines.append("  Missing diagnostics: " + ", ".join(case["missing_diagnostics"]))
+        if case["missing_path_expectations"]:
+            lines.append(
+                "  Missing path expectations: "
+                + ", ".join(case["missing_path_expectations"])
+            )
         if case["coverage"]["incomplete"]:
             lines.append("  Coverage incomplete")
     return "\n".join(lines).rstrip()
