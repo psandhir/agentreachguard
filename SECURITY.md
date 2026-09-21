@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Please do **not** open a public issue containing exploit details for a vulnerability in AgentReachGuard.
+Please do **not** open a public issue containing exploit details for a vulnerability in HorusTrace.
 
 Use GitHub's **Report a vulnerability** / private security-advisory flow when it is enabled for this repository. If that option is temporarily unavailable, open a minimal public issue asking the maintainer for a private reporting channel **without including vulnerability details**.
 
@@ -15,7 +15,7 @@ Please include privately:
 
 ## Scanner threat model
 
-AgentReachGuard treats scanned repositories and configuration as untrusted input.
+HorusTrace treats scanned repositories and configuration as untrusted input.
 
 The static scanner must not:
 
@@ -28,7 +28,7 @@ Parser denial-of-service, path traversal, unsafe deserialization, credential dis
 
 ## Hostile repository scanning guarantees
 
-AgentReachGuard statically parses supported source and configuration files. It does not
+HorusTrace statically parses supported source and configuration files. It does not
 import scanned Python modules, execute target code, launch subprocesses, start MCP
 servers, or fetch dependencies. The adversarial fixture suite covers import and process
 side effects, hostile MCP commands, malformed source, dynamic configuration, oversized

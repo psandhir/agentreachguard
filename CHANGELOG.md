@@ -4,6 +4,7 @@
 
 ### 0.4 development
 
+- Rename the open-source project from **AgentReachGuard** to **HorusTrace**. The PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the package migration is completed.
 - Add a versioned, deterministic Agent Dependency Graph (ADG) with typed nodes and
   relationships across agents, tools, models, prompt digests, memory, identities,
   resources, destinations, MCP servers, and policy controls.

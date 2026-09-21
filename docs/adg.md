@@ -1,6 +1,6 @@
 # Agent Dependency Graph (ADG)
 
-AgentReachGuard v0.4 introduces a versioned, framework-agnostic Agent Dependency
+HorusTrace v0.4 introduces a versioned, framework-agnostic Agent Dependency
 Graph (ADG). The ADG is a deterministic static representation of the agent security
 surface; it does not execute the target or claim runtime authorization.
 
@@ -42,12 +42,12 @@ and resolved local/imported helper functions. It recognizes a conservative set o
 untrusted or sensitive sources and high-impact sinks such as process execution,
 outbound writes, and memory/checkpoint writes.
 
-A path with `basis: static_dataflow` means AgentReachGuard established a static
+A path with `basis: static_dataflow` means HorusTrace established a static
 value dependency through supported constructs. It does **not** mean the path has been
 exploited, that runtime policy is ineffective, or that arbitrary Python semantics
 were fully resolved.
 
-When tainted data crosses an unresolved helper, AgentReachGuard retains explicit
+When tainted data crosses an unresolved helper, HorusTrace retains explicit
 coverage uncertainty rather than upgrading that path to supported confidence.
 
 ## AIBOM

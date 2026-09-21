@@ -1,6 +1,6 @@
-# Contributing to AgentReachGuard
+# Contributing to HorusTrace
 
-AgentReachGuard is security tooling, so correctness and explainability matter more than rule count.
+HorusTrace is security tooling, so correctness and explainability matter more than rule count.
 
 ## Development setup
 
@@ -17,7 +17,7 @@ ruff check src tests
 A rule should include:
 
 1. A clearly described security condition.
-2. Evidence AgentReachGuard can deterministically observe.
+2. Evidence HorusTrace can deterministically observe.
 3. A practical remediation.
 4. At least one positive test fixture and, where applicable, a secure counterexample.
 5. Conservative severity. Avoid making a finding critical unless the capability path justifies it.
