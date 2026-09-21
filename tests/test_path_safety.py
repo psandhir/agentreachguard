@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.scanner import ScannerError, scan
+from horustrace.scanner import ScannerError, scan
 
 
 def test_external_file_symlink_is_not_read(tmp_path: Path) -> None:
