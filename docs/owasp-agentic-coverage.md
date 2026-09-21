@@ -1,10 +1,10 @@
 # OWASP Agentic Security Initiative coverage
 
-This document maps AgentReachGuard's supported static rules to the OWASP Agentic
+This document maps HorusTrace's supported static rules to the OWASP Agentic
 Security Initiative categories. It is a coverage reference, not a certification or
 a claim that every agentic risk is detected.
 
-| OWASP category | Coverage | AgentReachGuard evidence |
+| OWASP category | Coverage | HorusTrace evidence |
 | --- | --- | --- |
 | ASI01 Agent Goal Hijack | Partial/static evidence | `PATH001` identifies untrusted input combined with command execution. It does not prove a goal-hijack exploit. |
 | ASI02 Tool Misuse | Direct static detection | Approval and tool-surface rules such as `AGT021`, `AGT022`, `AGT032`, and `ADK005`. |
