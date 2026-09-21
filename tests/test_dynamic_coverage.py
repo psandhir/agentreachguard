@@ -3,11 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.cli import main
-from agentreachguard.coverage import add_diagnostic
-from agentreachguard.limits import ScanLimitError
-from agentreachguard.models import ScanCoverage, ScanDiagnostic
-from agentreachguard.scanner import scan
+from horustrace.cli import main
+from horustrace.coverage import add_diagnostic
+from horustrace.limits import ScanLimitError
+from horustrace.models import ScanCoverage, ScanDiagnostic
+from horustrace.scanner import scan
 
 
 @pytest.mark.parametrize(("source", "kind", "diagnostic_id"), [
