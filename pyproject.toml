@@ -25,10 +25,10 @@ classifiers = [
 dependencies = ["PyYAML>=6.0.2,<7"]
 
 [project.urls]
-Homepage = "https://github.com/psandhir/agentreachguard"
-Repository = "https://github.com/psandhir/agentreachguard"
-Issues = "https://github.com/psandhir/agentreachguard/issues"
-Security = "https://github.com/psandhir/agentreachguard/security/policy"
+Homepage = "https://github.com/psandhir/horustrace"
+Repository = "https://github.com/psandhir/horustrace"
+Issues = "https://github.com/psandhir/horustrace/issues"
+Security = "https://github.com/psandhir/horustrace/security/policy"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.3,<9", "ruff>=0.12,<1"]
