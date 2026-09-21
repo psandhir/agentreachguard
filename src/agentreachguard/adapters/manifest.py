@@ -19,7 +19,7 @@ from agentreachguard.models import (
     Tool,
 )
 
-MANIFEST_FILENAMES = {"agentreachguard.manifest.yaml", "agentreachguard.manifest.yml"}
+MANIFEST_FILENAMES = {"horustrace.manifest.yaml", "horustrace.manifest.yml", "agentreachguard.manifest.yaml", "agentreachguard.manifest.yml"}
 
 
 class ManifestError(ValueError):
