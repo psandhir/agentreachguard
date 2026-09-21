@@ -8,10 +8,10 @@ import agentreachguard
 import horustrace
 from agentreachguard.adapters.manifest import MANIFEST_FILENAMES
 from agentreachguard.config import ConfigError, load_config
+from agentreachguard.models import Graph as LegacyGraph
 from agentreachguard.scanner import _ignored
 from agentreachguard.suppressions import SUPPRESSION_FILENAMES
 from horustrace.models import Graph as HorusGraph
-from agentreachguard.models import Graph as LegacyGraph
 
 
 def _write_config(path: Path) -> None:
