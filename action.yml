@@ -48,7 +48,7 @@ runs:
         if [[ -n "$SCAN_SUPPRESSIONS" ]]; then
           scan_args+=(--suppressions "$SCAN_SUPPRESSIONS")
         fi
-        agentreachguard "${scan_args[@]}"
+        horustrace "${scan_args[@]}"
 branding:
   icon: shield
   color: blue

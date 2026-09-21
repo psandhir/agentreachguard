@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from agentreachguard.models import Finding, ScanCoverage
+from agentreachguard.models import Finding, FlowPath, ScanCoverage
 from agentreachguard.rule_registry import get_rule_metadata
 
 LEVELS = {
@@ -12,12 +12,48 @@ LEVELS = {
 }
 
 
-def render(findings: list[Finding], coverage: ScanCoverage | None = None,
-           controls: list[dict] | None = None,
-           suppressed: list[Finding] | None = None,
-           suppression_diagnostics: list[dict] | None = None) -> dict:
+def _flow_id(finding: Finding) -> str | None:
+    for evidence in finding.evidence:
+        if evidence.startswith("flow_id="):
+            return evidence.split("=", 1)[1]
+    return None
+
+
+def _sarif_code_flow(flow: FlowPath) -> dict | None:
+    locations = []
+    for step in flow.steps:
+        if step.location is None:
+            continue
+        locations.append(
+            {
+                "location": {
+                    "physicalLocation": {
+                        "artifactLocation": {"uri": str(step.location.path)},
+                        "region": {
+                            "startLine": max(1, step.location.line),
+                            "startColumn": max(1, step.location.column),
+                        },
+                    },
+                    "message": {"text": f"{step.kind}: {step.label}"},
+                }
+            }
+        )
+    if len(locations) < 2:
+        return None
+    return {"threadFlows": [{"locations": locations}]}
+
+
+def render(
+    findings: list[Finding],
+    coverage: ScanCoverage | None = None,
+    controls: list[dict] | None = None,
+    suppressed: list[Finding] | None = None,
+    suppression_diagnostics: list[dict] | None = None,
+    flow_paths: list[FlowPath] | None = None,
+) -> dict:
     rules: dict[str, dict] = {}
     results: list[dict] = []
+    flows_by_id = {flow.flow_id: flow for flow in flow_paths or []}
 
     for finding in findings:
         rules.setdefault(
@@ -32,7 +68,6 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
         try:
             default_severity = get_rule_metadata(finding.rule_id).default_severity.label()
         except KeyError:
-            # Synthetic findings used by integrations may not be in the built-in catalogue.
             default_severity = finding.severity.label()
         result = {
             "ruleId": finding.rule_id,
@@ -68,6 +103,11 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                     }
                 }
             ]
+        flow_id = _flow_id(finding)
+        if flow_id and flow_id in flows_by_id:
+            code_flow = _sarif_code_flow(flows_by_id[flow_id])
+            if code_flow:
+                result["codeFlows"] = [code_flow]
         results.append(result)
 
     return {
@@ -83,23 +123,33 @@ def render(findings: list[Finding], coverage: ScanCoverage | None = None,
                     }
                 },
                 "results": results,
-                **({"properties": {
-                    "coverage": coverage.as_dict(),
-                    "control_observations": controls or [],
-                    "suppressions": {
-                        "suppressed_findings": [f.as_dict() for f in suppressed or []],
-                        "diagnostics": suppression_diagnostics or [],
+                **({
+                    "properties": {
+                        "coverage": coverage.as_dict(),
+                        "control_observations": controls or [],
+                        "flow_paths": [flow.as_dict() for flow in flow_paths or []],
+                        "suppressions": {
+                            "suppressed_findings": [f.as_dict() for f in suppressed or []],
+                            "diagnostics": suppression_diagnostics or [],
+                        },
                     },
-                }, "invocations": [{
-                    "executionSuccessful": not coverage.incomplete,
-                    "toolExecutionNotifications": [
-                        {"descriptor": {"id": d.diagnostic_id}, "level": "warning",
-                         "message": {"text": d.message}, "properties": {
-                             "diagnostic_id": d.diagnostic_id, "kind": d.kind,
-                             "incomplete": d.incomplete,
-                         }} for d in coverage.diagnostics
-                    ],
-                }]} if coverage is not None else {}),
+                    "invocations": [{
+                        "executionSuccessful": not coverage.incomplete,
+                        "toolExecutionNotifications": [
+                            {
+                                "descriptor": {"id": d.diagnostic_id},
+                                "level": "warning",
+                                "message": {"text": d.message},
+                                "properties": {
+                                    "diagnostic_id": d.diagnostic_id,
+                                    "kind": d.kind,
+                                    "incomplete": d.incomplete,
+                                },
+                            }
+                            for d in coverage.diagnostics
+                        ],
+                    }],
+                } if coverage is not None else {}),
             }
         ],
     }

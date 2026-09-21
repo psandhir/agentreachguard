@@ -1,6 +1,6 @@
 # Architecture
 
-HorusTrace v0.1 uses five analysis layers over one normalized security graph.
+AgentReachGuard v0.1 uses five analysis layers over one normalized security graph.
 
 ```text
 ADK/OpenAI Python / ADK YAML / MCP / manifest / Terraform
@@ -54,7 +54,7 @@ Adapters must not execute the target application.
 
 ## Observation and policy
 
-HorusTrace intentionally distinguishes between facts discovered from source/IaC and declarations that need business context.
+AgentReachGuard intentionally distinguishes between facts discovered from source/IaC and declarations that need business context.
 
 For example, static code can discover `ShellTool`, but it cannot prove that shell access is required for the business purpose. The manifest therefore declares the capability budget and allowed resource/network boundary. Layer 2 and Layer 4 compare effective authority against that declared intent.
 

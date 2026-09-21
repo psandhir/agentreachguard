@@ -6,28 +6,141 @@ from agentreachguard.heuristics import (
 )
 from agentreachguard.models import AttackPath, Graph, Severity
 
+_UNTRUSTED_FLOW_SOURCES = {
+    "user_input",
+    "external_http_response",
+    "web_retrieval",
+    "mcp_response",
+}
+
+
+def _path_metadata(*, basis: str, flow_id: str | None = None) -> dict:
+    limitations = [
+        "Runtime authorization and control effectiveness are not verified.",
+    ]
+    if basis == "static_dataflow":
+        limitations.insert(
+            0,
+            "A supported static source-to-sink dependency was established; "
+            "runtime exploitability is not verified.",
+        )
+    else:
+        limitations.insert(
+            0,
+            "The scanner does not establish executable data flow between these nodes.",
+        )
+    return {
+        "assessment": "potential_risk",
+        "basis": basis,
+        "exploitability": "not_verified",
+        "flow_id": flow_id,
+        "limitations": limitations,
+    }
+
+
+def _flow_backed_paths(graph: Graph) -> list[AttackPath]:
+    paths: list[AttackPath] = []
+    for flow in graph.flow_paths:
+        if (
+            not flow.agent
+            or flow.basis != "static_dataflow"
+            or flow.confidence.value != "supported"
+        ):
+            continue
+        nodes = [step.label for step in flow.steps]
+        if flow.source_kind in _UNTRUSTED_FLOW_SOURCES and flow.sink_kind == "process_execute":
+            paths.append(
+                AttackPath(
+                    path_id="PATH001",
+                    title="Potential untrusted-input path to command execution",
+                    agent=flow.agent,
+                    nodes=nodes,
+                    severity=Severity.CRITICAL,
+                    rationale=(
+                        "A supported static data-flow path connects untrusted input to "
+                        "a process/code execution sink."
+                    ),
+                    location=flow.steps[-1].location if flow.steps else None,
+                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                )
+            )
+        elif flow.source_kind in _UNTRUSTED_FLOW_SOURCES and flow.sink_kind == "memory_write":
+            paths.append(
+                AttackPath(
+                    path_id="PATH007",
+                    title="Potential untrusted-input path to persistent memory write",
+                    agent=flow.agent,
+                    nodes=nodes,
+                    severity=Severity.HIGH,
+                    rationale=(
+                        "A supported static data-flow path connects untrusted input to "
+                        "an agent memory/checkpoint write sink."
+                    ),
+                    location=flow.steps[-1].location if flow.steps else None,
+                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                )
+            )
+        elif flow.source_kind == "secret_value" and flow.sink_kind == "external_send":
+            paths.append(
+                AttackPath(
+                    path_id="PATH003",
+                    title="Potential sensitive-data path to an external destination",
+                    agent=flow.agent,
+                    nodes=nodes,
+                    severity=Severity.CRITICAL,
+                    rationale=(
+                        "A supported static data-flow path connects a secret/credential "
+                        "source to an external send sink."
+                    ),
+                    location=flow.steps[-1].location if flow.steps else None,
+                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                )
+            )
+    return paths
+
 
 def build_attack_paths(graph: Graph) -> list[AttackPath]:
-    paths: list[AttackPath] = []
+    paths: list[AttackPath] = _flow_backed_paths(graph)
+    supported_rule_agents = {
+        (path.path_id, path.agent)
+        for path in paths
+        if path.metadata.get("basis") == "static_dataflow"
+    }
 
     for agent in graph.agents:
-        untrusted = [i for i in agent.inputs if i.trust == "untrusted" or i.kind in UNTRUSTED_INPUT_KINDS]
+        untrusted = [
+            item
+            for item in agent.inputs
+            if item.trust == "untrusted" or item.kind in UNTRUSTED_INPUT_KINDS
+        ]
         sensitive = agent.sensitive_data_sources
         outbound = [
-            t for t in agent.tools if {"network.external", "external.write"} & t.capabilities
+            tool
+            for tool in agent.tools
+            if {"network.external", "external.write"} & tool.capabilities
         ]
         unconstrained_outbound = [
-            t
-            for t in outbound
-            if t.metadata.get("network_scope") not in {"fixed_managed_service", "explicit_destination"}
-            and not (t.destinations and all(destination.restricted for destination in t.destinations))
+            tool
+            for tool in outbound
+            if tool.metadata.get("network_scope")
+            not in {"fixed_managed_service", "explicit_destination"}
+            and not (
+                tool.destinations
+                and all(destination.restricted for destination in tool.destinations)
+            )
         ]
-        execution = [t for t in agent.tools if "process.execute" in t.capabilities]
-        destructive = [t for t in agent.tools if "destructive.write" in t.capabilities]
-        secret_tools = [t for t in agent.tools if "secrets.read" in t.capabilities]
+        execution = [tool for tool in agent.tools if "process.execute" in tool.capabilities]
+        destructive = [
+            tool for tool in agent.tools if "destructive.write" in tool.capabilities
+        ]
+        secret_tools = [tool for tool in agent.tools if "secrets.read" in tool.capabilities]
 
         for tool in execution:
-            if untrusted and tool.approval is not True:
+            if (
+                untrusted
+                and tool.approval is not True
+                and ("PATH001", agent.name) not in supported_rule_agents
+            ):
                 paths.append(
                     AttackPath(
                         path_id="PATH001",
@@ -35,8 +148,12 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                         agent=agent.name,
                         nodes=[untrusted[0].name, agent.name, tool.name, "process.execute"],
                         severity=Severity.CRITICAL,
-                        rationale="The normalized agent model combines untrusted input and process-execution capability without a detected approval requirement.",
+                        rationale=(
+                            "The normalized agent model combines untrusted input and "
+                            "process-execution capability without a detected approval requirement."
+                        ),
                         location=tool.location or agent.location,
+                        metadata=_path_metadata(basis="capability_cooccurrence"),
                     )
                 )
 
@@ -49,8 +166,12 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                         agent=agent.name,
                         nodes=[untrusted[0].name, agent.name, tool.name, "destructive.write"],
                         severity=Severity.HIGH,
-                        rationale="The normalized agent model combines untrusted input and destructive-write capability without a detected approval requirement.",
+                        rationale=(
+                            "The normalized agent model combines untrusted input and "
+                            "destructive-write capability without a detected approval requirement."
+                        ),
                         location=tool.location or agent.location,
+                        metadata=_path_metadata(basis="capability_cooccurrence"),
                     )
                 )
 
@@ -61,10 +182,19 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                         path_id="PATH003",
                         title="Potential sensitive-data path to an external destination",
                         agent=agent.name,
-                        nodes=[sensitive[0].name, agent.name, tool.name, "external destination"],
+                        nodes=[
+                            sensitive[0].name,
+                            agent.name,
+                            tool.name,
+                            "external destination",
+                        ],
                         severity=Severity.CRITICAL,
-                        rationale="The normalized agent model combines sensitive-data access and external write/egress capability without a detected approval requirement.",
+                        rationale=(
+                            "The normalized agent model combines sensitive-data access and "
+                            "external write/egress capability without an approval requirement."
+                        ),
                         location=tool.location or agent.location,
+                        metadata=_path_metadata(basis="capability_cooccurrence"),
                     )
                 )
 
@@ -74,10 +204,19 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                     path_id="PATH004",
                     title="Potential combination of untrusted input, sensitive data and execution",
                     agent=agent.name,
-                    nodes=[untrusted[0].name, agent.name, sensitive[0].name, execution[0].name],
+                    nodes=[
+                        untrusted[0].name,
+                        agent.name,
+                        sensitive[0].name,
+                        execution[0].name,
+                    ],
                     severity=Severity.CRITICAL,
-                    rationale="The agent combines untrusted input, sensitive data access and arbitrary process execution.",
+                    rationale=(
+                        "The agent combines untrusted input, sensitive data access and "
+                        "arbitrary process execution."
+                    ),
                     location=agent.location,
+                    metadata=_path_metadata(basis="capability_cooccurrence"),
                 )
             )
 
@@ -87,10 +226,19 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                     path_id="PATH005",
                     title="Potential untrusted-input path to secret access and egress",
                     agent=agent.name,
-                    nodes=[untrusted[0].name, agent.name, secret_tools[0].name, unconstrained_outbound[0].name],
+                    nodes=[
+                        untrusted[0].name,
+                        agent.name,
+                        secret_tools[0].name,
+                        unconstrained_outbound[0].name,
+                    ],
                     severity=Severity.HIGH,
-                    rationale="The normalized agent model combines untrusted input, secret-reading capability and unconstrained outbound capability.",
+                    rationale=(
+                        "The normalized agent model combines untrusted input, secret-reading "
+                        "capability and unconstrained outbound capability."
+                    ),
                     location=agent.location,
+                    metadata=_path_metadata(basis="capability_cooccurrence"),
                 )
             )
 
@@ -103,23 +251,25 @@ def build_attack_paths(graph: Graph) -> list[AttackPath]:
                     agent=agent.name,
                     nodes=[untrusted[0].name, agent.name, *privileged],
                     severity=Severity.HIGH,
-                    rationale="The same agent combines untrusted input with multiple high-risk capabilities.",
+                    rationale=(
+                        "The same agent combines untrusted input with multiple "
+                        "high-risk capabilities."
+                    ),
                     location=agent.location,
+                    metadata=_path_metadata(basis="capability_cooccurrence"),
                 )
             )
 
-    # De-duplicate paths with identical IDs/agents/nodes.
     seen: set[tuple[str, str, tuple[str, ...]]] = set()
     result: list[AttackPath] = []
     for path in paths:
-        path.metadata.update({
-            "assessment": "potential_risk", "basis": "capability_cooccurrence",
-            "exploitability": "not_verified",
-            "limitations": [
-                "The scanner does not establish executable data flow between these nodes.",
-                "Runtime authorization and control effectiveness are not verified.",
-            ],
-        })
+        path.metadata.setdefault("assessment", "potential_risk")
+        path.metadata.setdefault("basis", "capability_cooccurrence")
+        path.metadata.setdefault("exploitability", "not_verified")
+        path.metadata.setdefault(
+            "limitations",
+            _path_metadata(basis=path.metadata["basis"])["limitations"],
+        )
         key = (path.path_id, path.agent, tuple(path.nodes))
         if key not in seen:
             seen.add(key)

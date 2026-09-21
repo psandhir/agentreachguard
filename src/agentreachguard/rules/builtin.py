@@ -307,7 +307,10 @@ def evaluate(graph: Graph) -> list[Finding]:
                 recommendation="Break the attack path by reducing privilege/reachability, validating untrusted input, sandboxing execution, or enforcing approval at the privileged action boundary.",
                 location=path.location,
                 agent=path.agent,
-                evidence=[" -> ".join(path.nodes)],
+                evidence=[" -> ".join(path.nodes)] + (
+                    [f"flow_id={path.metadata['flow_id']}"]
+                    if path.metadata.get("flow_id") else []
+                ),
             )
         )
 

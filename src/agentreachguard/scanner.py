@@ -8,17 +8,17 @@ from pathlib import Path
 import yaml
 
 from agentreachguard.adapters.adk_config import scan_adk_config, scan_adk_env
-from agentreachguard.adapters.google_adk import is_google_adk_file
-from agentreachguard.adapters.google_adk import scan_python_file as scan_google_adk_python
 from agentreachguard.adapters.iac_identity import scan_terraform
 from agentreachguard.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from agentreachguard.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
-from agentreachguard.adapters.openai_agents import scan_python_file
+from agentreachguard.adapters.registry import scan_python_file
 from agentreachguard.adapters.repository_adk import enrich_repository_graph
+from agentreachguard.adg import build_adg
 from agentreachguard.analysis import build_attack_paths
 from agentreachguard.config import ScanConfig
 from agentreachguard.config import apply as apply_config
 from agentreachguard.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
+from agentreachguard.flow import analyze_repository_flows
 from agentreachguard.heuristics import PRIVILEGED_CAPABILITIES
 from agentreachguard.limits import (
     MAX_FILE_SIZE_BYTES,
@@ -51,7 +51,7 @@ class ScannerError(ValueError):
 DEFAULT_IGNORES = {
     ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
 }
-IGNORE_MARKER = ".agentreachguard-ignore"
+IGNORE_MARKERS = {".horustrace-ignore", ".agentreachguard-ignore"}
 
 
 def _ignored(path: Path, root: Path) -> bool:
@@ -60,7 +60,7 @@ def _ignored(path: Path, root: Path) -> bool:
         return True
     current = path.parent
     while current != root and root in current.parents:
-        if (current / IGNORE_MARKER).exists():
+        if any((current / marker).exists() for marker in IGNORE_MARKERS):
             return True
         current = current.parent
     return False
@@ -311,7 +311,7 @@ def _propagate_adk_delegation(graph: Graph) -> None:
                 resources=resources, destinations=destinations, location=parent.location,
                 provenance=provenance,
                 metadata={
-                    "framework": "google-adk",
+                    "framework": parent.metadata.get("framework", "generic"),
                     "delegate_target": child.name,
                     "transitive": True,
                     "approval_inherited": delegated_approval is True,
@@ -421,10 +421,7 @@ def scan(
             continue
         if candidate.suffix == ".py":
             approved_python_paths.append(candidate)
-            if is_google_adk_file(candidate):
-                _merge(graph, scan_google_adk_python(candidate), candidate)
-            else:
-                _merge(graph, scan_python_file(candidate), candidate)
+            _merge(graph, scan_python_file(candidate), candidate)
             diagnose_python(candidate, graph)
         elif candidate.suffix == ".tf":
             _merge(graph, scan_terraform(candidate), candidate)
@@ -448,6 +445,16 @@ def scan(
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
     diagnose_dynamic_constructs(graph)
+    for agent in graph.agents:
+        if agent.metadata.get("dynamic_control_flow"):
+            add_diagnostic(
+                graph.coverage,
+                ScanDiagnostic(
+                    "unresolved_handoff",
+                    "Dynamic graph/handoff control flow could not be fully resolved.",
+                    agent.location,
+                ),
+            )
     if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
         add_diagnostic(graph.coverage, ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
@@ -465,6 +472,9 @@ def scan(
         tool.kind == "delegated_agent"
         for tool in graph.all_tools()
     )
+    analysis_root = root if root.is_dir() else root.parent
+    graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
+
     graph.coverage.resolution = {
         "tools": {
             "resolved_entities": resolved_tools,
@@ -489,9 +499,14 @@ def scan(
             diagnostic.kind == "external_helper_semantics_unresolved"
             for diagnostic in graph.coverage.diagnostics
         ),
+        "flows": {
+            "supported_paths": len(graph.flow_paths),
+            "agent_mapped": sum(flow.agent is not None for flow in graph.flow_paths),
+        },
     }
 
     graph.attack_paths = build_attack_paths(graph)
+    graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
     attach_findings(graph, findings)
     findings, disabled_rules = apply_config(config or ScanConfig(), findings)

@@ -67,6 +67,7 @@ metadata will become available through the CLI in WP02.
 - `PATH004` — untrusted input plus sensitive data plus arbitrary execution.
 - `PATH005` — untrusted input to secret access and egress.
 - `PATH006` — untrusted input reaches multiple high-risk capability classes.
+- `PATH007` — supported untrusted-input flow reaches an agent memory/checkpoint write.
 
 ## Interpreting evidence
 

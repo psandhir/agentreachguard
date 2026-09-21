@@ -1,5 +1,5 @@
 name: Security rule proposal
-about: Propose a deterministic HorusTrace rule
+about: Propose a deterministic AgentReachGuard rule
 labels: [enhancement]
 body:
   - type: input
@@ -20,7 +20,7 @@ body:
     id: evidence
     attributes:
       label: Static evidence
-      description: What can HorusTrace deterministically observe to prove the condition?
+      description: What can AgentReachGuard deterministically observe to prove the condition?
     validations:
       required: true
   - type: dropdown

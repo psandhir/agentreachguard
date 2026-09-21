@@ -1,6 +1,6 @@
 # Threat model
 
-HorusTrace focuses on security consequences of effective agent authority across configuration, tools, identity, resources and data flow.
+AgentReachGuard focuses on security consequences of effective agent authority across configuration, tools, identity, resources and data flow.
 
 ## In scope
 
@@ -29,7 +29,7 @@ Typical boundaries represented in the model are:
 
 ## Out of scope for v0.1
 
-HorusTrace does not claim to:
+AgentReachGuard does not claim to:
 
 - execute or dynamically test an agent;
 - prove prompt-injection exploitability from arbitrary natural language;
@@ -44,4 +44,4 @@ These boundaries are deliberate: findings should remain explainable and suitable
 
 ## ADK-specific trust boundaries
 
-ADK adds trust boundaries between parent and delegated agents, local/sandboxed execution environments, remote MCP servers, remote A2A agents, Google API credentials/scopes, and retrieved external content. HorusTrace represents these as normalized capabilities and edges rather than assuming that a child agent or toolset inherits the parent security posture safely.
+ADK adds trust boundaries between parent and delegated agents, local/sandboxed execution environments, remote MCP servers, remote A2A agents, Google API credentials/scopes, and retrieved external content. AgentReachGuard represents these as normalized capabilities and edges rather than assuming that a child agent or toolset inherits the parent security posture safely.

@@ -6,7 +6,7 @@
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
+> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. From v0.4, install with `pip install horustrace` and use the `horustrace` CLI. The legacy `agentreachguard` CLI and legacy `.agentreachguard*` configuration filenames remain supported during the transition; existing `arg-v1:` finding fingerprints remain unchanged.
 
 HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
@@ -16,7 +16,7 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.3 beta / pilot-ready**. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.4 development** on the `v0.4-dev` branch; this branch is being prepared for the first HorusTrace v0.4.0 release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -38,15 +38,16 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 - **Google Agent Development Kit (ADK) Python 2.x — first-class adapter**.
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
-- OpenAI Agents SDK Python constructs.
+- OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
+- Initial LangGraph `StateGraph` / `MessageGraph` normalization in v0.4 development.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
-- Framework-neutral `agentreachguard.manifest.yaml` for business/security intent.
+- Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
 - ADK `.env` credential-source checks without exposing secret values in findings.
 
 ## Google ADK coverage
 
-HorusTrace v0.3 performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
+The v0.3 release (published as AgentReachGuard) performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
 
 ### Agents and orchestration
 
@@ -106,25 +107,40 @@ See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface a
 
 ## Quick start
 
+### Backward compatibility
+
+HorusTrace v0.4 keeps the previous command and configuration names as compatibility aliases:
+
+```bash
+agentreachguard scan .                 # legacy CLI alias
+.agentreachguard.yaml                 # legacy scanner config
+agentreachguard.manifest.yaml         # legacy policy manifest
+.agentreachguard.suppressions.yaml    # legacy suppressions
+.agentreachguard-ignore               # legacy ignore marker
+```
+
+New projects should use the `horustrace` names. Existing `arg-v1:` finding fingerprints are deliberately preserved so baselines and suppressions remain stable.
+
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -e .
-agentreachguard scan .
+pip install horustrace
+horustrace scan .
 ```
 
 List the built-in rule catalogue without scanning a project:
 
 ```bash
-agentreachguard rules
-agentreachguard rules --format json --output rules.json
+horustrace rules
+horustrace rules --format json --output rules.json
 ```
 
 ### ADK demo
 
 ```bash
-agentreachguard scan examples/google-adk-vulnerable --fail-on none
-agentreachguard scan examples/google-adk-secure --fail-on none
+horustrace scan examples/google-adk-vulnerable --fail-on none
+horustrace scan examples/google-adk-secure --fail-on none
 ```
 
 The vulnerable ADK fixture intentionally exercises all five layers. The secure fixture should return zero findings under the current rule catalogue.
@@ -132,13 +148,13 @@ The vulnerable ADK fixture intentionally exercises all five layers. The secure f
 Generate SARIF:
 
 ```bash
-agentreachguard scan . --format sarif --output agentreachguard.sarif --fail-on none
+horustrace scan . --format sarif --output horustrace.sarif --fail-on none
 ```
 
 Fail CI on high/critical findings:
 
 ```bash
-agentreachguard scan . --fail-on high
+horustrace scan . --fail-on high
 ```
 
 Malformed, unreadable, or structurally invalid policy manifests stop the scan with exit
@@ -148,7 +164,7 @@ only disables failure for security findings. No report is written for a failed s
 ### Coverage and strict CI
 
 ```bash
-agentreachguard scan . --strict --format json --output report.json
+horustrace scan . --strict --format json --output report.json
 ```
 
 All report formats include file counts and coverage diagnostics. JSON exposes a
@@ -165,7 +181,7 @@ agent configuration sequences or expanded keyword arguments, unresolved external
 helper semantics, dynamic MCP endpoints/tool filters, unknown MCP authentication
 state, and scans with no supported security targets.
 Files in default ignored directories, and subtrees containing an
-`.agentreachguard-ignore` marker, are excluded from file counts. Other unsupported
+`.horustrace-ignore` marker, are excluded from file counts. Other unsupported
 file types are counted as skipped. A scanned file was read and parsed;
 that count does not mean its entire application behavior was understood.
 
@@ -183,8 +199,8 @@ scope change produces a new fingerprint.
 Create an initial baseline of current findings:
 
 ```bash
-agentreachguard baseline . \
-  --output .agentreachguard.suppressions.yaml \
+horustrace baseline . \
+  --output .horustrace.suppressions.yaml \
   --reason "Initial adoption backlog SEC-42" \
   --expires 2026-12-31
 ```
@@ -219,7 +235,7 @@ expired. Use `--suppressions path/to/file.yaml` to select a non-default file.
 ### Reviewed benchmark
 
 ```bash
-agentreachguard benchmark benchmarks/cases.yaml
+horustrace benchmark benchmarks/cases.yaml
 ```
 
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
@@ -338,12 +354,12 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/agentreachguard@v0.3.0
+- uses: psandhir/horustrace@v0.4.0
   with:
     path: .
     fail-on: high
     strict: "true"
-    suppressions: .agentreachguard.suppressions.yaml
+    suppressions: .horustrace.suppressions.yaml
 ```
 
 ## Design principles
@@ -383,7 +399,7 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 ### Repository scanner configuration
 
-Use `.agentreachguard.yaml` to tune scanner policy separately from the security intent manifest and temporary suppressions:
+Use `.horustrace.yaml` to tune scanner policy separately from the security intent manifest and temporary suppressions:
 
 ```yaml
 version: 1
@@ -394,8 +410,8 @@ rules:
   AGT022: {enabled: false}
 ```
 
-Use `agentreachguard scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
+Use `horustrace scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
 
 ### v0.3 release notes
 
-v0.3 (released as HorusTrace) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
+v0.3 (released as AgentReachGuard) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.

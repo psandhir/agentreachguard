@@ -155,3 +155,48 @@ cases:
 - name: secure-6
   path: cases/secure-6
   expected: []
+
+- name: v04-supported-http-to-shell
+  path: cases/v04-flow-http-shell
+  expected:
+  - PATH001@ops
+  - NET001@ops
+  expected_paths:
+  - rule_id: PATH001
+    agent: ops
+    source_kind: external_http_response
+    sink_kind: process_execute
+    basis: static_dataflow
+    confidence: supported
+- name: v04-supported-untrusted-memory-write
+  path: cases/v04-flow-memory
+  expected:
+  - PATH007@memory-agent
+  expected_paths:
+  - rule_id: PATH007
+    agent: memory-agent
+    source_kind: user_input
+    sink_kind: memory_write
+    basis: static_dataflow
+    confidence: supported
+- name: v04-unresolved-tainted-transform
+  path: cases/v04-flow-unresolved
+  expected: []
+  expected_diagnostics:
+  - ARG-COV-012
+  expect_incomplete: true
+- name: v04-openai-handoff-safe
+  path: cases/v04-openai-handoff
+  expected: []
+- name: v04-supported-secret-egress
+  path: cases/v04-secret-egress
+  expected:
+  - PATH003@ops
+  - NET001@ops
+  expected_paths:
+  - rule_id: PATH003
+    agent: ops
+    source_kind: secret_value
+    sink_kind: external_send
+    basis: static_dataflow
+    confidence: supported

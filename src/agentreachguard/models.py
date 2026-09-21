@@ -251,6 +251,60 @@ class Agent:
 
 
 @dataclass(slots=True)
+class FlowStep:
+    kind: str
+    label: str
+    location: SourceLocation | None = None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.kind,
+            "label": self.label,
+            "location": (
+                {
+                    "path": str(self.location.path),
+                    "line": self.location.line,
+                    "column": self.location.column,
+                }
+                if self.location
+                else None
+            ),
+        }
+
+
+@dataclass(slots=True)
+class FlowPath:
+    flow_id: str
+    source_kind: str
+    sink_kind: str
+    source_label: str
+    sink_label: str
+    steps: list[FlowStep]
+    agent: str | None = None
+    basis: str = "static_dataflow"
+    confidence: Confidence = Confidence.SUPPORTED
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def nodes(self) -> list[str]:
+        return [step.label for step in self.steps]
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "flow_id": self.flow_id,
+            "source_kind": self.source_kind,
+            "sink_kind": self.sink_kind,
+            "source_label": self.source_label,
+            "sink_label": self.sink_label,
+            "agent": self.agent,
+            "basis": self.basis,
+            "confidence": self.confidence.value,
+            "steps": [step.as_dict() for step in self.steps],
+            "metadata": self.metadata,
+        }
+
+
+@dataclass(slots=True)
 class AttackPath:
     path_id: str
     title: str
@@ -283,6 +337,10 @@ class ScanDiagnostic:
             "external_helper_semantics_unresolved": "ARG-COV-008",
             "no_targets": "ARG-COV-009",
             "authentication_unknown": "ARG-COV-010",
+            "unresolved_call": "ARG-COV-011",
+            "unresolved_dataflow": "ARG-COV-012",
+            "dynamic_memory_target": "ARG-COV-013",
+            "unresolved_handoff": "ARG-COV-014",
         }
         self.kind = self.kind or self.code
         self.diagnostic_id = self.diagnostic_id or mapping.get(self.kind, "ARG-COV-007")
@@ -323,6 +381,8 @@ class Graph:
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
     identities: list[Identity] = field(default_factory=list)
+    flow_paths: list[FlowPath] = field(default_factory=list)
+    adg: Any | None = None
     attack_paths: list[AttackPath] = field(default_factory=list)
     suppressed_findings: list[Any] = field(default_factory=list)
     suppression_diagnostics: list[dict[str, Any]] = field(default_factory=list)

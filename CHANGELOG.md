@@ -2,7 +2,27 @@
 
 ## Unreleased
 
-- Rename the open-source project from **AgentReachGuard** to **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace pending the package migration.
+### 0.4 development
+
+- Publish the project as the `horustrace` PyPI distribution with the `horustrace` Python package and CLI.
+- Retain `agentreachguard` as a compatibility CLI/package namespace and accept legacy configuration, manifest, suppression, and ignore filenames during the migration.
+- Preserve existing `arg-v1:` finding fingerprints and legacy SARIF fingerprint keys alongside HorusTrace keys.
+- Add a versioned, deterministic Agent Dependency Graph (ADG) with typed nodes and
+  relationships across agents, tools, models, prompt digests, memory, identities,
+  resources, destinations, MCP servers, and policy controls.
+- Add bounded cross-file source-to-sink analysis for supported Python constructs,
+  including supported static paths to process execution, external sends, and
+  agent-memory/checkpoint writes.
+- Distinguish `supported` static data-flow attack paths from `potential`
+  capability-co-occurrence paths without claiming runtime exploitability.
+- Add `PATH007` for supported untrusted-input to persistent-memory write paths.
+- Add SARIF code flows for supported static paths.
+- Add `horustrace graph` and `horustrace aibom` export commands.
+- Add initial LangGraph StateGraph normalization and OpenAI Agents handoff/delegation
+  relationships.
+- Add ADG and flow-analysis safety ceilings plus unresolved data-flow/handoff
+  coverage diagnostics.
+
 
 ## 0.3.0
 

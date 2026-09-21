@@ -1,6 +1,6 @@
 # Google ADK security coverage
 
-HorusTrace v0.3 contains a first-class, repository-aware static adapter for Google Agent Development Kit (ADK) Python projects and native ADK Agent Config YAML.
+AgentReachGuard v0.3 contains a first-class, repository-aware static adapter for Google Agent Development Kit (ADK) Python projects and native ADK Agent Config YAML.
 
 ## Analysis pipeline
 
@@ -11,7 +11,7 @@ ADK Python / root_agent.yaml / Terraform / .env
        ADK syntax + composition discovery
                     │
                     ▼
-       normalized HorusTrace security graph
+       normalized AgentReachGuard security graph
                     │
         ┌───────────┼───────────┐
         ▼           ▼           ▼
@@ -123,6 +123,6 @@ Cross-file child-agent references use source-path aliases as well as runtime nam
 
 ## Static-analysis boundary
 
-HorusTrace does not execute dynamic factories, resolve live IAM inheritance, inspect the implementation of arbitrary third-party tools, or prove the semantic effectiveness of a callback/guardrail. Runtime-generated tool lists can require a manifest or future runtime enrichment.
+AgentReachGuard does not execute dynamic factories, resolve live IAM inheritance, inspect the implementation of arbitrary third-party tools, or prove the semantic effectiveness of a callback/guardrail. Runtime-generated tool lists can require a manifest or future runtime enrichment.
 
 Separate ADK language SDKs (JavaScript/TypeScript, Go, Java/Kotlin) require dedicated syntax adapters. They are not silently treated as fully analysed by the Python adapter.
