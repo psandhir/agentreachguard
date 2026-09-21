@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.cli import main
-from agentreachguard.provenance import control_observations
-from agentreachguard.scanner import scan
+from horustrace.cli import main
+from horustrace.provenance import control_observations
+from horustrace.scanner import scan
 
 
 def test_source_policy_and_inference_survive_merging(tmp_path: Path):
@@ -18,7 +18,7 @@ def delete_record():
 shell = ShellTool()
 agent = Agent(name="ops", tools=[shell, delete_record])
 ''')
-    manifest = tmp_path / 'agentreachguard.manifest.yaml'
+    manifest = tmp_path / 'horustrace.manifest.yaml'
     manifest.write_text('''
 version: 1
 agents:
@@ -39,7 +39,7 @@ agents:
 
 
 def test_manifest_name_inference_is_not_an_explicit_declaration(tmp_path: Path):
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 agents:
   - name: ops
     tools:
@@ -132,7 +132,7 @@ agent = Agent(name="ops", tools=[fetch_data])
 
 @pytest.mark.parametrize('output_format', ['json', 'sarif', 'console'])
 def test_reports_explain_potential_paths_and_unverified_controls(tmp_path: Path, capsys, output_format):
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 agents:
   - name: ops
     inputs:
