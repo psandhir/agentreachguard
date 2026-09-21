@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from agentreachguard.aibom import build_aibom
-from agentreachguard.cli import main
-from agentreachguard.scanner import scan
+from horustrace.aibom import build_aibom
+from horustrace.cli import main
+from horustrace.scanner import scan
 
 
 def _project(root: Path) -> None:
