@@ -10,12 +10,12 @@ dynamic/unresolved configuration, and false-positive traps. One case intentional
 expects incomplete static analysis and an exact `ARG-COV-*` diagnostic; every other
 case fails if coverage is incomplete.
 
-The corpus has an `.agentreachguard-ignore` marker, so intentionally vulnerable
+The corpus has an `.horustrace-ignore` marker, so intentionally vulnerable
 fixtures do not affect scans started at the repository root. Scanning an individual
 case still works because its scan root is below the marker. Run the corpus explicitly:
 
 ```bash
-agentreachguard benchmark benchmarks/cases.yaml
+horustrace benchmark benchmarks/cases.yaml
 ```
 
 Add a case only with a documented trust boundary and reviewed expectations. Update
