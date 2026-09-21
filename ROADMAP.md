@@ -1,6 +1,6 @@
-# AgentReachGuard Roadmap
+# HorusTrace Roadmap
 
-AgentReachGuard is a **beta-stage / pilot-ready** static security analyser for AI agents. The roadmap is ordered around increasing confidence in **effective authority** and **attack-path** analysis rather than simply increasing rule count.
+HorusTrace is a **beta-stage / pilot-ready** static security analyser for AI agents. The roadmap is ordered around increasing confidence in **effective authority** and **attack-path** analysis rather than simply increasing rule count.
 
 ## v0.2 — Reliability and validation milestone
 
