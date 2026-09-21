@@ -75,7 +75,6 @@ def render(
             "message": {"text": finding.message},
             "properties": {
                 "horustraceLayer": finding.layer,
-                "agentreachguardLayer": finding.layer,
                 "default_severity": default_severity,
                 "effective_severity": finding.severity.label(),
                 "agent": finding.agent,
@@ -91,7 +90,6 @@ def render(
         if finding.fingerprint:
             result["partialFingerprints"] = {
                 "horustrace/v1": finding.fingerprint,
-                "agentreachguard/v1": finding.fingerprint,
             }
         if finding.location:
             result["locations"] = [
