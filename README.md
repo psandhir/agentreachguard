@@ -16,7 +16,7 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.4 development** on the `v0.4-dev` branch; v0.3.0 remains the current published release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.4.0 release candidate**. v0.3.0 remains the current published release until the v0.4.0 GitHub release is published. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
