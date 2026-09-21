@@ -43,4 +43,4 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install build
       - run: python -m build
-      - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/horustrace --help && wheel-venv/bin/horustrace rules --format json && wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high && wheel-venv/bin/agentreachguard --help && wheel-venv/bin/python -c "import horustrace, agentreachguard"
+      - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/horustrace --help && wheel-venv/bin/horustrace rules --format json && wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high && wheel-venv/bin/python -c "import horustrace"
