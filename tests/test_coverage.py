@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.cli import main
-from agentreachguard.scanner import scan
+from horustrace.cli import main
+from horustrace.scanner import scan
 
 
 @pytest.mark.parametrize('output_format', ['console', 'json', 'sarif'])
