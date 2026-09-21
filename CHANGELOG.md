@@ -5,7 +5,6 @@
 ### 0.4 development
 
 - Publish the project as the `horustrace` PyPI distribution with the `horustrace` Python package and CLI.
-- Retain `agentreachguard` as a compatibility CLI/package namespace and accept legacy configuration, manifest, suppression, and ignore filenames during the migration.
 - Preserve existing `arg-v1:` finding fingerprints and legacy SARIF fingerprint keys alongside HorusTrace keys.
 - Add a versioned, deterministic Agent Dependency Graph (ADG) with typed nodes and
   relationships across agents, tools, models, prompt digests, memory, identities,
@@ -62,7 +61,7 @@
 - Stop treating approval callbacks and literal function URLs as enforced controls.
 - Add stable finding fingerprints, baseline generation, and scoped, reasoned,
   expiring suppressions with audit output.
-- Add structured rule metadata, the `agentreachguard rules` catalogue command, and
+- Add structured rule metadata, the `horustrace rules` catalogue command, and
   OWASP Agentic coverage mappings.
 - Add explicit attack-path confidence values while retaining `not_verified` runtime
   exploitability semantics.
