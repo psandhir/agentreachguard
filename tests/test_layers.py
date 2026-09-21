@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def _scan_manifest(tmp_path: Path, text: str):
-    (tmp_path / "agentreachguard.manifest.yaml").write_text(text, encoding="utf-8")
+    (tmp_path / "horustrace.manifest.yaml").write_text(text, encoding="utf-8")
     return scan(tmp_path)
 
 
