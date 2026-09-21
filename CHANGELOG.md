@@ -4,6 +4,9 @@
 
 ### 0.4 development
 
+- Publish the project as the `horustrace` PyPI distribution with the `horustrace` Python package and CLI.
+- Retain `agentreachguard` as a compatibility CLI/package namespace and accept legacy configuration, manifest, suppression, and ignore filenames during the migration.
+- Preserve existing `arg-v1:` finding fingerprints and legacy SARIF fingerprint keys alongside HorusTrace keys.
 - Rename the open-source project from **AgentReachGuard** to **HorusTrace**. The PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the package migration is completed.
 - Add a versioned, deterministic Agent Dependency Graph (ADG) with typed nodes and
   relationships across agents, tools, models, prompt digests, memory, identities,
