@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-### 0.4 development
+## 0.4.0
 
 - Publish the project as the `horustrace` PyPI distribution with the `horustrace` Python package and CLI.
 - Retain `agentreachguard` as a compatibility CLI/package namespace and accept legacy configuration, manifest, suppression, and ignore filenames during the migration.
