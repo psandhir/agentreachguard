@@ -1,12 +1,14 @@
-# AgentReachGuard
+# HorusTrace
 
-[![CI](https://github.com/psandhir/agentreachguard/actions/workflows/ci.yml/badge.svg)](https://github.com/psandhir/agentreachguard/actions/workflows/ci.yml)
+[![CI](https://github.com/psandhir/horustrace/actions/workflows/ci.yml/badge.svg)](https://github.com/psandhir/horustrace/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-AgentReachGuard statically discovers agent configuration and evaluates five connected security layers:
+> **Naming transition:** HorusTrace has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
+
+HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
 1. **Agent configuration** — tools, approvals, guardrails, MCP, code execution and framework-specific controls.
 2. **Capability analysis** — effective authority, capability budgets, prohibited actions and dangerous combinations.
@@ -14,7 +16,7 @@ AgentReachGuard statically discovers agent configuration and evaluates five conn
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.3 beta / pilot-ready**. Findings are deterministic within supported constructs. AgentReachGuard does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.3 beta / pilot-ready**. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -44,7 +46,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 ## Google ADK coverage
 
-AgentReachGuard v0.3 performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
+HorusTrace v0.3 performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
 
 ### Agents and orchestration
 
@@ -357,7 +359,7 @@ This enables least-privilege comparison between **required** and **effective** c
 
 The Google ADK adapter is intended to be comprehensive for **security-relevant static constructs in current Python ADK 2.x and native Agent Config YAML**. It is not a claim that arbitrary third-party tool implementations, dynamically generated Python, runtime cloud authorization, or separate Java/Go/JavaScript/Kotlin ADK SDK syntax is fully analysed. Those require dedicated adapters or runtime/cloud-control-plane enrichment.
 
-AgentReachGuard is not a runtime firewall, formal taint verifier, malware scanner or proof that a prompt injection is exploitable. It does not execute the application or call cloud control planes during a normal scan.
+HorusTrace is not a runtime firewall, formal taint verifier, malware scanner or proof that a prompt injection is exploitable. It does not execute the application or call cloud control planes during a normal scan.
 
 ## Project roadmap
 
@@ -396,4 +398,4 @@ Use `agentreachguard scan . --config path/to/config.yaml` to select a file expli
 
 ### v0.3 release notes
 
-v0.3 moves AgentReachGuard from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
+v0.3 (released as HorusTrace) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.

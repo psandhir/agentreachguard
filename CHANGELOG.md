@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Rename the open-source project from **AgentReachGuard** to **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace pending the package migration.
+
 ## 0.3.0
 
 - Add repository-aware Google ADK analysis with cross-file tool, helper, delegation,

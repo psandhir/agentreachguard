@@ -1,4 +1,4 @@
-name: AgentReachGuard Security Scan
+name: HorusTrace Security Scan
 description: Static policy-as-code security analysis for AI agent projects
 inputs:
   path:
@@ -27,7 +27,7 @@ runs:
     - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: '3.12'
-    - name: Install AgentReachGuard
+    - name: Install HorusTrace
       shell: bash
       run: python -m pip install "$GITHUB_ACTION_PATH"
     - name: Scan agent project
