@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.models import Severity
-from agentreachguard.rule_registry import RULE_REGISTRY, get_rule_metadata, iter_rule_metadata
+from horustrace.models import Severity
+from horustrace.rule_registry import RULE_REGISTRY, get_rule_metadata, iter_rule_metadata
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTED_RULE_ID_LIST = re.findall(r"`([A-Z]+\d+)`", (ROOT / "docs/rules.md").read_text())
@@ -72,18 +72,18 @@ def test_registry_order_is_deterministic() -> None:
 
 
 def test_builtin_findings_reference_registered_rule_ids() -> None:
-    emitted = _emitted_rule_ids(ROOT / "src/agentreachguard/rules/builtin.py", "Finding", "rule_id")
-    emitted.update(_emitted_rule_ids(ROOT / "src/agentreachguard/analysis.py", "AttackPath", "path_id"))
+    emitted = _emitted_rule_ids(ROOT / "src/horustrace/rules/builtin.py", "Finding", "rule_id")
+    emitted.update(_emitted_rule_ids(ROOT / "src/horustrace/analysis.py", "AttackPath", "path_id"))
     assert emitted <= set(RULE_REGISTRY)
 
 
 def test_registry_default_severities_match_emitted_rules() -> None:
     defaults = _emitted_default_severities(
-        ROOT / "src/agentreachguard/rules/builtin.py", "Finding", "rule_id"
+        ROOT / "src/horustrace/rules/builtin.py", "Finding", "rule_id"
     )
     defaults.update(
         _emitted_default_severities(
-            ROOT / "src/agentreachguard/analysis.py", "AttackPath", "path_id"
+            ROOT / "src/horustrace/analysis.py", "AttackPath", "path_id"
         )
     )
     assert {rule_id: RULE_REGISTRY[rule_id].default_severity for rule_id in defaults} == defaults
