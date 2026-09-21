@@ -6,7 +6,7 @@
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-> **Naming transition:** AgentReachGuard is now **HorusTrace**. Until the PyPI migration is completed, the distribution, Python package, CLI, configuration filenames, and finding fingerprints remain under the `agentreachguard` namespace. Commands in this README intentionally continue to use the current CLI during this transition.
+> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. From v0.4, install with `pip install horustrace` and use the `horustrace` CLI. The legacy `agentreachguard` CLI and legacy `.agentreachguard*` configuration filenames remain supported during the transition; existing `arg-v1:` finding fingerprints remain unchanged.
 
 HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
@@ -41,7 +41,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
 - Initial LangGraph `StateGraph` / `MessageGraph` normalization in v0.4 development.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
-- Framework-neutral `agentreachguard.manifest.yaml` for business/security intent.
+- Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
 - ADK `.env` credential-source checks without exposing secret values in findings.
 
@@ -107,25 +107,40 @@ See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface a
 
 ## Quick start
 
+### Backward compatibility
+
+HorusTrace v0.4 keeps the previous command and configuration names as compatibility aliases:
+
+```bash
+agentreachguard scan .                 # legacy CLI alias
+.agentreachguard.yaml                 # legacy scanner config
+agentreachguard.manifest.yaml         # legacy policy manifest
+.agentreachguard.suppressions.yaml    # legacy suppressions
+.agentreachguard-ignore               # legacy ignore marker
+```
+
+New projects should use the `horustrace` names. Existing `arg-v1:` finding fingerprints are deliberately preserved so baselines and suppressions remain stable.
+
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -e .
-agentreachguard scan .
+pip install horustrace
+horustrace scan .
 ```
 
 List the built-in rule catalogue without scanning a project:
 
 ```bash
-agentreachguard rules
-agentreachguard rules --format json --output rules.json
+horustrace rules
+horustrace rules --format json --output rules.json
 ```
 
 ### ADK demo
 
 ```bash
-agentreachguard scan examples/google-adk-vulnerable --fail-on none
-agentreachguard scan examples/google-adk-secure --fail-on none
+horustrace scan examples/google-adk-vulnerable --fail-on none
+horustrace scan examples/google-adk-secure --fail-on none
 ```
 
 The vulnerable ADK fixture intentionally exercises all five layers. The secure fixture should return zero findings under the current rule catalogue.
@@ -133,13 +148,13 @@ The vulnerable ADK fixture intentionally exercises all five layers. The secure f
 Generate SARIF:
 
 ```bash
-agentreachguard scan . --format sarif --output agentreachguard.sarif --fail-on none
+horustrace scan . --format sarif --output horustrace.sarif --fail-on none
 ```
 
 Fail CI on high/critical findings:
 
 ```bash
-agentreachguard scan . --fail-on high
+horustrace scan . --fail-on high
 ```
 
 Malformed, unreadable, or structurally invalid policy manifests stop the scan with exit
@@ -149,7 +164,7 @@ only disables failure for security findings. No report is written for a failed s
 ### Coverage and strict CI
 
 ```bash
-agentreachguard scan . --strict --format json --output report.json
+horustrace scan . --strict --format json --output report.json
 ```
 
 All report formats include file counts and coverage diagnostics. JSON exposes a
@@ -166,7 +181,7 @@ agent configuration sequences or expanded keyword arguments, unresolved external
 helper semantics, dynamic MCP endpoints/tool filters, unknown MCP authentication
 state, and scans with no supported security targets.
 Files in default ignored directories, and subtrees containing an
-`.agentreachguard-ignore` marker, are excluded from file counts. Other unsupported
+`.horustrace-ignore` marker, are excluded from file counts. Other unsupported
 file types are counted as skipped. A scanned file was read and parsed;
 that count does not mean its entire application behavior was understood.
 
@@ -184,8 +199,8 @@ scope change produces a new fingerprint.
 Create an initial baseline of current findings:
 
 ```bash
-agentreachguard baseline . \
-  --output .agentreachguard.suppressions.yaml \
+horustrace baseline . \
+  --output .horustrace.suppressions.yaml \
   --reason "Initial adoption backlog SEC-42" \
   --expires 2026-12-31
 ```
@@ -220,7 +235,7 @@ expired. Use `--suppressions path/to/file.yaml` to select a non-default file.
 ### Reviewed benchmark
 
 ```bash
-agentreachguard benchmark benchmarks/cases.yaml
+horustrace benchmark benchmarks/cases.yaml
 ```
 
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
@@ -275,7 +290,7 @@ guardrail, authentication, and restriction fields require actual booleans;
 capability/scope fields accept strings or lists of strings. Policy errors identify
 the field and source line/column without printing its value. Existing documented
 field aliases remain supported. The schema definitions live in
-[`manifest_schema.py`](src/agentreachguard/manifest_schema.py).
+[`manifest_schema.py`](src/horustrace/manifest_schema.py).
 
 
 ## ADK-specific rule highlights
@@ -344,7 +359,7 @@ This enables least-privilege comparison between **required** and **effective** c
     path: .
     fail-on: high
     strict: "true"
-    suppressions: .agentreachguard.suppressions.yaml
+    suppressions: .horustrace.suppressions.yaml
 ```
 
 ## Design principles
@@ -384,7 +399,7 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 ### Repository scanner configuration
 
-Use `.agentreachguard.yaml` to tune scanner policy separately from the security intent manifest and temporary suppressions:
+Use `.horustrace.yaml` to tune scanner policy separately from the security intent manifest and temporary suppressions:
 
 ```yaml
 version: 1
@@ -395,7 +410,7 @@ rules:
   AGT022: {enabled: false}
 ```
 
-Use `agentreachguard scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
+Use `horustrace scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
 
 ### v0.3 release notes
 
