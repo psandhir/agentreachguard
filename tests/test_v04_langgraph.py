@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_langgraph_nodes_and_control_edges_project_to_adg(tmp_path: Path) -> None:
