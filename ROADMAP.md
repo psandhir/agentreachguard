@@ -23,7 +23,7 @@ Completed in the v0.2 release candidate:
   unsuppressed current state.
 - Structured rule metadata, rule catalogue CLI, and OWASP Agentic mappings.
 - Explicit attack-path confidence semantics without claiming verified exploitability.
-- Repository `.agentreachguard.yaml` configuration with rule enable/disable and
+- Repository `.horustrace.yaml` configuration with rule enable/disable and
   severity overrides applied before suppressions.
 - Hostile-repository protections including resource ceilings, canonical-path
   containment/deduplication, bounded diagnostics, and non-execution regression tests.
@@ -95,7 +95,7 @@ prompt mutation, and complete cloud authorization resolution remain outside v0.4
 
 ## v0.5 — Change-aware security analysis
 
-- Add `agentreachguard diff <base>..<head>`.
+- Add `horustrace diff <base>..<head>`.
 - Detect newly introduced capabilities, data access, egress, identities, and delegated authority.
 - Produce PR-focused SARIF/Markdown findings.
 - Add change-aware handling for existing fingerprints and suppressions.
