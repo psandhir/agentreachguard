@@ -1,6 +1,6 @@
 # Rule catalogue
 
-[`rule_registry.py`](../src/agentreachguard/rule_registry.py) is the canonical
+[`rule_registry.py`](../src/horustrace/rule_registry.py) is the canonical
 source of rule metadata. This catalogue mirrors its complete rule-ID set; rule
 metadata will become available through the CLI in WP02.
 

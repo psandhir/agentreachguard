@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from agentreachguard.cli import main
-from agentreachguard.scanner import scan
+from horustrace.cli import main
+from horustrace.scanner import scan
 
 
 def write(root: Path, rel: str, text: str):
@@ -281,7 +281,7 @@ def test_repository_resolver_uses_only_scanner_approved_files(tmp_path):
     write(tmp_path, "agent.py", "from google.adk import Agent\nroot_agent=Agent(name='root')\n")
     ignored = tmp_path / "benchmarks"
     ignored.mkdir()
-    (ignored / ".agentreachguard-ignore").write_text("", encoding="utf-8")
+    (ignored / ".horustrace-ignore").write_text("", encoding="utf-8")
     write(
         tmp_path,
         "benchmarks/ignored.py",

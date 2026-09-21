@@ -4,9 +4,9 @@ from pathlib import Path
 import pytest
 import yaml
 
-from agentreachguard.cli import main
-from agentreachguard.scanner import scan
-from agentreachguard.suppressions import SuppressionError
+from horustrace.cli import main
+from horustrace.scanner import scan
+from horustrace.suppressions import SuppressionError
 
 
 def vulnerable_project(root: Path, padding: str = "") -> None:
@@ -21,7 +21,7 @@ def future(days: int = 30) -> str:
 
 
 def write_suppressions(root: Path, items: list[dict]) -> Path:
-    path = root / ".agentreachguard.suppressions.yaml"
+    path = root / ".horustrace.suppressions.yaml"
     path.write_text(yaml.safe_dump({"version": 1, "suppressions": items}, sort_keys=False))
     return path
 
@@ -59,7 +59,7 @@ def test_fingerprint_suppression_is_applied_and_audited(tmp_path: Path):
 def test_yaml_date_value_is_supported(tmp_path: Path):
     vulnerable_project(tmp_path)
     target = next(f for f in scan(tmp_path)[1] if f.rule_id == "AGT020")
-    path = tmp_path / ".agentreachguard.suppressions.yaml"
+    path = tmp_path / ".horustrace.suppressions.yaml"
     path.write_text(f'''version: 1
 suppressions:
   - id: documented-form
@@ -73,7 +73,7 @@ suppressions:
 
 
 def test_scoped_rule_suppression_does_not_hide_another_agent(tmp_path: Path):
-    (tmp_path / "agentreachguard.manifest.yaml").write_text('''
+    (tmp_path / "horustrace.manifest.yaml").write_text('''
 agents:
   - name: a
     tools: [{name: shell, capabilities: [process.execute]}]
@@ -141,7 +141,7 @@ def test_invalid_suppressions_fail_closed(tmp_path: Path, item):
 
 def test_boolean_suppression_version_is_rejected(tmp_path: Path):
     vulnerable_project(tmp_path)
-    (tmp_path / ".agentreachguard.suppressions.yaml").write_text(
+    (tmp_path / ".horustrace.suppressions.yaml").write_text(
         "version: true\nsuppressions: []\n"
     )
     with pytest.raises(SuppressionError):
@@ -204,7 +204,7 @@ def test_baseline_does_not_replace_existing_file_without_force(tmp_path: Path, c
 
 def test_duplicate_yaml_keys_fail_closed(tmp_path: Path):
     vulnerable_project(tmp_path)
-    path = tmp_path / ".agentreachguard.suppressions.yaml"
+    path = tmp_path / ".horustrace.suppressions.yaml"
     path.write_text("version: 1\nversion: 1\nsuppressions: []\n")
     with pytest.raises(SuppressionError):
         scan(tmp_path)
@@ -241,7 +241,7 @@ def test_machine_reports_include_fingerprints_and_suppression_audit(
 def test_multiple_default_suppression_files_are_rejected(tmp_path: Path):
     vulnerable_project(tmp_path)
     for suffix in ("yaml", "yml"):
-        (tmp_path / f".agentreachguard.suppressions.{suffix}").write_text(
+        (tmp_path / f".horustrace.suppressions.{suffix}").write_text(
             "version: 1\nsuppressions: []\n"
         )
     with pytest.raises(SuppressionError, match="multiple default"):

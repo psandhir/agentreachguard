@@ -6,8 +6,6 @@
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. From v0.4, install with `pip install horustrace` and use the `horustrace` CLI. The legacy `agentreachguard` CLI and legacy `.agentreachguard*` configuration filenames remain supported during the transition; existing `arg-v1:` finding fingerprints remain unchanged.
-
 HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
 1. **Agent configuration** — tools, approvals, guardrails, MCP, code execution and framework-specific controls.
@@ -47,7 +45,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 ## Google ADK coverage
 
-The v0.3 release (published as AgentReachGuard) performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
+The v0.3 release (published as HorusTrace) performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
 
 ### Agents and orchestration
 
@@ -106,20 +104,6 @@ The v0.3 release (published as AgentReachGuard) performs repository-aware analys
 See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface and limitations.
 
 ## Quick start
-
-### Backward compatibility
-
-HorusTrace v0.4 keeps the previous command and configuration names as compatibility aliases:
-
-```bash
-agentreachguard scan .                 # legacy CLI alias
-.agentreachguard.yaml                 # legacy scanner config
-agentreachguard.manifest.yaml         # legacy policy manifest
-.agentreachguard.suppressions.yaml    # legacy suppressions
-.agentreachguard-ignore               # legacy ignore marker
-```
-
-New projects should use the `horustrace` names. Existing `arg-v1:` finding fingerprints are deliberately preserved so baselines and suppressions remain stable.
 
 
 ```bash
@@ -290,7 +274,7 @@ guardrail, authentication, and restriction fields require actual booleans;
 capability/scope fields accept strings or lists of strings. Policy errors identify
 the field and source line/column without printing its value. Existing documented
 field aliases remain supported. The schema definitions live in
-[`manifest_schema.py`](src/agentreachguard/manifest_schema.py).
+[`manifest_schema.py`](src/horustrace/manifest_schema.py).
 
 
 ## ADK-specific rule highlights
@@ -414,4 +398,4 @@ Use `horustrace scan . --config path/to/config.yaml` to select a file explicitly
 
 ### v0.3 release notes
 
-v0.3 (released as AgentReachGuard) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
+v0.3 (released as HorusTrace) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.

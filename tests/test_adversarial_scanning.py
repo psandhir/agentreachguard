@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 FIXTURES = Path(__file__).parent / "adversarial"
 

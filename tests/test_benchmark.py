@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-from agentreachguard.benchmark import BenchmarkError, run
-from agentreachguard.cli import main
+from horustrace.benchmark import BenchmarkError, run
+from horustrace.cli import main
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 
@@ -45,7 +45,7 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
 def test_benchmark_reports_false_positive_and_negative(tmp_path: Path, capsys):
     case = tmp_path / "case"
     case.mkdir()
-    (case / "agentreachguard.manifest.yaml").write_text('''
+    (case / "horustrace.manifest.yaml").write_text('''
 agents:
   - name: ops
     tools: [{name: shell, capabilities: [process.execute]}]
@@ -89,7 +89,7 @@ def test_invalid_benchmark_manifest_fails_closed(tmp_path: Path, raw):
 
 
 def test_repository_scan_ignores_intentionally_vulnerable_benchmark_fixtures():
-    from agentreachguard.scanner import scan
+    from horustrace.scanner import scan
 
     graph, findings = scan(REPOSITORY, use_default_suppressions=False)
     locations = {str(f.location.path) for f in findings if f.location}

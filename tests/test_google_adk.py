@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def write(tmp_path: Path, text: str, name: str = "agent.py") -> Path:

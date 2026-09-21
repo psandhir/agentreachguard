@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from agentreachguard.cli import main
+from horustrace.cli import main
 
 
 def test_disabled_rule_is_not_reported_as_suppressed(tmp_path: Path, capsys) -> None:
@@ -10,11 +10,11 @@ def test_disabled_rule_is_not_reported_as_suppressed(tmp_path: Path, capsys) -> 
         "agent = Agent(name='ops', tools=[ShellTool()])\n",
         encoding="utf-8",
     )
-    (tmp_path / ".agentreachguard.yaml").write_text(
+    (tmp_path / ".horustrace.yaml").write_text(
         "version: 1\nrules:\n  AGT020: {enabled: false}\n",
         encoding="utf-8",
     )
-    (tmp_path / ".agentreachguard.suppressions.yaml").write_text(
+    (tmp_path / ".horustrace.suppressions.yaml").write_text(
         "version: 1\nsuppressions:\n"
         "  - id: old-shell-exception\n"
         "    reason: no longer needed because repository policy disables this rule\n"

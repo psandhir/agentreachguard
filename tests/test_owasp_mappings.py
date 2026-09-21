@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from agentreachguard.cli import main
-from agentreachguard.rule_registry import OWASP_AGENTIC_IDS, RULE_REGISTRY
+from horustrace.cli import main
+from horustrace.rule_registry import OWASP_AGENTIC_IDS, RULE_REGISTRY
 
 
 def test_owasp_mapping_identifiers_are_valid() -> None:

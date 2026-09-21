@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from agentreachguard.cli import main
-from agentreachguard.models import Confidence
-from agentreachguard.scanner import scan
+from horustrace.cli import main
+from horustrace.models import Confidence
+from horustrace.scanner import scan
 
 
 def test_cross_file_untrusted_http_to_process_execution_is_supported(tmp_path: Path) -> None:

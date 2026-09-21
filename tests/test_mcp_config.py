@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_remote_http_without_auth_is_flagged(tmp_path: Path) -> None:

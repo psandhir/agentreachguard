@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from agentreachguard import cli
-from agentreachguard.cli import main
-from agentreachguard.rule_registry import iter_rule_metadata
+from horustrace import cli
+from horustrace.cli import main
+from horustrace.rule_registry import iter_rule_metadata
 
 
 def test_rules_console_lists_every_registered_rule_once(capsys) -> None:

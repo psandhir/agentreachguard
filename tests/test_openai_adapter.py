@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_detects_shell_without_approval(tmp_path: Path) -> None:

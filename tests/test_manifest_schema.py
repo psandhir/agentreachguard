@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.adapters.manifest import ManifestError
-from agentreachguard.scanner import scan
+from horustrace.adapters.manifest import ManifestError
+from horustrace.scanner import scan
 
 
 @pytest.mark.parametrize('text', [
@@ -21,13 +21,13 @@ from agentreachguard.scanner import scan
     'agents: &agents [{tools: *agents}]',
 ])
 def test_invalid_schema_is_rejected(tmp_path: Path, text):
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text(text, encoding='utf-8')
+    (tmp_path / 'horustrace.manifest.yaml').write_text(text, encoding='utf-8')
     with pytest.raises(ManifestError):
         scan(tmp_path)
 
 
 def test_unknown_policy_field_has_source_location(tmp_path: Path):
-    manifest = tmp_path / 'agentreachguard.manifest.yaml'
+    manifest = tmp_path / 'horustrace.manifest.yaml'
     manifest.write_text('agents:\n  - name: root\n    policy:\n      denied_capabilties: []\n')
     with pytest.raises(ManifestError) as error:
         scan(tmp_path)

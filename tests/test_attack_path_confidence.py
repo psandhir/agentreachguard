@@ -1,14 +1,14 @@
 import json
 from pathlib import Path
 
-from agentreachguard.cli import main
-from agentreachguard.models import Confidence
-from agentreachguard.scanner import scan
-from agentreachguard.suppressions import fingerprint
+from horustrace.cli import main
+from horustrace.models import Confidence
+from horustrace.scanner import scan
+from horustrace.suppressions import fingerprint
 
 
 def _all_path_project(root: Path) -> None:
-    (root / "agentreachguard.manifest.yaml").write_text(
+    (root / "horustrace.manifest.yaml").write_text(
         """
 agents:
   - name: ops

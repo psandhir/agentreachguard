@@ -10,8 +10,6 @@ from horustrace.models import Finding, Severity
 from horustrace.rule_registry import RULE_REGISTRY
 
 CONFIG_FILENAME = ".horustrace.yaml"
-LEGACY_CONFIG_FILENAME = ".agentreachguard.yaml"
-CONFIG_FILENAMES = (CONFIG_FILENAME, LEGACY_CONFIG_FILENAME)
 
 
 class ConfigError(ValueError):
@@ -46,10 +44,7 @@ def load_config(root: Path, explicit: Path | None = None) -> ScanConfig:
     if explicit is not None:
         path = explicit
     else:
-        defaults = [root / name for name in CONFIG_FILENAMES if (root / name).exists()]
-        if len(defaults) > 1:
-            raise ConfigError(f"{root}: multiple default configuration files found")
-        path = defaults[0] if defaults else (root / CONFIG_FILENAME)
+        path = root / CONFIG_FILENAME
     if not path.exists():
         if explicit:
             raise ConfigError(f"{path}: configuration file does not exist")

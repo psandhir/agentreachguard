@@ -3,10 +3,10 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.analysis import build_attack_paths
-from agentreachguard.models import Agent, AgentPolicy, Graph, InputSource, Tool
-from agentreachguard.rules.builtin import evaluate
-from agentreachguard.scanner import _propagate_adk_delegation, scan
+from horustrace.analysis import build_attack_paths
+from horustrace.models import Agent, AgentPolicy, Graph, InputSource, Tool
+from horustrace.rules.builtin import evaluate
+from horustrace.scanner import _propagate_adk_delegation, scan
 
 
 @pytest.mark.parametrize("order", list(permutations(range(3))))
@@ -43,7 +43,7 @@ def test_cyclic_delegation_terminates_without_duplicate_tools():
 @pytest.mark.parametrize("approval", [False, True])
 @pytest.mark.parametrize("delegated", [False, True])
 def test_classified_resources_reach_exfiltration_checks(tmp_path: Path, approval, delegated):
-    (tmp_path / "agentreachguard.manifest.yaml").write_text(f"""
+    (tmp_path / "horustrace.manifest.yaml").write_text(f"""
 agents:
   - name: reader
     tools:
@@ -81,7 +81,7 @@ reader = Agent(name="reader")
 
 
 def test_write_only_sensitive_resource_does_not_imply_data_read():
-    from agentreachguard.models import ResourceScope
+    from horustrace.models import ResourceScope
 
     agent = Agent(name="writer", inputs=[InputSource(name="web", trust="untrusted")], tools=[
         Tool(name="write", kind="generic", capabilities={"data.write"}, resources=[

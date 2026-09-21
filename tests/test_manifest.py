@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_sensitive_data_plus_external_write_is_critical(tmp_path: Path) -> None:
-    manifest = tmp_path / "agentreachguard.manifest.yaml"
+    manifest = tmp_path / "horustrace.manifest.yaml"
     manifest.write_text(
         """
 version: 1
@@ -27,7 +27,7 @@ agents:
 
 
 def test_approved_external_write_avoids_exfiltration_rule(tmp_path: Path) -> None:
-    manifest = tmp_path / "agentreachguard.manifest.yaml"
+    manifest = tmp_path / "horustrace.manifest.yaml"
     manifest.write_text(
         """
 version: 1

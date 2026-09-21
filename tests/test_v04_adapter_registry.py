@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from agentreachguard.adapters.registry import (
+from horustrace.adapters.registry import (
     PYTHON_FRAMEWORK_ADAPTERS,
     detect_python_framework,
 )
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_framework_registry_has_stable_adapter_order() -> None:

@@ -5,7 +5,7 @@ from horustrace.adapters.google_adk import BUILTIN_TOOL_CAPABILITIES
 from horustrace.models import Confidence, EvidenceFact, Graph, SourceLocation
 from horustrace.rule_registry import get_rule_metadata
 
-MANIFEST_NAMES = {'horustrace.manifest.yaml', 'horustrace.manifest.yml', 'agentreachguard.manifest.yaml', 'agentreachguard.manifest.yml'}
+MANIFEST_NAMES = {'horustrace.manifest.yaml', 'horustrace.manifest.yml'}
 
 
 def annotate(graph: Graph, path) -> None:
