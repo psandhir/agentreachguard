@@ -62,7 +62,7 @@ Completed for v0.3:
 
 ## v0.4 — Agent Dependency Graph and path-aware analysis
 
-In development on `v0.4-dev`:
+Completed for v0.4:
 
 - Evolve the normalized security graph into a versioned, framework-agnostic Agent
   Dependency Graph (ADG) for agents, tools, MCP servers, models, prompt digests,
