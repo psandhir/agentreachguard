@@ -3,10 +3,11 @@
 [![CI](https://github.com/psandhir/horustrace/actions/workflows/ci.yml/badge.svg)](https://github.com/psandhir/horustrace/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![PyPI](https://img.shields.io/pypi/v/horustrace.svg)](https://pypi.org/project/horustrace/)
 
-**Five-layer policy-as-code security analysis for AI agents.**
+**Open-source static security analysis for agentic systems, with dependency graphs, capability tracing, MCP analysis and attack-path detection.**
 
-HorusTrace statically discovers agent configuration and evaluates five connected security layers:
+HorusTrace statically models AI agents, tools, MCP servers, identities, resources, data flows and policy controls, then evaluates five connected security layers:
 
 1. **Agent configuration** — tools, approvals, guardrails, MCP, code execution and framework-specific controls.
 2. **Capability analysis** — effective authority, capability budgets, prohibited actions and dangerous combinations.
@@ -14,7 +15,29 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.4 development** on the `v0.4-dev` branch; this branch is being prepared for the first HorusTrace v0.4.0 release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Current release: **v0.4.0**. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+
+Install and scan:
+
+```bash
+pip install horustrace
+horustrace scan .
+```
+
+## What v0.4 adds
+
+- **Agent Dependency Graph (ADG)** — a versioned graph of agents, tools, models, MCP servers, identities, resources, destinations, prompts, memory and policy relationships.
+- **Path-aware analysis** — bounded static source-to-sink analysis for supported constructs, with a distinction between supported flows and potential capability-co-occurrence paths.
+- **Agent Bill of Materials (AIBOM)** — a structured inventory of agentic components and security-relevant dependencies.
+- **SARIF code flows** — supported paths can be emitted as code flows for investigation in GitHub and other SARIF-compatible tooling.
+- **Broader framework normalization** — Google ADK, OpenAI Agents SDK handoffs/delegation, initial LangGraph support, MCP configuration and Terraform identity context.
+
+Export the graph or AIBOM directly:
+
+```bash
+horustrace graph . --output adg.json
+horustrace aibom . --output aibom.json
+```
 
 ## Security model
 
@@ -37,7 +60,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - **Google Agent Development Kit (ADK) Python 2.x — first-class adapter**.
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
 - OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
-- Initial LangGraph `StateGraph` / `MessageGraph` normalization in v0.4 development.
+- Initial LangGraph `StateGraph` / `MessageGraph` normalization.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
@@ -45,7 +68,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 
 ## Google ADK coverage
 
-The v0.3 release (published as HorusTrace) performs repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
+The v0.3 release, originally published as AgentReachGuard, introduced repository-aware analysis of security-relevant ADK composition rather than only matching individual `Agent(...)` declarations.
 
 ### Agents and orchestration
 
@@ -224,7 +247,7 @@ horustrace benchmark benchmarks/cases.yaml
 
 The reviewed corpus declares the exact `RULE@agent` findings expected for each case.
 Unexpected findings are measured as false positives and missing findings as false
-negatives. The v0.3 corpus contains 26 reviewed scenarios across secure, execution,
+negatives. The current corpus contains 31 reviewed scenarios across secure, execution,
 delegation, MCP, identity, data/network, attack-path and dynamic/unresolved analysis.
 One case intentionally expects incomplete analysis and an exact coverage diagnostic;
 all other cases fail on incomplete coverage. The command exits nonzero on any drift
@@ -396,6 +419,6 @@ rules:
 
 Use `horustrace scan . --config path/to/config.yaml` to select a file explicitly. Disabled rules are reported separately from suppressions; severity overrides affect reporting and failure thresholds but not rule metadata or finding fingerprints.
 
-### v0.3 release notes
+### Previous v0.3 release notes
 
-v0.3 (released as HorusTrace) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
+v0.3, originally released as AgentReachGuard, moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
