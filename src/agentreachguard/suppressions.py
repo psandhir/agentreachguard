@@ -15,6 +15,8 @@ import yaml
 from agentreachguard.models import Finding
 
 SUPPRESSION_FILENAMES = {
+    ".horustrace.suppressions.yaml",
+    ".horustrace.suppressions.yml",
     ".agentreachguard.suppressions.yaml",
     ".agentreachguard.suppressions.yml",
 }

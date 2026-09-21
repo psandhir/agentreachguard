@@ -16,7 +16,7 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.4 development** on the `v0.4-dev` branch; v0.3.0 remains the current published release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.4 development** on the `v0.4-dev` branch; this branch is being prepared for the first HorusTrace v0.4.0 release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -290,7 +290,7 @@ guardrail, authentication, and restriction fields require actual booleans;
 capability/scope fields accept strings or lists of strings. Policy errors identify
 the field and source line/column without printing its value. Existing documented
 field aliases remain supported. The schema definitions live in
-[`manifest_schema.py`](src/horustrace/manifest_schema.py).
+[`manifest_schema.py`](src/agentreachguard/manifest_schema.py).
 
 
 ## ADK-specific rule highlights
@@ -354,7 +354,7 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/horustrace@v0.3.0
+- uses: psandhir/horustrace@v0.4.0
   with:
     path: .
     fail-on: high

@@ -9,7 +9,7 @@ import yaml
 from agentreachguard.models import Finding, Severity
 from agentreachguard.rule_registry import RULE_REGISTRY
 
-CONFIG_FILENAME = ".agentreachguard.yaml"
+CONFIG_FILENAMES = (".horustrace.yaml", ".agentreachguard.yaml")
 
 
 class ConfigError(ValueError):
@@ -41,11 +41,17 @@ class ScanConfig:
 
 
 def load_config(root: Path, explicit: Path | None = None) -> ScanConfig:
-    path = explicit or (root / CONFIG_FILENAME)
-    if not path.exists():
-        if explicit:
+    if explicit is not None:
+        path = explicit
+        if not path.exists():
             raise ConfigError(f"{path}: configuration file does not exist")
-        return ScanConfig()
+    else:
+        defaults = [root / name for name in CONFIG_FILENAMES if (root / name).exists()]
+        if len(defaults) > 1:
+            raise ConfigError(f"{root}: multiple default scanner configuration files found")
+        if not defaults:
+            return ScanConfig()
+        path = defaults[0]
     try:
         raw = yaml.load(path.read_text(encoding="utf-8"), Loader=_UniqueLoader)
     except ConfigError as exc:
