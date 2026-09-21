@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from agentreachguard.provenance import control_observations
-from agentreachguard.scanner import scan
+from horustrace.provenance import control_observations
+from horustrace.scanner import scan
 
 
 def write(tmp_path: Path, contents: str, name: str = "agent.py") -> None:
@@ -135,7 +135,7 @@ agents:
         restricted: true
     policy:
       allowed_destinations: [https://api.example.test/**]
-''', "agentreachguard.manifest.yaml")
+''', "horustrace.manifest.yaml")
     graph, _ = scan(tmp_path)
     assert any(
         control["control"] == "egress_allowlist"
