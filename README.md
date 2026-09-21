@@ -6,7 +6,7 @@
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-> **Naming transition:** HorusTrace has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
+> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
 
 HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
