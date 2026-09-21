@@ -51,7 +51,7 @@ class ScannerError(ValueError):
 DEFAULT_IGNORES = {
     ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
 }
-IGNORE_MARKER = ".agentreachguard-ignore"
+IGNORE_MARKERS = {".horustrace-ignore", ".agentreachguard-ignore"}
 
 
 def _ignored(path: Path, root: Path) -> bool:
@@ -60,7 +60,7 @@ def _ignored(path: Path, root: Path) -> bool:
         return True
     current = path.parent
     while current != root and root in current.parents:
-        if (current / IGNORE_MARKER).exists():
+        if any((current / marker).exists() for marker in IGNORE_MARKERS):
             return True
         current = current.parent
     return False
