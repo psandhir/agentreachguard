@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from agentreachguard.adapters.manifest import ManifestError, scan_manifest
-from agentreachguard.cli import main
-from agentreachguard.scanner import scan
+from horustrace.adapters.manifest import ManifestError, scan_manifest
+from horustrace.cli import main
+from horustrace.scanner import scan
 
 
 @pytest.mark.parametrize("contents", [
@@ -16,7 +16,7 @@ from agentreachguard.scanner import scan
     "agents: [{name: agent, tools: [{resources: invalid}]}]",
 ])
 def test_invalid_manifest_fails_scan(tmp_path: Path, contents):
-    manifest = tmp_path / "agentreachguard.manifest.yaml"
+    manifest = tmp_path / "horustrace.manifest.yaml"
     manifest.write_text(contents, encoding="utf-8")
     with pytest.raises(ManifestError, match="invalid manifest"):
         scan(tmp_path)
@@ -27,7 +27,7 @@ def test_invalid_manifest_fails_scan(tmp_path: Path, contents):
 def test_cli_errors_are_not_suppressed_by_severity_threshold(
     tmp_path: Path, capsys, output_format, fail_on,
 ):
-    manifest = tmp_path / "agentreachguard.manifest.yaml"
+    manifest = tmp_path / "horustrace.manifest.yaml"
     manifest.write_text('agents: [\n token: TOP_SECRET\n', encoding="utf-8")
     output = tmp_path / "report"
     assert main([
@@ -49,13 +49,13 @@ def test_unreadable_manifest_raises_error(tmp_path: Path):
 
 
 def test_invalid_encoding_fails_scan(tmp_path: Path):
-    (tmp_path / "agentreachguard.manifest.yaml").write_bytes(b"\xff")
+    (tmp_path / "horustrace.manifest.yaml").write_bytes(b"\xff")
     with pytest.raises(ManifestError, match="not valid UTF-8"):
         scan(tmp_path)
 
 
 def test_empty_mapping_manifest_remains_valid(tmp_path: Path):
-    manifest = tmp_path / "agentreachguard.manifest.yaml"
+    manifest = tmp_path / "horustrace.manifest.yaml"
     manifest.write_text("{}", encoding="utf-8")
     graph, findings = scan(tmp_path)
     assert graph.agents == []
