@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_openai_handoffs_project_to_delegation_edges(tmp_path: Path) -> None:
@@ -74,7 +74,7 @@ triage = Agent(name="triage", handoffs=[billing])
 """,
         encoding="utf-8",
     )
-    (tmp_path / "agentreachguard.manifest.yaml").write_text(
+    (tmp_path / "horustrace.manifest.yaml").write_text(
         """
 version: 1
 agents:
