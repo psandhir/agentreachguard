@@ -19,11 +19,21 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
         "precision": 1.0, "recall": 1.0,
     }
     incomplete = [case for case in report["cases"] if case["coverage"]["incomplete"]]
-    assert [case["name"] for case in incomplete] == ["dynamic-tools-unresolved"]
-    dynamic = incomplete[0]
+    assert [case["name"] for case in incomplete] == [
+        "dynamic-tools-unresolved",
+        "v04-unresolved-tainted-transform",
+    ]
+    by_name = {case["name"]: case for case in incomplete}
+
+    dynamic = by_name["dynamic-tools-unresolved"]
     assert dynamic["expect_incomplete"] is True
     assert dynamic["expected_diagnostics"] == ["ARG-COV-004"]
     assert dynamic["missing_diagnostics"] == []
+
+    unresolved_flow = by_name["v04-unresolved-tainted-transform"]
+    assert unresolved_flow["expect_incomplete"] is True
+    assert unresolved_flow["expected_diagnostics"] == ["ARG-COV-012"]
+    assert unresolved_flow["missing_diagnostics"] == []
 
     assert main(["benchmark", str(manifest)]) == 0
     output = capsys.readouterr().out
