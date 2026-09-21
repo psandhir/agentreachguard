@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentreachguard.scanner import scan
+from horustrace.scanner import scan
 
 
 def test_source_authority_cannot_be_hidden_by_manifest_budget(tmp_path: Path):
@@ -9,7 +9,7 @@ from agents import Agent, ShellTool
 shell = ShellTool(needs_approval=False)
 agent = Agent(name="ops", tools=[shell])
 ''')
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 version: 1
 agents:
   - name: ops
@@ -28,7 +28,7 @@ agents:
 
 
 def test_terraform_enriches_manifest_identity_reference(tmp_path: Path):
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 agents:
   - name: ops
     identities: [serviceAccount:ops@example.test]
@@ -53,7 +53,7 @@ shared = ShellTool(needs_approval=True)
 a = Agent(name="a", tools=[shared])
 b = Agent(name="b", tools=[shared])
 ''')
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 agents:
   - name: a
     policy:
@@ -82,7 +82,7 @@ sub_agents:
 name: reader_runtime
 model: model
 ''')
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text('''
+    (tmp_path / 'horustrace.manifest.yaml').write_text('''
 agents:
   - name: reader_runtime
     data:
@@ -111,7 +111,7 @@ shared = ShellTool(needs_approval=True)
 a = Agent(name="a", tools=[shared])
 b = Agent(name="b", tools=[shared])
 """)
-    (tmp_path / 'agentreachguard.manifest.yaml').write_text("""
+    (tmp_path / 'horustrace.manifest.yaml').write_text("""
 agents:
   - name: a
     tools:
