@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Run AgentReachGuard against a broad public GitHub agent corpus.
+"""Run HorusTrace against a broad public GitHub agent corpus.
 
 The target repositories are cloned with depth=1 and are never imported, installed,
-or executed. AgentReachGuard scans them statically.
+or executed. HorusTrace scans them statically.
 """
 from __future__ import annotations
 
@@ -198,7 +198,7 @@ def build_summary(results: list[dict]) -> dict:
 def markdown(report: dict) -> str:
     s = report["summary"]
     lines = [
-        "# AgentReachGuard public corpus validation",
+        "# HorusTrace public corpus validation",
         "",
         f"- Repositories requested: {s['requested']}",
         f"- Successfully cloned: {s['cloned']}",
@@ -267,11 +267,11 @@ def markdown(report: dict) -> str:
 
 
 def main() -> int:
-    scanner = shutil.which("agentreachguard")
+    scanner = shutil.which("horustrace")
     if scanner is None:
-        raise SystemExit("agentreachguard executable not found")
+        raise SystemExit("horustrace executable not found")
 
-    with tempfile.TemporaryDirectory(prefix="agentreachguard-public-corpus-") as temp:
+    with tempfile.TemporaryDirectory(prefix="horustrace-public-corpus-") as temp:
         root = Path(temp)
         results = []
         for index, (category, repo) in enumerate(CORPUS, start=1):

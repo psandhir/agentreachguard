@@ -3,13 +3,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agentreachguard"
+name = "horustrace"
 version = "0.4.0.dev0"
 description = "Policy-as-code security analysis for AI agents"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-authors = [{ name = "AgentReachGuard contributors" }]
+authors = [{ name = "HorusTrace contributors" }]
 keywords = ["ai-security", "agents", "mcp", "openai", "google-adk", "gcp", "security", "static-analysis"]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -34,7 +34,8 @@ Security = "https://github.com/psandhir/horustrace/security/policy"
 dev = ["pytest>=8.3,<9", "ruff>=0.12,<1"]
 
 [project.scripts]
-agentreachguard = "agentreachguard.cli:main"
+horustrace = "horustrace.cli:main"
+agentreachguard = "horustrace.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -21,7 +21,7 @@ jobs:
       - run: python -m pip install -e '.[dev]'
       - run: ruff check src tests benchmarks
       - run: pytest -q
-      - run: agentreachguard benchmark benchmarks/cases.yaml
+      - run: horustrace benchmark benchmarks/cases.yaml
 
   self-scan:
     runs-on: ubuntu-latest
@@ -31,8 +31,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e .
-      - run: agentreachguard scan examples/secure-agent --strict --fail-on high
-      - run: agentreachguard scan examples/google-adk-secure --strict --fail-on high
+      - run: horustrace scan examples/secure-agent --strict --fail-on high
+      - run: horustrace scan examples/google-adk-secure --strict --fail-on high
 
   package:
     runs-on: ubuntu-latest
@@ -43,4 +43,4 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install build
       - run: python -m build
-      - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/agentreachguard --help && wheel-venv/bin/agentreachguard rules --format json && wheel-venv/bin/agentreachguard scan examples/secure-agent --strict --fail-on high
+      - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/horustrace --help && wheel-venv/bin/horustrace rules --format json && wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high && wheel-venv/bin/agentreachguard --help && wheel-venv/bin/python -c "import horustrace, agentreachguard"
