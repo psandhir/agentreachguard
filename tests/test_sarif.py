@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from agentreachguard.models import Finding, Severity, SourceLocation
-from agentreachguard.reporters.sarif import render
+from horustrace.models import Finding, Severity, SourceLocation
+from horustrace.reporters.sarif import render
 
 
 def test_sarif_contains_rule_and_location() -> None:
