@@ -6,7 +6,7 @@
 
 **Five-layer policy-as-code security analysis for AI agents.**
 
-> **Naming transition:** AgentReachGuard has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
+> **Naming transition:** HorusTrace has been renamed **HorusTrace**. The current PyPI distribution, Python package, CLI, configuration filenames, and existing finding fingerprints remain under the `agentreachguard` namespace until the separate package migration is completed.
 
 HorusTrace statically discovers agent configuration and evaluates five connected security layers:
 
@@ -398,4 +398,4 @@ Use `agentreachguard scan . --config path/to/config.yaml` to select a file expli
 
 ### v0.3 release notes
 
-v0.3 (released as AgentReachGuard) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
+v0.3 (released as HorusTrace) moved the project from primarily file-level ADK parsing toward repository-level security reachability analysis. It adds cross-file tool and helper resolution, conservative factory and collection resolution, static MCP constant resolution, improved ADK execution/control semantics, stronger identity and OAuth linkage, and lower-noise network and capability inference. Coverage gaps remain explicit rather than being treated as safe. See [`docs/releases/v0.3.0.md`](docs/releases/v0.3.0.md) for the release summary.
