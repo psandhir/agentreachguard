@@ -1,6 +1,6 @@
 # HorusTrace
 
-[![CI](https://github.com/psandhir/agentreachguard/actions/workflows/ci.yml/badge.svg)](https://github.com/psandhir/agentreachguard/actions/workflows/ci.yml)
+[![CI](https://github.com/psandhir/horustrace/actions/workflows/ci.yml/badge.svg)](https://github.com/psandhir/horustrace/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
@@ -339,7 +339,7 @@ This enables least-privilege comparison between **required** and **effective** c
 ## GitHub Action
 
 ```yaml
-- uses: psandhir/agentreachguard@v0.3.0
+- uses: psandhir/horustrace@v0.3.0
   with:
     path: .
     fail-on: high
