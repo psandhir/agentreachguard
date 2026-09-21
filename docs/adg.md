@@ -27,7 +27,7 @@ The graph separates three security dimensions:
 ## Export
 
 ```bash
-agentreachguard graph . --output adg.json
+horustrace graph . --output adg.json
 ```
 
 Node and edge IDs are stable for the same repository-relative source location and
@@ -53,7 +53,7 @@ coverage uncertainty rather than upgrading that path to supported confidence.
 ## AIBOM
 
 ```bash
-agentreachguard aibom . --output agent-aibom.json
+horustrace aibom . --output agent-aibom.json
 ```
 
 The Agent Bill of Materials inventories discovered agents, models, prompt digests,
