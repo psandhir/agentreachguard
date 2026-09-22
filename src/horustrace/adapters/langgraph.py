@@ -104,7 +104,7 @@ def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[
         called = (_dotted(child.func) or _call_name(child.func) or "").lower()
         leaf = (_call_name(child.func) or "").lower()
         if (
-            leaf in {"exec", "eval", "compile"}
+            called in {"exec", "eval", "compile", "builtins.exec", "builtins.eval", "builtins.compile"}
             or called in {"os.system", "os.popen"}
             or called.startswith("subprocess.")
             or "create_subprocess_" in called
