@@ -31,3 +31,24 @@ app = workflow.compile()
     assert ("fetch", "execute") in agent.metadata["control_edges"]
     assert graph.adg is not None
     assert any(edge.kind == "CONTROL_FLOWS_TO" for edge in graph.adg.edges)
+
+
+def test_langgraph_re_compile_is_not_process_execution(tmp_path: Path) -> None:
+    write(
+        tmp_path,
+        "agent.py",
+        """import re
+from langgraph.graph import StateGraph
+
+def validate_email(state):
+    pattern = re.compile(r"^[^@]+@[^@]+$")
+    return {"valid": bool(pattern.match(state["email"]))}
+
+workflow = StateGraph(dict)
+workflow.add_node("validate_email", validate_email)
+""",
+    )
+    graph, findings = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "validate_email")
+    assert "process.execute" not in tool.capabilities
+    assert not any(f.rule_id == "AGT020" for f in findings)
