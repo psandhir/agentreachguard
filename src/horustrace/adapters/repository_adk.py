@@ -371,7 +371,14 @@ def _analyze_function(
             leaf = (_name(node.func) or "").lower()
 
             if (
-                leaf in {"exec", "eval", "compile"}
+                called in {
+                    "exec",
+                    "eval",
+                    "compile",
+                    "builtins.exec",
+                    "builtins.eval",
+                    "builtins.compile",
+                }
                 or called == "os.system"
                 or called.startswith("subprocess.")
                 or "create_subprocess_" in called
