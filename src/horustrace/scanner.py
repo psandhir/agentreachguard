@@ -43,6 +43,7 @@ from horustrace.models import (
 from horustrace.path_safety import canonical_root, is_within_root
 from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
+from horustrace.semantics import annotate_risk_semantics
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
@@ -773,6 +774,7 @@ def scan(
         },
     }
 
+    annotate_risk_semantics(graph)
     graph.attack_paths = build_attack_paths(graph)
     graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
