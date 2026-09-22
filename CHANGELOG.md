@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Repository metadata refreshed for HorusTrace v0.4.1.
+
 ### 0.4 development
 
 - Publish the project as the `horustrace` PyPI distribution with the `horustrace` Python package and CLI.
