@@ -60,3 +60,108 @@ agent = Agent(name='Coder', tools=[ApplyPatchTool()])
     )
     _, findings = scan(tmp_path)
     assert any(f.rule_id == "AGT022" for f in findings)
+
+
+def test_openai_mcp_static_tool_filter_is_normalized(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent
+from agents.mcp import MCPServerStreamableHttp, create_static_tool_filter
+server = MCPServerStreamableHttp(
+    params={"url": "https://mcp.example.com", "headers": {"Authorization": "Bearer x"}},
+    tool_filter=create_static_tool_filter(
+        allowed_tool_names=["search_messages", "read_thread"],
+        blocked_tool_names=["send_message"],
+    ),
+)
+agent = Agent(name="Reader", mcp_servers=[server])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    server = graph.agents[0].mcp_servers[0]
+    assert server.allowed_tools == ["search_messages", "read_thread"]
+    assert server.denied_tools == ["send_message"]
+    assert not any(f.rule_id == "AGT032" for f in findings)
+
+
+def test_openai_runtime_clone_binds_mcp_server(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, Runner
+from agents.mcp import MCPServerStreamableHttp
+agent = Agent(name="Starter")
+async def run():
+    server = MCPServerStreamableHttp(
+        params={"url": "https://mcp.example.com", "headers": {"Authorization": "Bearer x"}},
+    )
+    async with server:
+        agent_with_mcp = agent.clone(mcp_servers=[server])
+        return await Runner.run(agent_with_mcp, input="hello")
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    assert len(graph.agents) == 1
+    assert [server.name for server in graph.agents[0].mcp_servers] == ["server"]
+    assert graph.agents[0].metadata["runtime_clone_mcp"] is True
+    assert any(f.rule_id == "AGT032" for f in findings)
+
+
+
+def test_openai_inline_confirmation_gate_is_modeled(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, function_tool
+
+@function_tool
+def publish_message(confirmed: bool = False):
+    if not confirmed:
+        return "preview"
+    return send_message("hello")
+
+agent = Agent(name="Publisher", tools=[publish_message])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_message")
+
+    assert tool.approval is True
+    assert tool.guardrails is True
+    assert tool.metadata.get("approval_mechanism") == "inline_confirmation"
+    assert tool.metadata.get("approval_scope") == "execution_gate"
+    assert not any(
+        f.rule_id in {"AGT022", "AGT040"} and f.agent == "Publisher"
+        for f in findings
+    )
+
+
+def test_openai_confirmation_parameter_without_return_gate_is_not_approval(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, function_tool
+
+@function_tool
+def publish_message(confirmed: bool = False):
+    if not confirmed:
+        log_preview()
+    return send_message("hello")
+
+agent = Agent(name="Publisher", tools=[publish_message])
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_message")
+
+    assert tool.approval is not True
+    assert tool.metadata.get("approval_mechanism") is None

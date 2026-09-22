@@ -324,6 +324,36 @@ def _mcp_from_call(
         _literal(_kw(node, "tool_output_guardrails"))
     )
 
+    allowed_tools: list[str] = []
+    denied_tools: list[str] = []
+    dynamic_tool_filter = False
+    tool_filter_node = _kw(node, "tool_filter")
+    if tool_filter_node is not None:
+        if (
+            isinstance(tool_filter_node, ast.Call)
+            and _call_name(tool_filter_node.func) == "create_static_tool_filter"
+        ):
+            allowed = _literal(_kw(tool_filter_node, "allowed_tool_names"))
+            blocked = _literal(_kw(tool_filter_node, "blocked_tool_names"))
+            if isinstance(allowed, list) and all(isinstance(item, str) for item in allowed):
+                allowed_tools = list(allowed)
+            elif _kw(tool_filter_node, "allowed_tool_names") is not None:
+                dynamic_tool_filter = True
+            if isinstance(blocked, list) and all(isinstance(item, str) for item in blocked):
+                denied_tools = list(blocked)
+            elif _kw(tool_filter_node, "blocked_tool_names") is not None:
+                dynamic_tool_filter = True
+        elif isinstance(_literal(tool_filter_node), dict):
+            value = _literal(tool_filter_node)
+            allowed = value.get("allowed_tool_names")
+            blocked = value.get("blocked_tool_names")
+            if isinstance(allowed, list) and all(isinstance(item, str) for item in allowed):
+                allowed_tools = list(allowed)
+            if isinstance(blocked, list) and all(isinstance(item, str) for item in blocked):
+                denied_tools = list(blocked)
+        else:
+            dynamic_tool_filter = True
+
     return MCPServer(
         name=alias,
         transport=MCP_TYPES[call_name],
@@ -333,6 +363,8 @@ def _mcp_from_call(
         authenticated=authenticated,
         approval=approval,
         guardrails=guardrails,
+        allowed_tools=allowed_tools,
+        denied_tools=denied_tools,
         location=_location(path, node),
         metadata={
             "auth_headers": sorted(header_keys),
@@ -341,8 +373,36 @@ def _mcp_from_call(
                 and entries.get("url") is not None
                 and url is None
             ),
+            "dynamic_tool_filter": dynamic_tool_filter,
         },
     )
+
+def _inline_confirmation_gate(node: ast.FunctionDef | ast.AsyncFunctionDef) -> bool:
+    """Detect a conservative preview/confirm execution gate inside a tool function."""
+    confirmation_names = {
+        arg.arg
+        for arg in [*node.args.args, *node.args.kwonlyargs]
+        if arg.arg.lower() in {"confirmed", "confirm", "approved", "approve"}
+    }
+    if not confirmation_names:
+        return False
+
+    for child in ast.walk(node):
+        if not isinstance(child, ast.If):
+            continue
+        negated_confirmation = any(
+            isinstance(test_node, ast.UnaryOp)
+            and isinstance(test_node.op, ast.Not)
+            and isinstance(test_node.operand, ast.Name)
+            and test_node.operand.id in confirmation_names
+            for test_node in ast.walk(child.test)
+        )
+        if not negated_confirmation:
+            continue
+        if any(isinstance(body_node, ast.Return) for statement in child.body for body_node in ast.walk(statement)):
+            return True
+    return False
+
 
 def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool | None:
     for decorator in node.decorator_list:
@@ -360,13 +420,21 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
             decorator_name = _call_name(decorator)
 
         if decorator_name in {"function_tool", "tool"}:
+            inline_approval = _inline_confirmation_gate(node)
             tool = Tool(
                 name=node.name,
                 kind="function",
                 capabilities=infer_capabilities(node.name),
-                approval=needs_approval,
-                guardrails=guardrails,
+                approval=True if inline_approval else needs_approval,
+                guardrails=guardrails or inline_approval,
                 location=_location(path, node),
+                metadata={
+                    "approval_mechanism": (
+                        "inline_confirmation" if inline_approval else None
+                    ),
+                    "approval_scope": "execution_gate" if inline_approval else None,
+                    "approval_mandatory": True if inline_approval else None,
+                },
             )
             # Literal URLs are possible destinations, not evidence of restricted egress.
             for child in ast.walk(node):
@@ -555,6 +623,40 @@ def scan_python_file(path: Path) -> Graph:
             )
 
         graph.agents.append(agent)
+
+    # OpenAI Agents commonly attach MCP servers to a runtime clone rather than the
+    # base Agent declaration. Treat a statically resolvable clone as an effective
+    # runtime variant so security analysis includes that MCP authority.
+    agents_by_name = {agent.name: agent for agent in graph.agents}
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            continue
+        if node.func.attr != "clone":
+            continue
+        base_alias = _call_name(node.func.value)
+        base_name = agent_names_by_alias.get(base_alias or "")
+        target = agents_by_name.get(base_name or "")
+        if target is None:
+            continue
+        attached = False
+        for element in _resolve_sequence(_kw(node, "mcp_servers"), sequences):
+            if isinstance(element, ast.Name) and element.id in mcp_servers:
+                server = mcp_servers[element.id]
+                if all(existing.name != server.name for existing in target.mcp_servers):
+                    target.mcp_servers.append(server)
+                attached = True
+        if attached:
+            target.metadata["runtime_clone_mcp"] = True
+            if not any(source.name == "external-content" for source in target.inputs):
+                target.inputs.append(
+                    InputSource(
+                        name="external-content",
+                        trust="untrusted",
+                        kind="web",
+                        location=target.location,
+                        metadata={"inferred": True, "source": "runtime_mcp_clone"},
+                    )
+                )
 
     bound_tool_ids = {id(tool) for agent in graph.agents for tool in agent.tools}
     bound_server_ids = {id(server) for agent in graph.agents for server in agent.mcp_servers}

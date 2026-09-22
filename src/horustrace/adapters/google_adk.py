@@ -902,15 +902,54 @@ def scan_python_file(path: Path) -> Graph:
         if call_name in {"App", "Runner", "InMemoryRunner"}:
             agent_ref = _call_name(_kw(node, "root_agent")) or _call_name(_kw(node, "agent"))
             plugin_nodes = _resolve_sequence(_kw(node, "plugins"), sequences)
-            plugin_names = [_call_name(p.func) if isinstance(p, ast.Call) else _call_name(p) for p in plugin_nodes]
-            plugin_names = [p for p in plugin_names if p]
+            plugin_specs: list[tuple[str, list[str]]] = []
+            for plugin_node in plugin_nodes:
+                if isinstance(plugin_node, ast.Call):
+                    plugin_name = _call_name(plugin_node.func)
+                    sensitive_tools = _list_strings(_kw(plugin_node, "sensitive_tools"))
+                else:
+                    plugin_name = _call_name(plugin_node)
+                    sensitive_tools = []
+                if plugin_name:
+                    plugin_specs.append((plugin_name, sensitive_tools))
+
+            plugin_names = [name for name, _ in plugin_specs]
             if agent_ref in agents_by_alias and plugin_names:
-                agents_by_alias[agent_ref].metadata["plugins"] = plugin_names
-                if any(any(k in p.lower() for k in ("guard", "security", "safety", "defense", "threat", "policy")) for p in plugin_names):
-                    agents_by_alias[agent_ref].metadata["safety_plugin"] = True
-                    for tool in agents_by_alias[agent_ref].tools:
-                        tool.guardrails = True
-                        tool.metadata["guardrail_origin"] = "inferred_plugin_name"
+                target_agent = agents_by_alias[agent_ref]
+                target_agent.metadata["plugins"] = plugin_names
+
+                if any(
+                    any(
+                        marker in plugin_name.lower()
+                        for marker in ("guard", "security", "safety", "defense", "threat", "policy")
+                    )
+                    for plugin_name in plugin_names
+                ):
+                    target_agent.metadata["safety_plugin"] = True
+
+                approval_plugins: list[dict[str, Any]] = []
+                for plugin_name, sensitive_tools in plugin_specs:
+                    if plugin_name != "HITLToolPlugin":
+                        continue
+                    approval_plugins.append(
+                        {"name": plugin_name, "sensitive_tools": sensitive_tools}
+                    )
+                    if sensitive_tools:
+                        for tool in target_agent.tools:
+                            if tool.name not in sensitive_tools:
+                                continue
+                            tool.approval = True
+                            tool.guardrails = True
+                            tool.metadata["approval_mechanism"] = "adk_hitl_tool_plugin"
+                            tool.metadata["approval_scope"] = "tool"
+                            tool.metadata["approval_mandatory"] = True
+                            tool.metadata["approval_plugin"] = plugin_name
+                    else:
+                        target_agent.metadata["approval_plugin_scope_unresolved"] = True
+
+                if approval_plugins:
+                    target_agent.metadata["approval_plugin"] = True
+                    target_agent.metadata["approval_plugins"] = approval_plugins
         if call_name == "to_a2a":
             ref = _call_name(_arg(node, 0, "agent"))
             if ref in agents_by_alias:
