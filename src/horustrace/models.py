@@ -430,6 +430,7 @@ class Finding:
     limitations: list[str] = field(default_factory=list)
     fingerprint: str | None = None
     confidence: Confidence | None = None
+    source_context: str = "unknown"
 
     def as_dict(self) -> dict[str, Any]:
         from horustrace.rule_registry import get_rule_metadata
@@ -449,6 +450,7 @@ class Finding:
             "evidence": self.evidence,
             "standards": self.standards,
             "assessment": self.assessment,
+            "source_context": self.source_context,
             "provenance": [fact.as_dict() for fact in self.provenance],
             "limitations": self.limitations,
             "fingerprint": self.fingerprint,
