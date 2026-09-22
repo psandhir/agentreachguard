@@ -53,7 +53,7 @@ class ScannerError(ValueError):
 DEFAULT_IGNORES = {
     ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
 }
-IGNORE_MARKERS = {".horustrace-ignore", ".horustrace-ignore"}
+IGNORE_MARKERS = {".horustrace-ignore"}
 SOURCE_FRAGMENT_DIRS = {"snippets", "snippets_py", "code_snippets"}
 
 
