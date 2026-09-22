@@ -540,7 +540,17 @@ def _relative(path: Path, root: Path) -> str:
 
 
 def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple[str, ...]) -> str | None:
-    candidates: list[str] = []
+    """Bind a flow to an agent only when the static tool relationship is unambiguous.
+
+    Framework adapters often declare an imported tool in one file while the
+    implementation lives in another. Requiring the declaration and implementation
+    paths to match therefore loses valid attribution. Prefer same-file evidence,
+    but allow a cross-file name/function binding when it identifies exactly one
+    normalized agent.
+    """
+    same_file: list[str] = []
+    cross_file: list[str] = []
+
     for function_key in chain:
         info = functions.get(function_key)
         if not info:
@@ -551,11 +561,20 @@ def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple
                 if tool.name != info.name and function_name != info.name:
                     continue
                 if tool.location is None or tool.location.path.resolve() == info.path.resolve():
-                    candidates.append(agent.name)
-    unique = list(dict.fromkeys(candidates))
-    if len(unique) == 1:
-        return unique[0]
-    if not unique and len(graph.agents) == 1:
+                    same_file.append(agent.name)
+                else:
+                    cross_file.append(agent.name)
+
+    exact = list(dict.fromkeys(same_file))
+    if len(exact) == 1:
+        return exact[0]
+    if len(exact) > 1:
+        return None
+
+    inferred = list(dict.fromkeys(cross_file))
+    if len(inferred) == 1:
+        return inferred[0]
+    if not inferred and len(graph.agents) == 1:
         return graph.agents[0].name
     return None
 
