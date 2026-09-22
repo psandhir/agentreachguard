@@ -1,4 +1,4 @@
-"""Static LangGraph adapter for AgentReachGuard v0.4.
+"""Static LangGraph adapter for HorusTrace.
 
 The adapter recognizes common StateGraph construction patterns without importing or
 executing the target. It normalizes graph nodes as tools and stores control edges in
