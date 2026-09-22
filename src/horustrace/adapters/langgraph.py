@@ -1,4 +1,4 @@
-"""Static LangGraph adapter for HorusTrace v0.4.
+"""Static LangGraph adapter for AgentReachGuard v0.4.
 
 The adapter recognizes common StateGraph construction patterns without importing or
 executing the target. It normalizes graph nodes as tools and stores control edges in
@@ -69,10 +69,11 @@ def _kw(call: ast.Call, name: str) -> ast.AST | None:
 
 
 def _uses_langgraph(tree: ast.AST) -> bool:
+    prefixes = ("langgraph", "langgraph_swarm")
     for node in ast.walk(tree):
-        if isinstance(node, ast.ImportFrom) and (node.module or "").startswith("langgraph"):
+        if isinstance(node, ast.ImportFrom) and (node.module or "").startswith(prefixes):
             return True
-        if isinstance(node, ast.Import) and any(alias.name.startswith("langgraph") for alias in node.names):
+        if isinstance(node, ast.Import) and any(alias.name.startswith(prefixes) for alias in node.names):
             return True
     return False
 
@@ -129,6 +130,114 @@ def _string_ref(node: ast.AST | None) -> str | None:
     return _call_name(node)
 
 
+def _target_name(node: ast.AST | None) -> str | None:
+    if isinstance(node, ast.Name):
+        return node.id
+    return _dotted(node)
+
+
+def _route_target(node: ast.AST | None) -> str | None:
+    value = _string_ref(node)
+    if value == "END":
+        return "__end__"
+    if value == "START":
+        return "__start__"
+    return value
+
+
+def _path_map_targets(node: ast.AST | None) -> list[str]:
+    if isinstance(node, ast.Dict):
+        values = node.values
+    elif isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        values = node.elts
+    else:
+        return []
+    targets = [
+        target
+        for value in values
+        if (target := _route_target(value)) is not None
+    ]
+    return list(dict.fromkeys(targets))
+
+
+def _return_targets(
+    function: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> list[str]:
+    targets: list[str] = []
+    for node in ast.walk(function):
+        if not isinstance(node, ast.Return) or node.value is None:
+            continue
+        values = (
+            [node.value.body, node.value.orelse]
+            if isinstance(node.value, ast.IfExp)
+            else [node.value]
+        )
+        for value in values:
+            target = _route_target(value)
+            if target:
+                targets.append(target)
+    return list(dict.fromkeys(targets))
+
+
+def _resolved_tool_elements(expr: ast.AST | None, sequences: dict[str, list[ast.AST]]) -> list[ast.AST]:
+    if isinstance(expr, (ast.List, ast.Tuple, ast.Set)):
+        return list(expr.elts)
+    if isinstance(expr, ast.Name):
+        return list(sequences.get(expr.id, []))
+    return []
+
+
+def _factory_agent(
+    path: Path,
+    alias: str,
+    call: ast.Call,
+    functions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef],
+    sequences: dict[str, list[ast.AST]],
+) -> Agent:
+    call_name = _call_name(call.func) or "langgraph_factory"
+    agent = Agent(
+        name=alias,
+        location=_location(path, call),
+        metadata={
+            "framework": "langgraph",
+            "agent_type": call_name,
+            "workflow": "LangGraph",
+            "control_edges": [],
+            "memory": [],
+            "factory_agent": True,
+            "instance_key": (
+                f"{path.resolve()}:{getattr(call, 'lineno', 1)}:{alias}"
+            ),
+        },
+    )
+    tools_expr = _kw(call, "tools")
+    if tools_expr is None and len(call.args) > 1:
+        tools_expr = call.args[1]
+    elements = _resolved_tool_elements(tools_expr, sequences)
+    for element in elements:
+        tool_name = _call_name(element)
+        if not tool_name:
+            continue
+        caps = _name_capabilities(tool_name)
+        if tool_name in functions:
+            caps.update(_function_capabilities(functions[tool_name]))
+        agent.tools.append(
+            Tool(
+                name=tool_name,
+                kind="langgraph_tool",
+                capabilities=caps,
+                location=_location(path, element),
+                metadata={"framework": "langgraph", "factory": call_name},
+            )
+        )
+    if tools_expr is not None and not elements:
+        agent.metadata["dynamic_tools"] = True
+    checkpointer = _call_name(_kw(call, "checkpointer"))
+    if checkpointer:
+        agent.metadata["checkpointer_ref"] = checkpointer
+    return agent
+
+
 def scan_python_file(path: Path) -> Graph:
     graph = Graph()
     try:
@@ -140,23 +249,28 @@ def scan_python_file(path: Path) -> Graph:
 
     functions = {
         node.name: node
-        for node in tree.body
+        for node in ast.walk(tree)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
+    sequences: dict[str, list[ast.AST]] = {}
     graph_aliases: dict[str, ast.Call] = {}
     memory_aliases: dict[str, dict[str, Any]] = {}
+    factory_agents: list[Agent] = []
 
-    for node in tree.body:
+    for node in ast.walk(tree):
         if not isinstance(node, (ast.Assign, ast.AnnAssign)):
             continue
         value = node.value
-        if not isinstance(value, ast.Call):
-            continue
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-        alias = next((target.id for target in targets if isinstance(target, ast.Name)), None)
-        if not alias:
+        aliases = [name for target in targets if (name := _target_name(target))]
+        if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
+            for alias in aliases:
+                sequences[alias] = list(value.elts)
+            continue
+        if not isinstance(value, ast.Call) or not aliases:
             continue
         call_name = _call_name(value.func) or ""
+        alias = aliases[0]
         if call_name in _GRAPH_TYPES:
             graph_aliases[alias] = value
         if call_name in _MEMORY_TYPES:
@@ -167,6 +281,13 @@ def scan_python_file(path: Path) -> Graph:
                 "backend": backend,
                 "writable": True,
             }
+        if call_name in {
+            "create_react_agent",
+            "create_supervisor",
+            "create_swarm",
+            "create_handoff_back_messages",
+        }:
+            factory_agents.append(_factory_agent(path, alias, value, functions, sequences))
 
     for graph_alias, constructor in graph_aliases.items():
         agent = Agent(
@@ -178,9 +299,11 @@ def scan_python_file(path: Path) -> Graph:
                 "workflow": "LangGraph",
                 "control_edges": [],
                 "memory": [],
+                "instance_key": (
+                    f"{path.resolve()}:{getattr(constructor, 'lineno', 1)}:{graph_alias}"
+                ),
             },
         )
-        node_tools: dict[str, Tool] = {}
         unresolved_dynamic_edge = False
 
         for call in (node for node in ast.walk(tree) if isinstance(node, ast.Call)):
@@ -193,9 +316,16 @@ def scan_python_file(path: Path) -> Graph:
 
             if method == "add_node" and call.args:
                 node_name = _string_ref(call.args[0])
+                if (
+                    node_name is None
+                    and isinstance(call.args[0], ast.Call)
+                    and _call_name(call.args[0].func) == "ToolNode"
+                ):
+                    node_name = "tools"
                 function_node = call.args[1] if len(call.args) > 1 else _kw(call, "action")
                 function_name = _call_name(function_node)
                 if not node_name:
+                    unresolved_dynamic_edge = True
                     continue
                 caps = _name_capabilities(node_name)
                 if function_name and function_name in functions:
@@ -211,7 +341,6 @@ def scan_python_file(path: Path) -> Graph:
                         "graph": graph_alias,
                     },
                 )
-                node_tools[node_name] = tool
                 agent.tools.append(tool)
                 if any(marker in node_name.lower() for marker in _RETRIEVAL_MARKERS):
                     agent.inputs.append(
@@ -234,12 +363,23 @@ def scan_python_file(path: Path) -> Graph:
 
             elif method == "add_conditional_edges" and call.args:
                 source = _string_ref(call.args[0])
-                path_map = _literal(call.args[2]) if len(call.args) > 2 else _literal(_kw(call, "path_map"))
-                if source and isinstance(path_map, dict):
-                    for target in path_map.values():
-                        if isinstance(target, str):
-                            agent.metadata["control_edges"].append((source, target))
+                router = _call_name(call.args[1]) if len(call.args) > 1 else None
+                path_map_node = (
+                    call.args[2]
+                    if len(call.args) > 2
+                    else _kw(call, "path_map")
+                )
+                targets = _path_map_targets(path_map_node)
+                if not targets and router and router in functions:
+                    targets.extend(_return_targets(functions[router]))
+                elif not targets and router == "tools_condition":
+                    targets.extend(["tools", "__end__"])
+                if source and targets:
+                    for target in targets:
+                        agent.metadata["control_edges"].append((source, target))
                 else:
+                    # Keep uncertainty only when the finite router target set
+                    # cannot be established from explicit path maps or returns.
                     unresolved_dynamic_edge = True
 
             elif method == "compile":
@@ -249,8 +389,13 @@ def scan_python_file(path: Path) -> Graph:
 
         if unresolved_dynamic_edge:
             agent.metadata["dynamic_control_flow"] = True
-        # Deduplicate while preserving graph construction order.
         agent.metadata["control_edges"] = list(dict.fromkeys(agent.metadata["control_edges"]))
+        graph.agents.append(agent)
+
+    for agent in factory_agents:
+        ref = agent.metadata.pop("checkpointer_ref", None)
+        if ref and ref in memory_aliases:
+            agent.metadata["memory"].append(memory_aliases[ref])
         graph.agents.append(agent)
 
     return graph
