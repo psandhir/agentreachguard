@@ -14,7 +14,7 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.4 development** on the `v0.4-dev` branch; this branch is being prepared for the first HorusTrace v0.4.0 release. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.4.1** on `main`. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
 ## Security model
 
@@ -37,7 +37,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - **Google Agent Development Kit (ADK) Python 2.x — first-class adapter**.
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
 - OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
-- Initial LangGraph `StateGraph` / `MessageGraph` normalization in v0.4 development.
+- LangGraph `StateGraph` / `MessageGraph` normalization, including hardened real-world graph discovery.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.

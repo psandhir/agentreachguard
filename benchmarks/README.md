@@ -1,4 +1,4 @@
-# Reviewed benchmark corpus
+# HorusTrace reviewed benchmark corpus
 
 Each case represents a small but coherent agent security boundary. Its expected
 `RULE@agent` set is manually reviewed and exact: additional findings count as false

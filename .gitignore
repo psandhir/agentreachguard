@@ -6,4 +6,6 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+
+# HorusTrace generated reports
 horustrace.sarif
