@@ -19,7 +19,6 @@ from horustrace.models import (
     ResourceScope,
 )
 
-
 _AGENT_FACTORIES = {
     "Agent",
     "LlmAgent",
