@@ -1,6 +1,6 @@
 # Code of Conduct
 
-AgentReachGuard is an open-source security project. Contributors are expected to keep technical discussion professional, evidence-based, and constructive.
+HorusTrace is an open-source security project. Contributors are expected to keep technical discussion professional, evidence-based, and constructive.
 
 ## Expected behaviour
 
