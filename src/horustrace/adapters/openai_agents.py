@@ -94,6 +94,20 @@ def _call_name(node: ast.AST) -> str | None:
     return None
 
 
+def _dotted_name(node: ast.AST | None) -> str | None:
+    if node is None:
+        return None
+    parts: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute):
+        parts.append(current.attr)
+        current = current.value
+    if isinstance(current, ast.Name):
+        parts.append(current.id)
+        return ".".join(reversed(parts))
+    return None
+
+
 def _literal(node: ast.AST | None) -> Any:
     if node is None:
         return None
@@ -279,13 +293,13 @@ def _credential_reference(node: ast.AST | None) -> str | None:
     if node is None:
         return None
     if isinstance(node, ast.Call):
-        called = (_dotted(node.func) or _call_name(node.func) or "").lower()
+        called = (_dotted_name(node.func) or _call_name(node.func) or "").lower()
         if called in {"os.getenv", "os.environ.get"} and node.args:
             name = _literal(node.args[0])
             if isinstance(name, str):
                 return f"env:{name}"
     if isinstance(node, ast.Subscript):
-        dotted = (_dotted(node.value) or "").lower()
+        dotted = (_dotted_name(node.value) or "").lower()
         if dotted == "os.environ":
             name = _literal(node.slice)
             if isinstance(name, str):
