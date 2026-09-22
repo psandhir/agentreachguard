@@ -400,6 +400,9 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                     "capabilities": sorted(tool.capabilities),
                     "approval": tool.approval,
                     "guardrails": tool.guardrails,
+                    "mutation_semantics": tool.metadata.get("mutation_semantics"),
+                    "network_semantics": tool.metadata.get("network_semantics"),
+                    "sensitive_write_domain": tool.metadata.get("sensitive_write_domain"),
                 },
             )
             tool_ids[(id(agent), tool.name)] = tool_id
