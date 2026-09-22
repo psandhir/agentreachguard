@@ -110,3 +110,58 @@ async def run():
     assert [server.name for server in graph.agents[0].mcp_servers] == ["server"]
     assert graph.agents[0].metadata["runtime_clone_mcp"] is True
     assert any(f.rule_id == "AGT032" for f in findings)
+
+
+
+def test_openai_inline_confirmation_gate_is_modeled(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, function_tool
+
+@function_tool
+def publish_message(confirmed: bool = False):
+    if not confirmed:
+        return "preview"
+    return send_message("hello")
+
+agent = Agent(name="Publisher", tools=[publish_message])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_message")
+
+    assert tool.approval is True
+    assert tool.guardrails is True
+    assert tool.metadata.get("approval_mechanism") == "inline_confirmation"
+    assert tool.metadata.get("approval_scope") == "execution_gate"
+    assert not any(
+        f.rule_id in {"AGT022", "AGT040"} and f.agent == "Publisher"
+        for f in findings
+    )
+
+
+def test_openai_confirmation_parameter_without_return_gate_is_not_approval(tmp_path: Path) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, function_tool
+
+@function_tool
+def publish_message(confirmed: bool = False):
+    if not confirmed:
+        log_preview()
+    return send_message("hello")
+
+agent = Agent(name="Publisher", tools=[publish_message])
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_message")
+
+    assert tool.approval is not True
+    assert tool.metadata.get("approval_mechanism") is None
