@@ -188,6 +188,9 @@ def scan_adk_env(path: Path) -> Graph:
     from horustrace.models import Identity
 
     graph = Graph()
+    lowered_name = path.name.lower()
+    if any(token in lowered_name for token in (".example", ".sample", ".template")):
+        return graph
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
     except (OSError, UnicodeDecodeError):
