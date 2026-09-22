@@ -70,10 +70,8 @@ _TEMPLATE_DIRS = {
 def _path_parts_match(parts: set[str], markers: set[str]) -> bool:
     return any(
         part == marker
-        or part.startswith(f"{marker}_")
-        or part.endswith(f"_{marker}")
-        or part.startswith(f"{marker}-")
-        or part.endswith(f"-{marker}")
+        or part.startswith((f"{marker}_", f"{marker}-"))
+        or part.endswith((f"_{marker}", f"-{marker}"))
         for part in parts
         for marker in markers
     )
