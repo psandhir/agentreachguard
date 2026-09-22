@@ -16,6 +16,7 @@ from horustrace.adapters.registry import detect_python_frameworks, scan_python_f
 from horustrace.adapters.repository_adk import enrich_repository_graph
 from horustrace.adg import build_adg
 from horustrace.analysis import build_attack_paths
+from horustrace.bindings import enrich_python_tool_bindings
 from horustrace.config import ScanConfig
 from horustrace.config import apply as apply_config
 from horustrace.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
@@ -29,6 +30,7 @@ from horustrace.limits import (
     validate_json_safety,
     validate_yaml_safety,
 )
+from horustrace.mcp_authority import reconstruct_mcp_authority
 from horustrace.models import (
     Agent,
     EvidenceFact,
@@ -732,6 +734,13 @@ def scan(
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
+    enrich_python_tool_bindings(
+        graph,
+        root if root.is_dir() else root.parent,
+        approved_python_paths,
+    )
+    reconstruct_mcp_authority(graph, approved_python_paths)
+    _link_global_identities(graph)
     diagnose_dynamic_constructs(graph)
     for agent in graph.agents:
         if agent.metadata.get("dynamic_control_flow"):
