@@ -253,3 +253,35 @@ root_agent = ParallelAgent(name="workflow", sub_agents=[research, review])
     workflow = next(a for a in graph.agents if a.name == "workflow")
     assert workflow.metadata.get("workflow") == "ParallelAgent"
     assert set(workflow.metadata.get("delegates_to") or []) == {"research", "review"}
+
+
+def test_adk_re_compile_is_not_process_execution(tmp_path: Path) -> None:
+    write(tmp_path, '''
+import re
+from google.adk import Agent
+
+def send_email(address: str) -> bool:
+    pattern = re.compile(r"^[^@]+@[^@]+$")
+    return bool(pattern.match(address))
+
+root_agent = Agent(name="mail", model="gemini-flash-latest", tools=[send_email])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "send_email")
+    assert "process.execute" not in tool.capabilities
+    assert not any(f.rule_id == "AGT020" for f in findings)
+
+
+def test_adk_builtin_compile_is_process_execution(tmp_path: Path) -> None:
+    write(tmp_path, '''
+from google.adk import Agent
+
+def compile_expression(source: str):
+    return compile(source, "<agent>", "eval")
+
+root_agent = Agent(name="compiler", model="gemini-flash-latest", tools=[compile_expression])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "compile_expression")
+    assert "process.execute" in tool.capabilities
+    assert any(f.rule_id == "AGT020" for f in findings)
