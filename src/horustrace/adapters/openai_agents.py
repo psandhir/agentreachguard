@@ -314,7 +314,12 @@ def _credential_reference(node: ast.AST | None) -> str | None:
         if (reference := _credential_reference(child)) is not None
     ]
     unique = list(dict.fromkeys(references))
-    return unique[0] if len(unique) == 1 else None
+    non_literal = [reference for reference in unique if reference != "literal"]
+    if len(non_literal) == 1:
+        return non_literal[0]
+    if not non_literal and len(unique) == 1:
+        return unique[0]
+    return None
 
 
 def _auth_credential_source(headers_node: ast.AST | None) -> str | None:
