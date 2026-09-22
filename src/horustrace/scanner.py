@@ -43,6 +43,7 @@ from horustrace.models import (
 from horustrace.path_safety import canonical_root, is_within_root
 from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
+from horustrace.semantics import annotate_risk_semantics
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
@@ -55,6 +56,48 @@ DEFAULT_IGNORES = {
 }
 IGNORE_MARKERS = {".horustrace-ignore"}
 SOURCE_FRAGMENT_DIRS = {"snippets", "snippets_py", "code_snippets"}
+
+_TEST_DIRS = {"test", "tests", "testing"}
+_EXAMPLE_DIRS = {"example", "examples", "sample", "samples", "demo", "demos"}
+_TUTORIAL_DIRS = {
+    "tutorial", "tutorials", "training", "lab", "labs", "workshop", "workshops",
+    "course", "courses",
+}
+_TEMPLATE_DIRS = {
+    "template", "templates", "generated", "fixtures", "benchmark", "benchmarks",
+}
+
+
+def _path_parts_match(parts: set[str], markers: set[str]) -> bool:
+    return any(
+        part == marker
+        or part.startswith((f"{marker}_", f"{marker}-"))
+        or part.endswith((f"_{marker}", f"-{marker}"))
+        for part in parts
+        for marker in markers
+    )
+
+
+def _classify_source_context(path: Path | None) -> str:
+    if path is None:
+        return "unknown"
+    lowered_parts = {part.lower() for part in path.parts}
+    name = path.name.lower()
+    if path.suffix.lower() == ".ipynb":
+        return "notebook"
+    if _path_parts_match(lowered_parts, _TEST_DIRS) or name.startswith(("test_", "tests_")):
+        return "test"
+    if _path_parts_match(lowered_parts, _EXAMPLE_DIRS):
+        return "example"
+    if _path_parts_match(lowered_parts, _TUTORIAL_DIRS):
+        return "tutorial"
+    if (
+        _path_parts_match(lowered_parts, _TEMPLATE_DIRS)
+        or ".template." in name
+        or name.endswith((".template", ".j2", ".jinja", ".jinja2"))
+    ):
+        return "template-generated"
+    return "runtime"
 
 
 def _is_source_fragment(path: Path) -> bool:
@@ -773,9 +816,14 @@ def scan(
         },
     }
 
+    annotate_risk_semantics(graph)
     graph.attack_paths = build_attack_paths(graph)
     graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
+    for finding in findings:
+        finding.source_context = _classify_source_context(
+            finding.location.path if finding.location else None
+        )
     attach_findings(graph, findings)
     findings, disabled_rules = apply_config(config or ScanConfig(), findings)
     graph.configuration_audit = {"disabled_rules": disabled_rules}
