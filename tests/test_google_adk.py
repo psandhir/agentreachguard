@@ -344,3 +344,39 @@ def test_adk_env_example_placeholder_is_not_runtime_credential(tmp_path: Path) -
     write(tmp_path, 'GEMINI_API_KEY="your-gemini-key-here"\n', ".env.example")
     _, findings = scan(tmp_path)
     assert not any(f.rule_id == "IDN004" for f in findings)
+
+
+
+def test_repository_import_resolution_does_not_confuse_re_with_core_module(tmp_path: Path) -> None:
+    """Regression for frozen trustworthy-adk: re.compile must stay stdlib regex."""
+    write(tmp_path, '''
+def compile(source: str):
+    return eval(source)
+''', "core.py")
+    write(tmp_path, '''
+import re
+
+def send_email(address: str) -> bool:
+    pattern = re.compile(r"^[^@]+@[^@]+$")
+    return bool(pattern.match(address))
+''', "email_tool.py")
+    write(tmp_path, '''
+from google.adk import Agent
+import email_tool
+
+root_agent = Agent(
+    name="workspace_agent",
+    model="gemini-flash-latest",
+    tools=[email_tool.send_email],
+)
+''', "agent.py")
+
+    graph, findings = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.name == "workspace_agent")
+    tool = next(t for t in agent.tools if t.name == "send_email")
+
+    assert "process.execute" not in tool.capabilities
+    assert not any(
+        f.rule_id == "AGT020" and f.agent == "workspace_agent"
+        for f in findings
+    )
