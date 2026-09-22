@@ -204,7 +204,7 @@ def _infer_function_capabilities(
 
         # Only known execution APIs establish process execution.
         if (
-            leaf in {"exec", "eval", "compile"}
+            called in {"exec", "eval", "compile"}
             or called == "os.system"
             or called == "os.popen"
             or called.startswith("subprocess.")
