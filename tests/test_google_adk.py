@@ -285,3 +285,62 @@ root_agent = Agent(name="compiler", model="gemini-flash-latest", tools=[compile_
     tool = next(t for t in graph.agents[0].tools if t.name == "compile_expression")
     assert "process.execute" in tool.capabilities
     assert any(f.rule_id == "AGT020" for f in findings)
+
+
+
+def test_adk_prompt_defense_plugin_is_not_action_approval(tmp_path: Path) -> None:
+    write(tmp_path, '''
+from google.adk import Agent, App
+from trustworthy import SoftInstructionDefensePlugin
+
+def delete_user(user_id: str):
+    return {"deleted": user_id}
+
+root_agent = Agent(name="admin", tools=[delete_user])
+app = App(root_agent=root_agent, plugins=[SoftInstructionDefensePlugin()])
+''')
+    graph, findings = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.name == "admin")
+    tool = next(t for t in agent.tools if t.name == "delete_user")
+
+    assert agent.metadata.get("safety_plugin") is True
+    assert agent.metadata.get("approval_plugin") is not True
+    assert tool.approval is not True
+    assert tool.guardrails is False
+    assert any(f.rule_id == "ADK001" and f.agent == "admin" for f in findings)
+
+
+def test_adk_hitl_plugin_approves_only_named_sensitive_tools(tmp_path: Path) -> None:
+    write(tmp_path, '''
+from google.adk import Agent, App
+from trustworthy import HITLToolPlugin
+
+def delete_user(user_id: str):
+    return {"deleted": user_id}
+
+def update_note(note: str):
+    return {"note": note}
+
+root_agent = Agent(name="admin", tools=[delete_user, update_note])
+app = App(
+    root_agent=root_agent,
+    plugins=[HITLToolPlugin(sensitive_tools=["delete_user"])],
+)
+''')
+    graph, _ = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.name == "admin")
+    delete_tool = next(t for t in agent.tools if t.name == "delete_user")
+    note_tool = next(t for t in agent.tools if t.name == "update_note")
+
+    assert agent.metadata.get("approval_plugin") is True
+    assert delete_tool.approval is True
+    assert delete_tool.metadata.get("approval_mechanism") == "adk_hitl_tool_plugin"
+    assert note_tool.approval is not True
+    assert note_tool.guardrails is False
+
+
+
+def test_adk_env_example_placeholder_is_not_runtime_credential(tmp_path: Path) -> None:
+    write(tmp_path, 'GEMINI_API_KEY="your-gemini-key-here"\n', ".env.example")
+    _, findings = scan(tmp_path)
+    assert not any(f.rule_id == "IDN004" for f in findings)
