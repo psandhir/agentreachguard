@@ -148,6 +148,12 @@ def _server_from_connection_dict(
     authenticated, auth_keys = _auth_from_headers(entries.get("headers"))
     if url and "headers" not in entries:
         authenticated = False
+    allowed_tools = _string_list(
+        entries.get("allowed_tools") or entries.get("allowedTools")
+    )
+    denied_tools = _string_list(
+        entries.get("denied_tools") or entries.get("deniedTools")
+    )
     return MCPServer(
         name=name,
         transport=transport,
@@ -155,6 +161,8 @@ def _server_from_connection_dict(
         command=command,
         args=_string_list(entries.get("args")),
         authenticated=authenticated,
+        allowed_tools=allowed_tools,
+        denied_tools=denied_tools,
         location=_location(path, node),
         metadata={
             "framework": "mcp",
