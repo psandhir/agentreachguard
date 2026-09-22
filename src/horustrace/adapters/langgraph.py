@@ -123,6 +123,26 @@ def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[
     return caps
 
 
+def _function_has_human_approval_gate(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> bool:
+    """Return True only for an explicit human interrupt plus approval semantics."""
+    has_interrupt = False
+    has_approval_semantics = False
+    approval_markers = {"approved", "approve", "accept", "accepted", "confirm", "confirmed"}
+
+    for child in ast.walk(node):
+        if isinstance(child, ast.Call):
+            called = (_dotted(child.func) or _call_name(child.func) or "").lower()
+            if called == "interrupt" or called.endswith(".interrupt"):
+                has_interrupt = True
+        if isinstance(child, ast.Constant) and isinstance(child.value, str):
+            if child.value.strip().lower() in approval_markers:
+                has_approval_semantics = True
+
+    return has_interrupt and has_approval_semantics
+
+
 def _string_ref(node: ast.AST | None) -> str | None:
     literal = _literal(node)
     if isinstance(literal, str):
@@ -330,15 +350,25 @@ def scan_python_file(path: Path) -> Graph:
                 caps = _name_capabilities(node_name)
                 if function_name and function_name in functions:
                     caps.update(_function_capabilities(functions[function_name]))
+                approval_control = bool(
+                    function_name
+                    and function_name in functions
+                    and _function_has_human_approval_gate(functions[function_name])
+                )
                 tool = Tool(
                     name=node_name,
                     kind="langgraph_node",
                     capabilities=caps,
+                    guardrails=approval_control,
                     location=_location(path, call),
                     metadata={
                         "framework": "langgraph",
                         "function": function_name,
                         "graph": graph_alias,
+                        "approval_control": approval_control,
+                        "approval_mechanism": (
+                            "langgraph_human_interrupt" if approval_control else None
+                        ),
                     },
                 )
                 agent.tools.append(tool)
@@ -390,6 +420,20 @@ def scan_python_file(path: Path) -> Graph:
         if unresolved_dynamic_edge:
             agent.metadata["dynamic_control_flow"] = True
         agent.metadata["control_edges"] = list(dict.fromkeys(agent.metadata["control_edges"]))
+
+        tools_by_name = {tool.name: tool for tool in agent.tools}
+        for source, target in agent.metadata["control_edges"]:
+            gate = tools_by_name.get(str(source))
+            protected = tools_by_name.get(str(target))
+            if not gate or not protected or not gate.metadata.get("approval_control"):
+                continue
+            protected.approval = True
+            protected.guardrails = True
+            protected.metadata["approval_gated_by"] = gate.name
+            protected.metadata["approval_mechanism"] = "langgraph_human_interrupt"
+            protected.metadata["approval_scope"] = "execution_gate"
+            protected.metadata["approval_mandatory"] = True
+
         graph.agents.append(agent)
 
     for agent in factory_agents:
