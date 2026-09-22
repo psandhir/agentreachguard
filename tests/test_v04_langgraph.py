@@ -84,6 +84,9 @@ workflow.add_edge("review", "apply_change")
     assert mutation.approval is True
     assert mutation.metadata.get("approval_gated_by") == "review"
     assert mutation.metadata.get("approval_scope") == "execution_gate"
+    assert graph.adg is not None
+    assert any(node.kind == "approval_control" for node in graph.adg.nodes)
+    assert any(edge.kind == "GUARDED_BY" for edge in graph.adg.edges)
 
 
 def test_langgraph_interrupt_without_approval_semantics_does_not_gate(tmp_path: Path) -> None:
