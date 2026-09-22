@@ -1,0 +1,59 @@
+name: Frozen 90 Repository Rescan
+
+on:
+  push:
+    branches:
+      - research/90-repo-rescan
+    paths:
+      - "src/**"
+      - "scripts/frozen_corpus_rescan.py"
+      - "benchmarks/public-corpus/**"
+      - ".github/workflows/frozen-90-rescan.yml"
+      - "pyproject.toml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frozen-90-rescan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Cohort ${{ matrix.cohort }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        cohort: [a, b, c]
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install current HorusTrace
+        run: python -m pip install -e .
+
+      - name: Scan frozen cohort
+        run: |
+          python scripts/frozen_corpus_rescan.py \
+            --manifest benchmarks/public-corpus/cohort-${{ matrix.cohort }}-v1.json \
+            --cohort ${{ matrix.cohort }} \
+            --output-prefix frozen-rescan-${{ matrix.cohort }}
+
+      - name: Upload frozen cohort report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frozen-rescan-${{ matrix.cohort }}
+          path: |
+            frozen-rescan-${{ matrix.cohort }}.json
+            frozen-rescan-${{ matrix.cohort }}.md
+          if-no-files-found: warn
