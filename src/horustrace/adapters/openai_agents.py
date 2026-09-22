@@ -94,6 +94,20 @@ def _call_name(node: ast.AST) -> str | None:
     return None
 
 
+def _dotted_name(node: ast.AST | None) -> str | None:
+    if node is None:
+        return None
+    parts: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute):
+        parts.append(current.attr)
+        current = current.value
+    if isinstance(current, ast.Name):
+        parts.append(current.id)
+        return ".".join(reversed(parts))
+    return None
+
+
 def _literal(node: ast.AST | None) -> Any:
     if node is None:
         return None
@@ -275,6 +289,55 @@ def _dict_nodes(node: ast.AST | None) -> dict[str, ast.AST]:
     return result
 
 
+def _credential_reference(node: ast.AST | None) -> str | None:
+    if node is None:
+        return None
+    if isinstance(node, ast.Call):
+        called = (_dotted_name(node.func) or _call_name(node.func) or "").lower()
+        if called in {"os.getenv", "os.environ.get"} and node.args:
+            name = _literal(node.args[0])
+            if isinstance(name, str):
+                return f"env:{name}"
+    if isinstance(node, ast.Subscript):
+        dotted = (_dotted_name(node.value) or "").lower()
+        if dotted == "os.environ":
+            name = _literal(node.slice)
+            if isinstance(name, str):
+                return f"env:{name}"
+    if isinstance(node, ast.Name):
+        return f"variable:{node.id}"
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return "literal"
+    references = [
+        reference
+        for child in ast.iter_child_nodes(node)
+        if (reference := _credential_reference(child)) is not None
+    ]
+    unique = list(dict.fromkeys(references))
+    non_literal = [reference for reference in unique if reference != "literal"]
+    if len(non_literal) == 1:
+        return non_literal[0]
+    if not non_literal and len(unique) == 1:
+        return unique[0]
+    return None
+
+
+def _auth_credential_source(headers_node: ast.AST | None) -> str | None:
+    if not isinstance(headers_node, ast.Dict):
+        return None
+    auth_headers = {"authorization", "proxy-authorization", "x-api-key", "x-goog-api-key"}
+    references: list[str] = []
+    for key_node, value_node in zip(headers_node.keys, headers_node.values):
+        key = _literal(key_node)
+        if not isinstance(key, str) or key.lower() not in auth_headers:
+            continue
+        reference = _credential_reference(value_node)
+        if reference:
+            references.append(reference)
+    unique = list(dict.fromkeys(references))
+    return unique[0] if len(unique) == 1 else None
+
+
 def _mcp_from_call(
     path: Path,
     node: ast.Call,
@@ -368,6 +431,7 @@ def _mcp_from_call(
         location=_location(path, node),
         metadata={
             "auth_headers": sorted(header_keys),
+            "credential_source": _auth_credential_source(headers_node),
             "dynamic_mcp_endpoint": bool(
                 params_node is not None
                 and entries.get("url") is not None
@@ -577,6 +641,20 @@ def scan_python_file(path: Path) -> Graph:
         for element in _resolve_sequence(_kw(node, "mcp_servers"), sequences):
             if isinstance(element, ast.Name) and element.id in mcp_servers:
                 agent.mcp_servers.append(mcp_servers[element.id])
+            elif isinstance(element, ast.Name) and element.id in imports:
+                agent.mcp_servers.append(
+                    MCPServer(
+                        name=element.id,
+                        transport="configured",
+                        authenticated=None,
+                        location=_location(path, element),
+                        metadata={
+                            "framework": "openai-agents",
+                            "import_module": imports[element.id],
+                            "placeholder": True,
+                        },
+                    )
+                )
             elif isinstance(element, ast.Constant) and isinstance(element.value, str):
                 agent.mcp_servers.append(
                     MCPServer(
