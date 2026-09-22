@@ -136,9 +136,12 @@ def _function_has_human_approval_gate(
             called = (_dotted(child.func) or _call_name(child.func) or "").lower()
             if called == "interrupt" or called.endswith(".interrupt"):
                 has_interrupt = True
-        if isinstance(child, ast.Constant) and isinstance(child.value, str):
-            if child.value.strip().lower() in approval_markers:
-                has_approval_semantics = True
+        if (
+            isinstance(child, ast.Constant)
+            and isinstance(child.value, str)
+            and child.value.strip().lower() in approval_markers
+        ):
+            has_approval_semantics = True
 
     return has_interrupt and has_approval_semantics
 
