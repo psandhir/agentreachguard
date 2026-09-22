@@ -40,6 +40,7 @@ BUILTIN_TOOL_CAPABILITIES: dict[str, set[str]] = {
     "load_web_page": {"data.read", "network.external"},
     "DiscoveryEngineSearchTool": {"data.read", "network.external"},
     "VertexAiSearchTool": {"data.read", "network.external"},
+    "VertexAiRagRetrieval": {"data.read", "network.external"},
     "EnterpriseWebSearchTool": {"data.read", "network.external"},
     "BigQueryToolset": {"data.read", "data.write", "network.external"},
     "BigtableToolset": {"data.read", "data.write", "network.external"},
@@ -66,7 +67,8 @@ BUILTIN_TOOL_CAPABILITIES: dict[str, set[str]] = {
 
 RETRIEVAL_TOOLS = {
     "GoogleSearchTool", "google_search", "UrlContextTool", "url_context", "load_web_page",
-    "DiscoveryEngineSearchTool", "VertexAiSearchTool", "EnterpriseWebSearchTool",
+    "DiscoveryEngineSearchTool", "VertexAiSearchTool", "VertexAiRagRetrieval",
+    "EnterpriseWebSearchTool",
 }
 BROAD_TOOLSETS = {
     "GoogleApiToolset", "GmailToolset", "CalendarToolset", "DocsToolset", "SheetsToolset", "SlidesToolset",

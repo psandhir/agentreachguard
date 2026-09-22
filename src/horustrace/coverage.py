@@ -96,6 +96,8 @@ def diagnose_python(path: Path, graph: Graph) -> None:
                     name = func.id if isinstance(func, ast.Name) else getattr(func, "attr", None)
                 elif isinstance(element, ast.Attribute):
                     name = element.attr
+                elif isinstance(element, ast.Constant) and isinstance(element.value, str):
+                    name = element.value
                 recognized = name in resolved | builtins
                 assigned = assignments.get(name)
                 if assigned is not None:
@@ -156,6 +158,21 @@ def diagnose_dynamic_constructs(graph: Graph) -> None:
                 add_diagnostic(graph.coverage, diagnostic)
                 existing.add(key)
     for agent in graph.agents:
+        if agent.metadata.get("dynamic_tools"):
+            diagnostic = ScanDiagnostic(
+                "dynamic_configuration",
+                "Agent tool collection is created dynamically and could not be fully resolved.",
+                agent.location,
+                details={"framework": agent.metadata.get("framework")},
+            )
+            key = (
+                diagnostic.kind,
+                agent.location.path if agent.location else None,
+                agent.location.line if agent.location else None,
+            )
+            if key not in existing:
+                add_diagnostic(graph.coverage, diagnostic)
+                existing.add(key)
         if agent.metadata.get("external_helper_semantics_unresolved"):
             diagnostic = ScanDiagnostic(
                 "external_helper_semantics_unresolved",

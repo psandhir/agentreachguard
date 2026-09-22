@@ -1,0 +1,413 @@
+"""Static programmatic MCP discovery for Python source files.
+
+This adapter recognizes common MCP client/server construction patterns without
+importing or executing the target application. It is intentionally conservative:
+dynamic connection values are retained as coverage uncertainty rather than guessed.
+"""
+# ruff: noqa: I001
+
+from __future__ import annotations
+
+import ast
+from pathlib import Path
+from typing import Any
+
+from horustrace.heuristics import infer_capabilities
+from horustrace.models import Graph, MCPServer, ScanDiagnostic, SourceLocation, Tool
+
+
+_MCP_IMPORT_PREFIXES = (
+    "mcp",
+    "fastmcp",
+    "langchain_mcp_adapters",
+    "mcp_use",
+)
+
+
+def _location(path: Path, node: ast.AST) -> SourceLocation:
+    return SourceLocation(
+        path=path,
+        line=getattr(node, "lineno", 1) or 1,
+        column=(getattr(node, "col_offset", 0) or 0) + 1,
+    )
+
+
+def _call_name(node: ast.AST | None) -> str | None:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    return None
+
+
+def _dotted(node: ast.AST | None) -> str | None:
+    if node is None:
+        return None
+    parts: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute):
+        parts.append(current.attr)
+        current = current.value
+    if isinstance(current, ast.Name):
+        parts.append(current.id)
+        return ".".join(reversed(parts))
+    return None
+
+
+def _target_name(node: ast.AST | None) -> str | None:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return _dotted(node)
+    return None
+
+
+def _literal(node: ast.AST | None) -> Any:
+    if node is None:
+        return None
+    try:
+        return ast.literal_eval(node)
+    except (TypeError, ValueError):
+        return None
+
+
+def _kw(call: ast.Call, name: str) -> ast.AST | None:
+    return next((item.value for item in call.keywords if item.arg == name), None)
+
+
+def _uses_mcp(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            if module.startswith(_MCP_IMPORT_PREFIXES):
+                return True
+        elif isinstance(node, ast.Import):
+            if any(alias.name.startswith(_MCP_IMPORT_PREFIXES) for alias in node.names):
+                return True
+    return False
+
+
+def is_mcp_python_file(path: Path) -> bool:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except (OSError, UnicodeDecodeError, SyntaxError):
+        return False
+    return _uses_mcp(tree)
+
+
+def _string(node: ast.AST | None) -> str | None:
+    value = _literal(node)
+    return value if isinstance(value, str) else None
+
+
+def _string_list(node: ast.AST | None) -> list[str]:
+    value = _literal(node)
+    if isinstance(value, (list, tuple)):
+        return [str(item) for item in value]
+    return []
+
+
+def _dict_entries(node: ast.AST | None) -> dict[str, ast.AST]:
+    if not isinstance(node, ast.Dict):
+        return {}
+    result: dict[str, ast.AST] = {}
+    for key, value in zip(node.keys, node.values):
+        literal = _literal(key)
+        if isinstance(literal, str):
+            result[literal] = value
+    return result
+
+
+def _auth_from_headers(node: ast.AST | None) -> tuple[bool | None, list[str]]:
+    entries = _dict_entries(node)
+    normalized = {key.lower() for key in entries}
+    auth_keys = sorted(
+        normalized
+        & {"authorization", "proxy-authorization", "x-api-key", "x-goog-api-key"}
+    )
+    if auth_keys:
+        return True, auth_keys
+    if isinstance(node, ast.Dict):
+        return False, []
+    return None, []
+
+
+def _server_from_connection_dict(
+    path: Path,
+    name: str,
+    node: ast.AST,
+) -> MCPServer | None:
+    entries = _dict_entries(node)
+    if not entries:
+        return None
+    command = _string(entries.get("command"))
+    url = _string(entries.get("url") or entries.get("server_url"))
+    transport = _string(entries.get("transport"))
+    if not transport:
+        transport = "stdio" if "command" in entries else "streamable-http" if "url" in entries or "server_url" in entries else "unknown"
+    authenticated, auth_keys = _auth_from_headers(entries.get("headers"))
+    if url and "headers" not in entries:
+        authenticated = False
+    return MCPServer(
+        name=name,
+        transport=transport,
+        url=url,
+        command=command,
+        args=_string_list(entries.get("args")),
+        authenticated=authenticated,
+        location=_location(path, node),
+        metadata={
+            "framework": "mcp",
+            "source": "python_connection_config",
+            "auth_keys": auth_keys,
+            "dynamic_mcp_endpoint": bool(("url" in entries or "server_url" in entries) and url is None),
+            "dynamic_command": bool("command" in entries and command is None),
+        },
+    )
+
+
+def _stdio_server(path: Path, call: ast.Call, name: str) -> MCPServer:
+    command_node = _kw(call, "command")
+    command = _string(command_node)
+    args_node = _kw(call, "args")
+    return MCPServer(
+        name=name,
+        transport="stdio",
+        command=command,
+        args=_string_list(args_node),
+        authenticated=None,
+        location=_location(path, call),
+        metadata={
+            "framework": "mcp",
+            "source": "StdioServerParameters",
+            "dynamic_command": command_node is not None and command is None,
+        },
+    )
+
+
+def _remote_client_server(path: Path, call: ast.Call, name: str, transport: str) -> MCPServer:
+    url_node = call.args[0] if call.args else _kw(call, "url")
+    url = _string(url_node)
+    return MCPServer(
+        name=name,
+        transport=transport,
+        url=url,
+        authenticated=None,
+        location=_location(path, call),
+        metadata={
+            "framework": "mcp",
+            "source": _call_name(call.func),
+            "dynamic_mcp_endpoint": url_node is not None and url is None,
+        },
+    )
+
+
+def _function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef, server_aliases: set[str]) -> Tool | None:
+    for decorator in node.decorator_list:
+        target = decorator.func if isinstance(decorator, ast.Call) else decorator
+        if not isinstance(target, ast.Attribute) or target.attr != "tool":
+            continue
+        receiver = _dotted(target.value) or _call_name(target.value)
+        if receiver not in server_aliases:
+            continue
+        capabilities = set(infer_capabilities(node.name))
+        for child in ast.walk(node):
+            if not isinstance(child, ast.Call):
+                continue
+            called = (_dotted(child.func) or _call_name(child.func) or "").lower()
+            leaf = (_call_name(child.func) or "").lower()
+            if called.startswith("subprocess.") or called in {"os.system", "os.popen"}:
+                capabilities.add("process.execute")
+            if called.startswith(("requests.", "httpx.")) or "aiohttp" in called:
+                capabilities.add("network.external")
+                if leaf in {"post", "put", "patch", "delete"}:
+                    capabilities.add("external.write")
+            if leaf in {"write", "save", "update", "insert", "put", "delete"}:
+                capabilities.add("data.write")
+            if leaf in {"read", "get", "search", "retrieve", "fetch", "query"}:
+                capabilities.add("data.read")
+        return Tool(
+            name=node.name,
+            kind="mcp_exposed_tool",
+            capabilities=capabilities,
+            location=_location(path, node),
+            metadata={"framework": "mcp", "server": receiver},
+        )
+    return None
+
+
+def scan_python_file(path: Path) -> Graph:
+    graph = Graph()
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except (OSError, UnicodeDecodeError, SyntaxError):
+        return graph
+    if not _uses_mcp(tree):
+        return graph
+
+    assignments: dict[str, ast.AST] = {}
+    runtime_commands: set[str] = set()
+    server_aliases: set[str] = set()
+    servers: list[MCPServer] = []
+    clients: set[str] = set()
+
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+            continue
+        value = node.value
+        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+        names = [name for target in targets if (name := _target_name(target))]
+        for name in names:
+            if value is not None:
+                assignments[name] = value
+                if (
+                    isinstance(value, ast.Attribute)
+                    and _dotted(value) == "sys.executable"
+                ):
+                    runtime_commands.add(name)
+        if not isinstance(value, ast.Call) or not names:
+            continue
+        name = names[0]
+        call_name = _call_name(value.func) or ""
+
+        if call_name in {"FastMCP", "Server"}:
+            runtime_name = (
+                _string(value.args[0] if value.args else None)
+                or _string(_kw(value, "name"))
+                or name
+            )
+            authenticated = True if _kw(value, "auth") is not None or _kw(value, "token_verifier") is not None else None
+            servers.append(
+                MCPServer(
+                    name=runtime_name,
+                    transport="server",
+                    authenticated=authenticated,
+                    location=_location(path, value),
+                    metadata={"framework": "mcp", "source": call_name, "alias": name},
+                )
+            )
+            server_aliases.add(name)
+        elif call_name == "StdioServerParameters":
+            servers.append(_stdio_server(path, value, name))
+        elif call_name == "MultiServerMCPClient":
+            clients.add(name)
+            config_node = value.args[0] if value.args else _kw(value, "connections")
+            for server_name, config_node_item in _dict_entries(config_node).items():
+                server = _server_from_connection_dict(path, server_name, config_node_item)
+                if server:
+                    servers.append(server)
+        elif call_name in {"MCPClient"} or (_dotted(value.func) or "").endswith("MCPClient.from_dict"):
+            clients.add(name)
+            config_node = value.args[0] if value.args else _kw(value, "config")
+            config_entries = _dict_entries(config_node)
+            nested = config_entries.get("mcpServers") or config_entries.get("servers")
+            for server_name, config_node_item in _dict_entries(nested).items():
+                server = _server_from_connection_dict(path, server_name, config_node_item)
+                if server:
+                    servers.append(server)
+
+
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.With, ast.AsyncWith)):
+            continue
+        for item in node.items:
+            if not isinstance(item.context_expr, ast.Call):
+                continue
+            call_name = _call_name(item.context_expr.func) or ""
+            alias = _target_name(item.optional_vars)
+            if call_name == "MultiServerMCPClient" and alias:
+                clients.add(alias)
+                config_node = (
+                    item.context_expr.args[0]
+                    if item.context_expr.args
+                    else _kw(item.context_expr, "connections")
+                )
+                for server_name, config_node_item in _dict_entries(config_node).items():
+                    server = _server_from_connection_dict(
+                        path, server_name, config_node_item
+                    )
+                    if server:
+                        servers.append(server)
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        call_name = _call_name(node.func) or ""
+        if call_name == "StdioServerParameters":
+            if not any(server.location and server.location.line == getattr(node, "lineno", -1) for server in servers):
+                servers.append(_stdio_server(path, node, f"stdio@{getattr(node, 'lineno', 1)}"))
+        elif call_name in {"sse_client", "sse_client_async"}:
+            servers.append(_remote_client_server(path, node, f"sse@{getattr(node, 'lineno', 1)}", "sse"))
+        elif call_name in {"streamable_http_client", "streamablehttp_client"}:
+            servers.append(
+                _remote_client_server(
+                    path,
+                    node,
+                    f"http@{getattr(node, 'lineno', 1)}",
+                    "streamable-http",
+                )
+            )
+
+        if isinstance(node.func, ast.Attribute):
+            receiver = _dotted(node.func.value) or _call_name(node.func.value)
+            if node.func.attr == "connect_to_server" and receiver in clients:
+                server_name = _string(node.args[0] if node.args else None) or f"server@{getattr(node, 'lineno', 1)}"
+                command_node = _kw(node, "command")
+                url_node = _kw(node, "url")
+                command = _string(command_node)
+                if (
+                    command is None
+                    and isinstance(command_node, ast.Name)
+                    and command_node.id in runtime_commands
+                ):
+                    command = "<python-executable>"
+                url = _string(url_node)
+                transport = "stdio" if command_node is not None else "streamable-http" if url_node is not None else "unknown"
+                servers.append(
+                    MCPServer(
+                        name=server_name,
+                        transport=transport,
+                        command=command,
+                        url=url,
+                        args=_string_list(_kw(node, "args")),
+                        authenticated=None,
+                        location=_location(path, node),
+                        metadata={
+                            "framework": "mcp",
+                            "source": "connect_to_server",
+                            "dynamic_command": command_node is not None and command is None,
+                            "dynamic_mcp_endpoint": url_node is not None and url is None,
+                        },
+                    )
+                )
+            elif node.func.attr == "run" and receiver in server_aliases:
+                transport = _string(_kw(node, "transport"))
+                if transport:
+                    for server in servers:
+                        if server.metadata.get("alias") == receiver:
+                            server.transport = transport
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            tool = _function_tool(path, node, server_aliases)
+            if tool:
+                graph.unbound_tools.append(tool)
+
+    seen: set[tuple[str, str, int]] = set()
+    for server in servers:
+        line = server.location.line if server.location else 1
+        key = (server.name, server.transport, line)
+        if key in seen:
+            continue
+        seen.add(key)
+        graph.unbound_mcp_servers.append(server)
+        if server.metadata.get("dynamic_command"):
+            graph.coverage.diagnostics.append(
+                ScanDiagnostic(
+                    "dynamic_configuration",
+                    f"MCP stdio command for '{server.name}' could not be resolved statically.",
+                    server.location,
+                )
+            )
+
+    return graph

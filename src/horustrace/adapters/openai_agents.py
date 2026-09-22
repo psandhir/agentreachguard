@@ -1,3 +1,5 @@
+# ruff: noqa: I001
+
 from __future__ import annotations
 
 import ast
@@ -17,17 +19,51 @@ from horustrace.models import (
 )
 
 
+_OPENAI_AGENT_EXPORTS = {
+    "Agent", "Runner", "RunContextWrapper", "function_tool", "handoff",
+    "input_guardrail", "output_guardrail", "trace",
+    "enable_verbose_stdout_logging", "ShellTool", "ApplyPatchTool",
+    "HostedMCPTool", "WebSearchTool", "FileSearchTool",
+    "CodeInterpreterTool", "ImageGenerationTool", "ComputerTool",
+    "ToolSearchTool",
+}
+
+
+_OPENAI_AGENT_SUBMODULES = (
+    "agents.mcp",
+    "agents.tool",
+    "agents.run_context",
+    "agents.extensions",
+    "agents.models",
+    "agents.items",
+    "agents.guardrail",
+    "agents.lifecycle",
+    "agents.memory",
+    "agents.tracing",
+)
+
+
+def _is_openai_agents_module(module: str) -> bool:
+    if module == "agents" or module.startswith("openai.agents"):
+        return True
+    return any(
+        module == prefix or module.startswith(prefix + ".")
+        for prefix in _OPENAI_AGENT_SUBMODULES
+    )
+
+
 def _uses_openai_agents(tree: ast.AST) -> bool:
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
             module = node.module or ""
-            if module == "agents" or module.startswith(("agents.", "openai.agents")):
+            if module == "agents":
+                if any(alias.name in _OPENAI_AGENT_EXPORTS for alias in node.names):
+                    return True
+                continue
+            if _is_openai_agents_module(module):
                 return True
         if isinstance(node, ast.Import) and any(
-            alias.name == "agents"
-            or alias.name.startswith("agents.")
-            or alias.name.startswith("openai.agents")
-            for alias in node.names
+            _is_openai_agents_module(alias.name) for alias in node.names
         ):
             return True
     return False
@@ -49,6 +85,8 @@ MCP_TYPES = {
 
 
 def _call_name(node: ast.AST) -> str | None:
+    if isinstance(node, ast.Subscript):
+        return _call_name(node.value)
     if isinstance(node, ast.Name):
         return node.id
     if isinstance(node, ast.Attribute):
@@ -94,10 +132,76 @@ def _location(path: Path, node: ast.AST) -> SourceLocation:
     return SourceLocation(path=path, line=getattr(node, "lineno", 1), column=getattr(node, "col_offset", 0) + 1)
 
 
+_HOSTED_TOOL_CAPABILITIES: dict[str, tuple[str, set[str]]] = {
+    "WebSearchTool": ("openai_web_search", {"data.read", "network.external"}),
+    "FileSearchTool": ("openai_file_search", {"data.read"}),
+    "CodeInterpreterTool": (
+        "openai_code_interpreter",
+        {"process.execute", "data.read", "data.write"},
+    ),
+    "ImageGenerationTool": (
+        "openai_image_generation",
+        {"external.write", "network.external"},
+    ),
+    "ComputerTool": (
+        "openai_computer",
+        {"computer.control", "data.read", "data.write", "network.external"},
+    ),
+    "ToolSearchTool": ("openai_tool_search", {"data.read"}),
+}
+
+
 def _tool_from_call(path: Path, node: ast.Call, alias: str | None = None) -> Tool | None:
     name = _call_name(node.func)
     if not name:
         return None
+
+    if name in _HOSTED_TOOL_CAPABILITIES:
+        kind, capabilities = _HOSTED_TOOL_CAPABILITIES[name]
+        tool = Tool(
+            name=alias or name,
+            kind=kind,
+            capabilities=set(capabilities),
+            location=_location(path, node),
+            metadata={
+                "framework": "openai-agents",
+                "provider_managed": True,
+                "hosted_tool": name,
+            },
+        )
+        if name == "WebSearchTool":
+            tool.metadata["untrusted_input"] = True
+        return tool
+
+    if name == "activity_as_tool":
+        wrapped = node.args[0] if node.args else _kw(node, "activity")
+        wrapped_name = _call_name(wrapped) or alias or "temporal_activity"
+        return Tool(
+            name=alias or wrapped_name,
+            kind="temporal_activity_tool",
+            capabilities=set(infer_capabilities(wrapped_name)),
+            location=_location(path, node),
+            metadata={
+                "framework": "openai-agents",
+                "wrapper": "activity_as_tool",
+                "wrapped": wrapped_name,
+            },
+        )
+
+    if isinstance(node.func, ast.Attribute) and node.func.attr == "as_tool":
+        target = _call_name(node.func.value) or "agent"
+        runtime_name = _literal(_kw(node, "tool_name"))
+        return Tool(
+            name=str(runtime_name or alias or target),
+            kind="delegated_agent",
+            capabilities={"agent.delegate"},
+            location=_location(path, node),
+            metadata={
+                "framework": "openai-agents",
+                "delegate_target": target,
+                "source": "agent.as_tool",
+            },
+        )
 
     if name == "ShellTool":
         approval = _approval_value(_literal(_kw(node, "needs_approval")))
@@ -152,21 +256,69 @@ def _tool_from_call(path: Path, node: ast.Call, alias: str | None = None) -> Too
     return None
 
 
-def _mcp_from_call(path: Path, node: ast.Call, alias: str) -> MCPServer | None:
+def _static_string(node: ast.AST | None, constants: dict[str, str]) -> str | None:
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.Name):
+        return constants.get(node.id)
+    return None
+
+
+def _dict_nodes(node: ast.AST | None) -> dict[str, ast.AST]:
+    if not isinstance(node, ast.Dict):
+        return {}
+    result: dict[str, ast.AST] = {}
+    for key, value in zip(node.keys, node.values):
+        literal = _literal(key)
+        if isinstance(literal, str):
+            result[literal] = value
+    return result
+
+
+def _mcp_from_call(
+    path: Path,
+    node: ast.Call,
+    alias: str,
+    constants: dict[str, str] | None = None,
+) -> MCPServer | None:
     call_name = _call_name(node.func)
     if call_name not in MCP_TYPES:
         return None
 
-    params = _literal(_kw(node, "params")) or {}
-    url = params.get("url") if isinstance(params, dict) else None
-    command = params.get("command") if isinstance(params, dict) else None
-    args = params.get("args") if isinstance(params, dict) else []
-    if not isinstance(args, list):
-        args = []
+    constants = constants or {}
+    params_node = _kw(node, "params")
+    params = _literal(params_node) or {}
+    entries = _dict_nodes(params_node)
+    url = (
+        params.get("url") if isinstance(params, dict) else None
+    ) or _static_string(entries.get("url"), constants)
+    command = (
+        params.get("command") if isinstance(params, dict) else None
+    ) or _static_string(entries.get("command"), constants)
 
+    args_node = entries.get("args")
+    args = params.get("args", []) if isinstance(params, dict) else []
+    if not isinstance(args, list):
+        literal_args = _literal(args_node)
+        args = literal_args if isinstance(literal_args, list) else []
+
+    headers_node = entries.get("headers")
     headers = params.get("headers", {}) if isinstance(params, dict) else {}
-    auth_headers = {str(k).lower() for k in headers} if isinstance(headers, dict) else set()
-    authenticated = bool({"authorization", "proxy-authorization", "x-api-key"} & auth_headers) if url else None
+    header_keys = (
+        {str(k).lower() for k in headers}
+        if isinstance(headers, dict)
+        else set()
+    )
+    if isinstance(headers_node, ast.Dict):
+        for key in headers_node.keys:
+            literal = _literal(key)
+            if isinstance(literal, str):
+                header_keys.add(literal.lower())
+    authenticated = (
+        bool({"authorization", "proxy-authorization", "x-api-key", "x-goog-api-key"} & header_keys)
+        if url
+        else None
+    )
     approval = _approval_value(_literal(_kw(node, "require_approval")))
     guardrails = bool(_literal(_kw(node, "tool_input_guardrails"))) or bool(
         _literal(_kw(node, "tool_output_guardrails"))
@@ -182,9 +334,15 @@ def _mcp_from_call(path: Path, node: ast.Call, alias: str) -> MCPServer | None:
         approval=approval,
         guardrails=guardrails,
         location=_location(path, node),
-        metadata={"auth_headers": sorted(auth_headers)},
+        metadata={
+            "auth_headers": sorted(header_keys),
+            "dynamic_mcp_endpoint": bool(
+                params_node is not None
+                and entries.get("url") is not None
+                and url is None
+            ),
+        },
     )
-
 
 def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool | None:
     for decorator in node.decorator_list:
@@ -245,6 +403,22 @@ def scan_python_file(path: Path) -> Graph:
     tools: dict[str, Tool] = {}
     mcp_servers: dict[str, MCPServer] = {}
     sequences: dict[str, list[ast.AST]] = {}
+    imports: dict[str, str] = {}
+    constants: dict[str, str] = {}
+    for node in tree.body:
+        if isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            for alias in node.names:
+                imports[alias.asname or alias.name] = module
+    for node in tree.body:
+        if isinstance(node, (ast.Assign, ast.AnnAssign)):
+            value = node.value
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            literal = _literal(value)
+            if isinstance(literal, str):
+                for target in targets:
+                    if isinstance(target, ast.Name):
+                        constants[target.id] = literal
 
     for node in ast.walk(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -266,7 +440,7 @@ def scan_python_file(path: Path) -> Graph:
             tool = _tool_from_call(path, value, alias)
             if tool:
                 tools[alias] = tool
-            server = _mcp_from_call(path, value, alias)
+            server = _mcp_from_call(path, value, alias, constants)
             if server:
                 mcp_servers[alias] = server
 
@@ -275,7 +449,7 @@ def scan_python_file(path: Path) -> Graph:
                 if not isinstance(item.context_expr, ast.Call) or not isinstance(item.optional_vars, ast.Name):
                     continue
                 alias = item.optional_vars.id
-                server = _mcp_from_call(path, item.context_expr, alias)
+                server = _mcp_from_call(path, item.context_expr, alias, constants)
                 if server:
                     mcp_servers[alias] = server
 
@@ -313,6 +487,20 @@ def scan_python_file(path: Path) -> Graph:
         for element in _resolve_sequence(_kw(node, "tools"), sequences):
             if isinstance(element, ast.Name) and element.id in tools:
                 agent.tools.append(tools[element.id])
+            elif isinstance(element, ast.Name) and element.id in imports:
+                agent.tools.append(
+                    Tool(
+                        name=element.id,
+                        kind="imported_tool_ref",
+                        capabilities=set(infer_capabilities(element.id)),
+                        location=_location(path, element),
+                        metadata={
+                            "framework": "openai-agents",
+                            "import_module": imports[element.id],
+                            "placeholder": True,
+                        },
+                    )
+                )
             elif isinstance(element, ast.Call):
                 direct_tool = _tool_from_call(path, element)
                 if direct_tool:
@@ -321,6 +509,20 @@ def scan_python_file(path: Path) -> Graph:
         for element in _resolve_sequence(_kw(node, "mcp_servers"), sequences):
             if isinstance(element, ast.Name) and element.id in mcp_servers:
                 agent.mcp_servers.append(mcp_servers[element.id])
+            elif isinstance(element, ast.Constant) and isinstance(element.value, str):
+                agent.mcp_servers.append(
+                    MCPServer(
+                        name=element.value,
+                        transport="configured",
+                        authenticated=None,
+                        location=_location(path, element),
+                        metadata={
+                            "framework": "openai-agents",
+                            "config_reference": True,
+                            "dynamic_mcp_endpoint": True,
+                        },
+                    )
+                )
 
         delegates: list[str] = []
         for element in _resolve_sequence(_kw(node, "handoffs"), sequences):
