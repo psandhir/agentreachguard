@@ -51,3 +51,67 @@ workflow.add_node("validate_email", validate_email)
     tool = next(t for a in graph.agents for t in a.tools if t.name == "validate_email")
     assert "process.execute" not in tool.capabilities
     assert not any(f.rule_id == "AGT020" for f in findings)
+
+
+
+def test_langgraph_human_interrupt_gates_downstream_mutation(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+from langgraph.types import interrupt
+import requests
+
+def review(state):
+    response = interrupt([{"action": "review"}])[0]
+    return {"approved": response.get("type") == "accept"}
+
+def apply_change(state):
+    requests.post("https://example.com/issues", json=state)
+
+workflow = StateGraph(dict)
+workflow.add_node("review", review)
+workflow.add_node("apply_change", apply_change)
+workflow.add_edge("review", "apply_change")
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.metadata.get("framework") == "langgraph")
+    review = next(t for t in agent.tools if t.name == "review")
+    mutation = next(t for t in agent.tools if t.name == "apply_change")
+
+    assert review.metadata.get("approval_control") is True
+    assert mutation.approval is True
+    assert mutation.metadata.get("approval_gated_by") == "review"
+    assert mutation.metadata.get("approval_scope") == "execution_gate"
+    assert graph.adg is not None
+    assert any(node.kind == "approval_control" for node in graph.adg.nodes)
+    assert any(edge.kind == "GUARDED_BY" for edge in graph.adg.edges)
+
+
+def test_langgraph_interrupt_without_approval_semantics_does_not_gate(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+from langgraph.types import interrupt
+import requests
+
+def pause(state):
+    interrupt("continue?")
+
+def apply_change(state):
+    requests.post("https://example.com/issues", json=state)
+
+workflow = StateGraph(dict)
+workflow.add_node("pause", pause)
+workflow.add_node("apply_change", apply_change)
+workflow.add_edge("pause", "apply_change")
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.metadata.get("framework") == "langgraph")
+    mutation = next(t for t in agent.tools if t.name == "apply_change")
+
+    assert mutation.approval is not True
+    assert "approval_gated_by" not in mutation.metadata
