@@ -147,14 +147,28 @@ def _module_name(path: Path, root: Path) -> str:
     return ".".join(parts)
 
 
-def _imports(tree: ast.Module) -> dict[str, str]:
+def _resolve_relative_module(current: str, level: int, module: str | None) -> str:
+    if level <= 0:
+        return module or ""
+    package = current.split(".")[:-1]
+    climb = max(level - 1, 0)
+    if climb:
+        package = package[: max(0, len(package) - climb)]
+    if module:
+        package.extend(module.split("."))
+    return ".".join(package)
+
+
+def _imports(tree: ast.Module, module_name: str) -> dict[str, str]:
     result: dict[str, str] = {}
     for node in tree.body:
-        if isinstance(node, ast.ImportFrom) and node.module:
+        if isinstance(node, ast.ImportFrom):
+            base = _resolve_relative_module(module_name, node.level, node.module)
             for alias in node.names:
                 if alias.name == "*":
                     continue
-                result[alias.asname or alias.name] = f"{node.module}.{alias.name}"
+                target = ".".join(part for part in (base, alias.name) if part)
+                result[alias.asname or alias.name] = target
         elif isinstance(node, ast.Import):
             for alias in node.names:
                 result[alias.asname or alias.name.split(".")[0]] = alias.name
@@ -169,7 +183,7 @@ def _collect_functions(root: Path, python_paths: list[Path]) -> dict[str, _Funct
         except (OSError, UnicodeDecodeError, SyntaxError):
             continue
         module = _module_name(path, root)
-        imports = _imports(tree)
+        imports = _imports(tree, module)
         for node in tree.body:
             if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 continue
@@ -539,18 +553,78 @@ def _relative(path: Path, root: Path) -> str:
         return path.name
 
 
-def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple[str, ...]) -> str | None:
-    """Bind a flow to an agent only when the static tool relationship is unambiguous.
+def _tool_binding_keys(tool) -> set[str]:
+    keys: set[str] = set()
+    qualified = tool.metadata.get("function_qualified_name")
+    if isinstance(qualified, str) and qualified:
+        keys.add(qualified)
+    prefix = "python_function="
+    for fact in tool.provenance:
+        if fact.fact.startswith(prefix):
+            keys.add(fact.fact[len(prefix):])
+    return keys
 
-    Framework adapters often declare an imported tool in one file while the
-    implementation lives in another. Requiring the declaration and implementation
-    paths to match therefore loses valid attribution. Prefer same-file evidence,
-    but allow a cross-file name/function binding when it identifies exactly one
-    normalized agent.
-    """
-    same_file: list[str] = []
-    cross_file: list[str] = []
 
+def _agent_for_chain(
+    graph: Graph,
+    functions: dict[str, _Function],
+    chain: tuple[str, ...],
+) -> tuple[str | None, dict[str, str] | None]:
+    """Bind a flow only through supported normalized-tool/function evidence."""
+
+    # The call chain is ordered from outer caller to inner sink. Prefer the
+    # earliest exposed function because it represents the agent-reachable entry
+    # point rather than an implementation helper.
+    for function_key in chain:
+        info = functions.get(function_key)
+        if not info:
+            continue
+        matches: list[tuple[str, str, str]] = []
+        for agent in graph.agents:
+            for tool in agent.tools:
+                if function_key in _tool_binding_keys(tool):
+                    matches.append(
+                        (
+                            agent.name,
+                            tool.name,
+                            str(tool.metadata.get("function_binding_origin") or "provenance"),
+                        )
+                    )
+                    continue
+                function_name = tool.metadata.get("function")
+                function_path = tool.metadata.get("function_path")
+                if (
+                    function_name == info.name
+                    and isinstance(function_path, str)
+                    and Path(function_path).resolve() == info.path.resolve()
+                ):
+                    matches.append(
+                        (
+                            agent.name,
+                            tool.name,
+                            str(tool.metadata.get("function_binding_origin") or "source_path"),
+                        )
+                    )
+
+        agents = list(dict.fromkeys(agent for agent, _, _ in matches))
+        if len(agents) == 1:
+            chosen = next(item for item in matches if item[0] == agents[0])
+            return agents[0], {
+                "basis": "tool_function_provenance",
+                "function": function_key,
+                "tool": chosen[1],
+                "binding_origin": chosen[2],
+            }
+        if len(agents) > 1:
+            return None, {
+                "basis": "ambiguous_tool_function_provenance",
+                "function": function_key,
+            }
+
+    # Compatibility fallback for older adapter output that has a function name
+    # but no repository binding metadata. Require same-file evidence; never use
+    # repository-wide name coincidence or a single-agent shortcut.
+    legacy: list[tuple[str, str, str]] = []
     for function_key in chain:
         info = functions.get(function_key)
         if not info:
@@ -560,24 +634,19 @@ def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple
                 function_name = tool.metadata.get("function")
                 if tool.name != info.name and function_name != info.name:
                     continue
-                if tool.location is None or tool.location.path.resolve() == info.path.resolve():
-                    same_file.append(agent.name)
-                else:
-                    cross_file.append(agent.name)
+                if tool.location is not None and tool.location.path.resolve() == info.path.resolve():
+                    legacy.append((agent.name, tool.name, function_key))
 
-    exact = list(dict.fromkeys(same_file))
-    if len(exact) == 1:
-        return exact[0]
-    if len(exact) > 1:
-        return None
-
-    inferred = list(dict.fromkeys(cross_file))
-    if len(inferred) == 1:
-        return inferred[0]
-    if not inferred and len(graph.agents) == 1:
-        return graph.agents[0].name
-    return None
-
+    agents = list(dict.fromkeys(agent for agent, _, _ in legacy))
+    if len(agents) == 1:
+        chosen = next(item for item in legacy if item[0] == agents[0])
+        return agents[0], {
+            "basis": "same_file_tool_function",
+            "function": chosen[2],
+            "tool": chosen[1],
+            "binding_origin": "legacy_same_file",
+        }
+    return None, None
 
 def _flow_id(root: Path, source: _Source, sink: _Sink, agent: str | None) -> str:
     payload = "\0".join((
@@ -615,7 +684,7 @@ def analyze_repository_flows(root: Path, python_paths: list[Path], graph: Graph)
         for sink in summary.sinks:
             if not sink.value.sources:
                 continue
-            agent = _agent_for_chain(graph, functions, sink.call_chain)
+            agent, agent_binding = _agent_for_chain(graph, functions, sink.call_chain)
             for source in sink.value.sources:
                 flow_id = _flow_id(root, source, sink, agent)
                 if flow_id in seen:
@@ -663,6 +732,7 @@ def analyze_repository_flows(root: Path, python_paths: list[Path], graph: Graph)
                         metadata={
                             "call_chain": chain,
                             "unresolved_calls": unresolved_items,
+                            "agent_binding": agent_binding,
                         },
                     )
                 )
