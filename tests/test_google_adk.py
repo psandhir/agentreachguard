@@ -253,3 +253,35 @@ root_agent = ParallelAgent(name="workflow", sub_agents=[research, review])
     workflow = next(a for a in graph.agents if a.name == "workflow")
     assert workflow.metadata.get("workflow") == "ParallelAgent"
     assert set(workflow.metadata.get("delegates_to") or []) == {"research", "review"}
+
+
+def test_adk_regex_compile_is_not_process_execution(tmp_path: Path) -> None:
+    write(tmp_path, '''
+import re
+from google.adk import Agent
+
+def send_email(address: str):
+    pattern = re.compile(r"^[^@]+@[^@]+$")
+    return bool(pattern.match(address))
+
+root_agent = Agent(name="mailer", tools=[send_email])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "send_email")
+    assert "process.execute" not in tool.capabilities
+    assert not any(f.rule_id == "AGT020" for f in findings)
+
+
+def test_adk_builtin_eval_is_process_execution(tmp_path: Path) -> None:
+    write(tmp_path, '''
+from google.adk import Agent
+
+def calculate(expression: str):
+    return eval(expression)
+
+root_agent = Agent(name="calculator", tools=[calculate])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "calculate")
+    assert "process.execute" in tool.capabilities
+    assert any(f.rule_id == "AGT020" for f in findings)
