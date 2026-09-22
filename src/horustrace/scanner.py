@@ -44,6 +44,7 @@ from horustrace.path_safety import canonical_root, is_within_root
 from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
 from horustrace.semantics import annotate_risk_semantics
+from horustrace.source_provenance import annotate_tool_source_provenance
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
@@ -732,6 +733,11 @@ def scan(
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
+    annotate_tool_source_provenance(
+        graph,
+        root if root.is_dir() else root.parent,
+        approved_python_paths,
+    )
     diagnose_dynamic_constructs(graph)
     for agent in graph.agents:
         if agent.metadata.get("dynamic_control_flow"):
