@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Repository metadata refreshed for HorusTrace v0.4.1.
+- Add first-class Pydantic AI / Pydantic AI Harness static analysis for `Agent`, function tools, `FunctionToolset`, approvals, MCP and security-relevant capabilities.
 
 ### 0.4 development
 

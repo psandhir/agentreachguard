@@ -12,6 +12,7 @@ def test_framework_registry_has_stable_adapter_order() -> None:
         "google-adk",
         "langgraph",
         "openai-agents",
+        "pydantic-ai",
         "mcp-python",
     ]
 
