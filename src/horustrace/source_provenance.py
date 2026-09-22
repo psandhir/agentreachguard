@@ -4,7 +4,7 @@ import ast
 from dataclasses import dataclass
 from pathlib import Path
 
-from horustrace.models import EvidenceFact, Graph, SourceLocation, Tool
+from horustrace.models import Graph, Tool
 
 
 @dataclass(frozen=True, slots=True)
@@ -155,17 +155,3 @@ def annotate_tool_source_provenance(
             alias = f"{import_module}.{tool.name}"
             if alias not in aliases:
                 aliases.append(alias)
-
-        fact = f"function={ref.key}"
-        if not any(
-            item.origin == "source_binding" and item.fact == fact
-            for item in tool.provenance
-        ):
-            tool.provenance.append(
-                EvidenceFact(
-                    subject=f"tool:{tool.name}",
-                    fact=fact,
-                    origin="source_binding",
-                    location=SourceLocation(ref.path, ref.line, 1),
-                )
-            )
