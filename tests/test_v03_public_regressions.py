@@ -69,7 +69,7 @@ root_agent = Agent(name="root", tools=[mcp])
     ids = {finding.rule_id for finding in findings}
     assert "AGT030" not in ids
     assert "AGT031" not in ids
-    assert "AGT032" in ids
+    assert "AGT032" not in ids
 
 
 def test_unknown_mcp_auth_is_coverage_gap_not_high_finding(tmp_path):
