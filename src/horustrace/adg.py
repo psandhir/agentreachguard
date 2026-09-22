@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from horustrace.limits import MAX_ADG_EDGES, MAX_ADG_NODES, ScanLimitError
-from horustrace.models import FlowPath, Graph, SourceLocation
+from horustrace.models import Agent, FlowPath, Graph, SourceLocation
 
 ADG_SCHEMA_VERSION = 1
 
@@ -207,8 +207,9 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
     """Project the normalized scanner graph into ADG schema version 1."""
     builder = _Builder(root)
     identity_ids: dict[str, str] = {}
-    agent_ids: dict[str, str] = {}
-    tool_ids: dict[tuple[str, str], str] = {}
+    agent_ids: dict[int, str] = {}
+    agent_ids_by_name: dict[str, list[str]] = {}
+    tool_ids: dict[tuple[int, str], str] = {}
 
     identities = sorted(
         graph.all_identities(),
@@ -246,7 +247,8 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 "workflow": agent.metadata.get("workflow"),
             },
         )
-        agent_ids[agent.name] = agent_id
+        agent_ids[id(agent)] = agent_id
+        agent_ids_by_name.setdefault(agent.name, []).append(agent_id)
 
         prompt = agent.metadata.get("instruction") or agent.metadata.get("instructions")
         if isinstance(prompt, str) and prompt:
@@ -400,7 +402,7 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                     "guardrails": tool.guardrails,
                 },
             )
-            tool_ids[(agent.name, tool.name)] = tool_id
+            tool_ids[(id(agent), tool.name)] = tool_id
             builder.edge("INVOKES", agent_id, tool_id, location=tool.location)
             if tool.identity:
                 identity_id = identity_ids.get(tool.identity)
@@ -486,29 +488,31 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             builder.edge("GUARDED_BY", agent_id, policy_id, location=agent.location)
 
     for agent in graph.agents:
-        source_id = agent_ids.get(agent.name)
+        source_id = agent_ids.get(id(agent))
         if source_id is None:
             continue
         for target_name in agent.metadata.get("delegates_to") or []:
-            target_id = agent_ids.get(str(target_name))
-            if target_id:
+            target_ids = agent_ids_by_name.get(str(target_name), [])
+            if len(target_ids) == 1:
                 builder.edge(
                     "DELEGATES_TO",
                     source_id,
-                    target_id,
+                    target_ids[0],
                     location=agent.location,
                 )
         for control_edge in agent.metadata.get("control_edges") or []:
             if not isinstance(control_edge, (tuple, list)) or len(control_edge) != 2:
                 continue
-            left = tool_ids.get((agent.name, str(control_edge[0])))
-            right = tool_ids.get((agent.name, str(control_edge[1])))
+            left = tool_ids.get((id(agent), str(control_edge[0])))
+            right = tool_ids.get((id(agent), str(control_edge[1])))
             if left and right:
                 builder.edge("CONTROL_FLOWS_TO", left, right, location=agent.location)
 
-    agents_by_name = {agent.name: agent for agent in graph.agents}
+    agents_by_name: dict[str, list[Agent]] = {}
+    for agent in graph.agents:
+        agents_by_name.setdefault(agent.name, []).append(agent)
     for parent in graph.agents:
-        parent_id = agent_ids.get(parent.name)
+        parent_id = agent_ids.get(id(parent))
         if parent_id is None:
             continue
         pending = [str(name) for name in parent.metadata.get("delegates_to") or []]
@@ -518,9 +522,10 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             if child_name in visited:
                 continue
             visited.add(child_name)
-            child = agents_by_name.get(child_name)
-            if child is None:
+            candidates = agents_by_name.get(child_name, [])
+            if len(candidates) != 1:
                 continue
+            child = candidates[0]
             for identity in child.identities:
                 identity_id = identity_ids.get(identity.name)
                 if identity_id:
