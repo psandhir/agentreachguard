@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-public-corpus-cohort-c",
+  "baseline_scanner": "horustrace==0.4.1",
+  "workflow_run_id": 35774731546,
+  "frozen_manifest": "benchmarks/public-corpus/cohort-c-v1.json",
+  "aggregate": {
+    "repositories": 30,
+    "preflight_material": 30,
+    "scanned": 30,
+    "complete": 11,
+    "incomplete": 19,
+    "scan_errors": 0,
+    "scan_timeouts": 0,
+    "clone_failures": 0,
+    "agents": 276,
+    "tools": 779,
+    "mcp_servers": 170,
+    "identities": 36,
+    "flow_paths": 13,
+    "agent_mapped_flows": 0,
+    "attack_paths": 2,
+    "adg_nodes": 1105,
+    "adg_edges": 942,
+    "findings": 124,
+    "severities": {
+      "critical": 2,
+      "high": 26,
+      "medium": 96
+    }
+  },
+  "categories": {
+    "google-adk": {
+      "repositories": 8,
+      "complete": 1,
+      "incomplete": 7,
+      "agents": 159,
+      "tools": 264,
+      "mcp_servers": 14,
+      "identities": 4,
+      "flow_paths": 0,
+      "agent_mapped_flows": 0,
+      "attack_paths": 2,
+      "adg_nodes": 632,
+      "adg_edges": 553,
+      "findings": 88
+    },
+    "openai-agents": {
+      "repositories": 8,
+      "complete": 4,
+      "incomplete": 4,
+      "agents": 52,
+      "tools": 177,
+      "mcp_servers": 6,
+      "identities": 0,
+      "flow_paths": 3,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 182,
+      "adg_edges": 140,
+      "findings": 20
+    },
+    "langgraph": {
+      "repositories": 8,
+      "complete": 3,
+      "incomplete": 5,
+      "agents": 49,
+      "tools": 129,
+      "mcp_servers": 19,
+      "identities": 31,
+      "flow_paths": 8,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 233,
+      "adg_edges": 202,
+      "findings": 12
+    },
+    "mcp-mixed": {
+      "repositories": 6,
+      "complete": 3,
+      "incomplete": 3,
+      "agents": 16,
+      "tools": 209,
+      "mcp_servers": 131,
+      "identities": 1,
+      "flow_paths": 2,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 58,
+      "adg_edges": 47,
+      "findings": 4
+    }
+  },
+  "top_rules": [
+    [
+      "AGT040",
+      42
+    ],
+    [
+      "ADK001",
+      21
+    ],
+    [
+      "CAP005",
+      16
+    ],
+    [
+      "NET002",
+      12
+    ],
+    [
+      "NET001",
+      8
+    ],
+    [
+      "AGT020",
+      7
+    ],
+    [
+      "IDN004",
+      5
+    ],
+    [
+      "ADK010",
+      3
+    ],
+    [
+      "ADK011",
+      3
+    ],
+    [
+      "PATH001",
+      2
+    ],
+    [
+      "AGT032",
+      2
+    ],
+    [
+      "ADK007",
+      1
+    ],
+    [
+      "AGT050",
+      1
+    ],
+    [
+      "AGT022",
+      1
+    ]
+  ],
+  "coverage_diagnostics": [
+    [
+      "templated_source",
+      268
+    ],
+    [
+      "parse_error",
+      86
+    ],
+    [
+      "unresolved_tool",
+      43
+    ],
+    [
+      "dynamic_mcp_endpoint",
+      27
+    ],
+    [
+      "unresolved_dataflow",
+      26
+    ],
+    [
+      "dynamic_configuration",
+      25
+    ],
+    [
+      "external_helper_semantics_unresolved",
+      12
+    ],
+    [
+      "unresolved_delegation",
+      7
+    ],
+    [
+      "notebook_non_python_cell",
+      6
+    ],
+    [
+      "unresolved_handoff",
+      3
+    ],
+    [
+      "framework_not_normalized",
+      3
+    ]
+  ],
+  "preliminary_observations": [
+    "Cohort C is harder than Cohort B: static coverage is complete for 11/30 repositories.",
+    "Thirteen static flow paths were detected but none mapped to a normalized agent, reproducing and amplifying the flow-to-agent correlation gap.",
+    "The MCP/mixed slice discovers 131 MCP servers but produces only 47 ADG edges, indicating endpoint discovery remains ahead of contextual graph binding.",
+    "redis-developer/adk-redis and Klavis-AI/klavis reproduce the .env.example credential false-positive pattern already fixed in PR #21.",
+    "hellotinah/financial_agent reproduces the loopback MCP AGT032 false-positive pattern already fixed in PR #21.",
+    "raphaelmansuy/adk_training contributes 83/124 findings and is training-oriented; its findings should be treated as framework stress rather than representative production prevalence.",
+    "Several code-level framework preflight successes still normalize zero agents, providing new adapter/coverage targets."
+  ]
+}
