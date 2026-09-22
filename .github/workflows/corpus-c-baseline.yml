@@ -45,7 +45,7 @@ jobs:
           python -m pip install "horustrace==0.4.1"
           horustrace --version
 
-      - name: Scan frozen Cohort B
+      - name: Scan frozen Cohort C
         run: |
           python scripts/public_corpus_frozen_scan.py \
             --manifest benchmarks/public-corpus/cohort-c-v1.json \
