@@ -13,6 +13,8 @@ from horustrace.adapters.mcp_python import is_mcp_python_file
 from horustrace.adapters.mcp_python import scan_python_file as scan_mcp_python
 from horustrace.adapters.openai_agents import is_openai_agents_file
 from horustrace.adapters.openai_agents import scan_python_file as scan_openai_python
+from horustrace.adapters.pydantic_ai import is_pydantic_ai_file
+from horustrace.adapters.pydantic_ai import scan_python_file as scan_pydantic_ai_python
 from horustrace.models import Graph
 
 
@@ -27,6 +29,7 @@ PYTHON_FRAMEWORK_ADAPTERS: tuple[PythonFrameworkAdapter, ...] = (
     PythonFrameworkAdapter("google-adk", is_google_adk_file, scan_google_adk_python),
     PythonFrameworkAdapter("langgraph", is_langgraph_file, scan_langgraph_python),
     PythonFrameworkAdapter("openai-agents", is_openai_agents_file, scan_openai_python),
+    PythonFrameworkAdapter("pydantic-ai", is_pydantic_ai_file, scan_pydantic_ai_python),
     PythonFrameworkAdapter("mcp-python", is_mcp_python_file, scan_mcp_python),
 )
 
