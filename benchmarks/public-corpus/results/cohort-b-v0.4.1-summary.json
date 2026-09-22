@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-public-corpus-cohort-b",
+  "baseline_scanner": "horustrace==0.4.1",
+  "workflow_run_id": 35772336829,
+  "frozen_manifest": "benchmarks/public-corpus/cohort-b-v1.json",
+  "aggregate": {
+    "repositories": 30,
+    "preflight_material": 30,
+    "scanned": 30,
+    "complete": 15,
+    "incomplete": 15,
+    "scan_errors": 0,
+    "scan_timeouts": 0,
+    "clone_failures": 0,
+    "agents": 135,
+    "tools": 196,
+    "mcp_servers": 51,
+    "identities": 13,
+    "flow_paths": 2,
+    "agent_mapped_flows": 0,
+    "attack_paths": 2,
+    "adg_nodes": 343,
+    "adg_edges": 243,
+    "findings": 50,
+    "severities": {
+      "high": 13,
+      "medium": 37
+    }
+  },
+  "categories": {
+    "google-adk": {
+      "repositories": 8,
+      "complete": 3,
+      "incomplete": 5,
+      "agents": 41,
+      "tools": 59,
+      "mcp_servers": 2,
+      "identities": 12,
+      "flow_paths": 2,
+      "agent_mapped_flows": 0,
+      "attack_paths": 2,
+      "adg_nodes": 143,
+      "adg_edges": 103,
+      "findings": 16
+    },
+    "openai-agents": {
+      "repositories": 8,
+      "complete": 5,
+      "incomplete": 3,
+      "agents": 27,
+      "tools": 76,
+      "mcp_servers": 2,
+      "identities": 0,
+      "flow_paths": 0,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 91,
+      "adg_edges": 64,
+      "findings": 14
+    },
+    "langgraph": {
+      "repositories": 8,
+      "complete": 6,
+      "incomplete": 2,
+      "agents": 37,
+      "tools": 52,
+      "mcp_servers": 23,
+      "identities": 1,
+      "flow_paths": 0,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 75,
+      "adg_edges": 72,
+      "findings": 14
+    },
+    "mcp-mixed": {
+      "repositories": 6,
+      "complete": 1,
+      "incomplete": 5,
+      "agents": 30,
+      "tools": 9,
+      "mcp_servers": 24,
+      "identities": 0,
+      "flow_paths": 0,
+      "agent_mapped_flows": 0,
+      "attack_paths": 0,
+      "adg_nodes": 34,
+      "adg_edges": 4,
+      "findings": 6
+    }
+  },
+  "top_rules": [
+    [
+      "AGT040",
+      11
+    ],
+    [
+      "AGT032",
+      10
+    ],
+    [
+      "NET002",
+      5
+    ],
+    [
+      "AGT030",
+      4
+    ],
+    [
+      "AGT050",
+      4
+    ],
+    [
+      "CAP005",
+      3
+    ],
+    [
+      "IDN004",
+      3
+    ],
+    [
+      "AGT022",
+      3
+    ],
+    [
+      "NET001",
+      2
+    ],
+    [
+      "AGT021",
+      2
+    ],
+    [
+      "PATH002",
+      2
+    ],
+    [
+      "ADK001",
+      1
+    ]
+  ],
+  "coverage_diagnostics": [
+    [
+      "parse_error",
+      26
+    ],
+    [
+      "dynamic_configuration",
+      25
+    ],
+    [
+      "templated_source",
+      11
+    ],
+    [
+      "unresolved_tool",
+      9
+    ],
+    [
+      "dynamic_mcp_endpoint",
+      8
+    ],
+    [
+      "framework_not_normalized",
+      5
+    ],
+    [
+      "unresolved_dataflow",
+      5
+    ],
+    [
+      "unresolved_delegation",
+      4
+    ],
+    [
+      "external_helper_semantics_unresolved",
+      1
+    ]
+  ],
+  "initial_adjudication": [
+    {
+      "repo": "arjunprabhulal/adk-vertex-ai-rag-engine",
+      "classification": "valid security finding",
+      "rules": [
+        "AGT021",
+        "PATH002",
+        "ADK001",
+        "AGT040"
+      ],
+      "rationale": "Destructive corpus/file tools are exposed without enforceable approval. Prompt text asks the agent to confirm, but no tool-level approval/control is configured."
+    },
+    {
+      "repo": "docling-project/docling-mcp",
+      "classification": "false positive",
+      "rules": [
+        "AGT032"
+      ],
+      "rationale": "Finding is against http://localhost:8000/mcp. AGT032 is a remote-MCP rule and should exempt loopback like AGT030/AGT031."
+    },
+    {
+      "repo": "BitterSecurity/Decepticon",
+      "classification": "false positive",
+      "rules": [
+        "IDN004"
+      ],
+      "rationale": "Finding is generated from .env.example placeholder values, which are template configuration rather than runtime credential sources."
+    },
+    {
+      "repo": "aws/agent-toolkit-for-aws",
+      "classification": "valid but context-dependent",
+      "rules": [
+        "AGT030",
+        "AGT032"
+      ],
+      "rationale": "Public AWS knowledge MCP is unauthenticated by configuration; whether auth is required depends on server semantics. Lack of client-side tool allowlisting remains an authority-surface question."
+    },
+    {
+      "repo": "openai/openai-cs-agents-demo",
+      "classification": "valid but context-dependent",
+      "rules": [
+        "AGT022",
+        "AGT040"
+      ],
+      "rationale": "Seat-update capability is intentionally autonomous in the demo. Whether approval is required is a business-policy decision, demonstrating the value of policy overlays."
+    }
+  ],
+  "high_priority_gaps": [
+    "Static flow paths are still not mapped to normalized agents: 2 detected, 0 agent-mapped.",
+    "google/agents-cli contains ADK scaffold/template material but normalizes 0 agents and emits significant template/parse coverage diagnostics.",
+    "qx-labs/agents-deep-research contains OpenAI Agents-related implementation but normalizes 0 agents while discovering tools.",
+    "Qwen-Agent and nanobot expose MCP-related implementation but no normalized agents.",
+    "Dynamic configuration dominates LangGraph/MCP incompleteness.",
+    "MCP stress repositories produce very few ADG edges relative to discovered MCP servers, indicating weak binding/context reconstruction."
+  ]
+}
