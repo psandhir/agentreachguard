@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 TEXT_SUFFIXES = {".py", ".md", ".yml", ".yaml", ".toml", ".json", ".txt"}
 SKIP_DIRS = {".git", ".venv", "venv", "dist", "build", "__pycache__"}
 
