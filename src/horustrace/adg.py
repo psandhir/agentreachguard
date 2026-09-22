@@ -508,6 +508,39 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             if left and right:
                 builder.edge("CONTROL_FLOWS_TO", left, right, location=agent.location)
 
+        for tool in agent.tools:
+            gate_name = tool.metadata.get("approval_gated_by")
+            if not gate_name:
+                continue
+            protected_id = tool_ids.get((id(agent), tool.name))
+            gate_id = tool_ids.get((id(agent), str(gate_name)))
+            if not protected_id or not gate_id:
+                continue
+            control_id = builder.node(
+                "approval_control",
+                f"{agent.name}:{gate_name}:approval",
+                location=tool.location or agent.location,
+                framework=_framework(tool.metadata) if tool.metadata else _framework(agent.metadata),
+                attributes={
+                    "mechanism": tool.metadata.get("approval_mechanism"),
+                    "scope": tool.metadata.get("approval_scope"),
+                    "mandatory": tool.metadata.get("approval_mandatory"),
+                    "protects_tool": tool.name,
+                },
+            )
+            builder.edge(
+                "IMPLEMENTS_CONTROL",
+                gate_id,
+                control_id,
+                location=tool.location or agent.location,
+            )
+            builder.edge(
+                "GUARDED_BY",
+                protected_id,
+                control_id,
+                location=tool.location or agent.location,
+            )
+
     agents_by_name: dict[str, list[Agent]] = {}
     for agent in graph.agents:
         agents_by_name.setdefault(agent.name, []).append(agent)
