@@ -285,3 +285,10 @@ root_agent = Agent(name="compiler", model="gemini-flash-latest", tools=[compile_
     tool = next(t for t in graph.agents[0].tools if t.name == "compile_expression")
     assert "process.execute" in tool.capabilities
     assert any(f.rule_id == "AGT020" for f in findings)
+
+
+
+def test_adk_env_example_placeholder_is_not_runtime_credential(tmp_path: Path) -> None:
+    write(tmp_path, 'GEMINI_API_KEY="your-gemini-key-here"\n', ".env.example")
+    _, findings = scan(tmp_path)
+    assert not any(f.rule_id == "IDN004" for f in findings)
