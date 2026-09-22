@@ -37,6 +37,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - **Google Agent Development Kit (ADK) Python 2.x — first-class adapter**.
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
 - OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
+- **Pydantic AI / Pydantic AI Harness — first-class static adapter** for agents, tools, toolsets, approvals, MCP and security-relevant capabilities.
 - LangGraph `StateGraph` / `MessageGraph` normalization, including hardened real-world graph discovery.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
