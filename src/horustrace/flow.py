@@ -540,30 +540,54 @@ def _relative(path: Path, root: Path) -> str:
 
 
 def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple[str, ...]) -> str | None:
-    """Bind a flow to an agent only when the static tool relationship is unambiguous.
+    """Bind a supported flow to an agent using normalized source provenance first.
 
-    Framework adapters often declare an imported tool in one file while the
-    implementation lives in another. Requiring the declaration and implementation
-    paths to match therefore loses valid attribution. Prefer same-file evidence,
-    but allow a cross-file name/function binding when it identifies exactly one
-    normalized agent.
+    Exact canonical function provenance is stronger than display names or declaration
+    locations and survives imported aliases and framework-specific normalization.
+    Ambiguous bindings remain unmapped.
     """
+    provenance_matches: list[str] = []
     same_file: list[str] = []
     cross_file: list[str] = []
 
-    for function_key in chain:
-        info = functions.get(function_key)
-        if not info:
-            continue
-        for agent in graph.agents:
-            for tool in agent.tools:
-                function_name = tool.metadata.get("function")
+    chain_keys = set(chain)
+    for agent in graph.agents:
+        for tool in agent.tools:
+            source_key = tool.metadata.get("source_function_key")
+            if isinstance(source_key, str) and source_key in chain_keys:
+                provenance_matches.append(agent.name)
+                continue
+
+            provenance_keys = {
+                item.fact.removeprefix("function=")
+                for item in tool.provenance
+                if item.origin == "source_binding"
+                and item.fact.startswith("function=")
+            }
+            if provenance_keys & chain_keys:
+                provenance_matches.append(agent.name)
+                continue
+
+            for function_key in chain:
+                info = functions.get(function_key)
+                if not info:
+                    continue
+                function_name = (
+                    tool.metadata.get("source_function")
+                    or tool.metadata.get("function")
+                )
                 if tool.name != info.name and function_name != info.name:
                     continue
                 if tool.location is None or tool.location.path.resolve() == info.path.resolve():
                     same_file.append(agent.name)
                 else:
                     cross_file.append(agent.name)
+
+    exact_provenance = list(dict.fromkeys(provenance_matches))
+    if len(exact_provenance) == 1:
+        return exact_provenance[0]
+    if len(exact_provenance) > 1:
+        return None
 
     exact = list(dict.fromkeys(same_file))
     if len(exact) == 1:
