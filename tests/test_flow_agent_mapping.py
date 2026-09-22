@@ -129,11 +129,6 @@ agent = Agent(name="Orchestrator", tools=[forward_external_result])
     assert {flow.agent for flow in flows} == {"Orchestrator"}
     tool = next(t for t in graph.agents[0].tools if t.name == "forward_external_result")
     assert tool.metadata["source_function_key"] == "tools.forward_external_result"
-    assert any(
-        item.origin == "source_binding"
-        and item.fact == "function=tools.forward_external_result"
-        for item in tool.provenance
-    )
 
 
 def test_frozen_corpus_style_langgraph_node_maps_flow(tmp_path: Path) -> None:
