@@ -1,0 +1,67 @@
+name: Frozen Cohort A Parallel Rescan
+
+on:
+  push:
+    branches:
+      - research/90-repo-rescan
+    paths:
+      - ".github/workflows/frozen-a-parallel.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Cohort A / ${{ matrix.category }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        category: [google-adk, openai-agents, langgraph, mcp-mixed]
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install current HorusTrace
+        run: python -m pip install -e .
+
+      - name: Build category manifest
+        env:
+          CATEGORY: ${{ matrix.category }}
+        run: |
+          python - <<'PY'
+          import json, os
+          source = json.load(open("benchmarks/public-corpus/cohort-a-v1.json"))
+          source["repositories"] = [
+              item for item in source["repositories"]
+              if item["category"] == os.environ["CATEGORY"]
+          ]
+          with open("cohort-a-category.json", "w") as handle:
+              json.dump(source, handle, indent=2)
+          print(os.environ["CATEGORY"], len(source["repositories"]))
+          PY
+
+      - name: Scan frozen category
+        run: |
+          python scripts/frozen_corpus_rescan.py \
+            --manifest cohort-a-category.json \
+            --cohort a-${{ matrix.category }} \
+            --output-prefix frozen-rescan-a-${{ matrix.category }}
+
+      - name: Upload category report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frozen-rescan-a-${{ matrix.category }}
+          path: |
+            frozen-rescan-a-${{ matrix.category }}.json
+            frozen-rescan-a-${{ matrix.category }}.md
+          if-no-files-found: warn
