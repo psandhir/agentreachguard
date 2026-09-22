@@ -377,6 +377,33 @@ def _mcp_from_call(
         },
     )
 
+def _inline_confirmation_gate(node: ast.FunctionDef | ast.AsyncFunctionDef) -> bool:
+    """Detect a conservative preview/confirm execution gate inside a tool function."""
+    confirmation_names = {
+        arg.arg
+        for arg in [*node.args.args, *node.args.kwonlyargs]
+        if arg.arg.lower() in {"confirmed", "confirm", "approved", "approve"}
+    }
+    if not confirmation_names:
+        return False
+
+    for child in ast.walk(node):
+        if not isinstance(child, ast.If):
+            continue
+        negated_confirmation = any(
+            isinstance(test_node, ast.UnaryOp)
+            and isinstance(test_node.op, ast.Not)
+            and isinstance(test_node.operand, ast.Name)
+            and test_node.operand.id in confirmation_names
+            for test_node in ast.walk(child.test)
+        )
+        if not negated_confirmation:
+            continue
+        if any(isinstance(body_node, ast.Return) for statement in child.body for body_node in ast.walk(statement)):
+            return True
+    return False
+
+
 def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool | None:
     for decorator in node.decorator_list:
         decorator_name: str | None = None
@@ -393,13 +420,21 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
             decorator_name = _call_name(decorator)
 
         if decorator_name in {"function_tool", "tool"}:
+            inline_approval = _inline_confirmation_gate(node)
             tool = Tool(
                 name=node.name,
                 kind="function",
                 capabilities=infer_capabilities(node.name),
-                approval=needs_approval,
-                guardrails=guardrails,
+                approval=True if inline_approval else needs_approval,
+                guardrails=guardrails or inline_approval,
                 location=_location(path, node),
+                metadata={
+                    "approval_mechanism": (
+                        "inline_confirmation" if inline_approval else None
+                    ),
+                    "approval_scope": "execution_gate" if inline_approval else None,
+                    "approval_mandatory": True if inline_approval else None,
+                },
             )
             # Literal URLs are possible destinations, not evidence of restricted egress.
             for child in ast.walk(node):
