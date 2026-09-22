@@ -124,7 +124,7 @@ def evaluate(graph: Graph) -> list[Finding]:
         if agent.metadata.get("framework") != "google-adk":
             continue
         callbacks = agent.metadata.get("callbacks") or {}
-        safety_control = bool(agent.metadata.get("safety_plugin")) or bool(callbacks.get("before_tool_callback"))
+        safety_control = bool(agent.metadata.get("approval_plugin")) or bool(callbacks.get("before_tool_callback"))
         privileged_tools = [t for t in agent.tools if t.capabilities & PRIVILEGED_CAPABILITIES]
         if privileged_tools and not safety_control and all(t.approval is not True and not t.guardrails for t in privileged_tools):
             findings.append(Finding("ADK001", Severity.MEDIUM, "Privileged ADK agent has no detected tool-control callback/plugin", f"ADK agent '{agent.name}' exposes privileged capabilities without a before-tool control callback, safety plugin, or per-tool confirmation.", "Add before_tool_callback/security plugin controls and require confirmation for high-impact tools.", layer=1, location=agent.location, agent=agent.name, evidence=["privileged_tools=" + ",".join(t.name for t in privileged_tools)]))
@@ -185,7 +185,7 @@ def evaluate(graph: Graph) -> list[Finding]:
                 findings.append(Finding("AGT031", Severity.HIGH, "Unencrypted remote MCP transport", f"MCP server '{server.name}' uses plaintext HTTP: {server.url}", "Use HTTPS/WSS with certificate validation for remote MCP connections.", layer=1, location=server.location, evidence=[f"url={server.url}"]))
             if server.authenticated is False and not loopback:
                 findings.append(Finding("AGT030", Severity.HIGH, "Remote MCP server has no detected authentication", f"No recognized authentication mechanism was detected for remote MCP server '{server.name}'.", "Require authenticated MCP access using a scoped token/OAuth or workload identity.", layer=1, location=server.location, evidence=[f"url={server.url}", f"authenticated={server.authenticated}"]))
-            if not server.allowed_tools:
+            if not server.allowed_tools and not loopback:
                 findings.append(Finding("AGT032", Severity.MEDIUM, "Remote MCP lacks an explicit tool allowlist", f"Remote MCP server '{server.name}' has no detected explicit tool allowlist.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers. A denylist alone cannot prove the remaining surface is safe.", layer=1, location=server.location, evidence=[f"url={server.url}", "allowed_tools=none"]))
         if package_is_unpinned(server.command, server.args):
             findings.append(Finding("AGT050", Severity.MEDIUM, "Unpinned MCP package execution", f"MCP server '{server.name}' launches a package runner without an explicit package version.", "Pin MCP server packages to a reviewed version or immutable digest.", layer=1, location=server.location, evidence=[f"command={server.command}", "args=" + " ".join(server.args)]))
