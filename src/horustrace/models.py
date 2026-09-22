@@ -134,6 +134,7 @@ class MCPServer:
     guardrails: bool = False
     allowed_tools: list[str] = field(default_factory=list)
     denied_tools: list[str] = field(default_factory=list)
+    resources: list[ResourceScope] = field(default_factory=list)
     identity: str | None = None
     location: SourceLocation | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -207,6 +208,8 @@ class Agent:
         )
         for tool in self.tools:
             resources.extend(tool.resources)
+        for server in self.mcp_servers:
+            resources.extend(server.resources)
         return resources
 
     @property
