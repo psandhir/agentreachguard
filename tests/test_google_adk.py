@@ -253,3 +253,9 @@ root_agent = ParallelAgent(name="workflow", sub_agents=[research, review])
     workflow = next(a for a in graph.agents if a.name == "workflow")
     assert workflow.metadata.get("workflow") == "ParallelAgent"
     assert set(workflow.metadata.get("delegates_to") or []) == {"research", "review"}
+
+
+def test_adk_env_example_placeholder_is_not_runtime_credential(tmp_path: Path) -> None:
+    write(tmp_path, 'GEMINI_API_KEY="your-gemini-key-here"\n', ".env.example")
+    _, findings = scan(tmp_path)
+    assert not any(f.rule_id == "IDN004" for f in findings)
