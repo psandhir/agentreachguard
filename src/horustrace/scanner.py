@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import tempfile
 from copy import deepcopy
 from pathlib import Path
 
@@ -11,7 +12,7 @@ from horustrace.adapters.adk_config import scan_adk_config, scan_adk_env
 from horustrace.adapters.iac_identity import scan_terraform
 from horustrace.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from horustrace.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
-from horustrace.adapters.registry import scan_python_file
+from horustrace.adapters.registry import detect_python_frameworks, scan_python_file
 from horustrace.adapters.repository_adk import enrich_repository_graph
 from horustrace.adg import build_adg
 from horustrace.analysis import build_attack_paths
@@ -23,6 +24,7 @@ from horustrace.heuristics import PRIVILEGED_CAPABILITIES
 from horustrace.limits import (
     MAX_FILE_SIZE_BYTES,
     MAX_FILES_VISITED,
+    MAX_NOTEBOOK_FILE_SIZE_BYTES,
     ScanLimitError,
     validate_json_safety,
     validate_yaml_safety,
@@ -51,7 +53,12 @@ class ScannerError(ValueError):
 DEFAULT_IGNORES = {
     ".git", ".venv", "venv", "node_modules", "dist", "build", "__pycache__",
 }
-IGNORE_MARKER = ".horustrace-ignore"
+IGNORE_MARKERS = {".horustrace-ignore", ".horustrace-ignore"}
+SOURCE_FRAGMENT_DIRS = {"snippets", "snippets_py", "code_snippets"}
+
+
+def _is_source_fragment(path: Path) -> bool:
+    return any(part.lower() in SOURCE_FRAGMENT_DIRS for part in path.parts)
 
 
 def _ignored(path: Path, root: Path) -> bool:
@@ -60,7 +67,7 @@ def _ignored(path: Path, root: Path) -> bool:
         return True
     current = path.parent
     while current != root and root in current.parents:
-        if (current / IGNORE_MARKER).exists():
+        if any((current / marker).exists() for marker in IGNORE_MARKERS):
             return True
         current = current.parent
     return False
@@ -120,12 +127,14 @@ def _consolidate_global_identities(graph: Graph) -> None:
 
 
 def _consolidate_agents(graph: Graph) -> None:
-    """Merge framework source and HorusTrace manifest declarations by agent name."""
-    by_name: dict[str, Agent] = {}
+    """Merge duplicate declarations without conflating source-scoped graph instances."""
+    by_key: dict[tuple[str, str | None], Agent] = {}
     for incoming in graph.agents:
-        existing = by_name.get(incoming.name)
+        instance_key = incoming.metadata.get("instance_key")
+        key = (incoming.name, str(instance_key) if instance_key else None)
+        existing = by_key.get(key)
         if existing is None:
-            by_name[incoming.name] = incoming
+            by_key[key] = incoming
             continue
 
         # Keep a framework source location when policy was discovered first;
@@ -186,7 +195,7 @@ def _consolidate_agents(graph: Graph) -> None:
         existing.provenance.extend(f for f in incoming.provenance if f not in existing.provenance)
         existing.metadata.update(incoming.metadata)
 
-    graph.agents = list(by_name.values())
+    graph.agents = list(by_key.values())
 
 
 def _propagate_adk_delegation(graph: Graph) -> None:
@@ -322,6 +331,158 @@ def _propagate_adk_delegation(graph: Graph) -> None:
             ))
 
 
+
+def _notebook_python_source(raw_text: str) -> tuple[str, list[dict[str, object]]]:
+    """Extract parseable Python code cells without executing notebook content."""
+    raw = json.loads(raw_text)
+    if not isinstance(raw, dict) or not isinstance(raw.get("cells"), list):
+        raise TypeError("invalid Jupyter notebook structure")
+    chunks: list[str] = []
+    skipped: list[dict[str, object]] = []
+    non_python_magics = {
+        "%%html", "%%bash", "%%javascript", "%%js", "%%shell",
+        "%%script", "%%svg", "%%latex",
+    }
+    shell_prefixes = (
+        "pip install ", "pip3 install ", "python -m pip install ",
+        "apt install ", "apt-get ", "git clone ", "wget ", "curl ",
+    )
+    for index, cell in enumerate(raw["cells"]):
+        if not isinstance(cell, dict) or cell.get("cell_type") != "code":
+            continue
+        source = cell.get("source", "")
+        if isinstance(source, list):
+            source = "".join(str(part) for part in source)
+        if not isinstance(source, str):
+            continue
+        lines = source.splitlines()
+        first = next((line.strip() for line in lines if line.strip()), "")
+        if any(first.startswith(magic) for magic in non_python_magics):
+            skipped.append({
+                "cell": index,
+                "reason": first.split()[0] if first else "cell_magic",
+            })
+            continue
+        cleaned: list[str] = []
+        for line in lines:
+            stripped = line.lstrip()
+            indent = line[: len(line) - len(stripped)]
+            lower = stripped.lower()
+            if stripped.startswith(("%", "!")) or lower.startswith(shell_prefixes):
+                cleaned.append(f"{indent}pass  # notebook magic/shell command omitted")
+            else:
+                cleaned.append(line)
+        cell_source = "\n".join(cleaned) + "\n"
+        try:
+            ast.parse(cell_source)
+        except SyntaxError as exc:
+            skipped.append({
+                "cell": index,
+                "reason": f"non_python_or_invalid_syntax: {exc.msg}",
+                "line": exc.lineno,
+            })
+            continue
+        chunks.append(f"# notebook-cell-{index}\n" + cell_source)
+    return "\n".join(chunks) + "\n", skipped
+
+
+def _looks_templated_source(text: str) -> bool:
+    return any(marker in text for marker in ("{%", "{%-", "{#"))
+
+def _remap_source_locations(graph: Graph, old_path: Path, new_path: Path) -> None:
+    def remap(location: SourceLocation | None) -> None:
+        if location is not None and location.path == old_path:
+            location.path = new_path
+
+    def remap_tool(tool: Tool) -> None:
+        remap(tool.location)
+        for resource in tool.resources:
+            remap(resource.location)
+        for destination in tool.destinations:
+            remap(destination.location)
+        for fact in tool.provenance:
+            remap(fact.location)
+
+    for agent in graph.agents:
+        remap(agent.location)
+        for tool in agent.tools:
+            remap_tool(tool)
+        for server in agent.mcp_servers:
+            remap(server.location)
+            for fact in server.provenance:
+                remap(fact.location)
+        for source in agent.data_sources:
+            remap(source.location)
+            for fact in source.provenance:
+                remap(fact.location)
+        for source in agent.inputs:
+            remap(source.location)
+            for fact in source.provenance:
+                remap(fact.location)
+        for identity in agent.identities:
+            remap(identity.location)
+            for fact in identity.provenance:
+                remap(fact.location)
+        for destination in agent.network:
+            remap(destination.location)
+        for fact in agent.provenance:
+            remap(fact.location)
+    for tool in graph.unbound_tools:
+        remap_tool(tool)
+    for server in graph.unbound_mcp_servers:
+        remap(server.location)
+    for identity in graph.identities:
+        remap(identity.location)
+    for diagnostic in graph.coverage.diagnostics:
+        remap(diagnostic.location)
+
+
+def _remap_flow_locations(graph: Graph, path_map: dict[Path, Path]) -> None:
+    for flow in graph.flow_paths:
+        for step in flow.steps:
+            if step.location and step.location.path in path_map:
+                step.location.path = path_map[step.location.path]
+    for diagnostic in graph.coverage.diagnostics:
+        if diagnostic.location and diagnostic.location.path in path_map:
+            diagnostic.location.path = path_map[diagnostic.location.path]
+
+
+def _resolve_imported_tool_placeholders(graph: Graph) -> None:
+    """Resolve imported tool references against concrete tools found in the repository."""
+    concrete: dict[str, list[Tool]] = {}
+    for tool in graph.all_tools():
+        if not tool.metadata.get("placeholder"):
+            concrete.setdefault(tool.name, []).append(tool)
+
+    for agent in graph.agents:
+        unresolved: list[str] = []
+        for tool in agent.tools:
+            if not tool.metadata.get("placeholder"):
+                continue
+            matches = concrete.get(tool.name, [])
+            if len(matches) == 1:
+                source = matches[0]
+                tool.kind = source.kind
+                tool.capabilities = set(source.capabilities)
+                tool.approval = source.approval
+                tool.guardrails = source.guardrails
+                tool.resources = list(source.resources)
+                tool.destinations = list(source.destinations)
+                tool.identity = source.identity
+                tool.metadata = {
+                    **source.metadata,
+                    "repository_resolved": True,
+                    "import_module": tool.metadata.get("import_module"),
+                }
+            else:
+                unresolved.append(tool.name)
+        if unresolved:
+            existing = set(agent.metadata.get("unresolved_helpers") or [])
+            existing.update(unresolved)
+            agent.metadata["unresolved_helpers"] = sorted(existing)
+            agent.metadata["external_helper_semantics_unresolved"] = True
+
+
 def _link_global_identities(graph: Graph) -> None:
     """Enrich agent/tool identity references with matching IaC-discovered identities."""
     by_name = {identity.name: identity for identity in graph.identities}
@@ -365,6 +526,9 @@ def scan(
 
     seen_real_paths: set[Path] = set()
     approved_python_paths: list[Path] = []
+    framework_evidence: dict[str, list[SourceLocation]] = {}
+    notebook_tempdir = tempfile.TemporaryDirectory(prefix="horustrace-notebooks-")
+    notebook_path_map: dict[Path, Path] = {}
     for candidate in sorted(candidates):
         graph.coverage.files_considered += 1
         real_candidate = candidate.resolve()
@@ -379,7 +543,7 @@ def scan(
         if real_candidate in seen_real_paths:
             graph.coverage.files_skipped += 1
             continue
-        supported = (candidate.suffix.lower() in {".py", ".tf", ".yaml", ".yml"}
+        supported = (candidate.suffix.lower() in {".py", ".ipynb", ".tf", ".yaml", ".yml"}
                      or candidate.name in MCP_FILENAMES | MANIFEST_FILENAMES | SUPPRESSION_FILENAMES
                      or candidate.name == ".env" or candidate.name.startswith(".env."))
         if not supported:
@@ -388,9 +552,27 @@ def scan(
         security_config = candidate.name in MANIFEST_FILENAMES | MCP_FILENAMES | SUPPRESSION_FILENAMES
         seen_real_paths.add(real_candidate)
         try:
-            if candidate.stat().st_size > MAX_FILE_SIZE_BYTES:
+            size_limit = (
+                MAX_NOTEBOOK_FILE_SIZE_BYTES
+                if candidate.suffix.lower() == ".ipynb"
+                else MAX_FILE_SIZE_BYTES
+            )
+            if candidate.stat().st_size > size_limit:
                 raise ScanLimitError("file exceeds the configured size limit")
             text = candidate.read_text(encoding="utf-8")
+            if candidate.suffix == ".py" and _looks_templated_source(text):
+                graph.coverage.files_skipped += 1
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "templated_source",
+                        "Templated Python source was not parsed as executable Python.",
+                        SourceLocation(candidate),
+                        incomplete=False,
+                        details={"template_syntax": "jinja"},
+                    ),
+                )
+                continue
             if candidate.name in MCP_FILENAMES:
                 validate_json_safety(text)
                 raw = json.loads(text)
@@ -401,7 +583,26 @@ def scan(
                 yaml.safe_load(text)
             elif candidate.suffix == ".py":
                 ast.parse(text)
-        except (OSError, UnicodeDecodeError, SyntaxError, ValueError, yaml.YAMLError) as exc:
+            elif candidate.suffix.lower() == ".ipynb":
+                notebook_source, _ = _notebook_python_source(text)
+                ast.parse(notebook_source)
+        except (OSError, UnicodeDecodeError, SyntaxError, TypeError, ValueError, yaml.YAMLError) as exc:
+            if isinstance(exc, SyntaxError) and candidate.suffix == ".py" and _is_source_fragment(candidate):
+                graph.coverage.files_skipped += 1
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "source_fragment",
+                        "Non-executable Python source fragment was not parsed as a module.",
+                        SourceLocation(candidate, line=getattr(exc, "lineno", 1) or 1),
+                        incomplete=False,
+                        details={
+                            "exception_type": type(exc).__name__,
+                            "reason": str(exc),
+                        },
+                    ),
+                )
+                continue
             if candidate.name in MANIFEST_FILENAMES and not isinstance(exc, ScanLimitError):
                 # Keep the manifest adapter's established fail-closed diagnostics,
                 # including its secret-safe YAML and encoding error messages.
@@ -410,10 +611,24 @@ def scan(
                 raise ScannerError(f"{candidate}: cannot safely analyze security configuration ({exc})") from exc
             else:
                 graph.coverage.files_failed += 1
+                diagnostic_kind = (
+                    "unsupported_security_construct"
+                    if isinstance(exc, ScanLimitError)
+                    else "parse_error"
+                )
                 add_diagnostic(graph.coverage, ScanDiagnostic(
-                    "unsupported_security_construct" if isinstance(exc, ScanLimitError) else "parse_error",
-                    "File exceeded a scanner safety limit or could not be parsed; analysis was skipped.",
+                    diagnostic_kind,
+                    (
+                        "File exceeded a scanner safety limit; analysis was skipped."
+                        if isinstance(exc, ScanLimitError)
+                        else f"File could not be parsed; analysis was skipped: {type(exc).__name__}: {exc}"
+                    ),
                     SourceLocation(candidate, line=getattr(exc, "lineno", 1) or 1),
+                    details={
+                        "exception_type": type(exc).__name__,
+                        "reason": str(exc),
+                        "file_type": candidate.suffix.lower() or candidate.name,
+                    },
                 ))
                 continue
         graph.coverage.files_scanned += 1
@@ -421,8 +636,37 @@ def scan(
             continue
         if candidate.suffix == ".py":
             approved_python_paths.append(candidate)
+            frameworks = detect_python_frameworks(candidate)
+            for framework in frameworks:
+                framework_evidence.setdefault(framework, []).append(SourceLocation(candidate))
             _merge(graph, scan_python_file(candidate), candidate)
             diagnose_python(candidate, graph)
+        elif candidate.suffix.lower() == ".ipynb":
+            notebook_source, notebook_skips = _notebook_python_source(text)
+            for item in notebook_skips:
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "notebook_non_python_cell",
+                        "Notebook cell was omitted because it is not parseable Python source.",
+                        SourceLocation(candidate),
+                        incomplete=False,
+                        details=item,
+                    ),
+                )
+            temp_path = Path(notebook_tempdir.name) / (
+                candidate.name.replace(".ipynb", "") + f"-{len(notebook_path_map)}.py"
+            )
+            temp_path.write_text(notebook_source, encoding="utf-8")
+            notebook_path_map[temp_path] = candidate
+            approved_python_paths.append(temp_path)
+            frameworks = detect_python_frameworks(temp_path)
+            for framework in frameworks:
+                framework_evidence.setdefault(framework, []).append(SourceLocation(candidate))
+            notebook_graph = scan_python_file(temp_path)
+            diagnose_python(temp_path, notebook_graph)
+            _remap_source_locations(notebook_graph, temp_path, candidate)
+            _merge(graph, notebook_graph, candidate)
         elif candidate.suffix == ".tf":
             _merge(graph, scan_terraform(candidate), candidate)
         elif candidate.name in MCP_FILENAMES:
@@ -444,6 +688,7 @@ def scan(
     _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
     _link_global_identities(graph)
+    _resolve_imported_tool_placeholders(graph)
     diagnose_dynamic_constructs(graph)
     for agent in graph.agents:
         if agent.metadata.get("dynamic_control_flow"):
@@ -455,6 +700,27 @@ def scan(
                     agent.location,
                 ),
             )
+    normalized_frameworks = {
+        str(agent.metadata.get("framework"))
+        for agent in graph.agents
+        if agent.metadata.get("framework")
+    }
+    for framework in ("google-adk", "langgraph", "openai-agents"):
+        if framework in framework_evidence and framework not in normalized_frameworks:
+            location = framework_evidence[framework][0]
+            add_diagnostic(
+                graph.coverage,
+                ScanDiagnostic(
+                    "framework_not_normalized",
+                    f"Detected {framework} source constructs but no agent could be normalized.",
+                    location,
+                    details={
+                        "framework": framework,
+                        "evidence_files": len(framework_evidence[framework]),
+                    },
+                ),
+            )
+
     if not (graph.agents or graph.all_tools() or graph.all_mcp_servers() or graph.identities):
         add_diagnostic(graph.coverage, ScanDiagnostic(
             "no_targets", "No supported agent, tool, MCP server, or identity was discovered.",
@@ -474,6 +740,8 @@ def scan(
     )
     analysis_root = root if root.is_dir() else root.parent
     graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
+    _remap_flow_locations(graph, notebook_path_map)
+    notebook_tempdir.cleanup()
 
     graph.coverage.resolution = {
         "tools": {
