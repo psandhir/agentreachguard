@@ -67,6 +67,18 @@ _TEMPLATE_DIRS = {
 }
 
 
+def _path_parts_match(parts: set[str], markers: set[str]) -> bool:
+    return any(
+        part == marker
+        or part.startswith(f"{marker}_")
+        or part.endswith(f"_{marker}")
+        or part.startswith(f"{marker}-")
+        or part.endswith(f"-{marker}")
+        for part in parts
+        for marker in markers
+    )
+
+
 def _classify_source_context(path: Path | None) -> str:
     if path is None:
         return "unknown"
@@ -74,14 +86,14 @@ def _classify_source_context(path: Path | None) -> str:
     name = path.name.lower()
     if path.suffix.lower() == ".ipynb":
         return "notebook"
-    if lowered_parts & _TEST_DIRS or name.startswith(("test_", "tests_")):
+    if _path_parts_match(lowered_parts, _TEST_DIRS) or name.startswith(("test_", "tests_")):
         return "test"
-    if lowered_parts & _EXAMPLE_DIRS:
+    if _path_parts_match(lowered_parts, _EXAMPLE_DIRS):
         return "example"
-    if lowered_parts & _TUTORIAL_DIRS:
+    if _path_parts_match(lowered_parts, _TUTORIAL_DIRS):
         return "tutorial"
     if (
-        lowered_parts & _TEMPLATE_DIRS
+        _path_parts_match(lowered_parts, _TEMPLATE_DIRS)
         or ".template." in name
         or name.endswith((".template", ".j2", ".jinja", ".jinja2"))
     ):
