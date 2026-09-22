@@ -37,3 +37,17 @@ def test_unpinned_npx_server_is_flagged(tmp_path: Path) -> None:
     ids = {f.rule_id for f in findings}
     assert "AGT050" in ids
     assert "AGT001" in ids
+
+
+def test_loopback_mcp_does_not_require_remote_tool_allowlist(tmp_path: Path) -> None:
+    config = tmp_path / "mcp.json"
+    config.write_text(
+        json.dumps({"mcpServers": {"local": {"url": "http://localhost:8000/mcp"}}}),
+        encoding="utf-8",
+    )
+
+    _, findings = scan(tmp_path)
+    ids = {f.rule_id for f in findings}
+    assert "AGT030" not in ids
+    assert "AGT031" not in ids
+    assert "AGT032" not in ids
