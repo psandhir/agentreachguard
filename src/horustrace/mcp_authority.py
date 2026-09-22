@@ -12,7 +12,12 @@ import ast
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from horustrace.models import Graph, Identity, MCPServer, ResourceScope
+from horustrace.models import (
+    Graph,
+    Identity,
+    MCPServer,
+    ResourceScope,
+)
 
 
 _AGENT_FACTORIES = {
