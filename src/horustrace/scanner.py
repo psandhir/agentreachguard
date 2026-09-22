@@ -29,6 +29,7 @@ from horustrace.limits import (
     validate_json_safety,
     validate_yaml_safety,
 )
+from horustrace.mcp_context import reconstruct_mcp_context, resolve_imported_mcp_placeholders
 from horustrace.models import (
     Agent,
     EvidenceFact,
@@ -731,6 +732,11 @@ def scan(
     )
     _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
+    resolve_imported_mcp_placeholders(
+        graph,
+        root if root.is_dir() else root.parent,
+    )
+    reconstruct_mcp_context(graph)
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
     annotate_tool_source_provenance(
