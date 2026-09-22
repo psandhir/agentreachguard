@@ -558,16 +558,6 @@ def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple
                 provenance_matches.append(agent.name)
                 continue
 
-            provenance_keys = {
-                item.fact.removeprefix("function=")
-                for item in tool.provenance
-                if item.origin == "source_binding"
-                and item.fact.startswith("function=")
-            }
-            if provenance_keys & chain_keys:
-                provenance_matches.append(agent.name)
-                continue
-
             for function_key in chain:
                 info = functions.get(function_key)
                 if not info:
