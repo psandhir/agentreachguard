@@ -359,8 +359,12 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                     "transport": server.transport,
                     "url": server.url,
                     "authenticated": server.authenticated,
+                    "auth_source": server.metadata.get("auth_source"),
                     "approval": server.approval,
                     "allowed_tools": list(server.allowed_tools),
+                    "denied_tools": list(server.denied_tools),
+                    "binding_origin": server.metadata.get("binding_origin"),
+                    "effective_agent": server.metadata.get("effective_agent"),
                 },
             )
             builder.edge("INVOKES", agent_id, server_id, location=server.location)
@@ -386,6 +390,51 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                         server_id,
                         identity_id,
                         location=server.location,
+                    )
+            if server.allowed_tools or server.denied_tools:
+                filter_id = builder.node(
+                    "mcp_tool_filter",
+                    f"{agent.name}:{server.name}:tool-filter",
+                    location=server.location,
+                    framework=framework,
+                    attributes={
+                        "allowed_tools": list(server.allowed_tools),
+                        "denied_tools": list(server.denied_tools),
+                    },
+                )
+                builder.edge(
+                    "GUARDED_BY",
+                    server_id,
+                    filter_id,
+                    location=server.location,
+                )
+            for resource in server.resources:
+                resource_id = builder.node(
+                    "data_resource",
+                    f"{agent.name}:{server.name}:{resource.kind}:{resource.selector}",
+                    location=resource.location or server.location,
+                    framework=framework,
+                    attributes={
+                        "resource_kind": resource.kind,
+                        "selector": resource.selector,
+                        "classification": resource.classification,
+                        "access": sorted(resource.access),
+                        "source": resource.metadata.get("source"),
+                    },
+                )
+                if "data.read" in resource.access:
+                    builder.edge(
+                        "READS_FROM",
+                        server_id,
+                        resource_id,
+                        location=resource.location or server.location,
+                    )
+                if "data.write" in resource.access:
+                    builder.edge(
+                        "WRITES_TO",
+                        server_id,
+                        resource_id,
+                        location=resource.location or server.location,
                     )
 
         for tool in agent.tools:
