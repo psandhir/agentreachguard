@@ -700,3 +700,57 @@ builder.add_edge("second_a", "second_b")
     assert len(builder_nodes) == 2
     control_edges = [edge for edge in adg["edges"] if edge["kind"] == "CONTROL_FLOWS_TO"]
     assert len(control_edges) == 2
+
+
+
+def test_repository_adk_re_compile_is_not_process_execution(tmp_path: Path) -> None:
+    """Regression from sondera-ai/trustworthy-adk frozen Cohort C."""
+    (tmp_path / "agent.py").write_text(
+        r"""
+import re
+from google.adk import Agent
+
+def send_email(to: list[str]) -> dict:
+    email_pattern = re.compile(r"^[^@]+@[^@]+\\.[^@]+$")
+    if not all(email_pattern.match(address) for address in to):
+        return {"status": "error"}
+    return {"status": "sent"}
+
+root_agent = Agent(name="mail", tools=[send_email])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "mail")
+    tool = next(item for item in agent.tools if item.name == "send_email")
+
+    assert "process.execute" not in tool.capabilities
+    assert not any(
+        finding.rule_id == "AGT020" and finding.agent == "mail"
+        for finding in findings
+    )
+
+
+def test_repository_adk_bare_eval_remains_process_execution(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """
+from google.adk import Agent
+
+def calculate(expression: str):
+    return eval(expression)
+
+root_agent = Agent(name="calculator", tools=[calculate])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "calculator")
+    tool = next(item for item in agent.tools if item.name == "calculate")
+
+    assert "process.execute" in tool.capabilities
+    assert any(
+        finding.rule_id == "AGT020" and finding.agent == "calculator"
+        for finding in findings
+    )
