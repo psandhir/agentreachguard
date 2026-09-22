@@ -34,9 +34,7 @@ app = workflow.compile()
 
 
 def test_langgraph_re_compile_is_not_process_execution(tmp_path: Path) -> None:
-    write(
-        tmp_path,
-        "agent.py",
+    (tmp_path / "agent.py").write_text(
         """import re
 from langgraph.graph import StateGraph
 
@@ -47,6 +45,7 @@ def validate_email(state):
 workflow = StateGraph(dict)
 workflow.add_node("validate_email", validate_email)
 """,
+        encoding="utf-8",
     )
     graph, findings = scan(tmp_path)
     tool = next(t for a in graph.agents for t in a.tools if t.name == "validate_email")
