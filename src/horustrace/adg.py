@@ -387,6 +387,34 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                         identity_id,
                         location=server.location,
                     )
+            for tool_name in server.allowed_tools:
+                scope_id = builder.node(
+                    "mcp_tool_scope",
+                    f"{agent.name}:{server.name}:allow:{tool_name}",
+                    location=server.location,
+                    framework=framework,
+                    attributes={"tool_name": tool_name, "effect": "allow"},
+                )
+                builder.edge(
+                    "ALLOWS_TOOL",
+                    server_id,
+                    scope_id,
+                    location=server.location,
+                )
+            for tool_name in server.denied_tools:
+                scope_id = builder.node(
+                    "mcp_tool_scope",
+                    f"{agent.name}:{server.name}:deny:{tool_name}",
+                    location=server.location,
+                    framework=framework,
+                    attributes={"tool_name": tool_name, "effect": "deny"},
+                )
+                builder.edge(
+                    "DENIES_TOOL",
+                    server_id,
+                    scope_id,
+                    location=server.location,
+                )
 
         for tool in agent.tools:
             tool_id = builder.node(
