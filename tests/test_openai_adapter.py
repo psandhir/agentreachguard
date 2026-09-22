@@ -165,3 +165,58 @@ agent = Agent(name="Publisher", tools=[publish_message])
 
     assert tool.approval is not True
     assert tool.metadata.get("approval_mechanism") is None
+
+
+
+def test_openai_imported_mcp_server_reconstructs_agent_auth_and_tool_scope(tmp_path: Path) -> None:
+    (tmp_path / "server.py").write_text(
+        """
+import os
+from agents.mcp import MCPServerStreamableHttp, create_static_tool_filter
+
+slack_server = MCPServerStreamableHttp(
+    params={
+        "url": "https://mcp.example.com",
+        "headers": {"Authorization": f"Bearer {os.getenv('MCP_TOKEN')}"},
+    },
+    tool_filter=create_static_tool_filter(
+        allowed_tool_names=["search_messages", "read_thread"],
+        blocked_tool_names=["send_message"],
+    ),
+)
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from agents import Agent
+from server import slack_server
+
+agent = Agent(name="Reader", mcp_servers=[slack_server])
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(a for a in graph.agents if a.name == "Reader")
+
+    assert len(agent.mcp_servers) == 1
+    server = agent.mcp_servers[0]
+    assert server.metadata["context_binding"] == "bound"
+    assert server.metadata["effective_agent"] == "Reader"
+    assert server.metadata["authority_scope"] == "explicit_allowlist"
+    assert server.metadata["credential_source"] == "env:MCP_TOKEN"
+    assert server.identity == "Reader:slack_server:mcp-auth"
+    assert server.allowed_tools == ["search_messages", "read_thread"]
+    assert server.denied_tools == ["send_message"]
+    assert not graph.unbound_mcp_servers
+
+    identity = next(i for i in agent.identities if i.name == server.identity)
+    assert identity.credential_source == "env:MCP_TOKEN"
+
+    assert graph.adg is not None
+    edge_kinds = {edge.kind for edge in graph.adg.edges}
+    assert "USES_IDENTITY" in edge_kinds
+    assert "ALLOWS_TOOL" in edge_kinds
+    assert "DENIES_TOOL" in edge_kinds
+    assert any(node.kind == "mcp_tool_scope" for node in graph.adg.nodes)

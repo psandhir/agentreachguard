@@ -241,7 +241,7 @@ def _find_module(modules: dict[str, ModuleInfo], module_name: str) -> ModuleInfo
     matches = [
         module
         for name, module in modules.items()
-        if name.endswith(module_name) or module_name.endswith(name)
+        if name.endswith(f".{module_name}") or module_name.endswith(f".{name}")
     ]
     return matches[0] if len(matches) == 1 else None
 
