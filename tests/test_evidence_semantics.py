@@ -29,7 +29,11 @@ agents:
     _, findings = scan(tmp_path)
     policy = next(f for f in findings if f.rule_id == 'CAP002')
     assert policy.assessment == 'policy_violation'
-    assert {f.origin for f in policy.provenance} == {'observed', 'declared', 'inferred'}
+    assert {f.origin for f in policy.provenance} == {'observed', 'declared', 'inferred', 'resolved'}
+    assert any(
+        f.fact.startswith('python_function=') and f.origin == 'resolved'
+        for f in policy.provenance
+    )
     assert any(f.fact == 'denied=process.execute' and f.location.path == manifest
                for f in policy.provenance)
     destructive = next(f for f in findings if f.rule_id == 'AGT021')
