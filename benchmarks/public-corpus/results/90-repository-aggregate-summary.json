@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "study": "HorusTrace public corpus study",
+  "repositories": 90,
+  "cohorts": {
+    "A": {
+      "repositories": 30,
+      "application": 21,
+      "framework_stress": 9,
+      "complete": 14,
+      "incomplete": 16,
+      "agents": 1306,
+      "tools": 2232,
+      "mcp_servers": 335,
+      "identities": 34,
+      "flow_paths": 192,
+      "agent_mapped_flows": 0,
+      "attack_paths": 20,
+      "adg_nodes": 5126,
+      "adg_edges": 4342,
+      "findings": 715
+    },
+    "B": {
+      "repositories": 30,
+      "application": 24,
+      "framework_stress": 6,
+      "complete": 15,
+      "incomplete": 15,
+      "agents": 135,
+      "tools": 196,
+      "mcp_servers": 51,
+      "identities": 13,
+      "flow_paths": 2,
+      "agent_mapped_flows": 0,
+      "attack_paths": 2,
+      "adg_nodes": 343,
+      "adg_edges": 243,
+      "findings": 50
+    },
+    "C": {
+      "repositories": 30,
+      "application": 24,
+      "framework_stress": 6,
+      "complete": 11,
+      "incomplete": 19,
+      "agents": 276,
+      "tools": 779,
+      "mcp_servers": 170,
+      "identities": 36,
+      "flow_paths": 13,
+      "agent_mapped_flows": 0,
+      "attack_paths": 2,
+      "adg_nodes": 1105,
+      "adg_edges": 942,
+      "findings": 124
+    }
+  },
+  "aggregate": {
+    "scanned": 90,
+    "scan_errors": 0,
+    "scan_timeouts": 0,
+    "complete": 40,
+    "incomplete": 50,
+    "application_repositories": 69,
+    "application_complete": 36,
+    "framework_stress_repositories": 21,
+    "framework_stress_complete": 4,
+    "agents": 1717,
+    "tools": 3207,
+    "mcp_servers": 556,
+    "identities": 83,
+    "flow_paths": 207,
+    "agent_mapped_flows": 0,
+    "attack_paths": 24,
+    "adg_nodes": 6574,
+    "adg_edges": 5527,
+    "raw_findings": 889
+  },
+  "top_raw_rules": [
+    [
+      "AGT040",
+      295
+    ],
+    [
+      "CAP005",
+      117
+    ],
+    [
+      "NET002",
+      113
+    ],
+    [
+      "ADK001",
+      89
+    ],
+    [
+      "AGT020",
+      64
+    ],
+    [
+      "AGT032",
+      49
+    ],
+    [
+      "CAP004",
+      22
+    ],
+    [
+      "NET001",
+      21
+    ],
+    [
+      "AGT022",
+      20
+    ],
+    [
+      "PATH001",
+      17
+    ],
+    [
+      "AGT030",
+      14
+    ],
+    [
+      "IDN004",
+      14
+    ],
+    [
+      "ADK010",
+      10
+    ],
+    [
+      "ADK007",
+      6
+    ],
+    [
+      "AGT050",
+      5
+    ]
+  ],
+  "top_coverage_diagnostics": [
+    [
+      "unresolved_tool",
+      471
+    ],
+    [
+      "templated_source",
+      322
+    ],
+    [
+      "parse_error",
+      199
+    ],
+    [
+      "dynamic_configuration",
+      101
+    ],
+    [
+      "unresolved_dataflow",
+      89
+    ],
+    [
+      "dynamic_mcp_endpoint",
+      84
+    ],
+    [
+      "unresolved_delegation",
+      40
+    ],
+    [
+      "external_helper_semantics_unresolved",
+      39
+    ],
+    [
+      "notebook_non_python_cell",
+      35
+    ],
+    [
+      "authentication_unknown",
+      12
+    ]
+  ],
+  "adjudicated_patterns": {
+    "credible": [
+      "destructive ADK tools protected only by prompt-language confirmation rather than enforceable approval",
+      "remote MCP/package supply-chain findings such as unpinned npx execution",
+      "state-changing/cloud actions where no enforceable approval boundary is visible"
+    ],
+    "context_dependent": [
+      "autonomous low-impact business state changes such as customer profile updates",
+      "public read-only MCP endpoints where authentication may intentionally be absent",
+      "outbound tools where an application-level destination is known but network-layer egress policy is not"
+    ],
+    "false_positive_or_semantic_gap": [
+      ".env.example placeholders reported as runtime credentials",
+      "localhost MCP reported by the remote MCP allowlist rule",
+      "re.compile reported as process execution",
+      "local dict.update and helper names interpreted as persistent/external mutation",
+      "embedded confirmation and LangGraph HumanInterrupt controls not recognized",
+      "fixed literal destinations described as broad/unrestricted"
+    ]
+  },
+  "priority_issues": [
+    25,
+    26,
+    27,
+    28
+  ],
+  "patch_prs": [
+    21,
+    24
+  ]
+}
