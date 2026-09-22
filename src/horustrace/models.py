@@ -324,6 +324,7 @@ class ScanDiagnostic:
     diagnostic_id: str | None = None
     kind: str | None = None
     incomplete: bool = True
+    details: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         mapping = {
@@ -341,13 +342,18 @@ class ScanDiagnostic:
             "unresolved_dataflow": "ARG-COV-012",
             "dynamic_memory_target": "ARG-COV-013",
             "unresolved_handoff": "ARG-COV-014",
+            "framework_not_normalized": "ARG-COV-015",
+            "notebook_non_python_cell": "ARG-COV-016",
+            "templated_source": "ARG-COV-017",
+            "source_fragment": "ARG-COV-018",
         }
         self.kind = self.kind or self.code
         self.diagnostic_id = self.diagnostic_id or mapping.get(self.kind, "ARG-COV-007")
 
     def as_dict(self) -> dict[str, Any]:
         return {"code": self.code, "diagnostic_id": self.diagnostic_id, "kind": self.kind,
-                "incomplete": self.incomplete, "message": self.message, "location": (
+                "incomplete": self.incomplete, "message": self.message,
+                "details": self.details, "location": (
             {"path": str(self.location.path), "line": self.location.line,
              "column": self.location.column} if self.location else None
         )}
