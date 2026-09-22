@@ -387,7 +387,7 @@ def _auth_state(call: ast.Call) -> bool | None:
     auth = _kw(call, "auth")
     if auth is not None:
         literal = _literal(auth)
-        return False if literal is None and isinstance(auth, ast.Constant) else True
+        return not (literal is None and isinstance(auth, ast.Constant))
     headers = _literal(_kw(call, "headers"))
     if isinstance(headers, dict):
         names = {str(key).lower() for key in headers}
