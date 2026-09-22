@@ -29,6 +29,7 @@ from horustrace.limits import (
     validate_json_safety,
     validate_yaml_safety,
 )
+from horustrace.mcp_context import reconstruct_mcp_context, resolve_imported_mcp_placeholders
 from horustrace.models import (
     Agent,
     EvidenceFact,
@@ -44,6 +45,7 @@ from horustrace.path_safety import canonical_root, is_within_root
 from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
 from horustrace.semantics import annotate_risk_semantics
+from horustrace.source_provenance import annotate_tool_source_provenance
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
@@ -730,8 +732,18 @@ def scan(
     )
     _consolidate_agents(graph)
     _propagate_adk_delegation(graph)
+    resolve_imported_mcp_placeholders(
+        graph,
+        root if root.is_dir() else root.parent,
+    )
+    reconstruct_mcp_context(graph)
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
+    annotate_tool_source_provenance(
+        graph,
+        root if root.is_dir() else root.parent,
+        approved_python_paths,
+    )
     diagnose_dynamic_constructs(graph)
     for agent in graph.agents:
         if agent.metadata.get("dynamic_control_flow"):
