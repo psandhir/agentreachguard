@@ -124,7 +124,7 @@ def evaluate(graph: Graph) -> list[Finding]:
         if agent.metadata.get("framework") != "google-adk":
             continue
         callbacks = agent.metadata.get("callbacks") or {}
-        safety_control = bool(agent.metadata.get("safety_plugin")) or bool(callbacks.get("before_tool_callback"))
+        safety_control = bool(agent.metadata.get("approval_plugin")) or bool(callbacks.get("before_tool_callback"))
         privileged_tools = [t for t in agent.tools if t.capabilities & PRIVILEGED_CAPABILITIES]
         if privileged_tools and not safety_control and all(t.approval is not True and not t.guardrails for t in privileged_tools):
             findings.append(Finding("ADK001", Severity.MEDIUM, "Privileged ADK agent has no detected tool-control callback/plugin", f"ADK agent '{agent.name}' exposes privileged capabilities without a before-tool control callback, safety plugin, or per-tool confirmation.", "Add before_tool_callback/security plugin controls and require confirmation for high-impact tools.", layer=1, location=agent.location, agent=agent.name, evidence=["privileged_tools=" + ",".join(t.name for t in privileged_tools)]))
