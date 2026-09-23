@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from horustrace.adapters.iac_identity import scan_terraform
 from horustrace.authority_source import enrich_from_terraform_authority_source
+from horustrace.adapters.iac_identity import scan_terraform
 from horustrace.cli import main
 from horustrace.models import Agent, Graph, Identity
 from horustrace.scanner import scan
