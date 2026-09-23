@@ -331,6 +331,8 @@ def test_diff_cli_fails_on_worsened_finding_threshold(
             "base..head",
             "--repo",
             str(tmp_path),
+            "--format",
+            "json",
             "--fail-on",
             "high",
         ]
