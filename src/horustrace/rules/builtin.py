@@ -13,7 +13,7 @@ from horustrace.heuristics import (
     resource_is_broad,
     role_looks_admin,
 )
-from horustrace.models import Finding, Graph, Identity, Severity
+from horustrace.models import Finding, Graph, Identity, Severity, SourceLocation
 
 
 def _is_loopback_url(url: str) -> bool:
@@ -111,7 +111,41 @@ def evaluate(graph: Graph) -> list[Finding]:
             if "data.write" in tool.capabilities and tool.approval is not True and tool.kind in {"apply_patch", "generic", "function"}:
                 findings.append(Finding("AGT022", Severity.MEDIUM, "State-changing tool without approval", f"Tool '{tool.name}' can modify state without explicit approval.", "Require approval for material state changes or constrain the tool to low-risk, reversible operations.", layer=1, location=tool.location, agent=agent.name, evidence=["capability=data.write", f"approval={tool.approval}"]))
             if (
+                "computer.control" in tool.capabilities
+                and tool.metadata.get("computer_control_custom")
+                and tool.metadata.get("computer_control_mutating")
+                and not tool.guardrails
+                and tool.approval is not True
+                and not agent_tool_control
+            ):
+                sink_location = tool.metadata.get("computer_control_sink_location")
+                location = (
+                    sink_location
+                    if isinstance(sink_location, SourceLocation)
+                    else tool.location
+                )
+                actions = ",".join(tool.metadata.get("computer_control_actions") or [])
+                sinks = ",".join(tool.metadata.get("computer_control_sinks") or [])
+                findings.append(
+                    Finding(
+                        "AGT023",
+                        Severity.HIGH,
+                        "Computer-control action lacks explicit boundary",
+                        f"Tool '{tool.name}' can perform state-changing computer/browser actions without detected approval or guardrail controls.",
+                        "Require confirmation or a policy guardrail before click, type, keypress, upload, or equivalent state-changing computer actions.",
+                        layer=1,
+                        location=location,
+                        agent=agent.name,
+                        evidence=[
+                            "capability=computer.control",
+                            f"actions={actions or 'dynamic'}",
+                            f"sink={sinks or tool.name}",
+                        ],
+                    )
+                )
+            if (
                 tool.capabilities & PRIVILEGED_CAPABILITIES
+                and not tool.metadata.get("computer_control_custom")
                 and not tool.guardrails
                 and tool.approval is not True
                 and not agent_tool_control

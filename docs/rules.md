@@ -12,6 +12,7 @@ metadata will become available through the CLI in WP02.
 - `AGT020` — shell/process execution without approval.
 - `AGT021` — destructive action without approval.
 - `AGT022` — state-changing tool without approval.
+- `AGT023` — state-changing computer/browser control without an explicit action boundary.
 - `AGT030` — remote MCP without recognized authentication.
 - `AGT031` — unencrypted remote MCP transport.
 - `AGT032` — remote MCP lacks an explicit tool allowlist; a denylist alone is insufficient.
