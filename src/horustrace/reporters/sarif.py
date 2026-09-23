@@ -51,6 +51,7 @@ def render(
     suppressed: list[Finding] | None = None,
     suppression_diagnostics: list[dict] | None = None,
     flow_paths: list[FlowPath] | None = None,
+    disabled_rules: list[str] | None = None,
 ) -> dict:
     rules: dict[str, dict] = {}
     results: list[dict] = []
@@ -127,7 +128,10 @@ def render(
                 **({
                     "properties": {
                         "coverage": coverage.as_dict(),
-                        "owasp_agentic": build_owasp_agentic_summary(findings),
+                        "owasp_agentic": build_owasp_agentic_summary(
+                            findings,
+                            disabled_rules=disabled_rules or [],
+                        ),
                         "control_observations": controls or [],
                         "flow_paths": [flow.as_dict() for flow in flow_paths or []],
                         "suppressions": {
