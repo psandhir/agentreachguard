@@ -51,6 +51,7 @@ from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
 from horustrace.semantics import annotate_risk_semantics
 from horustrace.source_provenance import annotate_tool_source_provenance
+from horustrace.source_context import classify_source_context, path_parts_match
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
@@ -64,15 +65,6 @@ DEFAULT_IGNORES = {
 IGNORE_MARKERS = {".horustrace-ignore"}
 SOURCE_FRAGMENT_DIRS = {"snippets", "snippets_py", "code_snippets"}
 
-_TEST_DIRS = {"test", "tests", "testing"}
-_EXAMPLE_DIRS = {"example", "examples", "sample", "samples", "demo", "demos"}
-_TUTORIAL_DIRS = {
-    "tutorial", "tutorials", "training", "lab", "labs", "workshop", "workshops",
-    "course", "courses",
-}
-_TEMPLATE_DIRS = {
-    "template", "templates", "generated", "fixtures", "benchmark", "benchmarks",
-}
 _FLOW_CLI_DIRS = {"cli", "command", "commands"}
 _FLOW_SUPPORT_DIRS = {
     "ci",
@@ -96,38 +88,6 @@ _NON_AGENT_FLOW_CONTEXTS = {
     FlowExecutionContext.TEMPLATE_GENERATED,
     FlowExecutionContext.APPLICATION_SUPPORT,
 }
-
-
-def _path_parts_match(parts: set[str], markers: set[str]) -> bool:
-    return any(
-        part == marker
-        or part.startswith((f"{marker}_", f"{marker}-"))
-        or part.endswith((f"_{marker}", f"-{marker}"))
-        for part in parts
-        for marker in markers
-    )
-
-
-def _classify_source_context(path: Path | None) -> str:
-    if path is None:
-        return "unknown"
-    lowered_parts = {part.lower() for part in path.parts}
-    name = path.name.lower()
-    if path.suffix.lower() == ".ipynb":
-        return "notebook"
-    if _path_parts_match(lowered_parts, _TEST_DIRS) or name.startswith(("test_", "tests_")):
-        return "test"
-    if _path_parts_match(lowered_parts, _EXAMPLE_DIRS):
-        return "example"
-    if _path_parts_match(lowered_parts, _TUTORIAL_DIRS):
-        return "tutorial"
-    if (
-        _path_parts_match(lowered_parts, _TEMPLATE_DIRS)
-        or ".template." in name
-        or name.endswith((".template", ".j2", ".jinja", ".jinja2"))
-    ):
-        return "template-generated"
-    return "runtime"
 
 
 def _flow_function_paths(flow: FlowPath, root: Path) -> list[Path]:
@@ -263,7 +223,7 @@ def _matches_project_script_entrypoint(
 def _looks_like_test_path(path: Path) -> bool:
     name = path.name.lower()
     return (
-        _classify_source_context(path) == "test"
+        classify_source_context(path) == "test"
         or name in {"smoketest.py", "smoke_test.py", "integration_test.py"}
         or name.endswith("_test.py")
     )
@@ -285,7 +245,7 @@ def _classify_flow_execution_context(
     if any(_looks_like_test_path(path) for path in paths):
         return FlowExecutionContext.TEST
 
-    source_contexts = {_classify_source_context(path) for path in paths}
+    source_contexts = {classify_source_context(path) for path in paths}
     source_mapping = {
         "example": FlowExecutionContext.EXAMPLE,
         "tutorial": FlowExecutionContext.TUTORIAL,
@@ -315,7 +275,7 @@ def _classify_flow_execution_context(
         lowered_parts = {part.lower() for part in path.parts}
         name = path.name.lower()
         if (
-            _path_parts_match(lowered_parts, _FLOW_CLI_DIRS)
+            path_parts_match(lowered_parts, _FLOW_CLI_DIRS)
             or name == "__main__.py"
             or name == "cli.py"
             or name.endswith("_cli.py")
@@ -324,7 +284,7 @@ def _classify_flow_execution_context(
 
     for path in paths:
         lowered_parts = {part.lower() for part in path.parts}
-        if _path_parts_match(lowered_parts, _FLOW_SUPPORT_DIRS):
+        if path_parts_match(lowered_parts, _FLOW_SUPPORT_DIRS):
             return FlowExecutionContext.APPLICATION_SUPPORT
 
     return FlowExecutionContext.RUNTIME
@@ -1153,7 +1113,7 @@ def scan(
     graph.adg = build_adg(graph, analysis_root)
     findings = evaluate(graph)
     for finding in findings:
-        finding.source_context = _classify_source_context(
+        finding.source_context = classify_source_context(
             finding.location.path if finding.location else None
         )
     attach_findings(graph, findings)
