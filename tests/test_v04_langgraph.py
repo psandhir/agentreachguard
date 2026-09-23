@@ -333,6 +333,7 @@ workflow.add_node("apply_browser_action", apply_browser_action)
     assert tool.metadata["computer_control_actions"] == ["click"]
     assert any(f.rule_id == "AGT023" for f in findings)
 
+
 def test_langchain_create_agent_factory_is_normalized(tmp_path: Path) -> None:
     (tmp_path / "agent.py").write_text(
         """from langchain.agents import create_agent
