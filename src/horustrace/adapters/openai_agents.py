@@ -545,6 +545,74 @@ def _decorated_tool_capabilities(
     return capabilities, metadata
 
 
+def _decorated_tool_network_destinations(
+    path: Path,
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> list[NetworkDestination]:
+    destinations: list[NetworkDestination] = []
+    seen: set[tuple[str, str]] = set()
+
+    def add(target: str, source: str, location: ast.AST) -> None:
+        key = (target, source)
+        if key in seen:
+            return
+        seen.add(key)
+        destinations.append(
+            NetworkDestination(
+                target=target,
+                restricted=False,
+                location=_location(path, location),
+                metadata={
+                    "source": source,
+                    "network_scope": (
+                        "fixed_literal_destination"
+                        if source == "literal_url"
+                        else "dynamic_destination"
+                    ),
+                },
+            )
+        )
+
+    for child in ast.walk(node):
+        if not isinstance(child, ast.Call):
+            continue
+        called = (_dotted_name(child.func) or _call_name(child.func) or "").lower()
+        is_network_call = (
+            called.startswith(("requests.", "httpx."))
+            or "urllib.request" in called
+            or called.startswith("aiohttp.")
+        )
+        if not is_network_call:
+            continue
+
+        target_expr = _kw(child, "url")
+        if target_expr is None:
+            if called.endswith(".request") and len(child.args) >= 2:
+                target_expr = child.args[1]
+            elif child.args:
+                target_expr = child.args[0]
+
+        direct = _literal(target_expr)
+        if isinstance(direct, str) and direct.startswith(("http://", "https://")):
+            if urlparse(direct).hostname:
+                add(direct, "literal_url", target_expr or child)
+            continue
+
+        if target_expr is not None:
+            for part in ast.walk(target_expr):
+                if (
+                    isinstance(part, ast.Constant)
+                    and isinstance(part.value, str)
+                    and part.value.startswith(("http://", "https://"))
+                    and urlparse(part.value).hostname
+                ):
+                    add(part.value, "literal_url", part)
+
+        add("<dynamic-url>", "dynamic_network_call", target_expr or child)
+
+    return destinations
+
+
 def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool | None:
     for decorator in node.decorator_list:
         decorator_name: str | None = None
@@ -579,17 +647,7 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
                     "approval_mandatory": True if inline_approval else None,
                 },
             )
-            # Literal URLs are possible destinations, not evidence of restricted egress.
-            for child in ast.walk(node):
-                if isinstance(child, ast.Constant) and isinstance(child.value, str):
-                    value = child.value
-                    if value.startswith(("http://", "https://")):
-                        parsed = urlparse(value)
-                        if parsed.hostname:
-                            tool.destinations.append(
-                                NetworkDestination(target=value, restricted=False, location=_location(path, child),
-                                                   metadata={"source": "literal_url", "network_scope": "fixed_literal_destination"})
-                            )
+            tool.destinations.extend(_decorated_tool_network_destinations(path, node))
             return tool
     return None
 
