@@ -115,6 +115,7 @@ def _destination(
             "repository_resolved": True,
             "network_scope": (
                 "fixed_managed_service" if managed else
+                "fixed_literal_destination" if source == "literal_url" else
                 "explicit_destination" if restricted else
                 "dynamic_destination"
             ),
