@@ -109,6 +109,18 @@ def _client_server_names(call: ast.Call) -> set[str]:
     return _dict_keys(config)
 
 
+def _langchain_agent_factory_names(tree: ast.AST) -> set[str]:
+    """Return exact local imports of langchain.agents.create_agent."""
+    names: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom) or node.module != "langchain.agents":
+            continue
+        for alias in node.names:
+            if alias.name == "create_agent":
+                names.add(alias.asname or alias.name)
+    return names
+
+
 def _parse_relationships(
     path: Path,
 ) -> tuple[dict[str, _Client], dict[str, str], list[tuple[str, str]]]:
@@ -120,6 +132,8 @@ def _parse_relationships(
     clients: dict[str, _Client] = {}
     tools_alias_to_client: dict[str, str] = {}
     agent_to_client: list[tuple[str, str]] = []
+    agent_factories = set(_AGENT_FACTORIES)
+    agent_factories.update(_langchain_agent_factory_names(tree))
 
     for node in ast.walk(tree):
         if not isinstance(node, (ast.Assign, ast.AnnAssign)) or node.value is None:
@@ -170,7 +184,7 @@ def _parse_relationships(
         value = _unwrap_await(node.value)
         if not isinstance(value, ast.Call):
             continue
-        if (_name(value.func) or "") not in _AGENT_FACTORIES:
+        if (_name(value.func) or "") not in agent_factories:
             continue
 
         tool_expr = _tools_expr(value)

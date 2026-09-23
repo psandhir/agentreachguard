@@ -332,3 +332,48 @@ workflow.add_node("apply_browser_action", apply_browser_action)
     assert {"computer.control", "external.write"} <= tool.capabilities
     assert tool.metadata["computer_control_actions"] == ["click"]
     assert any(f.rule_id == "AGT023" for f in findings)
+
+
+def test_langchain_create_agent_factory_is_normalized(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langchain.agents import create_agent
+
+def lookup_issue(query):
+    return {"query": query}
+
+agent = create_agent(
+    model="openai:gpt-5.4-mini",
+    tools=[lookup_issue],
+)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    agent = next(item for item in graph.agents if item.name == "agent")
+    assert agent.metadata["framework"] == "langchain"
+    assert agent.metadata["agent_type"] == "create_agent"
+    assert agent.metadata["workflow"] == "LangChain Agent"
+    assert [tool.name for tool in agent.tools] == ["lookup_issue"]
+    assert agent.tools[0].metadata["framework"] == "langchain"
+    assert graph.adg is not None
+    assert any(edge.kind == "INVOKES" for edge in graph.adg.edges)
+
+
+def test_local_create_agent_name_without_langchain_import_is_not_normalized(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "agent.py").write_text(
+        """def create_agent(*, model, tools):
+    return {"model": model, "tools": tools}
+
+agent = create_agent(model="demo", tools=[])
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    assert not any(item.name == "agent" for item in graph.agents)
+

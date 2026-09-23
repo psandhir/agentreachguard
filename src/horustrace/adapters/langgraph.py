@@ -1,8 +1,11 @@
 """Static LangGraph adapter for HorusTrace.
 
 The adapter recognizes common StateGraph construction patterns without importing or
-executing the target. It normalizes graph nodes as tools and stores control edges in
-agent metadata for projection into the Agent Dependency Graph.
+executing the target. It also recognizes the explicitly imported
+`langchain.agents.create_agent` factory, whose runtime is graph-backed, so its tools
+can participate in the same normalized authority model. It normalizes graph nodes as
+tools and stores control edges in agent metadata for projection into the Agent
+Dependency Graph.
 """
 from __future__ import annotations
 
@@ -78,12 +81,24 @@ def _uses_langgraph(tree: ast.AST) -> bool:
     return False
 
 
+def _langchain_agent_factory_names(tree: ast.AST) -> set[str]:
+    """Return local names explicitly imported from langchain.agents.create_agent."""
+    names: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom) or node.module != "langchain.agents":
+            continue
+        for alias in node.names:
+            if alias.name == "create_agent":
+                names.add(alias.asname or alias.name)
+    return names
+
+
 def is_langgraph_file(path: Path) -> bool:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     except (OSError, UnicodeDecodeError, SyntaxError):
         return False
-    return _uses_langgraph(tree)
+    return _uses_langgraph(tree) or bool(_langchain_agent_factory_names(tree))
 
 
 def _name_capabilities(name: str) -> set[str]:
@@ -424,15 +439,17 @@ def _factory_agent(
     call: ast.Call,
     functions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef],
     sequences: dict[str, list[ast.AST]],
+    *,
+    framework: str = "langgraph",
 ) -> Agent:
     call_name = _call_name(call.func) or "langgraph_factory"
     agent = Agent(
         name=alias,
         location=_location(path, call),
         metadata={
-            "framework": "langgraph",
+            "framework": framework,
             "agent_type": call_name,
-            "workflow": "LangGraph",
+            "workflow": "LangChain Agent" if framework == "langchain" else "LangGraph",
             "control_edges": [],
             "memory": [],
             "factory_agent": True,
@@ -451,7 +468,7 @@ def _factory_agent(
             continue
         caps = _name_capabilities(tool_name)
         tool_metadata: dict[str, Any] = {
-            "framework": "langgraph",
+            "framework": framework,
             "factory": call_name,
         }
         if tool_name in functions:
@@ -482,7 +499,8 @@ def scan_python_file(path: Path) -> Graph:
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     except (OSError, UnicodeDecodeError, SyntaxError):
         return graph
-    if not _uses_langgraph(tree):
+    langchain_agent_factories = _langchain_agent_factory_names(tree)
+    if not (_uses_langgraph(tree) or langchain_agent_factories):
         return graph
 
     functions = {
@@ -524,8 +542,18 @@ def scan_python_file(path: Path) -> Graph:
             "create_supervisor",
             "create_swarm",
             "create_handoff_back_messages",
-        }:
-            factory_agents.append(_factory_agent(path, alias, value, functions, sequences))
+        } or call_name in langchain_agent_factories:
+            framework = "langchain" if call_name in langchain_agent_factories else "langgraph"
+            factory_agents.append(
+                _factory_agent(
+                    path,
+                    alias,
+                    value,
+                    functions,
+                    sequences,
+                    framework=framework,
+                )
+            )
 
     for graph_alias, constructor in graph_aliases.items():
         agent = Agent(
