@@ -4,8 +4,8 @@ import json
 import subprocess
 from pathlib import Path
 
-from horustrace.adg import ADGNode, AgentDependencyGraph
-from horustrace.change_analysis import build_git_diff, compare_scans
+from horustrace.adg import ADGEdge, ADGNode, AgentDependencyGraph
+from horustrace.change_analysis import build_git_diff, compare_scans, render_markdown
 from horustrace.cli import main
 from horustrace.git_snapshot import materialize_git_ref
 from horustrace.models import Finding, Graph, Severity, SourceLocation
@@ -339,4 +339,153 @@ def test_diff_cli_fails_on_worsened_finding_threshold(
     )
 
     assert result == 2
+
+def test_compare_scans_classifies_authority_source_contexts(tmp_path: Path) -> None:
+    base_root = tmp_path / "base-context"
+    head_root = tmp_path / "head-context"
+    base_root.mkdir()
+    head_root.mkdir()
+
+    agent_id = "adg-v1:runtime-agent"
+    tool_id = "adg-v1:test-tool"
+    head_graph = Graph(
+        adg=AgentDependencyGraph(
+            nodes=[
+                ADGNode(
+                    node_id=agent_id,
+                    kind="agent",
+                    name="runtime-agent",
+                    location={"path": "src/agent.py", "line": 10, "column": 1},
+                ),
+                ADGNode(
+                    node_id=tool_id,
+                    kind="tool",
+                    name="runtime-agent:test-helper",
+                    location={
+                        "path": "tests/test_agent.py",
+                        "line": 20,
+                        "column": 1,
+                    },
+                ),
+            ],
+            edges=[
+                ADGEdge(
+                    edge_id="edge-v1:test",
+                    kind="INVOKES",
+                    source=agent_id,
+                    target=tool_id,
+                    location={
+                        "path": "tests/test_agent.py",
+                        "line": 20,
+                        "column": 1,
+                    },
+                )
+            ],
+        )
+    )
+
+    report = compare_scans(
+        Graph(adg=AgentDependencyGraph()),
+        [],
+        base_root,
+        head_graph,
+        [],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    contexts = {
+        item["name"]: item["source_context"]
+        for item in report["authority"]["added_nodes"]
+    }
+    assert contexts == {
+        "runtime-agent": "runtime",
+        "runtime-agent:test-helper": "test",
+    }
+    assert report["authority"]["added_edges"][0]["source_context"] == "test"
+    assert report["context_summary"]["added_authority_nodes"] == {
+        "runtime": 1,
+        "test": 1,
+    }
+    assert report["context_summary"]["added_authority_edges"] == {"test": 1}
+
+
+def test_render_markdown_separates_runtime_and_non_runtime_changes(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "repo"
+    root.mkdir()
+    runtime_path = root / "src" / "agent.py"
+    test_path = root / "tests" / "test_agent.py"
+    runtime_path.parent.mkdir()
+    test_path.parent.mkdir()
+    runtime_path.write_text("# runtime\n", encoding="utf-8")
+    test_path.write_text("# test\n", encoding="utf-8")
+
+    runtime_finding = Finding(
+        rule_id="TEST100",
+        severity=Severity.HIGH,
+        title="Runtime regression",
+        message="Runtime regression",
+        recommendation="Fix it",
+        location=SourceLocation(runtime_path),
+        agent="runtime-agent",
+        evidence=["runtime evidence"],
+        source_context="runtime",
+    )
+    test_finding = Finding(
+        rule_id="TEST101",
+        severity=Severity.MEDIUM,
+        title="Test-only regression",
+        message="Test-only regression",
+        recommendation="Fix it",
+        location=SourceLocation(test_path),
+        agent="test-agent",
+        evidence=["test evidence"],
+        source_context="test",
+    )
+
+    report = compare_scans(
+        Graph(adg=AgentDependencyGraph()),
+        [],
+        root,
+        Graph(adg=AgentDependencyGraph()),
+        [runtime_finding, test_finding],
+        root,
+        base_ref="base",
+        head_ref="head",
+    )
+    rendered = render_markdown(report)
+
+    assert "# HorusTrace Security Delta" in rendered
+    assert "### Application/runtime finding changes" in rendered
+    assert "### Non-runtime finding changes" in rendered
+    assert "**HIGH TEST100**" in rendered
+    assert "**MEDIUM TEST101**" in rendered
+    assert "context `runtime`" in rendered
+    assert "context `test`" in rendered
+
+
+def test_diff_cli_markdown_output(tmp_path: Path, capsys) -> None:
+    repo, base, head = _init_repo(tmp_path)
+
+    result = main(
+        [
+            "diff",
+            f"{base}..{head}",
+            "--repo",
+            str(repo),
+            "--format",
+            "markdown",
+            "--fail-on",
+            "none",
+        ]
+    )
+
+    assert result == 0
+    output = capsys.readouterr().out
+    assert "# HorusTrace Security Delta" in output
+    assert "Introduced findings" in output
+    assert "Application/runtime finding changes" in output
 
