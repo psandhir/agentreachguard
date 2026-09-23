@@ -314,3 +314,42 @@ agent = Agent(name="Executor", instructions="Run commands.", tools=[run_command]
         if flow.source_kind == "agent_tool_input"
         and flow.source_label == "run_command.ctx"
     ]
+
+
+def test_adk_agent_tool_parameter_becomes_flow_source(tmp_path: Path) -> None:
+    """ADK function-tool parameters are treated as agent-controlled only after proven binding."""
+    (tmp_path / "agent.py").write_text(
+        """
+import subprocess
+from google.adk import Agent
+
+def run_command(command: str) -> str:
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
+
+root_agent = Agent(
+    name="ADK Executor",
+    model="gemini-flash-latest",
+    tools=[run_command],
+)
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+    flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "agent_tool_input"
+        and flow.sink_kind == "process_execute"
+    ]
+
+    assert len(flows) == 1
+    flow = flows[0]
+    assert flow.agent == "ADK Executor"
+    assert flow.source_label == "run_command.command"
+    assert flow.basis == "static_dataflow"
+    assert flow.metadata["agent_binding"]["basis"] == "source_function_key"
+    assert flow.metadata["agent_binding"]["function"] == "agent.run_command"
