@@ -54,6 +54,100 @@ workflow.add_node("validate_email", validate_email)
 
 
 
+def test_langgraph_local_dict_update_is_not_persistent_data_write(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+
+def review_issue(state):
+    decision: dict[str, object] = {"approved": False}
+    decision.update({"approved": True})
+    return decision
+
+workflow = StateGraph(dict)
+workflow.add_node("review_issue", review_issue)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "review_issue")
+
+    assert "data.write" not in tool.capabilities
+
+
+def test_langgraph_rebound_local_container_update_remains_data_write(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+
+def apply_update(state):
+    decision = {"approved": False}
+    decision = state
+    decision.update({"approved": True})
+    return decision
+
+workflow = StateGraph(dict)
+workflow.add_node("apply_update", apply_update)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "apply_update")
+
+    assert "data.write" in tool.capabilities
+
+
+def test_langgraph_nested_local_container_does_not_hide_outer_update(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+
+def apply_update(state):
+    def helper():
+        state = {"approved": False}
+        state.update({"approved": True})
+        return state
+
+    state.update({"approved": True})
+    return state
+
+workflow = StateGraph(dict)
+workflow.add_node("apply_update", apply_update)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "apply_update")
+
+    assert "data.write" in tool.capabilities
+
+
+def test_langgraph_state_update_remains_data_write(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """from langgraph.graph import StateGraph
+
+def apply_update(state):
+    state.update({"approved": True})
+    return state
+
+workflow = StateGraph(dict)
+workflow.add_node("apply_update", apply_update)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "apply_update")
+
+    assert "data.write" in tool.capabilities
+
+
 def test_langgraph_human_interrupt_gates_downstream_mutation(tmp_path: Path) -> None:
     (tmp_path / "agent.py").write_text(
         """from langgraph.graph import StateGraph
