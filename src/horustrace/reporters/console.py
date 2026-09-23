@@ -18,6 +18,8 @@ LAYER_NAMES = {
 def render(graph: Graph, findings: list[Finding], root: Path) -> str:
     counts = Counter(f.severity for f in findings)
     layer_counts = Counter(f.layer for f in findings)
+    flow_resolution = graph.coverage.resolution.get("flows", {})
+    flow_reachability = flow_resolution.get("agent_reachability", {})
     lines = [
         "HorusTrace Security Scan",
         "=" * 23,
@@ -26,6 +28,17 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
         f"Tools:         {len(graph.all_tools())}",
         f"MCP servers:   {len(graph.all_mcp_servers())}",
         f"Identities:    {len(graph.all_identities())}",
+        f"Flows:         {len(graph.flow_paths)}",
+        (
+            "  Reachability: "
+            f"agent={flow_reachability.get('proven_agent_reachable', 0)}, "
+            f"non-agent={flow_reachability.get('proven_non_agent', 0)}, "
+            f"unknown={flow_reachability.get('unknown', 0)}"
+        ),
+        (
+            "  Attribution gaps: "
+            f"{flow_resolution.get('agent_attribution_gaps', 0)}"
+        ),
         f"Attack paths:  {len(graph.attack_paths)}",
         "",
         "Findings",
