@@ -904,7 +904,7 @@ def scan(
         for agent in graph.agents
         if agent.metadata.get("framework")
     }
-    for framework in ("google-adk", "langgraph", "openai-agents"):
+    for framework in ("google-adk", "langgraph", "openai-agents", "fast-agent"):
         if framework in framework_evidence and framework not in normalized_frameworks:
             location = framework_evidence[framework][0]
             add_diagnostic(

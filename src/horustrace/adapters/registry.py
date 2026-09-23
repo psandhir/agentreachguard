@@ -5,6 +5,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
+from horustrace.adapters.fast_agent import is_fast_agent_file
+from horustrace.adapters.fast_agent import scan_python_file as scan_fast_agent_python
 from horustrace.adapters.google_adk import is_google_adk_file
 from horustrace.adapters.google_adk import scan_python_file as scan_google_adk_python
 from horustrace.adapters.langgraph import is_langgraph_file
@@ -30,6 +32,7 @@ PYTHON_FRAMEWORK_ADAPTERS: tuple[PythonFrameworkAdapter, ...] = (
     PythonFrameworkAdapter("langgraph", is_langgraph_file, scan_langgraph_python),
     PythonFrameworkAdapter("openai-agents", is_openai_agents_file, scan_openai_python),
     PythonFrameworkAdapter("pydantic-ai", is_pydantic_ai_file, scan_pydantic_ai_python),
+    PythonFrameworkAdapter("fast-agent", is_fast_agent_file, scan_fast_agent_python),
     PythonFrameworkAdapter("mcp-python", is_mcp_python_file, scan_mcp_python),
 )
 

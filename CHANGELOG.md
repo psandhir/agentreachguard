@@ -4,6 +4,7 @@
 
 - Repository metadata refreshed for HorusTrace v0.4.1.
 - Add first-class Pydantic AI / Pydantic AI Harness static analysis for `Agent`, function tools, `FunctionToolset`, approvals, MCP and security-relevant capabilities.
+- Add first-class FastAgent Python analysis for decorator-defined agents/workflows, explicit function tools, shell authority and static delegation.
 
 ### 0.4 development
 
