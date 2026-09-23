@@ -17,7 +17,7 @@ def dangerous_tool():
     return path
 
 
-def test_cross_file_unique_tool_binding_maps_flow_to_agent(tmp_path: Path) -> None:
+def test_cross_file_name_only_binding_remains_unmapped(tmp_path: Path) -> None:
     source_path = _write_flow_source(tmp_path)
     declaration = tmp_path / "agent.py"
     declaration.write_text("# normalized agent declaration lives here\n", encoding="utf-8")
@@ -50,7 +50,8 @@ def test_cross_file_unique_tool_binding_maps_flow_to_agent(tmp_path: Path) -> No
     flows = analyze_repository_flows(tmp_path, [source_path], graph)
 
     assert len(flows) == 1
-    assert flows[0].agent == "executor"
+    assert flows[0].agent is None
+    assert flows[0].metadata["agent_binding"] is None
     assert flows[0].source_kind == "user_input"
     assert flows[0].sink_kind == "process_execute"
 
@@ -92,6 +93,33 @@ def test_cross_file_ambiguous_tool_binding_remains_unmapped(tmp_path: Path) -> N
 
 
 
+
+def test_single_agent_name_only_fallback_is_not_used(tmp_path: Path) -> None:
+    source_path = _write_flow_source(tmp_path)
+    declaration = tmp_path / "agent.py"
+    declaration.write_text("# unrelated single agent\n", encoding="utf-8")
+
+    graph = Graph(
+        agents=[
+            Agent(
+                name="only_agent",
+                tools=[
+                    Tool(
+                        name="unrelated_tool",
+                        kind="function",
+                        location=SourceLocation(declaration, 1, 1),
+                    )
+                ],
+            )
+        ]
+    )
+
+    flows = analyze_repository_flows(tmp_path, [source_path], graph)
+
+    assert len(flows) == 1
+    assert flows[0].agent is None
+    assert flows[0].metadata["agent_binding"] is None
+
 def test_frozen_corpus_style_openai_imported_tool_maps_flow(tmp_path: Path) -> None:
     """Mirrors the imported-tool/source->external-send shape seen in Cohort C."""
     tools_path = tmp_path / "tools.py"
@@ -127,6 +155,7 @@ agent = Agent(name="Orchestrator", tools=[forward_external_result])
 
     assert flows
     assert {flow.agent for flow in flows} == {"Orchestrator"}
+    assert {flow.metadata["agent_binding"]["basis"] for flow in flows} == {"source_function_key"}
     tool = next(t for t in graph.agents[0].tools if t.name == "forward_external_result")
     assert tool.metadata["source_function_key"] == "tools.forward_external_result"
 
@@ -161,5 +190,6 @@ workflow.add_node("executor", fetch_and_execute)
 
     assert len(flows) == 1
     assert flows[0].agent == "workflow"
+    assert flows[0].metadata["agent_binding"]["basis"] == "source_function_key"
     tool = next(t for t in graph.agents[0].tools if t.name == "executor")
     assert tool.metadata["source_function_key"] == "workflow.fetch_and_execute"

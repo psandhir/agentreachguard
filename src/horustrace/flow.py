@@ -539,59 +539,69 @@ def _relative(path: Path, root: Path) -> str:
         return path.name
 
 
-def _agent_for_chain(graph: Graph, functions: dict[str, _Function], chain: tuple[str, ...]) -> str | None:
-    """Bind a supported flow to an agent using normalized source provenance first.
+def _agent_for_chain(
+    graph: Graph,
+    functions: dict[str, _Function],
+    chain: tuple[str, ...],
+) -> tuple[str | None, dict[str, str] | None]:
+    """Bind a flow to an agent only through defensible static evidence.
 
-    Exact canonical function provenance is stronger than display names or declaration
-    locations and survives imported aliases and framework-specific normalization.
-    Ambiguous bindings remain unmapped.
+    Canonical source-function provenance is preferred. Legacy fallback is restricted
+    to same-file tool/function evidence; cross-file name coincidence and repository
+    single-agent shortcuts are intentionally not used.
     """
-    provenance_matches: list[str] = []
-    same_file: list[str] = []
-    cross_file: list[str] = []
+    for function_key in chain:
+        matches: list[tuple[str, str]] = []
+        for agent in graph.agents:
+            for tool in agent.tools:
+                source_key = tool.metadata.get("source_function_key")
+                if isinstance(source_key, str) and source_key == function_key:
+                    matches.append((agent.name, tool.name))
 
-    chain_keys = set(chain)
-    for agent in graph.agents:
-        for tool in agent.tools:
-            source_key = tool.metadata.get("source_function_key")
-            if isinstance(source_key, str) and source_key in chain_keys:
-                provenance_matches.append(agent.name)
-                continue
+        agents = list(dict.fromkeys(agent for agent, _ in matches))
+        if len(agents) == 1:
+            chosen = next(item for item in matches if item[0] == agents[0])
+            return agents[0], {
+                "basis": "source_function_key",
+                "function": function_key,
+                "tool": chosen[1],
+            }
+        if len(agents) > 1:
+            return None, {
+                "basis": "ambiguous_source_function_key",
+                "function": function_key,
+            }
 
-            for function_key in chain:
-                info = functions.get(function_key)
-                if not info:
-                    continue
+    legacy: list[tuple[str, str, str]] = []
+    for function_key in chain:
+        info = functions.get(function_key)
+        if not info:
+            continue
+        for agent in graph.agents:
+            for tool in agent.tools:
                 function_name = (
                     tool.metadata.get("source_function")
                     or tool.metadata.get("function")
                 )
                 if tool.name != info.name and function_name != info.name:
                     continue
-                if tool.location is None or tool.location.path.resolve() == info.path.resolve():
-                    same_file.append(agent.name)
-                else:
-                    cross_file.append(agent.name)
+                if (
+                    tool.location is not None
+                    and tool.location.path.resolve() == info.path.resolve()
+                ):
+                    legacy.append((agent.name, tool.name, function_key))
 
-    exact_provenance = list(dict.fromkeys(provenance_matches))
-    if len(exact_provenance) == 1:
-        return exact_provenance[0]
-    if len(exact_provenance) > 1:
-        return None
-
-    exact = list(dict.fromkeys(same_file))
-    if len(exact) == 1:
-        return exact[0]
-    if len(exact) > 1:
-        return None
-
-    inferred = list(dict.fromkeys(cross_file))
-    if len(inferred) == 1:
-        return inferred[0]
-    if not inferred and len(graph.agents) == 1:
-        return graph.agents[0].name
-    return None
-
+    agents = list(dict.fromkeys(agent for agent, _, _ in legacy))
+    if len(agents) == 1:
+        chosen = next(item for item in legacy if item[0] == agents[0])
+        return agents[0], {
+            "basis": "same_file_tool_function",
+            "function": chosen[2],
+            "tool": chosen[1],
+        }
+    if len(agents) > 1:
+        return None, {"basis": "ambiguous_same_file_tool_function"}
+    return None, None
 
 def _flow_id(root: Path, source: _Source, sink: _Sink, agent: str | None) -> str:
     payload = "\0".join((
@@ -629,7 +639,7 @@ def analyze_repository_flows(root: Path, python_paths: list[Path], graph: Graph)
         for sink in summary.sinks:
             if not sink.value.sources:
                 continue
-            agent = _agent_for_chain(graph, functions, sink.call_chain)
+            agent, agent_binding = _agent_for_chain(graph, functions, sink.call_chain)
             for source in sink.value.sources:
                 flow_id = _flow_id(root, source, sink, agent)
                 if flow_id in seen:
@@ -677,6 +687,7 @@ def analyze_repository_flows(root: Path, python_paths: list[Path], graph: Graph)
                         metadata={
                             "call_chain": chain,
                             "unresolved_calls": unresolved_items,
+                            "agent_binding": agent_binding,
                         },
                     )
                 )
