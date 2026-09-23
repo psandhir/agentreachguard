@@ -1,0 +1,54 @@
+name: PR66 frozen Santos authority validation
+
+on:
+  push:
+    branches:
+      - research/pr66-frozen-santos-authority
+    paths:
+      - ".github/workflows/pr66-frozen-santos-authority.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install PR66 scanner
+        run: python -m pip install --quiet "git+https://github.com/psandhir/horustrace.git@f2e50c034640b6f016d00a938577e8f4c93d8519"
+
+      - name: Fetch frozen target
+        run: |
+          git clone --quiet --filter=blob:none https://github.com/santosomar/AI-agents-for-cybersecurity.git target
+          git -C target checkout --quiet --detach 70b80e04b167f8ec1def309146eee69740aed83e
+
+      - name: Reconstruct effective MCP authority
+        run: |
+          horustrace authority target --format json --output authority.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("authority.json").read_text())
+          print(json.dumps(report, indent=2))
+          summary = report["summary"]
+          assert summary["mcp_servers"] == 3, summary
+          assert summary["bound_relationships"] == 2, summary
+          assert summary["unbound_servers"] == 1, summary
+
+          for item in report["authorities"]:
+              assert item["binding"]["status"] == "bound"
+              assert item["agent"]
+              assert item["server"]
+              assert isinstance(item["unresolved"], list)
+
+          print("frozen_santos_authority_shape=true")
+          PY
