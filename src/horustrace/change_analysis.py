@@ -41,16 +41,16 @@ def _finding_record(finding: Finding, root: Path) -> dict[str, Any]:
         "confidence": finding.confidence.value if finding.confidence else None,
         "source_context": finding.source_context,
         "location": location,
-        "evidence": list(finding.evidence),
+        "evidence": sorted(finding.evidence),
     }
 
 
 def _finding_index(findings: list[Finding], root: Path) -> dict[str, dict[str, Any]]:
-    return {
-        record["fingerprint"]: record
-        for finding in findings
-        if (record := _finding_record(finding, root))
-    }
+    result: dict[str, dict[str, Any]] = {}
+    for finding in findings:
+        record = _finding_record(finding, root)
+        result[record["fingerprint"]] = record
+    return result
 
 
 def _finding_semantics(record: dict[str, Any]) -> dict[str, Any]:
@@ -155,6 +155,12 @@ def compare_scans(
         if _finding_semantics(base_finding_index[item])
         != _finding_semantics(head_finding_index[item])
     ]
+    worsened_findings = [
+        item
+        for item in changed_findings
+        if Severity.parse(item["after"]["severity"])
+        > Severity.parse(item["before"]["severity"])
+    ]
 
     base_adg = base_graph.adg.as_dict() if base_graph.adg else {"nodes": [], "edges": []}
     head_adg = head_graph.adg.as_dict() if head_graph.adg else {"nodes": [], "edges": []}
@@ -209,6 +215,7 @@ def compare_scans(
             "introduced_findings_by_severity": dict(sorted(introduced_by_severity.items())),
             "resolved_findings": len(resolved),
             "changed_findings": len(changed_findings),
+            "worsened_findings": len(worsened_findings),
             "unchanged_findings": len(common_ids) - len(changed_findings),
             "added_authority_nodes": len(added_node_ids),
             "removed_authority_nodes": len(removed_node_ids),
@@ -220,6 +227,7 @@ def compare_scans(
             "introduced": introduced,
             "resolved": resolved,
             "changed": changed_findings,
+            "worsened": worsened_findings,
         },
         "authority": {
             "added_nodes": [head_nodes[item] for item in added_node_ids],
@@ -292,7 +300,8 @@ def render_console(report: dict[str, Any]) -> str:
         f"  Introduced findings: {summary['introduced_findings']} "
         f"({summary['introduced_high_or_critical']} high/critical)",
         f"  Resolved findings:   {summary['resolved_findings']}",
-        f"  Changed findings:    {summary['changed_findings']}",
+        f"  Changed findings:    {summary['changed_findings']} "
+        f"({summary['worsened_findings']} worsened)",
         f"  Authority nodes:     +{summary['added_authority_nodes']} "
         f"-{summary['removed_authority_nodes']} "
         f"~{summary['changed_authority_nodes']}",
