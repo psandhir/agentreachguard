@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import sys
-from collections import Counter
 from datetime import UTC, date, datetime
 from pathlib import Path
 
@@ -245,10 +245,10 @@ def main(argv: list[str] | None = None) -> int:
         config = load_config(target if target.is_dir() else target.parent, args.config)
         graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
-        source_context_counts_before = Counter(
+        source_context_counts_before = collections.Counter(
             finding.source_context for finding in findings
         )
-        excluded_source_context_counts = Counter(
+        excluded_source_context_counts = collections.Counter(
             finding.source_context
             for finding in findings
             if finding.source_context in excluded_source_contexts
@@ -259,7 +259,7 @@ def main(argv: list[str] | None = None) -> int:
                 for finding in findings
                 if finding.source_context not in excluded_source_contexts
             ]
-        source_context_counts_after = Counter(
+        source_context_counts_after = collections.Counter(
             finding.source_context for finding in findings
         )
         graph.configuration_audit.update(
