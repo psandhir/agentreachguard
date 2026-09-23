@@ -1,0 +1,170 @@
+name: PR65 GCP Authority Delta
+
+on:
+  push:
+    branches:
+      - research/pr65-gcp-authority-delta
+    paths:
+      - ".github/workflows/pr65-gcp-authority-delta.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install PR65 scanner
+        run: python -m pip install .
+
+      - name: Validate source-only vs cloud-enriched authority
+        run: |
+          python - <<'PY'
+          import json
+          import tempfile
+          from pathlib import Path
+
+          from horustrace.scanner import scan
+
+          service_account = "agent@demo-project.iam.gserviceaccount.com"
+
+          with tempfile.TemporaryDirectory(prefix="pr65-gcp-authority-") as temp:
+              root = Path(temp)
+              project = root / "project"
+              project.mkdir()
+              (project / "horustrace.manifest.yaml").write_text(
+                  f"""version: 1
+          agents:
+            - name: cloud-analyst
+              identities:
+                - name: {service_account}
+                  provider: gcp
+                  credential_source: workload_identity
+              tools: []
+          """,
+                  encoding="utf-8",
+              )
+
+              snapshot = root / "private-control-plane" / "gcp-iam.json"
+              snapshot.parent.mkdir()
+              snapshot.write_text(
+                  json.dumps(
+                      [
+                          {
+                              "resource": (
+                                  "//cloudresourcemanager.googleapis.com/"
+                                  "projects/demo-project"
+                              ),
+                              "assetType": (
+                                  "cloudresourcemanager.googleapis.com/Project"
+                              ),
+                              "policy": {
+                                  "bindings": [
+                                      {
+                                          "role": "roles/owner",
+                                          "members": [
+                                              f"serviceAccount:{service_account}"
+                                          ],
+                                      },
+                                      {
+                                          "role": "roles/viewer",
+                                          "members": [
+                                              "serviceAccount:"
+                                              "unrelated@demo-project."
+                                              "iam.gserviceaccount.com"
+                                          ],
+                                      },
+                                  ]
+                              },
+                          }
+                      ]
+                  ),
+                  encoding="utf-8",
+              )
+
+              base_graph, base_findings = scan(project)
+              enriched_graph, enriched_findings = scan(
+                  project,
+                  gcp_iam_snapshot=snapshot,
+              )
+
+              base_rules = {
+                  (item.rule_id, item.agent)
+                  for item in base_findings
+              }
+              enriched_rules = {
+                  (item.rule_id, item.agent)
+                  for item in enriched_findings
+              }
+              introduced = sorted(enriched_rules - base_rules)
+
+              base_identity = next(
+                  node
+                  for node in base_graph.adg.as_dict()["nodes"]
+                  if node["kind"] == "identity"
+                  and node["name"] == service_account
+              )
+              enriched_identity = next(
+                  node
+                  for node in enriched_graph.adg.as_dict()["nodes"]
+                  if node["kind"] == "identity"
+                  and node["name"] == service_account
+              )
+              finding = next(
+                  item
+                  for item in enriched_findings
+                  if item.rule_id == "IDN001"
+                  and item.agent == "cloud-analyst"
+              )
+
+              result = {
+                  "base_findings": len(base_findings),
+                  "enriched_findings": len(enriched_findings),
+                  "introduced": introduced,
+                  "base_adg_digest": base_graph.adg.canonical_digest(),
+                  "enriched_adg_digest": enriched_graph.adg.canonical_digest(),
+                  "base_identity_attributes": base_identity["attributes"],
+                  "enriched_identity_attributes": enriched_identity["attributes"],
+                  "gcp_iam_resolution": enriched_graph.coverage.resolution["gcp_iam"],
+                  "finding": {
+                      "rule_id": finding.rule_id,
+                      "severity": finding.severity.label(),
+                      "agent": finding.agent,
+                      "evidence": finding.evidence,
+                      "provenance": [
+                          fact.as_dict()
+                          for fact in finding.provenance
+                      ],
+                      "limitations": finding.limitations,
+                  },
+              }
+              print(json.dumps(result, indent=2))
+
+              assert base_rules == set()
+              assert introduced == [("IDN001", "cloud-analyst")]
+              assert finding.severity.label() == "high"
+              assert base_graph.adg.canonical_digest() != (
+                  enriched_graph.adg.canonical_digest()
+              )
+              assert "authority_source" not in base_identity["attributes"]
+              assert enriched_identity["attributes"]["authority_source"] == (
+                  "gcp_iam_snapshot"
+              )
+              assert enriched_identity["attributes"]["roles"] == ["roles/owner"]
+              summary = enriched_graph.coverage.resolution["gcp_iam"]
+              assert summary["matched_identities"] == 1
+              assert summary["matched_grants"] == 1
+              assert summary["unmatched_service_account_principals"] == 1
+              assert {
+                  fact.location.path.as_posix()
+                  for fact in finding.provenance
+                  if fact.origin == "observed"
+              } == {"gcp-iam.json"}
+          PY
