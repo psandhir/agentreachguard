@@ -249,6 +249,11 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 "conditional_grants": (
                     identity.metadata.get("gcp_iam_conditional_grants") or None
                 ),
+                "iam_grants": (
+                    identity.metadata.get("gcp_iam_grants") or None
+                    if identity.metadata.get("gcp_iam_snapshot")
+                    else None
+                ),
             },
         )
         identity_ids.setdefault(identity.name, identity_id)
