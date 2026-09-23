@@ -3,6 +3,7 @@ from pathlib import Path
 
 from horustrace.cli import main
 from horustrace.mcp_effective import effective_mcp_authority_report
+from horustrace.models import Agent, Graph, Identity, MCPServer
 from horustrace.scanner import scan
 
 
@@ -192,3 +193,75 @@ def test_scan_json_embeds_mcp_authority_report(
     report = json.loads(capsys.readouterr().out)
     assert report["mcp_authority"]["summary"]["bound_relationships"] == 1
     assert report["mcp_authority"]["authorities"][0]["server"] == "slack"
+
+def test_authenticated_relationship_with_generic_configured_auth_is_not_fully_resolved() -> None:
+    identity = Identity(
+        name="agent:server:mcp-auth",
+        provider="mcp",
+        credential_source="env:MCP_TOKEN",
+    )
+    server = MCPServer(
+        name="server",
+        transport="http",
+        url="https://mcp.example.test/mcp",
+        authenticated=True,
+        allowed_tools=["read"],
+        identity=identity.name,
+        metadata={
+            "auth_mechanism": "configured-auth",
+            "binding_origin": "framework_agent_configuration",
+        },
+    )
+    graph = Graph(
+        agents=[
+            Agent(
+                name="agent",
+                identities=[identity],
+                mcp_servers=[server],
+            )
+        ]
+    )
+
+    authority = effective_mcp_authority_report(graph)["authorities"][0]
+
+    assert authority["authentication"]["state"] == "authenticated"
+    assert authority["authentication"]["mechanism"] == "configured-auth"
+    assert authority["authentication"]["credential_source"] == "env:MCP_TOKEN"
+    assert authority["fully_resolved"] is False
+    assert authority["unresolved"] == ["authentication_mechanism"]
+
+
+def test_authenticated_relationship_without_credential_source_is_not_fully_resolved() -> None:
+    identity = Identity(
+        name="agent:server:mcp-auth",
+        provider="mcp.example.test",
+    )
+    server = MCPServer(
+        name="server",
+        transport="http",
+        url="https://mcp.example.test/mcp",
+        authenticated=True,
+        allowed_tools=["read"],
+        identity=identity.name,
+        metadata={
+            "auth_mechanism": "authorization-header",
+            "binding_origin": "framework_agent_configuration",
+        },
+    )
+    graph = Graph(
+        agents=[
+            Agent(
+                name="agent",
+                identities=[identity],
+                mcp_servers=[server],
+            )
+        ]
+    )
+
+    authority = effective_mcp_authority_report(graph)["authorities"][0]
+
+    assert authority["authentication"]["mechanism"] == "authorization-header"
+    assert authority["authentication"]["credential_source"] is None
+    assert authority["fully_resolved"] is False
+    assert authority["unresolved"] == ["credential_source"]
+
