@@ -14,7 +14,7 @@ def test_reviewed_benchmark_has_perfect_current_metrics(capsys):
     manifest = REPOSITORY / "benchmarks" / "cases.yaml"
     report = run(manifest)
     assert report["summary"] == {
-        "cases": 31, "passed": 31, "true_positive": 79,
+        "cases": 31, "passed": 31, "true_positive": 77,
         "false_positive": 0, "false_negative": 0,
         "precision": 1.0, "recall": 1.0,
     }
@@ -149,7 +149,7 @@ version: 1
 cases:
   - name: supported-http-to-shell
     path: case
-    expected: [PATH001@ops, NET001@ops]
+    expected: [PATH001@ops]
     expected_paths:
       - rule_id: PATH001
         agent: ops
@@ -191,7 +191,7 @@ version: 1
 cases:
   - name: wrong-flow-basis
     path: case
-    expected: [PATH001@ops, NET001@ops]
+    expected: [PATH001@ops]
     expected_paths:
       - rule_id: PATH001
         agent: ops

@@ -13,7 +13,7 @@ from horustrace.heuristics import (
     resource_is_broad,
     role_looks_admin,
 )
-from horustrace.models import Finding, Graph, Identity, Severity, SourceLocation
+from horustrace.models import Finding, Graph, Identity, NetworkDestination, Severity, SourceLocation
 
 
 def _is_loopback_url(url: str) -> bool:
@@ -24,6 +24,26 @@ def _is_loopback_url(url: str) -> bool:
         return ipaddress.ip_address(host).is_loopback
     except ValueError:
         return False
+
+
+def _destination_is_broad_or_dynamic(destination: NetworkDestination) -> bool:
+    if destination_is_broad(destination.target) or destination.target.startswith("<dynamic"):
+        return True
+
+    source = str(destination.metadata.get("source") or "")
+    scope = str(destination.metadata.get("network_scope") or "")
+    if source == "literal_url" or scope in {
+        "fixed_literal_destination",
+        "fixed_managed_service",
+        "explicit_destination",
+    }:
+        return False
+    if source == "dynamic_network_call" or scope == "dynamic_destination":
+        return True
+
+    # A bare unrestricted destination from policy/config remains broad unless
+    # stronger provenance shows it is only an observed fixed literal.
+    return not destination.restricted
 
 
 def _identity_findings(identity: Identity, agent: str | None = None) -> list[Finding]:
@@ -291,7 +311,7 @@ def evaluate(graph: Graph) -> list[Finding]:
             findings.append(Finding("DATA001", Severity.HIGH, "Broad resource scope", f"Agent '{agent.name}' has broad resource selectors.", "Constrain files, data stores, buckets or records to the smallest resource scope required.", layer=4, location=agent.location, agent=agent.name, evidence=["resources=" + ",".join(r.selector for r in broad_resources)]))
 
         explicit_broad_destinations = [
-            d for d in destinations if destination_is_broad(d.target) or not d.restricted
+            d for d in destinations if _destination_is_broad_or_dynamic(d)
         ]
         outbound_tools = [
             tool

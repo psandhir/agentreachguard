@@ -69,6 +69,27 @@ agents:
     assert "AGT010" in ids
 
 
+def test_layer_4_explicit_unrestricted_destination_remains_flagged(
+    tmp_path: Path,
+) -> None:
+    _, findings = _scan_manifest(
+        tmp_path,
+        """
+agents:
+  - name: publisher
+    network:
+      - target: https://api.example.com/events
+        restricted: false
+    tools:
+      - name: publish
+        capability: external.write
+        human_approval: true
+""",
+    )
+
+    assert any(f.rule_id == "NET001" for f in findings)
+
+
 def test_layer_5_attack_path_untrusted_input_to_shell(tmp_path: Path) -> None:
     _, findings = _scan_manifest(
         tmp_path,

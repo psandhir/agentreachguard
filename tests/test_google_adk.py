@@ -394,3 +394,44 @@ root_agent = Agent(
         f.rule_id == "AGT020" and f.agent == "workspace_agent"
         for f in findings
     )
+
+
+def test_adk_fixed_literal_destination_is_not_broad_egress(tmp_path: Path) -> None:
+    write(tmp_path, '''
+import requests
+from google.adk import Agent
+
+def publish_event(payload: dict):
+    return requests.post("https://api.example.com/events", json=payload)
+
+root_agent = Agent(name="publisher", model="gemini-flash-latest", tools=[publish_event])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_event")
+
+    assert any(
+        d.target == "https://api.example.com/events"
+        and d.metadata.get("network_scope") == "fixed_literal_destination"
+        for d in tool.destinations
+    )
+    assert not any(f.rule_id == "NET001" for f in findings)
+
+
+def test_adk_dynamic_destination_remains_broad_egress(tmp_path: Path) -> None:
+    write(tmp_path, '''
+import requests
+from google.adk import Agent
+
+def publish_event(url: str, payload: dict):
+    return requests.post(url, json=payload)
+
+root_agent = Agent(name="publisher", model="gemini-flash-latest", tools=[publish_event])
+''')
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "publish_event")
+
+    assert any(
+        d.metadata.get("network_scope") == "dynamic_destination"
+        for d in tool.destinations
+    )
+    assert any(f.rule_id == "NET001" for f in findings)
