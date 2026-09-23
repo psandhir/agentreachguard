@@ -19,6 +19,10 @@ from horustrace.change_analysis import render_markdown as render_diff_markdown
 from horustrace.config import ConfigError, load_config
 from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
+from horustrace.mcp_effective import (
+    effective_mcp_authority_report,
+    render_effective_mcp_authority_console,
+)
 from horustrace.models import Severity
 from horustrace.provenance import control_observations
 from horustrace.reporters.console import render as render_console
@@ -100,6 +104,18 @@ def _parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("path", nargs="?", default=".")
     graph_parser.add_argument("--output", type=Path)
     graph_parser.add_argument("--config", type=Path)
+    authority_parser = sub.add_parser(
+        "authority",
+        help="Show effective agent-to-MCP authority relationships",
+    )
+    authority_parser.add_argument("path", nargs="?", default=".")
+    authority_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    authority_parser.add_argument("--output", type=Path)
+    authority_parser.add_argument("--config", type=Path)
     aibom_parser = sub.add_parser("aibom", help="Generate an Agent Bill of Materials")
     aibom_parser.add_argument("path", nargs="?", default=".")
     aibom_parser.add_argument("--output", type=Path)
@@ -278,7 +294,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
 
-    if args.command in {"graph", "aibom"}:
+    if args.command in {"graph", "aibom", "authority"}:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
@@ -286,11 +302,25 @@ def main(argv: list[str] | None = None) -> int:
         except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
             print(f"horustrace: {exc}", file=sys.stderr)
             return 1
-        if graph.adg is None:
-            print("horustrace: Agent Dependency Graph was not generated", file=sys.stderr)
-            return 1
-        document = graph.adg.as_dict() if args.command == "graph" else build_aibom(graph.adg)
-        output = json.dumps(document, indent=2)
+
+        if args.command == "authority":
+            report = effective_mcp_authority_report(graph)
+            output = (
+                json.dumps(report, indent=2)
+                if args.format == "json"
+                else render_effective_mcp_authority_console(graph, target)
+            )
+        else:
+            if graph.adg is None:
+                print("horustrace: Agent Dependency Graph was not generated", file=sys.stderr)
+                return 1
+            document = (
+                graph.adg.as_dict()
+                if args.command == "graph"
+                else build_aibom(graph.adg)
+            )
+            output = json.dumps(document, indent=2)
+
         if args.output:
             args.output.write_text(output + "\n", encoding="utf-8")
         else:
@@ -378,6 +408,7 @@ def main(argv: list[str] | None = None) -> int:
                 "version": __version__,
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
+                "mcp_authority": effective_mcp_authority_report(graph),
                 "configuration": {
                     "path": str(config.source_path) if config.source_path else None,
                     "repository": {"strict": config.strict},
