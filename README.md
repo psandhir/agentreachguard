@@ -43,6 +43,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
+- **Offline GCP IAM authority enrichment** from Cloud Asset Inventory `search-all-iam-policies` JSON exports for already-discovered service accounts.
 - ADK `.env` credential-source checks without exposing secret values in findings.
 
 ## Google ADK coverage
@@ -105,6 +106,7 @@ The v0.3 release (published as HorusTrace) performs repository-aware analysis of
 
 See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface and limitations.
 See [`docs/fast-agent.md`](docs/fast-agent.md) for FastAgent coverage and limitations.
+See [`docs/gcp-iam.md`](docs/gcp-iam.md) for offline GCP IAM authority enrichment, evidence semantics, and current limitations.
 
 ## Quick start
 
