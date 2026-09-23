@@ -123,6 +123,24 @@ horustrace rules
 horustrace rules --format json --output rules.json
 ```
 
+Summarize effective detector coverage against the **OWASP Top 10 for Agentic
+Applications 2026**:
+
+```bash
+horustrace owasp .
+horustrace owasp . --format json --output owasp-agentic.json
+```
+
+The OWASP report deliberately distinguishes three states:
+
+- `FINDING` — one or more mapped HorusTrace rules fired.
+- `NO MAPPED FINDINGS` — enabled mapped detectors exist, but none fired in this scan.
+- `NOT ASSESSED` — HorusTrace currently has no enabled mapped detector for that category.
+
+This is detector-level coverage, not a claim that an OWASP category is fully mitigated
+or absent at runtime. Normal JSON and SARIF scan output also includes an
+`owasp_agentic` summary, and console findings show their mapped ASI identifiers.
+
 Inspect effective MCP authority reconstructed from static evidence:
 
 ```bash

@@ -95,9 +95,20 @@ RULE_REGISTRY: dict[str, RuleMetadata] = {
     )
 }
 
-OWASP_AGENTIC_IDS = frozenset({
-    "ASI01", "ASI02", "ASI03", "ASI04", "ASI05", "ASI06", "ASI07", "ASI08", "ASI09", "ASI10",
-})
+OWASP_AGENTIC_TAXONOMY: dict[str, str] = {
+    "ASI01": "Agent Goal Hijack",
+    "ASI02": "Tool Misuse & Exploitation",
+    "ASI03": "Identity & Privilege Abuse",
+    "ASI04": "Agentic Supply Chain Vulnerabilities",
+    "ASI05": "Unexpected Code Execution (RCE)",
+    "ASI06": "Memory & Context Poisoning",
+    "ASI07": "Insecure Inter-Agent Communication",
+    "ASI08": "Cascading Failures",
+    "ASI09": "Human-Agent Trust Exploitation",
+    "ASI10": "Rogue Agents",
+}
+
+OWASP_AGENTIC_IDS = frozenset(OWASP_AGENTIC_TAXONOMY)
 
 _OWASP_MAPPINGS = {
     "AGT020": ("ASI05",),
@@ -107,20 +118,34 @@ _OWASP_MAPPINGS = {
     "AGT030": ("ASI07",),
     "AGT031": ("ASI07",),
     "AGT032": ("ASI02",),
+    "AGT040": ("ASI02",),
     "AGT050": ("ASI04",),
+    "ADK001": ("ASI02",),
     "ADK002": ("ASI05",),
     "ADK003": ("ASI05",),
     "ADK004": ("ASI05",),
     "ADK005": ("ASI02",),
+    "ADK006": ("ASI02",),
+    "ADK007": ("ASI02",),
     "ADK009": ("ASI07",),
     "ADK010": ("ASI07",),
     "ADK011": ("ASI07",),
     "ADK012": ("ASI05",),
+    "CAP001": ("ASI02",),
+    "CAP002": ("ASI02",),
+    "CAP003": ("ASI02",),
+    "CAP005": ("ASI02",),
+    "CAP006": ("ASI02",),
     "IDN001": ("ASI03",),
     "IDN002": ("ASI03",),
     "IDN003": ("ASI03",),
     "IDN004": ("ASI03",),
     "PATH001": ("ASI01", "ASI05"),
+    "PATH002": ("ASI01", "ASI02"),
+    "PATH004": ("ASI01", "ASI05"),
+    "PATH005": ("ASI01",),
+    "PATH006": ("ASI01", "ASI02"),
+    "PATH007": ("ASI06",),
 }
 
 RULE_REGISTRY = {
