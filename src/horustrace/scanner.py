@@ -17,6 +17,10 @@ from horustrace.adapters.registry import detect_python_frameworks, scan_python_f
 from horustrace.adapters.repository_adk import enrich_repository_graph
 from horustrace.adg import build_adg
 from horustrace.analysis import build_attack_paths
+from horustrace.authority_source import (
+    AuthoritySourceError,
+    enrich_from_terraform_authority_source,
+)
 from horustrace.config import ScanConfig
 from horustrace.config import apply as apply_config
 from horustrace.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
@@ -799,6 +803,7 @@ def scan(
     suppressions_path: Path | None = None,
     use_default_suppressions: bool = True,
     config: ScanConfig | None = None,
+    authority_source: Path | None = None,
 ) -> tuple[Graph, list]:
     root = path.resolve()
     containment_root = canonical_root(root)
@@ -985,6 +990,15 @@ def scan(
     )
     reconstruct_mcp_authority(graph, approved_python_paths)
     reconstruct_mcp_context(graph)
+    authority_enrichment = None
+    if authority_source is not None:
+        try:
+            authority_enrichment = enrich_from_terraform_authority_source(
+                graph,
+                authority_source,
+            )
+        except AuthoritySourceError as exc:
+            raise ScannerError(str(exc)) from exc
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
     annotate_tool_source_provenance(
@@ -1107,6 +1121,8 @@ def scan(
             "agent_reachability": flow_agent_reachability,
         },
     }
+    if authority_enrichment is not None:
+        graph.coverage.resolution["authority_source"] = authority_enrichment.as_dict()
 
     annotate_risk_semantics(graph)
     graph.attack_paths = build_attack_paths(graph)

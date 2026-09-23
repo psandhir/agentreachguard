@@ -48,19 +48,37 @@ def _destination_is_broad_or_dynamic(destination: NetworkDestination) -> bool:
 
 def _identity_findings(identity: Identity, agent: str | None = None) -> list[Finding]:
     findings: list[Finding] = []
+    declared_authority = identity.metadata.get("declared_authority")
+    authority_is_declared = (
+        isinstance(declared_authority, dict)
+        and declared_authority.get("state") == "declared"
+    )
     admin_roles = sorted(role for role in identity.roles if role_looks_admin(role))
     if admin_roles:
+        evidence = ["roles=" + ",".join(admin_roles), f"provider={identity.provider}"]
+        limitations: list[str] = []
+        qualifier = ""
+        if authority_is_declared:
+            evidence.append("authority_state=declared")
+            qualifier = " in declared Terraform authority evidence"
+            limitations.append(
+                "Declared Terraform IAM authority was not verified against live Google Cloud state."
+            )
         findings.append(
             Finding(
                 rule_id="IDN001",
                 layer=3,
                 severity=Severity.HIGH,
                 title="Broad administrative identity role",
-                message=f"Identity '{identity.name}' has one or more broad administrative roles.",
+                message=(
+                    f"Identity '{identity.name}' has one or more broad administrative roles"
+                    f"{qualifier}."
+                ),
                 recommendation="Replace broad roles with workload-specific least-privilege roles and scope them to required resources.",
                 location=identity.location,
                 agent=agent,
-                evidence=["roles=" + ",".join(admin_roles), f"provider={identity.provider}"],
+                evidence=evidence,
+                limitations=limitations,
             )
         )
     wildcard = sorted(p for p in identity.permissions if permission_looks_wildcard(p))

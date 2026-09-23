@@ -61,6 +61,11 @@ def _parser() -> argparse.ArgumentParser:
     scan_parser.add_argument("--format", choices=["console", "json", "sarif"], default="console")
     scan_parser.add_argument("--output", type=Path)
     scan_parser.add_argument("--config", type=Path, help="Repository scanner configuration YAML file.")
+    scan_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
     scan_parser.add_argument("--suppressions", type=Path,
                              help="Explicit suppression YAML file.")
     scan_parser.add_argument(
@@ -104,6 +109,11 @@ def _parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("path", nargs="?", default=".")
     graph_parser.add_argument("--output", type=Path)
     graph_parser.add_argument("--config", type=Path)
+    graph_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
     authority_parser = sub.add_parser(
         "authority",
         help="Show effective agent-to-MCP authority relationships",
@@ -120,6 +130,11 @@ def _parser() -> argparse.ArgumentParser:
     aibom_parser.add_argument("path", nargs="?", default=".")
     aibom_parser.add_argument("--output", type=Path)
     aibom_parser.add_argument("--config", type=Path)
+    aibom_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
     diff_parser = sub.add_parser(
         "diff",
         help="Compare findings and effective authority across two Git revisions",
@@ -298,7 +313,11 @@ def main(argv: list[str] | None = None) -> int:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
-            graph, _ = scan(target, config=config)
+            graph, _ = scan(
+                target,
+                config=config,
+                authority_source=getattr(args, "authority_source", None),
+            )
         except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
             print(f"horustrace: {exc}", file=sys.stderr)
             return 1
@@ -354,7 +373,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Wrote {len(findings)} expiring suppressions to {args.output}")
             return 0
         config = load_config(target if target.is_dir() else target.parent, args.config)
-        graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
+        graph, findings = scan(
+            target,
+            suppressions_path=args.suppressions,
+            config=config,
+            authority_source=args.authority_source,
+        )
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
         source_context_counts_before = {
             context: sum(
