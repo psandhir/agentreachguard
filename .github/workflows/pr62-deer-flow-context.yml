@@ -1,0 +1,73 @@
+name: Focused PR62 deer-flow context validation
+
+on:
+  push:
+    branches:
+      - research/frozen90-69e7da8
+    paths:
+      - ".github/workflows/pr62-deer-flow-context.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out research harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install PR62 scanner
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@a3fddf0c1dc5f2b56c182b28f71e110b52a98566"
+
+      - name: Scan frozen deer-flow
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import tempfile
+          from collections import Counter
+          from pathlib import Path
+
+          from horustrace.config import load_config
+          from horustrace.scanner import scan
+
+          repo = "https://github.com/bytedance/deer-flow.git"
+          sha = "c9043c2574daae8a9e5553150befd82ba4288746"
+
+          with tempfile.TemporaryDirectory(prefix="pr62-deer-flow-") as temp:
+              target = Path(temp) / "deer-flow"
+              subprocess.run(["git", "clone", "--quiet", "--filter=blob:none", repo, str(target)], check=True)
+              subprocess.run(["git", "-C", str(target), "checkout", "--quiet", "--detach", sha], check=True)
+              graph, findings = scan(target, config=load_config(target))
+              contexts = Counter(item.source_context for item in findings)
+              support = [
+                  item.as_dict()
+                  for item in findings
+                  if item.location
+                  and "backend/scripts/manual_task_continuity_check.py"
+                  in item.location.path.as_posix()
+              ]
+              print(json.dumps({
+                  "agents": len(graph.agents),
+                  "findings": len(findings),
+                  "contexts": dict(sorted(contexts.items())),
+                  "manual_script_findings": [
+                      {
+                          "rule_id": item["rule_id"],
+                          "severity": item["severity"],
+                          "agent": item["agent"],
+                          "source_context": item["source_context"],
+                          "location": item["location"],
+                      }
+                      for item in support
+                  ],
+              }, indent=2))
+          PY
