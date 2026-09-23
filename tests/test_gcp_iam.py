@@ -66,12 +66,100 @@ def _write_snapshot(path: Path, raw: object | None = None) -> Path:
     return path
 
 
+def _write_asset_export(path: Path) -> Path:
+    assets = [
+        {
+            "name": "//cloudresourcemanager.googleapis.com/projects/demo-project",
+            "assetType": "cloudresourcemanager.googleapis.com/Project",
+            "ancestors": [
+                "projects/123456789",
+                "folders/456",
+                "organizations/789",
+            ],
+            "iamPolicy": {
+                "bindings": [
+                    {
+                        "role": "roles/owner",
+                        "members": [f"serviceAccount:{_AGENT_SA}"],
+                    }
+                ]
+            },
+        },
+        {
+            "name": "//storage.googleapis.com/demo-sensitive-bucket",
+            "assetType": "storage.googleapis.com/Bucket",
+            "ancestors": [
+                "projects/123456789",
+                "organizations/789",
+            ],
+            "iamPolicy": {
+                "bindings": [
+                    {
+                        "role": "roles/storage.objectViewer",
+                        "members": [f"serviceAccount:{_AGENT_SA}"],
+                        "condition": {
+                            "title": "temporary",
+                            "expression": (
+                                "request.time < timestamp('2030-01-01T00:00:00Z')"
+                            ),
+                        },
+                    }
+                ]
+            },
+        },
+    ]
+    path.write_text(
+        "\n".join(json.dumps(asset) for asset in assets) + "\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_load_export_assets_iam_policy_ndjson(tmp_path: Path) -> None:
+    path = _write_asset_export(tmp_path / "iam-assets.ndjson")
+
+    snapshot = load_gcp_iam_snapshot(path)
+
+    assert snapshot.result_count == 2
+    assert snapshot.source_format == "export_assets_iam_policy_ndjson"
+    assert len(snapshot.grants) == 2
+    owner = next(grant for grant in snapshot.grants if grant.role == "roles/owner")
+    assert owner.resource == (
+        "//cloudresourcemanager.googleapis.com/projects/demo-project"
+    )
+    assert owner.ancestors == (
+        "projects/123456789",
+        "folders/456",
+        "organizations/789",
+    )
+    conditional = next(grant for grant in snapshot.grants if grant.conditional)
+    assert conditional.role == "roles/storage.objectViewer"
+
+
+def test_export_assets_ndjson_malformed_line_fails_closed(tmp_path: Path) -> None:
+    path = tmp_path / "bad-assets.ndjson"
+    path.write_text(
+        json.dumps(
+            {
+                "name": "//cloudresourcemanager.googleapis.com/projects/demo-project",
+                "iamPolicy": {"bindings": []},
+            }
+        )
+        + "\n{not-json}\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(GcpIamSnapshotError, match="line 2 is not valid JSON"):
+        load_gcp_iam_snapshot(path)
+
+
 def test_load_gcloud_search_all_iam_policies_json(tmp_path: Path) -> None:
     path = _write_snapshot(tmp_path / "iam.json")
 
     snapshot = load_gcp_iam_snapshot(path)
 
     assert snapshot.result_count == 2
+    assert snapshot.source_format == "search_all_iam_policies_json"
     assert len(snapshot.grants) == 3
     assert snapshot.service_account_principals == {_AGENT_SA, _OTHER_SA}
     agent_grants = [grant for grant in snapshot.grants if grant.principal == _AGENT_SA]
@@ -299,6 +387,8 @@ def test_graph_cli_exposes_observed_cloud_resource_scopes(
         "//storage.googleapis.com/demo-sensitive-bucket",
     ]
     assert identity["attributes"]["conditional_grants"] == 1
+    assert len(identity["attributes"]["iam_grants"]) == 2
+    assert "expression" not in json.dumps(identity["attributes"]["iam_grants"])
 
 def test_scan_without_snapshot_has_no_cloud_enrichment_resolution(
     tmp_path: Path,
@@ -359,4 +449,37 @@ agents:
     assert "resource_scope" not in identity["attributes"]
     assert "resource_scopes" not in identity["attributes"]
     assert "conditional_grants" not in identity["attributes"]
+
+def test_graph_cli_export_assets_ndjson_retains_ancestry_without_condition_text(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    _write_manifest(project / "horustrace.manifest.yaml")
+    snapshot = _write_asset_export(tmp_path / "iam-assets.ndjson")
+
+    assert main(
+        [
+            "graph",
+            str(project),
+            "--gcp-iam-snapshot",
+            str(snapshot),
+        ]
+    ) == 0
+
+    graph = json.loads(capsys.readouterr().out)
+    identity = next(
+        node
+        for node in graph["nodes"]
+        if node["kind"] == "identity" and node["name"] == _AGENT_SA
+    )
+    grants = identity["attributes"]["iam_grants"]
+    owner = next(item for item in grants if item["role"] == "roles/owner")
+    assert owner["ancestors"] == [
+        "projects/123456789",
+        "folders/456",
+        "organizations/789",
+    ]
+    assert "request.time" not in json.dumps(grants)
 
