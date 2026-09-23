@@ -172,3 +172,23 @@ def test_authority_cli_console_is_human_readable(
     assert "search_messages, read_thread" in output
     assert "identity=agent:slack:mcp-auth" in output
     assert "fixed_remote_endpoint https://mcp.example.test/mcp" in output
+
+
+def test_scan_json_embeds_mcp_authority_report(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    _write_bound_fixture(tmp_path)
+
+    assert main([
+        "scan",
+        str(tmp_path),
+        "--format",
+        "json",
+        "--fail-on",
+        "none",
+    ]) == 0
+
+    report = json.loads(capsys.readouterr().out)
+    assert report["mcp_authority"]["summary"]["bound_relationships"] == 1
+    assert report["mcp_authority"]["authorities"][0]["server"] == "slack"
