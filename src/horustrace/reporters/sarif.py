@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from horustrace.models import Finding, FlowPath, ScanCoverage
+from horustrace.owasp import build_owasp_agentic_summary
 from horustrace.rule_registry import get_rule_metadata
 
 LEVELS = {
@@ -126,6 +127,7 @@ def render(
                 **({
                     "properties": {
                         "coverage": coverage.as_dict(),
+                        "owasp_agentic": build_owasp_agentic_summary(findings),
                         "control_observations": controls or [],
                         "flow_paths": [flow.as_dict() for flow in flow_paths or []],
                         "suppressions": {
