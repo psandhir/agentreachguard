@@ -1,0 +1,44 @@
+name: PR64 Action Failure Path
+
+on:
+  push:
+    branches:
+      - research/action-failure-path-pr64
+    paths:
+      - ".github/workflows/pr64-action-failure-path.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Run expected failing security delta
+        id: delta
+        continue-on-error: true
+        uses: ./
+        with:
+          mode: diff
+          base-sha: edace2eacb5121f7345ae16e53f647443c3a59c8
+          head-sha: 2724e720e6999bacca7bf0dae57c9a30cb8d9c83
+          fail-on: high
+          strict: "false"
+
+      - name: Verify failure still produced evidence
+        shell: bash
+        env:
+          ACTION_OUTCOME: ${{ steps.delta.outcome }}
+          BASE_SHA: ${{ steps.delta.outputs.base-sha }}
+          HEAD_SHA: ${{ steps.delta.outputs.head-sha }}
+          REPORT_PATH: ${{ steps.delta.outputs.report-path }}
+        run: |
+          [[ "$ACTION_OUTCOME" == "failure" ]]
+          [[ "$BASE_SHA" == "edace2eacb5121f7345ae16e53f647443c3a59c8" ]]
+          [[ "$HEAD_SHA" == "2724e720e6999bacca7bf0dae57c9a30cb8d9c83" ]]
+          [[ -f "$REPORT_PATH" ]]
+          grep -q '^# HorusTrace Security Delta' "$REPORT_PATH"
+          grep -q 'CAP006' "$REPORT_PATH"
+          grep -q 'Introduced high/critical | 3' "$REPORT_PATH"
