@@ -20,6 +20,6 @@ agents:
     tools:
       - name: send_email
         capabilities: [external.write, network.external]
-        human_approval: true
+        human_approval: false
         guardrails: true
         destinations: ['https://mail.example.internal/send']
