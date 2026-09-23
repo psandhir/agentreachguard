@@ -111,12 +111,16 @@ def _identity_findings(identity: Identity, agent: str | None = None) -> list[Fin
         finding.provenance.extend(
             fact for fact in identity.provenance if fact not in finding.provenance
         )
-        if (
-            finding.rule_id == "IDN001"
-            and identity.metadata.get("gcp_iam_conditional_grants")
-        ):
+        conditional_only_roles = set(
+            identity.metadata.get("gcp_iam_conditional_only_roles") or []
+        )
+        conditional_admin_roles = sorted(set(admin_roles) & conditional_only_roles)
+        if finding.rule_id == "IDN001" and conditional_admin_roles:
+            finding.evidence.append(
+                "conditional_roles=" + ",".join(conditional_admin_roles)
+            )
             finding.limitations.append(
-                "One or more observed GCP IAM grants are conditional; "
+                "The triggering GCP IAM admin role is conditional; "
                 "IAM condition expressions were not evaluated."
             )
     return findings
