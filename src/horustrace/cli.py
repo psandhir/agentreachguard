@@ -259,10 +259,15 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         if args.fail_on != "none":
             threshold = Severity.parse(args.fail_on)
-            if any(
+            introduced_at_threshold = any(
                 Severity.parse(item["severity"]) >= threshold
                 for item in report["findings"]["introduced"]
-            ):
+            )
+            worsened_at_threshold = any(
+                Severity.parse(item["after"]["severity"]) >= threshold
+                for item in report["findings"]["worsened"]
+            )
+            if introduced_at_threshold or worsened_at_threshold:
                 return 2
         return 0
     excluded_source_contexts: set[str] = set()
