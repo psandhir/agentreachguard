@@ -1,0 +1,68 @@
+name: Frozen 90 Rescan @ 3528845d
+
+on:
+  push:
+    branches:
+      - research/frozen-90-3528845d
+    paths:
+      - "scripts/frozen_corpus_rescan.py"
+      - "benchmarks/public-corpus/**"
+      - ".github/workflows/frozen-90-3528845d.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frozen-90-3528845d
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Cohort ${{ matrix.cohort }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        cohort: [a, b, c]
+
+    env:
+      TARGET_SCANNER_COMMIT: 3528845d343f3764544699081eff37e4cff9dbfd
+
+    steps:
+      - name: Check out research harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install exact HorusTrace scanner commit
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "git+https://github.com/psandhir/horustrace.git@${TARGET_SCANNER_COMMIT}"
+          horustrace --version
+          python - <<'PY'
+          import horustrace
+          print("installed_horustrace_version=", horustrace.__version__)
+          print("target_scanner_commit=", "3528845d343f3764544699081eff37e4cff9dbfd")
+          PY
+
+      - name: Scan frozen cohort
+        run: |
+          python scripts/frozen_corpus_rescan.py \
+            --manifest benchmarks/public-corpus/cohort-${{ matrix.cohort }}-v1.json \
+            --cohort ${{ matrix.cohort }} \
+            --output-prefix frozen-rescan-3528845d-${{ matrix.cohort }}
+
+      - name: Upload frozen cohort report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frozen-rescan-3528845d-${{ matrix.cohort }}
+          path: |
+            frozen-rescan-3528845d-${{ matrix.cohort }}.json
+            frozen-rescan-3528845d-${{ matrix.cohort }}.md
+          if-no-files-found: warn
