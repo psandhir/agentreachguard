@@ -13,6 +13,7 @@ def test_framework_registry_has_stable_adapter_order() -> None:
         "langgraph",
         "openai-agents",
         "pydantic-ai",
+        "fast-agent",
         "mcp-python",
     ]
 
@@ -22,6 +23,7 @@ def test_framework_registry_detects_supported_python_frameworks(tmp_path: Path) 
         "adk.py": ("from google.adk import Agent\n", "google-adk"),
         "langgraph.py": ("from langgraph.graph import StateGraph\n", "langgraph"),
         "openai.py": ("from agents import Agent\n", "openai-agents"),
+        "fast_agent.py": (\n            "from fast_agent import FastAgent\\nfast = FastAgent(\\\"demo\\\")\\n",\n            "fast-agent",\n        ),
     }
     for filename, (source, expected) in cases.items():
         path = tmp_path / filename
