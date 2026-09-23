@@ -1,0 +1,53 @@
+name: Frozen OpenCMO Network Scope Baseline
+
+on:
+  push:
+    branches:
+      - research/network-destination-baseline
+    paths:
+      - ".github/workflows/opencmo-network-baseline.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install HorusTrace
+        run: python -m pip install -e .
+      - name: Fetch frozen OpenCMO
+        run: |
+          git init -q /tmp/opencmo
+          git -C /tmp/opencmo remote add origin https://github.com/Lling0000/OpenCMO.git
+          git -C /tmp/opencmo fetch --quiet --depth=1 --filter=blob:none origin a341b6c9c1886c3a32c3ee39af48144c2722a800
+          git -C /tmp/opencmo checkout --quiet --detach FETCH_HEAD
+      - name: Scan summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from horustrace.scanner import scan
+
+          graph, findings = scan(Path("/tmp/opencmo"))
+          print("SUMMARY " + json.dumps({
+              "agents": len(graph.agents),
+              "findings": len(findings),
+              "net001": sum(f.rule_id == "NET001" for f in findings),
+              "data003": sum(f.rule_id == "DATA003" for f in findings),
+              "net002": sum(f.rule_id == "NET002" for f in findings),
+          }, sort_keys=True))
+          for finding in findings:
+              if finding.rule_id.startswith("NET") or finding.rule_id == "DATA003":
+                  print("FINDING " + json.dumps({
+                      "rule_id": finding.rule_id,
+                      "severity": finding.severity.label(),
+                      "agent": finding.agent,
+                      "evidence": finding.evidence,
+                  }, sort_keys=True))
+          PY
