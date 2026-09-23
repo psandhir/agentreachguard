@@ -140,6 +140,37 @@ A relationship is marked `fully_resolved` only when every reported security dime
 has static evidence. For authenticated MCP relationships this requires a concrete
 authentication mechanism, a resolved identity, and a known credential source.
 
+### Declared IAM authority from a Terraform repository
+
+When application identities and IAM bindings live in separate repositories, check out
+both repositories and point HorusTrace at the Terraform repository explicitly:
+
+```bash
+horustrace scan ./agent-app \
+  --authority-source ../platform-infra \
+  --fail-on high
+```
+
+`--authority-source` is an offline, filesystem-only enrichment input. HorusTrace does
+not clone the repository, authenticate to GitHub, or call Google Cloud. The caller is
+responsible for checking out the authority repository, including any authentication
+needed for a private repository.
+
+The first implementation correlates literal GCP service-account principals already
+discovered in the application graph with supported Terraform IAM member/binding
+resources. Matching roles and resource scopes are recorded as **declared authority**
+with Terraform file/line provenance. Unmatched principals in the infrastructure
+repository are not added to the application graph.
+
+This evidence describes repository-declared IAM intent, not live/effective Google
+Cloud state. Dynamic HCL principals, group expansion, IAM conditions, role-to-permission
+expansion, inheritance, and out-of-band cloud changes are not claimed as resolved.
+
+The same option is available on `horustrace graph` and `horustrace aibom`. It is
+intentionally scan-only in the GitHub Action and is not applied to `horustrace diff`,
+because a single current infrastructure checkout cannot safely represent two historical
+application revisions.
+
 
 ### ADK demo
 
