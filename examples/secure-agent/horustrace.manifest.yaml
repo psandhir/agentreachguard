@@ -5,6 +5,9 @@ agents:
       - name: finance-reports
         classification: confidential
         selector: /finance/approved-reports/**
+    network:
+      - target: '*'
+        restricted: false
     policy:
       required: [data.read, external.write, network.external]
       allowed_resources: ['/finance/approved-reports/**']
