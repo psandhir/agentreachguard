@@ -133,6 +133,9 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
                 finding.message,
             ]
         )
+        owasp_agentic = finding.standards.get("owasp_agentic", [])
+        if owasp_agentic:
+            lines.append("OWASP Agentic: " + ", ".join(owasp_agentic))
         if finding.confidence is not None:
             lines.append(f"Confidence: {finding.confidence.value}")
         if finding.evidence:
