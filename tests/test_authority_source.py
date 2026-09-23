@@ -148,6 +148,11 @@ def test_scan_uses_declared_terraform_authority_for_layer3_findings(
     assert len(idn001) == 1
     assert idn001[0].agent == "support-agent"
     assert "roles=roles/owner" in idn001[0].evidence
+    assert "authority_state=declared" in idn001[0].evidence
+    assert (
+        "Declared Terraform IAM authority was not verified against live Google Cloud state."
+        in idn001[0].limitations
+    )
     assert graph.coverage.resolution["authority_source"]["state"] == "declared"
     assert graph.coverage.resolution["authority_source"]["matched_identities"] == 1
 
@@ -155,7 +160,7 @@ def test_scan_uses_declared_terraform_authority_for_layer3_findings(
     identity_nodes = [
         node
         for node in adg["nodes"]
-        if node["kind"] == "identity" and node["label"] == SERVICE_ACCOUNT
+        if node["kind"] == "identity" and node["name"] == SERVICE_ACCOUNT
     ]
     assert identity_nodes
     assert identity_nodes[0]["attributes"]["declared_authority"]["state"] == "declared"
