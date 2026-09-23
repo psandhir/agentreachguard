@@ -1,0 +1,55 @@
+name: PR67 default ADG stability
+
+on:
+  push:
+    branches:
+      - research/pr67-default-adg-stability
+    paths:
+      - ".github/workflows/pr67-default-adg-stability.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Export main ADG
+        run: |
+          python -m pip install --quiet "git+https://github.com/psandhir/horustrace.git@b0f0344658999059a8e633ea8428f44dd9a25db9"
+          horustrace graph examples/secure-agent --output main-adg.json
+
+      - name: Export PR67 ADG without IAM enrichment
+        run: |
+          python -m pip install --quiet --force-reinstall "git+https://github.com/psandhir/horustrace.git@95cae6242ac3c520fb98efeb5a567812524c372a"
+          horustrace graph examples/secure-agent --output pr67-adg.json
+
+      - name: Require exact graph stability
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          main = json.loads(Path("main-adg.json").read_text())
+          pr = json.loads(Path("pr67-adg.json").read_text())
+          main_payload = json.dumps(main, sort_keys=True, separators=(",", ":")).encode()
+          pr_payload = json.dumps(pr, sort_keys=True, separators=(",", ":")).encode()
+
+          print("main_sha256", hashlib.sha256(main_payload).hexdigest())
+          print("pr67_sha256", hashlib.sha256(pr_payload).hexdigest())
+          print("main_nodes", main["summary"]["nodes"], "main_edges", main["summary"]["edges"])
+          print("pr67_nodes", pr["summary"]["nodes"], "pr67_edges", pr["summary"]["edges"])
+
+          if main != pr:
+              raise SystemExit("PR67 changed the default ADG without IAM enrichment")
+          print("exact_default_adg_match=true")
+          PY
