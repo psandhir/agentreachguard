@@ -7,8 +7,8 @@ import pytest
 
 from horustrace.cli import main
 from horustrace.gcp_iam import (
-    enrich_gcp_iam_snapshot,
     GcpIamSnapshotError,
+    enrich_gcp_iam_snapshot,
     load_gcp_iam_snapshot,
 )
 from horustrace.models import Agent, Graph, Identity
