@@ -6,7 +6,10 @@ from horustrace.models import Finding, Severity
 from horustrace.rule_registry import OWASP_AGENTIC_TAXONOMY, iter_rule_metadata
 
 
-def build_owasp_agentic_summary(findings: list[Finding]) -> dict:
+def build_owasp_agentic_summary(
+    findings: list[Finding],
+    disabled_rules: list[str] | set[str] | tuple[str, ...] = (),
+) -> dict:
     """Build a conservative OWASP Agentic Top 10 coverage summary.
 
     A category is "not_assessed" when HorusTrace has no mapped detector for it.
@@ -20,6 +23,7 @@ def build_owasp_agentic_summary(findings: list[Finding]) -> dict:
         for risk_id in rule.owasp_agentic:
             mapped_rules[risk_id].append(rule.rule_id)
 
+    disabled = set(disabled_rules)
     findings_by_risk: dict[str, list[Finding]] = {
         risk_id: [] for risk_id in OWASP_AGENTIC_TAXONOMY
     }
@@ -31,7 +35,11 @@ def build_owasp_agentic_summary(findings: list[Finding]) -> dict:
     categories = []
     for risk_id, title in OWASP_AGENTIC_TAXONOMY.items():
         category_findings = findings_by_risk[risk_id]
-        rules = sorted(mapped_rules[risk_id])
+        all_rules = sorted(mapped_rules[risk_id])
+        rules = [rule_id for rule_id in all_rules if rule_id not in disabled]
+        disabled_mapped_rules = [
+            rule_id for rule_id in all_rules if rule_id in disabled
+        ]
         if category_findings:
             status = "finding"
             highest = max(f.severity for f in category_findings).label()
@@ -48,6 +56,8 @@ def build_owasp_agentic_summary(findings: list[Finding]) -> dict:
                 "title": title,
                 "status": status,
                 "mapped_rules": rules,
+                "disabled_mapped_rules": disabled_mapped_rules,
+                "available_mapped_rules": all_rules,
                 "finding_count": len(category_findings),
                 "highest_severity": highest,
                 "finding_rule_ids": sorted({f.rule_id for f in category_findings}),
@@ -75,8 +85,11 @@ def build_owasp_agentic_summary(findings: list[Finding]) -> dict:
     }
 
 
-def render_owasp_agentic_console(findings: list[Finding]) -> str:
-    report = build_owasp_agentic_summary(findings)
+def render_owasp_agentic_console(
+    findings: list[Finding],
+    disabled_rules: list[str] | set[str] | tuple[str, ...] = (),
+) -> str:
+    report = build_owasp_agentic_summary(findings, disabled_rules=disabled_rules)
     lines = [
         "OWASP Agentic Top 10 Coverage",
         "=" * 29,
@@ -99,7 +112,11 @@ def render_owasp_agentic_console(findings: list[Finding]) -> str:
             detail = "NOT ASSESSED"
         lines.append(f"{item['id']}  {item['title']}: {detail}")
         if item["mapped_rules"]:
-            lines.append("  Mapped rules: " + ", ".join(item["mapped_rules"]))
+            lines.append("  Enabled mapped rules: " + ", ".join(item["mapped_rules"]))
+        if item["disabled_mapped_rules"]:
+            lines.append(
+                "  Disabled mapped rules: " + ", ".join(item["disabled_mapped_rules"])
+            )
         if item["finding_rule_ids"]:
             lines.append("  Triggered rules: " + ", ".join(item["finding_rule_ids"]))
 
