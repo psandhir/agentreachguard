@@ -24,6 +24,7 @@ from horustrace.mcp_effective import (
     render_effective_mcp_authority_console,
 )
 from horustrace.models import Severity
+from horustrace.owasp import build_owasp_agentic_summary, render_owasp_agentic_console
 from horustrace.provenance import control_observations
 from horustrace.reporters.console import render as render_console
 from horustrace.reporters.sarif import render as render_sarif
@@ -100,6 +101,18 @@ def _parser() -> argparse.ArgumentParser:
     rules_parser = sub.add_parser("rules", help="List the built-in security rule catalogue")
     rules_parser.add_argument("--format", default="console", metavar="FORMAT")
     rules_parser.add_argument("--output", type=Path)
+    owasp_parser = sub.add_parser(
+        "owasp",
+        help="Summarize OWASP Agentic Top 10 detector coverage",
+    )
+    owasp_parser.add_argument("path", nargs="?", default=".")
+    owasp_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    owasp_parser.add_argument("--output", type=Path)
+    owasp_parser.add_argument("--config", type=Path)
     graph_parser = sub.add_parser("graph", help="Export the Agent Dependency Graph")
     graph_parser.add_argument("path", nargs="?", default=".")
     graph_parser.add_argument("--output", type=Path)
@@ -294,11 +307,15 @@ def main(argv: list[str] | None = None) -> int:
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
 
-    if args.command in {"graph", "aibom", "authority"}:
+    if args.command in {"graph", "aibom", "authority", "owasp"}:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
-            graph, _ = scan(target, config=config)
+            graph, findings = scan(
+                target,
+                config=config,
+                use_default_suppressions=args.command != "owasp",
+            )
         except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
             print(f"horustrace: {exc}", file=sys.stderr)
             return 1
@@ -309,6 +326,20 @@ def main(argv: list[str] | None = None) -> int:
                 json.dumps(report, indent=2)
                 if args.format == "json"
                 else render_effective_mcp_authority_console(graph, target)
+            )
+        elif args.command == "owasp":
+            disabled_rules = graph.configuration_audit.get("disabled_rules", [])
+            report = build_owasp_agentic_summary(
+                findings,
+                disabled_rules=disabled_rules,
+            )
+            output = (
+                json.dumps(report, indent=2)
+                if args.format == "json"
+                else render_owasp_agentic_console(
+                    findings,
+                    disabled_rules=disabled_rules,
+                )
             )
         else:
             if graph.adg is None:
@@ -409,6 +440,10 @@ def main(argv: list[str] | None = None) -> int:
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
                 "mcp_authority": effective_mcp_authority_report(graph),
+                "owasp_agentic": build_owasp_agentic_summary(
+                    findings,
+                    disabled_rules=disabled_rules,
+                ),
                 "configuration": {
                     "path": str(config.source_path) if config.source_path else None,
                     "repository": {"strict": config.strict},
