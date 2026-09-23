@@ -272,9 +272,11 @@ def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[
             caps.add("network.external")
             if leaf in {"post", "put", "patch", "delete"}:
                 caps.add("external.write")
-        if leaf in {"write", "update", "save", "insert", "create", "put"}:
-            if not _is_local_container_update(child, local_containers):
-                caps.add("data.write")
+        if (
+            leaf in {"write", "update", "save", "insert", "create", "put"}
+            and not _is_local_container_update(child, local_containers)
+        ):
+            caps.add("data.write")
         if leaf in {"read", "get", "search", "retrieve", "fetch", "query"}:
             caps.add("data.read")
         if "secretmanager" in called or "vault" in called or leaf in {"get_secret", "access_secret_version"}:
