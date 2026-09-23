@@ -109,6 +109,68 @@ def test_unmapped_cli_flow_is_proven_non_agent(tmp_path: Path) -> None:
     assert flow.agent_reachability is AgentReachability.PROVEN_NON_AGENT
 
 
+def test_main_guard_flow_is_proven_non_agent_cli(tmp_path: Path) -> None:
+    _write_observer_agent(tmp_path)
+    (tmp_path / "register.py").write_text(
+        """
+def register_oauth():
+    value = input("command: ")
+    return eval(value)
+
+if __name__ == "__main__":
+    register_oauth()
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    flow = next(
+        item
+        for item in graph.flow_paths
+        if item.source_kind == "user_input"
+    )
+
+    assert flow.execution_context is FlowExecutionContext.CLI
+    assert flow.agent_reachability is AgentReachability.PROVEN_NON_AGENT
+    assert flow.metadata["execution_context_basis"] == "python_main_guard"
+
+
+def test_project_script_export_flow_is_proven_non_agent_cli(tmp_path: Path) -> None:
+    _write_observer_agent(tmp_path)
+    package = tmp_path / "libs" / "code" / "deepagents_code"
+    package.mkdir(parents=True)
+    (package / "main.py").write_text(
+        """
+def cli_main():
+    value = input("command: ")
+    return eval(value)
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "libs" / "code" / "pyproject.toml").write_text(
+        """
+[project]
+name = "deepagents-code"
+version = "0.1.0"
+
+[project.scripts]
+deepagents-code = "deepagents_code:cli_main"
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    flow = next(
+        item
+        for item in graph.flow_paths
+        if item.source_kind == "user_input"
+    )
+
+    assert flow.execution_context is FlowExecutionContext.CLI
+    assert flow.agent_reachability is AgentReachability.PROVEN_NON_AGENT
+    assert flow.metadata["execution_context_basis"] == "project_script_entrypoint"
+
+
 def test_unmapped_runtime_flow_remains_unknown(tmp_path: Path) -> None:
     _write_observer_agent(tmp_path)
     _write_dangerous_flow(tmp_path / "worker.py")
