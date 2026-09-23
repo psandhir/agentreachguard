@@ -38,6 +38,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - **Google ADK Agent Config YAML** (`root_agent.yaml` and related agent configs).
 - OpenAI Agents SDK Python constructs, including v0.4 handoff normalization.
 - **Pydantic AI / Pydantic AI Harness — first-class static adapter** for agents, tools, toolsets, approvals, MCP and security-relevant capabilities.
+- **FastAgent — first-class static Python adapter** for decorator-defined agents, workflows, explicit function tools, shell authority and delegation.
 - LangGraph `StateGraph` / `MessageGraph` normalization, including hardened real-world graph discovery.
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
@@ -103,6 +104,7 @@ The v0.3 release (published as HorusTrace) performs repository-aware analysis of
 - Terraform GCP IAM bindings feeding Layer 3.
 
 See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface and limitations.
+See [`docs/fast-agent.md`](docs/fast-agent.md) for FastAgent coverage and limitations.
 
 ## Quick start
 
