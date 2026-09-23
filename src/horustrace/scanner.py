@@ -129,12 +129,18 @@ def _classify_source_context(path: Path | None) -> str:
     return "runtime"
 
 
-def _flow_function_paths(flow: FlowPath) -> list[Path]:
-    return [
-        step.location.path
-        for step in flow.steps
-        if step.kind == "function" and step.location is not None
-    ]
+def _flow_function_paths(flow: FlowPath, root: Path) -> list[Path]:
+    paths: list[Path] = []
+    for step in flow.steps:
+        if step.kind != "function" or step.location is None:
+            continue
+        path = step.location.path
+        try:
+            path = path.resolve().relative_to(root.resolve())
+        except ValueError:
+            pass
+        paths.append(path)
+    return paths
 
 
 def _looks_like_test_path(path: Path) -> bool:
@@ -146,11 +152,14 @@ def _looks_like_test_path(path: Path) -> bool:
     )
 
 
-def _classify_flow_execution_context(flow: FlowPath) -> FlowExecutionContext:
+def _classify_flow_execution_context(
+    flow: FlowPath,
+    root: Path,
+) -> FlowExecutionContext:
     if flow.agent is not None:
         return FlowExecutionContext.AGENT_TOOL
 
-    paths = _flow_function_paths(flow)
+    paths = _flow_function_paths(flow, root)
     if not paths:
         return FlowExecutionContext.UNKNOWN
 
@@ -230,9 +239,9 @@ def _flow_has_attribution_gap(flow: FlowPath) -> bool:
     )
 
 
-def _annotate_flow_semantics(graph: Graph) -> None:
+def _annotate_flow_semantics(graph: Graph, root: Path) -> None:
     for flow in graph.flow_paths:
-        flow.execution_context = _classify_flow_execution_context(flow)
+        flow.execution_context = _classify_flow_execution_context(flow, root)
         flow.agent_reachability = _classify_flow_agent_reachability(flow, graph)
 
 
@@ -931,7 +940,7 @@ def scan(
     analysis_root = root if root.is_dir() else root.parent
     graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
     _remap_flow_locations(graph, notebook_path_map)
-    _annotate_flow_semantics(graph)
+    _annotate_flow_semantics(graph, analysis_root)
     notebook_tempdir.cleanup()
 
     flow_execution_contexts = {
