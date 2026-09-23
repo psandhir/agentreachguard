@@ -7,6 +7,7 @@ Target repositories are never imported, installed, or executed.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import tempfile
 import time
@@ -100,7 +101,7 @@ def main() -> int:
                 shutil.rmtree(target, ignore_errors=True)
 
     report = {
-        "scanner_baseline": "3528845d343f3764544699081eff37e4cff9dbfd",
+        "scanner_baseline": os.getenv("HORUSTRACE_SCANNER_REF", "3528845d343f3764544699081eff37e4cff9dbfd"),
         "candidate_count": len(CANDIDATES),
         "positive_controls": [
             result for result in results
