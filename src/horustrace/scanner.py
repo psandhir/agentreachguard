@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import json
 import tempfile
+import tomllib
 from copy import deepcopy
 from pathlib import Path
 
@@ -143,6 +144,122 @@ def _flow_function_paths(flow: FlowPath, root: Path) -> list[Path]:
     return paths
 
 
+def _module_name_for_path(path: Path, root: Path) -> str:
+    try:
+        relative = path.resolve().relative_to(root.resolve()).with_suffix("")
+    except ValueError:
+        relative = Path(path.stem)
+    parts = list(relative.parts)
+    if parts and parts[-1] == "__init__":
+        parts.pop()
+    return ".".join(parts)
+
+
+def _is_main_guard(node: ast.If) -> bool:
+    test = node.test
+    if not isinstance(test, ast.Compare) or len(test.ops) != 1 or len(test.comparators) != 1:
+        return False
+    if not isinstance(test.ops[0], ast.Eq):
+        return False
+    left, right = test.left, test.comparators[0]
+
+    def _name(value: ast.AST) -> bool:
+        return isinstance(value, ast.Name) and value.id == "__name__"
+
+    def _main(value: ast.AST) -> bool:
+        return isinstance(value, ast.Constant) and value.value == "__main__"
+
+    return (_name(left) and _main(right)) or (_main(left) and _name(right))
+
+
+def _collect_main_guard_entrypoints(root: Path, python_paths: list[Path]) -> set[str]:
+    entrypoints: set[str] = set()
+    for path in python_paths:
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        except (OSError, UnicodeDecodeError, SyntaxError):
+            continue
+        local_functions = {
+            node.name
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        if not local_functions:
+            continue
+        module = _module_name_for_path(path, root)
+        for node in tree.body:
+            if not isinstance(node, ast.If) or not _is_main_guard(node):
+                continue
+            for descendant in ast.walk(node):
+                if (
+                    isinstance(descendant, ast.Call)
+                    and isinstance(descendant.func, ast.Name)
+                    and descendant.func.id in local_functions
+                ):
+                    name = descendant.func.id
+                    entrypoints.add(f"{module}.{name}" if module else name)
+    return entrypoints
+
+
+def _collect_project_script_entrypoints(
+    root: Path,
+    candidates: list[Path],
+) -> set[tuple[str, str]]:
+    entrypoints: set[tuple[str, str]] = set()
+    for path in candidates:
+        if path.name != "pyproject.toml":
+            continue
+        try:
+            if not is_within_root(path, canonical_root(root)):
+                continue
+            if path.stat().st_size > MAX_FILE_SIZE_BYTES:
+                continue
+            document = tomllib.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, tomllib.TOMLDecodeError):
+            continue
+        project = document.get("project")
+        if not isinstance(project, dict):
+            continue
+        for section in ("scripts", "gui-scripts"):
+            scripts = project.get(section)
+            if not isinstance(scripts, dict):
+                continue
+            for target in scripts.values():
+                if not isinstance(target, str) or ":" not in target:
+                    continue
+                module, function = (part.strip() for part in target.split(":", 1))
+                function = function.split()[0]
+                if (
+                    module
+                    and function
+                    and all(part.isidentifier() for part in module.split("."))
+                    and function.isidentifier()
+                ):
+                    entrypoints.add((module, function))
+    return entrypoints
+
+
+def _matches_project_script_entrypoint(
+    function_key: str,
+    entrypoints: set[tuple[str, str]],
+) -> bool:
+    for module, function in entrypoints:
+        exact = f"{module}.{function}"
+        if function_key == exact or function_key.endswith(f".{exact}"):
+            return True
+        # A package-level script target may lazily re-export a CLI-named function
+        # from a submodule. Keep this fallback deliberately narrow to avoid treating
+        # generic main functions anywhere in the package as proven CLI entrypoints.
+        if (
+            "." not in module
+            and "cli" in function.lower()
+            and function_key.endswith(f".{function}")
+            and f".{module}." in f".{function_key}"
+        ):
+            return True
+    return False
+
+
 def _looks_like_test_path(path: Path) -> bool:
     name = path.name.lower()
     return (
@@ -155,6 +272,8 @@ def _looks_like_test_path(path: Path) -> bool:
 def _classify_flow_execution_context(
     flow: FlowPath,
     root: Path,
+    main_guard_entrypoints: set[str],
+    project_script_entrypoints: set[tuple[str, str]],
 ) -> FlowExecutionContext:
     if flow.agent is not None:
         return FlowExecutionContext.AGENT_TOOL
@@ -176,6 +295,21 @@ def _classify_flow_execution_context(
     for source_context, execution_context in source_mapping.items():
         if source_context in source_contexts:
             return execution_context
+
+    call_chain = flow.metadata.get("call_chain")
+    if isinstance(call_chain, list):
+        for function_key in call_chain:
+            if not isinstance(function_key, str):
+                continue
+            if function_key in main_guard_entrypoints:
+                flow.metadata["execution_context_basis"] = "python_main_guard"
+                return FlowExecutionContext.CLI
+            if _matches_project_script_entrypoint(
+                function_key,
+                project_script_entrypoints,
+            ):
+                flow.metadata["execution_context_basis"] = "project_script_entrypoint"
+                return FlowExecutionContext.CLI
 
     for path in paths:
         lowered_parts = {part.lower() for part in path.parts}
@@ -239,9 +373,19 @@ def _flow_has_attribution_gap(flow: FlowPath) -> bool:
     )
 
 
-def _annotate_flow_semantics(graph: Graph, root: Path) -> None:
+def _annotate_flow_semantics(
+    graph: Graph,
+    root: Path,
+    main_guard_entrypoints: set[str],
+    project_script_entrypoints: set[tuple[str, str]],
+) -> None:
     for flow in graph.flow_paths:
-        flow.execution_context = _classify_flow_execution_context(flow, root)
+        flow.execution_context = _classify_flow_execution_context(
+            flow,
+            root,
+            main_guard_entrypoints,
+            project_script_entrypoints,
+        )
         flow.agent_reachability = _classify_flow_agent_reachability(flow, graph)
 
 
@@ -940,7 +1084,20 @@ def scan(
     analysis_root = root if root.is_dir() else root.parent
     graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
     _remap_flow_locations(graph, notebook_path_map)
-    _annotate_flow_semantics(graph, analysis_root)
+    main_guard_entrypoints = _collect_main_guard_entrypoints(
+        analysis_root,
+        approved_python_paths,
+    )
+    project_script_entrypoints = _collect_project_script_entrypoints(
+        analysis_root,
+        candidates,
+    )
+    _annotate_flow_semantics(
+        graph,
+        analysis_root,
+        main_guard_entrypoints,
+        project_script_entrypoints,
+    )
     notebook_tempdir.cleanup()
 
     flow_execution_contexts = {
