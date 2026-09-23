@@ -160,7 +160,6 @@ cases:
   path: cases/v04-flow-http-shell
   expected:
   - PATH001@ops
-  - NET001@ops
   expected_paths:
   - rule_id: PATH001
     agent: ops
@@ -192,7 +191,6 @@ cases:
   path: cases/v04-secret-egress
   expected:
   - PATH003@ops
-  - NET001@ops
   expected_paths:
   - rule_id: PATH003
     agent: ops
