@@ -144,10 +144,14 @@ def test_gcp_iam_enrichment_is_exact_deduped_and_condition_aware(
     assert {
         fact.fact for fact in identity.provenance
     } == {
-        "gcp_iam_role=roles/owner@"
-        "//cloudresourcemanager.googleapis.com/projects/example",
-        "gcp_iam_conditional_role=roles/storage.admin@"
-        "//storage.googleapis.com/example-sensitive",
+        (
+            "gcp_iam_role=roles/owner@"
+            "//cloudresourcemanager.googleapis.com/projects/example"
+        ),
+        (
+            "gcp_iam_conditional_role=roles/storage.admin@"
+            "//storage.googleapis.com/example-sensitive"
+        ),
     }
 
 
