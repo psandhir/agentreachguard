@@ -6,6 +6,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -241,7 +242,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(json.dumps(values, sort_keys=True))
     except GitHubActionError as exc:
-        print(f"horustrace-action: {exc}", file=os.sys.stderr)
+        print(f"horustrace-action: {exc}", file=sys.stderr)
         return 1
     return 0
 
