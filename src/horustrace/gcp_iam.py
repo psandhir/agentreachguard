@@ -24,12 +24,14 @@ class GcpIamGrant:
     resource: str
     asset_type: str | None = None
     conditional: bool = False
+    ancestors: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
 class GcpIamSnapshot:
     grants: tuple[GcpIamGrant, ...]
     result_count: int
+    source_format: str
 
     @property
     def service_account_principals(self) -> set[str]:
@@ -57,18 +59,7 @@ def _canonical_service_account(value: str) -> str | None:
     return lowered
 
 
-def _records(raw: Any) -> list[dict[str, Any]]:
-    if isinstance(raw, list):
-        records = raw
-    elif isinstance(raw, dict) and isinstance(raw.get("results"), list):
-        records = raw["results"]
-    elif isinstance(raw, dict) and "resource" in raw and "policy" in raw:
-        records = [raw]
-    else:
-        raise GcpIamSnapshotError(
-            "GCP IAM snapshot must be a gcloud JSON list, REST results object, or single result"
-        )
-
+def _bounded_records(records: list[Any]) -> list[dict[str, Any]]:
     if len(records) > MAX_GCP_IAM_RESULTS:
         raise GcpIamSnapshotError(
             f"GCP IAM snapshot exceeds the {MAX_GCP_IAM_RESULTS}-result safety limit"
@@ -76,6 +67,97 @@ def _records(raw: Any) -> list[dict[str, Any]]:
     if any(not isinstance(record, dict) for record in records):
         raise GcpIamSnapshotError("GCP IAM snapshot results must be JSON objects")
     return records
+
+
+def _asset_record(record: dict[str, Any], index: int) -> dict[str, Any]:
+    name = record.get("name")
+    if not isinstance(name, str) or not name.strip():
+        raise GcpIamSnapshotError(
+            f"GCP IAM export asset[{index}].name must be a nonempty string"
+        )
+    policy = record.get("iamPolicy")
+    if not isinstance(policy, dict):
+        raise GcpIamSnapshotError(
+            f"GCP IAM export asset[{index}].iamPolicy must be an object"
+        )
+    ancestors = record.get("ancestors", [])
+    if not isinstance(ancestors, list) or any(
+        not isinstance(item, str) for item in ancestors
+    ):
+        raise GcpIamSnapshotError(
+            f"GCP IAM export asset[{index}].ancestors must be a list of strings"
+        )
+    return {
+        "resource": name,
+        "assetType": record.get("assetType"),
+        "policy": policy,
+        "_ancestors": list(ancestors),
+    }
+
+
+def _records(raw: Any) -> tuple[list[dict[str, Any]], str]:
+    if isinstance(raw, dict) and isinstance(raw.get("results"), list):
+        return _bounded_records(raw["results"]), "search_all_iam_policies_json"
+
+    if isinstance(raw, dict) and "resource" in raw and "policy" in raw:
+        return [raw], "search_all_iam_policies_json"
+
+    if isinstance(raw, dict) and "name" in raw and "iamPolicy" in raw:
+        return [_asset_record(raw, 0)], "export_assets_iam_policy"
+
+    if isinstance(raw, list):
+        records = _bounded_records(raw)
+        if not records:
+            return records, "search_all_iam_policies_json"
+        search_shape = all("resource" in item and "policy" in item for item in records)
+        asset_shape = all("name" in item and "iamPolicy" in item for item in records)
+        if search_shape:
+            return records, "search_all_iam_policies_json"
+        if asset_shape:
+            return [
+                _asset_record(record, index)
+                for index, record in enumerate(records)
+            ], "export_assets_iam_policy"
+
+    raise GcpIamSnapshotError(
+        "GCP IAM snapshot must be search-all-iam-policies JSON or "
+        "exportAssets IAM_POLICY Asset JSON"
+    )
+
+
+def _parse_snapshot_text(text: str, path: Path) -> tuple[list[dict[str, Any]], str]:
+    try:
+        raw = json.loads(text)
+    except json.JSONDecodeError:
+        records: list[dict[str, Any]] = []
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if not line.strip():
+                continue
+            if len(records) >= MAX_GCP_IAM_RESULTS:
+                raise GcpIamSnapshotError(
+                    f"{path}: GCP IAM snapshot exceeds the "
+                    f"{MAX_GCP_IAM_RESULTS}-result safety limit"
+                )
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise GcpIamSnapshotError(
+                    f"{path}: line {line_number} is not valid JSON"
+                ) from exc
+            if not isinstance(item, dict):
+                raise GcpIamSnapshotError(
+                    f"{path}: line {line_number} must be a JSON object"
+                )
+            records.append(item)
+        if not records:
+            raise GcpIamSnapshotError(f"{path}: GCP IAM snapshot is empty")
+        normalized, source_format = _records(records)
+        if source_format != "export_assets_iam_policy":
+            raise GcpIamSnapshotError(
+                f"{path}: newline-delimited input must contain exportAssets IAM_POLICY assets"
+            )
+        return normalized, "export_assets_iam_policy_ndjson"
+    return _records(raw)
 
 
 def load_gcp_iam_snapshot(path: Path) -> GcpIamSnapshot:
@@ -90,11 +172,11 @@ def load_gcp_iam_snapshot(path: Path) -> GcpIamSnapshot:
         )
 
     try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise GcpIamSnapshotError(f"{path}: GCP IAM snapshot is not valid JSON") from exc
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise GcpIamSnapshotError(f"{path}: cannot read GCP IAM snapshot") from exc
 
-    records = _records(raw)
+    records, source_format = _parse_snapshot_text(text, path)
     grants: set[GcpIamGrant] = set()
 
     for index, record in enumerate(records):
@@ -108,6 +190,14 @@ def load_gcp_iam_snapshot(path: Path) -> GcpIamSnapshot:
             raise GcpIamSnapshotError(
                 f"{path}: result[{index}].assetType must be a string"
             )
+        ancestors_raw = record.get("_ancestors", [])
+        if not isinstance(ancestors_raw, list) or any(
+            not isinstance(item, str) for item in ancestors_raw
+        ):
+            raise GcpIamSnapshotError(
+                f"{path}: result[{index}].ancestors must be a list of strings"
+            )
+        ancestors = tuple(ancestors_raw)
 
         policy = record.get("policy")
         if not isinstance(policy, dict):
@@ -158,6 +248,7 @@ def load_gcp_iam_snapshot(path: Path) -> GcpIamSnapshot:
                         resource=resource.strip(),
                         asset_type=asset_type.strip() if asset_type else None,
                         conditional=condition is not None,
+                        ancestors=ancestors,
                     )
                 )
                 if len(grants) > MAX_GCP_IAM_GRANTS:
@@ -176,10 +267,12 @@ def load_gcp_iam_snapshot(path: Path) -> GcpIamSnapshot:
                     item.role,
                     item.asset_type or "",
                     item.conditional,
+                    item.ancestors,
                 ),
             )
         ),
         result_count=len(records),
+        source_format=source_format,
     )
 
 
@@ -190,12 +283,15 @@ def _identity_principal(identity: Identity) -> str | None:
 
 
 def _grant_record(grant: GcpIamGrant) -> dict[str, Any]:
-    return {
+    record: dict[str, Any] = {
         "role": grant.role,
         "resource": grant.resource,
         "asset_type": grant.asset_type,
         "conditional": grant.conditional,
     }
+    if grant.ancestors:
+        record["ancestors"] = list(grant.ancestors)
+    return record
 
 
 def enrich_gcp_iam_snapshot(graph: Graph, path: Path) -> dict[str, Any]:
@@ -296,6 +392,7 @@ def enrich_gcp_iam_snapshot(graph: Graph, path: Path) -> dict[str, Any]:
     unmatched = snapshot.service_account_principals - matched_principals
     return {
         "source": path.name,
+        "source_format": snapshot.source_format,
         "results": snapshot.result_count,
         "service_account_principals": len(snapshot.service_account_principals),
         "grants": len(snapshot.grants),
