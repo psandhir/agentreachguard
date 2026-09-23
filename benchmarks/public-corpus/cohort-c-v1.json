@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-public-corpus-cohort-c",
+  "frozen_at": "2026-09-22",
+  "baseline_scanner": "horustrace==0.4.1",
+  "selection": {
+    "total": 30,
+    "application_repositories": 24,
+    "framework_stress_repositories": 6,
+    "criteria": [
+      "public and non-archived at freeze time",
+      "Python repository with code-level evidence of the target framework or MCP implementation",
+      "no overlap with Cohort A or Cohort B",
+      "selected and frozen before HorusTrace findings were reviewed",
+      "balanced across Google ADK, OpenAI Agents SDK, LangGraph, and MCP/mixed",
+      "biased toward production-style and integration-heavy repositories over tutorial-only examples"
+    ]
+  },
+  "repositories": [
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "theailifestyle/google-adk-demos",
+      "branch": "main",
+      "sha": "d77adfb1c3194736ac3445c1e25d13421f5967b7"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "raphaelmansuy/adk_training",
+      "branch": "main",
+      "sha": "5a5b22aa95bc676db41e2b265d730bb85e9d7bf5"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "arjunprabhulal/adk-mcp-gemma3",
+      "branch": "main",
+      "sha": "e487feaffeb9b53d49733af985a88a1924781e5f"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "trendmicro/adk-agui-middleware",
+      "branch": "main",
+      "sha": "7165400b9ea2374a784e8824da341e033c2973e4"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "redis-developer/adk-redis",
+      "branch": "main",
+      "sha": "1155c66c60bf6193c1f056ebc704aff4bdb7c264"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "sondera-ai/trustworthy-adk",
+      "branch": "main",
+      "sha": "f010ad416087252700863e8f62304b5224811606"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "kweinmeister/text-to-sql-agent",
+      "branch": "main",
+      "sha": "be608b3d206206f243776c826bbe91f7da136bb8"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "danishi/slack-bot-adk-python-cloudrun",
+      "branch": "main",
+      "sha": "bf0b75993d9c64ab2748ba509564a8e8f80932ec"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "Lling0000/OpenCMO",
+      "branch": "main",
+      "sha": "a341b6c9c1886c3a32c3ee39af48144c2722a800"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "tegnike/openai-agents-sdk-mcp",
+      "branch": "main",
+      "sha": "0351a6a424b7f9b9dbe9a477963ded5f62aaacb5"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "rafaelpierre/openai-agents-redis",
+      "branch": "main",
+      "sha": "376603a43c315193bde51d76c877cdd6113650e4"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "ArcadeAI/openai-agents-arcade",
+      "branch": "main",
+      "sha": "d5b553e6d7d7829f49b7890b32339421b011a64c"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "dbos-inc/dbos-openai-agents",
+      "branch": "main",
+      "sha": "536714e974749f02df1bfeca26b98354fb5681f7"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "andrewm4894/github-standup-agent",
+      "branch": "main",
+      "sha": "cf2ff06f96409e9515580d5ea4d6c94774b12436"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "hellotinah/financial_agent",
+      "branch": "main",
+      "sha": "126c15ceb7644269610edd37d11f66daa5828122"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "khaoss85/AI-Team-Orchestrator",
+      "branch": "main",
+      "sha": "cbdd9d9f87da97f8ce07346f5edf1dced55f1232"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "bytedance/deer-flow",
+      "branch": "main",
+      "sha": "c9043c2574daae8a9e5553150befd82ba4288746"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "langchain-ai/retrieval-agent-template",
+      "branch": "main",
+      "sha": "df6e00b7df35da54edf422836660bc2851a99c07"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "langchain-ai/langgraph-cua-py",
+      "branch": "main",
+      "sha": "75d38edccea3971b8408b89482966629a5da9679"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "aws-samples/sample-agentic-platform",
+      "branch": "main",
+      "sha": "3013ce28c58c3a6242a8fc8bcfcfc133a4e3f82e"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "braincrew-lab/langgraph-dynamic-mcp-agents",
+      "branch": "master",
+      "sha": "8f08e45b864458c899ec3717e8843fc55b7b2973"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "vstorm-co/full-stack-ai-agent-template",
+      "branch": "main",
+      "sha": "3428d9a6214619d3514312886d59a36400747b7d"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "pamelafox/issue-triager-agent",
+      "branch": "main",
+      "sha": "64d94249a94cfc2eefb5d52c0a954a936bc6b421"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "santosomar/AI-agents-for-cybersecurity",
+      "branch": "main",
+      "sha": "70b80e04b167f8ec1def309146eee69740aed83e"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "mozilla-ai/any-agent",
+      "branch": "main",
+      "sha": "a469723ac4a0518ab0696d57e09e4dc407c826ec"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "Klavis-AI/klavis",
+      "branch": "main",
+      "sha": "45c9f7da83d1cf43f7429b96f9c8e8153542ea1e"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "redis/mcp-redis",
+      "branch": "main",
+      "sha": "813ba95dbbdd670445f331049333b40294de64ef"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "CrowdStrike/falcon-mcp",
+      "branch": "main",
+      "sha": "9bc0efeb92e38ca0667e5a18847a7cbf09dcd206"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "microsoft/agentic-factory-hack",
+      "branch": "main",
+      "sha": "26b906d3e2e3f073ced52bd15ee2ae6c150625fe"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "cuga-project/cuga-agent",
+      "branch": "main",
+      "sha": "b3bdcaee74aaf7a53d3fb621b781d305fb714f5d"
+    }
+  ]
+}

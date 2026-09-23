@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-frozen-90",
+  "frozen_at": "2026-09-22",
+  "run_date": "2026-09-23",
+  "scanner_commit": "69e7da8bf219520fd289f82606500fcbc4c19897",
+  "comparison_baseline": {
+    "scanner_stage": "post-PR59 frozen validation",
+    "repositories": 90,
+    "scanned": 90,
+    "complete": 39,
+    "incomplete": 51,
+    "clone_failures": 0,
+    "scan_errors": 0,
+    "scan_timeouts": 0,
+    "agents": 1862,
+    "tools": 3272,
+    "mcp_servers": 556,
+    "identities": 74,
+    "flows": 213,
+    "proven_agent_reachable_flows": 6,
+    "proven_non_agent_flows": 108,
+    "unknown_agent_reachability_flows": 99,
+    "attack_paths": 25,
+    "static_dataflow_attack_paths": 2,
+    "bound_mcp_references": 56,
+    "unbound_mcp_references": 500,
+    "findings": 844,
+    "severities": {
+      "critical": 18,
+      "high": 145,
+      "medium": 681
+    }
+  },
+  "post61_baseline": {
+    "repositories": 90,
+    "scanned": 90,
+    "complete": 39,
+    "incomplete": 51,
+    "clone_failures": 0,
+    "scan_errors": 0,
+    "scan_timeouts": 0,
+    "agents": 2076,
+    "tools": 3413,
+    "mcp_servers": 556,
+    "identities": 74,
+    "flows": 213,
+    "proven_agent_reachable_flows": 6,
+    "proven_non_agent_flows": 175,
+    "unknown_agent_reachability_flows": 32,
+    "attack_paths": 25,
+    "static_dataflow_attack_paths": 2,
+    "bound_mcp_references": 57,
+    "unbound_mcp_references": 499,
+    "findings": 890,
+    "severities": {
+      "critical": 18,
+      "high": 156,
+      "medium": 716
+    },
+    "finding_source_contexts": {
+      "example": 374,
+      "test": 242,
+      "runtime": 85,
+      "notebook": 108,
+      "tutorial": 81
+    }
+  },
+  "delta": {
+    "agents": 214,
+    "tools": 141,
+    "flows": 0,
+    "proven_agent_reachable_flows": 0,
+    "proven_non_agent_flows": 67,
+    "unknown_agent_reachability_flows": -67,
+    "static_dataflow_attack_paths": 0,
+    "bound_mcp_references": 1,
+    "unbound_mcp_references": -1,
+    "findings": 46,
+    "critical": 0,
+    "high": 11,
+    "medium": 35
+  },
+  "cohort_post61": {
+    "a": {
+      "agents": 1571,
+      "tools": 2365,
+      "mcp_servers": 335,
+      "flows": 194,
+      "proven_agent_reachable_flows": 2,
+      "proven_non_agent_flows": 164,
+      "unknown_agent_reachability_flows": 28,
+      "static_dataflow_attack_paths": 2,
+      "bound_mcp_references": 44,
+      "unbound_mcp_references": 291,
+      "findings": 705,
+      "severities": {
+        "critical": 16,
+        "high": 122,
+        "medium": 567
+      }
+    },
+    "b": {
+      "agents": 138,
+      "tools": 197,
+      "mcp_servers": 51,
+      "flows": 6,
+      "proven_agent_reachable_flows": 4,
+      "proven_non_agent_flows": 2,
+      "unknown_agent_reachability_flows": 0,
+      "static_dataflow_attack_paths": 0,
+      "bound_mcp_references": 2,
+      "unbound_mcp_references": 49,
+      "findings": 41,
+      "severities": {
+        "high": 9,
+        "medium": 32
+      }
+    },
+    "c": {
+      "agents": 367,
+      "tools": 851,
+      "mcp_servers": 170,
+      "flows": 13,
+      "proven_agent_reachable_flows": 0,
+      "proven_non_agent_flows": 9,
+      "unknown_agent_reachability_flows": 4,
+      "static_dataflow_attack_paths": 0,
+      "bound_mcp_references": 11,
+      "unbound_mcp_references": 159,
+      "findings": 144,
+      "severities": {
+        "critical": 2,
+        "high": 25,
+        "medium": 117
+      }
+    }
+  },
+  "notable_repository_deltas": [
+    {
+      "repo": "bytedance/deer-flow",
+      "agents_delta": 82,
+      "tools_delta": 65,
+      "findings_delta": 37,
+      "note": "37 newly visible findings are dominated by tests plus a manual integration/support script."
+    },
+    {
+      "repo": "langchain-ai/deepagents",
+      "agents_delta": 97,
+      "tools_delta": 20,
+      "findings_delta": 4,
+      "note": "All four newly visible findings are in unit tests."
+    },
+    {
+      "repo": "langchain-ai/langgraph-swarm-py",
+      "agents_delta": 12,
+      "tools_delta": 22,
+      "findings_delta": 4,
+      "note": "All four newly visible findings are in examples/notebooks."
+    },
+    {
+      "repo": "pamelafox/issue-triager-agent",
+      "agents_delta": 1,
+      "tools_delta": 7,
+      "findings_delta": 1,
+      "note": "One runtime NET002 finding became visible."
+    },
+    {
+      "repo": "santosomar/AI-agents-for-cybersecurity",
+      "agents_delta": 1,
+      "findings_delta": 0,
+      "bound_mcp_delta": 1,
+      "unbound_mcp_delta": -1,
+      "note": "Expected PR60 LangChain create_agent MCP authority binding."
+    }
+  ]
+}
