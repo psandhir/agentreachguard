@@ -2,18 +2,36 @@ import json
 from pathlib import Path
 
 from horustrace.cli import main
-from horustrace.scanner import _classify_source_context
+from horustrace.source_context import (
+    classify_source_context,
+    is_non_runtime_source_context,
+)
 
 
 def test_source_context_classification() -> None:
-    assert _classify_source_context(Path("src/app/agent.py")) == "runtime"
-    assert _classify_source_context(Path("backend/tests/test_agent.py")) == "test"
-    assert _classify_source_context(Path("examples/demo_agent.py")) == "example"
-    assert _classify_source_context(Path("adk_training/lesson_01/agent.py")) == "tutorial"
-    assert _classify_source_context(Path("notebooks/risky.ipynb")) == "notebook"
-    assert _classify_source_context(Path("templates/agent.py")) == "template-generated"
-    assert _classify_source_context(None) == "unknown"
+    assert classify_source_context(Path("src/app/agent.py")) == "runtime"
+    assert classify_source_context(Path("src/cli.py")) == "cli"
+    assert (
+        classify_source_context(
+            Path("backend/scripts/manual_task_continuity_check.py")
+        )
+        == "application-support"
+    )
+    assert classify_source_context(Path("backend/tests/test_agent.py")) == "test"
+    assert classify_source_context(Path("examples/demo_agent.py")) == "example"
+    assert classify_source_context(Path("adk_training/lesson_01/agent.py")) == "tutorial"
+    assert classify_source_context(Path("notebooks/risky.ipynb")) == "notebook"
+    assert classify_source_context(Path("templates/agent.py")) == "template-generated"
+    assert classify_source_context(None) == "unknown"
 
+
+def test_non_runtime_source_contexts_include_operational_support() -> None:
+    assert is_non_runtime_source_context("cli")
+    assert is_non_runtime_source_context("application-support")
+    assert is_non_runtime_source_context("test")
+    assert is_non_runtime_source_context("example")
+    assert not is_non_runtime_source_context("runtime")
+    assert not is_non_runtime_source_context("unknown")
 
 
 def test_cli_excludes_findings_by_source_role_without_hiding_coverage(

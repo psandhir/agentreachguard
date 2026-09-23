@@ -359,11 +359,29 @@ Use it as a PR gate:
 horustrace diff origin/main..HEAD --strict --fail-on high
 ```
 
+For a GitHub-friendly security summary, render Markdown:
+
+```bash
+horustrace diff origin/main..HEAD \
+  --format markdown \
+  --fail-on high \
+  --output horustrace-diff.md
+cat horustrace-diff.md >> "$GITHUB_STEP_SUMMARY"
+```
+
+Change analysis classifies both findings and authority changes by source context:
+`runtime`, `cli`, `application-support`, `test`, `example`, `tutorial`,
+`notebook`, `template-generated`, or `unknown`. Markdown output presents
+runtime/unknown changes separately from non-runtime test, example, tutorial, CLI and
+support changes so a PR does not make test harness authority look like deployed agent
+authority.
+
 Exit code `2` is returned only for a newly introduced finding at or above the
 threshold, or an existing finding that worsened to that threshold. Historical
-unchanged findings do not fail the diff gate. Exit code `1` is reserved for
-analysis/configuration errors and, with `--strict`, incomplete analysis on either
-revision.
+unchanged findings do not fail the diff gate. Source-context grouping does **not**
+weaken this gate: `--fail-on` still evaluates all introduced and worsened findings.
+Exit code `1` is reserved for analysis/configuration errors and, with `--strict`,
+incomplete analysis on either revision.
 
 Diff analysis resolves each revision to an immutable commit and materializes regular
 files from `git archive` into isolated temporary directories. It does not import

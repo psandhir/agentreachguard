@@ -15,6 +15,7 @@ from horustrace.benchmark import render_json as render_benchmark_json
 from horustrace.benchmark import run as run_benchmark
 from horustrace.change_analysis import build_git_diff
 from horustrace.change_analysis import render_console as render_diff_console
+from horustrace.change_analysis import render_markdown as render_diff_markdown
 from horustrace.config import ConfigError, load_config
 from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
@@ -24,17 +25,8 @@ from horustrace.reporters.console import render as render_console
 from horustrace.reporters.sarif import render as render_sarif
 from horustrace.rule_registry import iter_rule_metadata
 from horustrace.scanner import ScannerError, scan
+from horustrace.source_context import SOURCE_CONTEXTS
 from horustrace.suppressions import SuppressionError, write_baseline
-
-SOURCE_CONTEXTS = (
-    "runtime",
-    "test",
-    "example",
-    "tutorial",
-    "notebook",
-    "template-generated",
-    "unknown",
-)
 
 
 def _parse_excluded_source_contexts(values: list[str]) -> set[str]:
@@ -129,7 +121,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     diff_parser.add_argument(
         "--format",
-        choices=["console", "json"],
+        choices=["console", "json", "markdown"],
         default="console",
     )
     diff_parser.add_argument("--output", type=Path)
@@ -242,11 +234,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"horustrace: {exc}", file=sys.stderr)
             return 1
 
-        output = (
-            json.dumps(report, indent=2)
-            if args.format == "json"
-            else render_diff_console(report)
-        )
+        if args.format == "json":
+            output = json.dumps(report, indent=2)
+        elif args.format == "markdown":
+            output = render_diff_markdown(report)
+        else:
+            output = render_diff_console(report)
         if args.output:
             args.output.write_text(output + "\n", encoding="utf-8")
         else:
