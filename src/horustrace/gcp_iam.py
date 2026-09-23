@@ -207,7 +207,7 @@ def enrich_gcp_iam_snapshot(graph: Graph, path: Path) -> dict[str, Any]:
 
     matched_principals: set[str] = set()
     seen_objects: set[int] = set()
-    location = SourceLocation(path=path)
+    location = SourceLocation(path=Path(path.name))
 
     for identity in graph.all_identities():
         if id(identity) in seen_objects:
