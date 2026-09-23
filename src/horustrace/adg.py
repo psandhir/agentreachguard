@@ -231,8 +231,16 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 "permissions": sorted(identity.permissions),
                 "oauth_scopes": sorted(identity.oauth_scopes),
                 "credential_source": identity.credential_source,
-                "resource_scope": identity.resource_scope,
-                "resource_scopes": identity.metadata.get("gcp_iam_resources") or None,
+                "resource_scope": (
+                    identity.resource_scope
+                    if identity.metadata.get("gcp_iam_snapshot")
+                    else None
+                ),
+                "resource_scopes": (
+                    identity.metadata.get("gcp_iam_resources") or None
+                    if identity.metadata.get("gcp_iam_snapshot")
+                    else None
+                ),
                 "authority_source": (
                     "gcp_iam_snapshot"
                     if identity.metadata.get("gcp_iam_snapshot")
