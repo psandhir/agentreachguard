@@ -143,6 +143,11 @@ async def main():
     assert [agent.name for agent in graph.agents] == ["worker"]
     assert [tool.name for tool in graph.unbound_tools] == ["lookup_record"]
     assert graph.unbound_tools[0].metadata["source"] == "global_tool_decorator"
+    assert any(
+        diagnostic.kind == "unresolved_tool"
+        and diagnostic.details.get("construct") == "global_tool"
+        for diagnostic in graph.coverage.diagnostics
+    )
 
 
 def test_fast_agent_router_normalizes_agent_targets_and_mcp_filters(
@@ -176,6 +181,11 @@ async def main():
     assert router.metadata["mcp_tool_filters"] == {
         "filesystem": ["read_file"],
     }
+    assert any(
+        diagnostic.kind == "unsupported_security_construct"
+        and diagnostic.details.get("construct") == "mcp_server_reference"
+        for diagnostic in graph.coverage.diagnostics
+    )
 
 
 def test_fast_agent_import_without_application_is_not_detected(
@@ -190,3 +200,29 @@ def test_fast_agent_import_without_application_is_not_detected(
 
     assert graph.agents == []
     assert findings == []
+
+
+def test_fast_agent_dynamic_server_refs_are_explicitly_incomplete(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("Dynamic")
+servers = load_server_names()
+
+@fast.agent(name="worker", servers=servers)
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    assert any(
+        diagnostic.kind == "dynamic_configuration"
+        and diagnostic.details.get("construct") == "mcp_server_reference"
+        for diagnostic in graph.coverage.diagnostics
+    )

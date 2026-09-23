@@ -422,6 +422,26 @@ def scan_python_file(path: Path) -> Graph:
                         source="global_tool_decorator",
                     )
                 )
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "unresolved_tool",
+                        (
+                            "FastAgent global tool reachability depends on runtime "
+                            "defaults or per-agent function_tools and was not bound."
+                        ),
+                        _location(path, decorator),
+                        details={
+                            "framework": "fast-agent",
+                            "construct": "global_tool",
+                            "tool": (
+                                str(tool_name)
+                                if isinstance(tool_name, str)
+                                else function.name
+                            ),
+                        },
+                    ),
+                )
                 continue
             if method == "tool" and receiver:
                 tool_name = _literal(_kw(call, "name")) if call is not None else None
@@ -472,8 +492,37 @@ def scan_python_file(path: Path) -> Graph:
                 metadata["delegates_to"] = delegates_to
             if servers:
                 metadata["mcp_server_refs"] = servers
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "unsupported_security_construct",
+                        (
+                            "FastAgent MCP server references were discovered, but "
+                            "endpoint, transport and authentication authority require "
+                            "FastAgent configuration or AgentCard resolution."
+                        ),
+                        _location(path, decorator),
+                        details={
+                            "framework": "fast-agent",
+                            "construct": "mcp_server_reference",
+                            "server_refs": list(servers),
+                        },
+                    ),
+                )
             if dynamic_servers:
                 metadata["dynamic_mcp_servers"] = True
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "dynamic_configuration",
+                        "FastAgent MCP server references could not be statically resolved.",
+                        _location(path, decorator),
+                        details={
+                            "framework": "fast-agent",
+                            "construct": "mcp_server_reference",
+                        },
+                    ),
+                )
             if call is not None:
                 for key, metadata_key in (
                     ("tools", "mcp_tool_filters"),
