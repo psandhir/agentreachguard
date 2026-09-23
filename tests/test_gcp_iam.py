@@ -286,6 +286,7 @@ def test_graph_cli_accepts_gcp_iam_export(tmp_path: Path, capsys) -> None:
     assert identity["attributes"]["roles"] == ["roles/owner"]
     assert len(identity["attributes"]["gcp_iam_bindings"]) == 2
 
+
 def test_conditional_admin_binding_does_not_become_unconditional_role(
     tmp_path: Path,
 ) -> None:
