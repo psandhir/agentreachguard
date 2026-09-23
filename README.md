@@ -338,6 +338,44 @@ agents:
 
 This enables least-privilege comparison between **required** and **effective** capabilities and lets Layers 4–5 reason about data and network paths.
 
+## Change-aware Git analysis
+
+Compare two committed Git revisions without checking out or executing target code:
+
+```bash
+horustrace diff origin/main..HEAD
+```
+
+The diff reports:
+
+- newly introduced and resolved findings using stable `arg-v1` fingerprints;
+- existing findings whose security semantics changed, including severity escalations;
+- added, removed and semantically changed Agent Dependency Graph nodes;
+- added and removed authority edges such as invocation, delegation, identity, data and network relationships.
+
+Use it as a PR gate:
+
+```bash
+horustrace diff origin/main..HEAD --strict --fail-on high
+```
+
+Exit code `2` is returned only for a newly introduced finding at or above the
+threshold, or an existing finding that worsened to that threshold. Historical
+unchanged findings do not fail the diff gate. Exit code `1` is reserved for
+analysis/configuration errors and, with `--strict`, incomplete analysis on either
+revision.
+
+Diff analysis resolves each revision to an immutable commit and materializes regular
+files from `git archive` into isolated temporary directories. It does not import
+target modules or launch agents/MCP servers. Non-regular archive entries are skipped
+and make strict analysis incomplete. Default suppression files are intentionally not
+applied during diff analysis so existing risk acceptances cannot conceal a newly
+introduced security delta. Repository scanner configuration is evaluated independently
+for each revision.
+
+In shallow CI checkouts, fetch the comparison revision before running the command, for
+example `git fetch origin main`.
+
 ## GitHub Action
 
 ```yaml
