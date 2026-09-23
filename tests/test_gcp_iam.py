@@ -342,11 +342,10 @@ def test_default_scan_preserves_identity_adg_attribute_shape(tmp_path: Path) -> 
     identity_node = next(
         node for node in graph.adg.nodes if node.kind == "identity"
     )
-    assert set(identity_node.attributes) == {
-        "provider",
-        "roles",
-        "permissions",
-        "oauth_scopes",
-        "credential_source",
+    assert identity_node.attributes == {
+        "provider": "gcp",
+        "roles": [],
+        "permissions": [],
+        "oauth_scopes": [],
     }
 
