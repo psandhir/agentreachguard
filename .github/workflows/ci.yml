@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[dev]'
-      - run: ruff check --fix src/horustrace/cli.py; git diff -- src/horustrace/cli.py; exit 1
+      - run: ruff check src tests benchmarks
       - run: pytest -q
       - run: horustrace benchmark benchmarks/cases.yaml
 
