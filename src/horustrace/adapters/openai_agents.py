@@ -578,9 +578,8 @@ def _decorated_tool_network_destinations(
             continue
         called = (_dotted_name(child.func) or _call_name(child.func) or "").lower()
         is_network_call = (
-            called.startswith(("requests.", "httpx."))
+            called.startswith(("requests.", "httpx.", "aiohttp."))
             or "urllib.request" in called
-            or called.startswith("aiohttp.")
         )
         if not is_network_call:
             continue
