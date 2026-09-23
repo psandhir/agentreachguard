@@ -588,7 +588,7 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
                         if parsed.hostname:
                             tool.destinations.append(
                                 NetworkDestination(target=value, restricted=False, location=_location(path, child),
-                                                   metadata={"source": "literal_url"})
+                                                   metadata={"source": "literal_url", "network_scope": "fixed_literal_destination"})
                             )
             return tool
     return None
