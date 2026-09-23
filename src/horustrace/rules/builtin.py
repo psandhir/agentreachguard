@@ -108,9 +108,10 @@ def _identity_findings(identity: Identity, agent: str | None = None) -> list[Fin
             )
         )
     for finding in findings:
-        finding.provenance.extend(
-            fact for fact in identity.provenance if fact not in finding.provenance
-        )
+        if identity.metadata.get("gcp_iam_snapshot"):
+            finding.provenance.extend(
+                fact for fact in identity.provenance if fact not in finding.provenance
+            )
         conditional_only_roles = set(
             identity.metadata.get("gcp_iam_conditional_only_roles") or []
         )
