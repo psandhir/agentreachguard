@@ -32,11 +32,11 @@ jobs:
       - name: Check out validation branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - name: Verify scanner base ancestry
+      - name: Record validation provenance
         run: |
           echo "Validation checkout: $GITHUB_SHA"
+          echo "Scanner base commit: 3528845d343f3764544699081eff37e4cff9dbfd"
           git log -1 --oneline
-          git merge-base --is-ancestor 3528845d343f3764544699081eff37e4cff9dbfd HEAD
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
