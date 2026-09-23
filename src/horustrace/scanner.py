@@ -50,8 +50,8 @@ from horustrace.path_safety import canonical_root, is_within_root
 from horustrace.provenance import annotate, attach_findings, context
 from horustrace.rules.builtin import evaluate
 from horustrace.semantics import annotate_risk_semantics
-from horustrace.source_provenance import annotate_tool_source_provenance
 from horustrace.source_context import classify_source_context, path_parts_match
+from horustrace.source_provenance import annotate_tool_source_provenance
 from horustrace.suppressions import SUPPRESSION_FILENAMES, SuppressionError
 from horustrace.suppressions import apply as apply_suppressions
 
