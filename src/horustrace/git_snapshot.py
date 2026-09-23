@@ -6,10 +6,10 @@ import shutil
 import subprocess
 import tarfile
 import tempfile
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Iterator
 
 MAX_GIT_ARCHIVE_BYTES = 512 * 1024 * 1024
 _GIT_SHA_RE = re.compile(r"^[0-9a-fA-F]{40,64}$")
