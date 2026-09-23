@@ -1,0 +1,40 @@
+name: Issue 25 Positive Control Discovery
+
+on:
+  push:
+    branches:
+      - research/frozen90-3528845d
+    paths:
+      - "scripts/issue25_positive_control_discovery.py"
+      - ".github/workflows/issue25-positive-control.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install current HorusTrace
+        run: python -m pip install -e .
+
+      - name: Discover mapped public positive controls
+        run: python scripts/issue25_positive_control_discovery.py
+
+      - name: Upload discovery report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: issue25-positive-control-discovery
+          path: issue25-positive-control-discovery.json
+          if-no-files-found: error
