@@ -215,6 +215,24 @@ def main(argv: list[str] | None = None) -> int:
                     "mcp_servers": len(graph.all_mcp_servers()),
                     "identities": len(graph.all_identities()),
                     "flow_paths": len(graph.flow_paths),
+                    "flow_execution_contexts": (
+                        graph.coverage.resolution.get("flows", {}).get(
+                            "execution_contexts",
+                            {},
+                        )
+                    ),
+                    "flow_agent_reachability": (
+                        graph.coverage.resolution.get("flows", {}).get(
+                            "agent_reachability",
+                            {},
+                        )
+                    ),
+                    "flow_agent_attribution_gaps": (
+                        graph.coverage.resolution.get("flows", {}).get(
+                            "agent_attribution_gaps",
+                            0,
+                        )
+                    ),
                     "attack_paths": len(graph.attack_paths),
                     "adg_nodes": len(graph.adg.nodes) if graph.adg else 0,
                     "adg_edges": len(graph.adg.edges) if graph.adg else 0,

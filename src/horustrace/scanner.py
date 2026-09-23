@@ -33,7 +33,10 @@ from horustrace.mcp_authority import reconstruct_mcp_authority
 from horustrace.mcp_context import reconstruct_mcp_context, resolve_imported_mcp_placeholders
 from horustrace.models import (
     Agent,
+    AgentReachability,
     EvidenceFact,
+    FlowExecutionContext,
+    FlowPath,
     Graph,
     Identity,
     NetworkDestination,
@@ -69,6 +72,29 @@ _TUTORIAL_DIRS = {
 _TEMPLATE_DIRS = {
     "template", "templates", "generated", "fixtures", "benchmark", "benchmarks",
 }
+_FLOW_CLI_DIRS = {"cli", "command", "commands"}
+_FLOW_SUPPORT_DIRS = {
+    "ci",
+    "cicd",
+    "deploy",
+    "deployment",
+    "infra",
+    "infrastructure",
+    "migration",
+    "migrations",
+    "script",
+    "scripts",
+    "setup",
+}
+_NON_AGENT_FLOW_CONTEXTS = {
+    FlowExecutionContext.CLI,
+    FlowExecutionContext.TEST,
+    FlowExecutionContext.EXAMPLE,
+    FlowExecutionContext.TUTORIAL,
+    FlowExecutionContext.NOTEBOOK,
+    FlowExecutionContext.TEMPLATE_GENERATED,
+    FlowExecutionContext.APPLICATION_SUPPORT,
+}
 
 
 def _path_parts_match(parts: set[str], markers: set[str]) -> bool:
@@ -101,6 +127,113 @@ def _classify_source_context(path: Path | None) -> str:
     ):
         return "template-generated"
     return "runtime"
+
+
+def _flow_function_paths(flow: FlowPath) -> list[Path]:
+    return [
+        step.location.path
+        for step in flow.steps
+        if step.kind == "function" and step.location is not None
+    ]
+
+
+def _looks_like_test_path(path: Path) -> bool:
+    name = path.name.lower()
+    return (
+        _classify_source_context(path) == "test"
+        or name in {"smoketest.py", "smoke_test.py", "integration_test.py"}
+        or name.endswith("_test.py")
+    )
+
+
+def _classify_flow_execution_context(flow: FlowPath) -> FlowExecutionContext:
+    if flow.agent is not None:
+        return FlowExecutionContext.AGENT_TOOL
+
+    paths = _flow_function_paths(flow)
+    if not paths:
+        return FlowExecutionContext.UNKNOWN
+
+    if any(_looks_like_test_path(path) for path in paths):
+        return FlowExecutionContext.TEST
+
+    source_contexts = {_classify_source_context(path) for path in paths}
+    source_mapping = {
+        "example": FlowExecutionContext.EXAMPLE,
+        "tutorial": FlowExecutionContext.TUTORIAL,
+        "notebook": FlowExecutionContext.NOTEBOOK,
+        "template-generated": FlowExecutionContext.TEMPLATE_GENERATED,
+    }
+    for source_context, execution_context in source_mapping.items():
+        if source_context in source_contexts:
+            return execution_context
+
+    for path in paths:
+        lowered_parts = {part.lower() for part in path.parts}
+        name = path.name.lower()
+        if (
+            _path_parts_match(lowered_parts, _FLOW_CLI_DIRS)
+            or name == "__main__.py"
+            or name == "cli.py"
+            or name.endswith("_cli.py")
+        ):
+            return FlowExecutionContext.CLI
+
+    for path in paths:
+        lowered_parts = {part.lower() for part in path.parts}
+        if _path_parts_match(lowered_parts, _FLOW_SUPPORT_DIRS):
+            return FlowExecutionContext.APPLICATION_SUPPORT
+
+    return FlowExecutionContext.RUNTIME
+
+
+def _classify_flow_agent_reachability(
+    flow: FlowPath,
+    graph: Graph,
+) -> AgentReachability:
+    if flow.agent is not None:
+        binding = flow.metadata.get("agent_binding")
+        basis = binding.get("basis") if isinstance(binding, dict) else None
+        flow.metadata["agent_reachability_basis"] = (
+            basis or "explicit_agent_binding"
+        )
+        return AgentReachability.PROVEN_AGENT_REACHABLE
+
+    binding = flow.metadata.get("agent_binding")
+    if isinstance(binding, dict) and str(binding.get("basis", "")).startswith(
+        "ambiguous"
+    ):
+        flow.metadata["agent_reachability_basis"] = "ambiguous_agent_binding"
+        return AgentReachability.UNKNOWN
+
+    if (
+        graph.agents
+        and flow.execution_context in _NON_AGENT_FLOW_CONTEXTS
+        and binding is None
+    ):
+        flow.metadata["agent_reachability_basis"] = (
+            "non_agent_execution_context_without_tool_binding"
+        )
+        return AgentReachability.PROVEN_NON_AGENT
+
+    flow.metadata["agent_reachability_basis"] = "no_agent_tool_binding_evidence"
+    return AgentReachability.UNKNOWN
+
+
+def _flow_has_attribution_gap(flow: FlowPath) -> bool:
+    if flow.agent is not None:
+        return False
+    binding = flow.metadata.get("agent_binding")
+    return (
+        isinstance(binding, dict)
+        and str(binding.get("basis", "")).startswith("ambiguous")
+    )
+
+
+def _annotate_flow_semantics(graph: Graph) -> None:
+    for flow in graph.flow_paths:
+        flow.execution_context = _classify_flow_execution_context(flow)
+        flow.agent_reachability = _classify_flow_agent_reachability(flow, graph)
 
 
 def _is_source_fragment(path: Path) -> bool:
@@ -798,7 +931,21 @@ def scan(
     analysis_root = root if root.is_dir() else root.parent
     graph.flow_paths = analyze_repository_flows(analysis_root, approved_python_paths, graph)
     _remap_flow_locations(graph, notebook_path_map)
+    _annotate_flow_semantics(graph)
     notebook_tempdir.cleanup()
+
+    flow_execution_contexts = {
+        context.value: sum(
+            flow.execution_context == context for flow in graph.flow_paths
+        )
+        for context in FlowExecutionContext
+    }
+    flow_agent_reachability = {
+        reachability.value: sum(
+            flow.agent_reachability == reachability for flow in graph.flow_paths
+        )
+        for reachability in AgentReachability
+    }
 
     graph.coverage.resolution = {
         "tools": {
@@ -827,6 +974,11 @@ def scan(
         "flows": {
             "supported_paths": len(graph.flow_paths),
             "agent_mapped": sum(flow.agent is not None for flow in graph.flow_paths),
+            "agent_attribution_gaps": sum(
+                _flow_has_attribution_gap(flow) for flow in graph.flow_paths
+            ),
+            "execution_contexts": flow_execution_contexts,
+            "agent_reachability": flow_agent_reachability,
         },
     }
 

@@ -31,6 +31,25 @@ class Confidence(str, Enum):
     RUNTIME_VERIFIED = "runtime_verified"
 
 
+class FlowExecutionContext(str, Enum):
+    AGENT_TOOL = "agent_tool"
+    CLI = "cli"
+    TEST = "test"
+    EXAMPLE = "example"
+    TUTORIAL = "tutorial"
+    NOTEBOOK = "notebook"
+    TEMPLATE_GENERATED = "template-generated"
+    APPLICATION_SUPPORT = "application_support"
+    RUNTIME = "runtime"
+    UNKNOWN = "unknown"
+
+
+class AgentReachability(str, Enum):
+    PROVEN_AGENT_REACHABLE = "proven_agent_reachable"
+    PROVEN_NON_AGENT = "proven_non_agent"
+    UNKNOWN = "unknown"
+
+
 @dataclass(slots=True)
 class SourceLocation:
     path: Path
@@ -287,6 +306,8 @@ class FlowPath:
     basis: str = "static_dataflow"
     confidence: Confidence = Confidence.SUPPORTED
     metadata: dict[str, Any] = field(default_factory=dict)
+    execution_context: FlowExecutionContext = FlowExecutionContext.UNKNOWN
+    agent_reachability: AgentReachability = AgentReachability.UNKNOWN
 
     @property
     def nodes(self) -> list[str]:
@@ -302,6 +323,8 @@ class FlowPath:
             "agent": self.agent,
             "basis": self.basis,
             "confidence": self.confidence.value,
+            "execution_context": self.execution_context.value,
+            "agent_reachability": self.agent_reachability.value,
             "steps": [step.as_dict() for step in self.steps],
             "metadata": self.metadata,
         }
