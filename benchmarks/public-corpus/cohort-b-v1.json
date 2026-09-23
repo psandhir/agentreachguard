@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-public-corpus-cohort-b",
+  "frozen_at": "2026-09-22",
+  "baseline_scanner": "horustrace==0.4.1",
+  "selection": {
+    "total": 30,
+    "application_repositories": 24,
+    "framework_stress_repositories": 6,
+    "criteria": [
+      "public and non-archived at freeze time",
+      "Python repository with material agent or MCP implementation",
+      "no overlap with Cohort A",
+      "selected before HorusTrace findings were reviewed",
+      "balanced across Google ADK, OpenAI Agents SDK, LangGraph, and MCP/mixed"
+    ]
+  },
+  "repositories": [
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "google/agents-cli",
+      "branch": "main",
+      "sha": "e556c95e94d8440e2edf605a13c513bd01d8e602"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "AhsanAyaz/ai-agents-google-adk",
+      "branch": "main",
+      "sha": "d9543491ed0605b4e91b6ff0e7617db7ed708087"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "mongodb-developer/MongoDB-ADK-Agents",
+      "branch": "main",
+      "sha": "aafaefdb16230ed1c24ca6ae5605360befafaab2"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "kweinmeister/agentic-trading",
+      "branch": "main",
+      "sha": "9e4046b1144e44785ccaa7ce35a4491f86d79e80"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "arjunprabhulal/adk-vertex-ai-rag-engine",
+      "branch": "main",
+      "sha": "ef9d0344d4d716b1455ffeaf68bedfbb2429a9ed"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "jpantsjoha/Agentic-Marketing-Campaign-Generator",
+      "branch": "main",
+      "sha": "7e06c42c1b6202f283670b63aa7d40b2757f6e02"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "langchain-ai/google-adk-realtime-deepagents-example",
+      "branch": "main",
+      "sha": "b94966176abdddea652589d9cf8a59c00be26c8a"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "chongdashu/adk-mcp-a2a-crash-course",
+      "branch": "main",
+      "sha": "10eedc2b6f363b5152229145331c19ed53e840ee"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "openai/openai-cs-agents-demo",
+      "branch": "main",
+      "sha": "bd7bfca0f5abf50529370814c3e7c88542011925"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "qx-labs/agents-deep-research",
+      "branch": "main",
+      "sha": "5e7f4b2321b20bf04c72a405688ab9980887c603"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "temporal-community/openai-agents-sdk-deep-research-demo",
+      "branch": "main",
+      "sha": "c0761d82cfff65f972c333418b353215832c2f41"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "neo4j-product-examples/graphrag-kyc-agent",
+      "branch": "main",
+      "sha": "e39e35be35496fe75c9eff1655bc11f38eee0886"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "hellotinah/email-agent-workflow",
+      "branch": "main",
+      "sha": "b27e503d03d69b6ba29f7768fe7e4c1dca6382f8"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "madebyagents/portfolio-research-team",
+      "branch": "main",
+      "sha": "f0915c626b4fa3e4d020059bc094279aaf92cb55"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "yandex-ai-studio/customer-support-chatbot",
+      "branch": "main",
+      "sha": "7194d5b02bb0f64b0a42b3c6c4975c48c4387f67"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "kkdai/linebot-openai-agent",
+      "branch": "main",
+      "sha": "b4a782aaa892ca4bd33210d9314ab9b63800f1d0"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "wassim249/fastapi-langgraph-agent-production-ready-template",
+      "branch": "master",
+      "sha": "36c7e2b87bc2e60ee230348e857e6c9d9570a46e"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "langchain-ai/react-agent",
+      "branch": "main",
+      "sha": "9e7d45b1ea3e61aa6e1e0b2044f76965f427749c"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "braincrew-lab/langgraph-mcp-agents",
+      "branch": "master",
+      "sha": "d4694e9db841343a2bd4dd3a30175a02b63d9144"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "JoshuaC215/agent-service-toolkit",
+      "branch": "main",
+      "sha": "18d76e919b357e448f60b97c50e704db79456096"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "lgesuellip/langgraph-whatsapp-agent",
+      "branch": "main",
+      "sha": "69b9bdd341e0c379b5452b8d3d46879c25e660fc"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "langchain-ai/langgraph-bigtool",
+      "branch": "main",
+      "sha": "081f74869e5e12ff45a867335f9443571234c8ab"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "FareedKhan-dev/production-grade-agentic-system",
+      "branch": "master",
+      "sha": "20def050e099d12c079f501aa6e85b48fe8783bc"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "BitterSecurity/Decepticon",
+      "branch": "main",
+      "sha": "084dbdd7a9c06d3c45313f9770530da31c8e02de"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "QwenLM/Qwen-Agent",
+      "branch": "main",
+      "sha": "31a4d36d123688581a9e9744427272b33ce940e0"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "agentscope-ai/agentscope",
+      "branch": "main",
+      "sha": "6d32be1dfcf18ed860df15a9079999fde8a3a9b7"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "HKUDS/nanobot",
+      "branch": "main",
+      "sha": "a721806a5091fa5db3e10da2bcf4fe2b906e2c94"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "crystaldba/postgres-mcp",
+      "branch": "main",
+      "sha": "15c8e33353546148acc2d8bd784551cf3905d1e2"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "docling-project/docling-mcp",
+      "branch": "main",
+      "sha": "a8a41e6014ba3a148261702e760421086e9c80e3"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "aws/agent-toolkit-for-aws",
+      "branch": "main",
+      "sha": "7bde20faede49dd5764c02b54f5e306849f7e3ca"
+    }
+  ]
+}
