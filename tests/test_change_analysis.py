@@ -4,7 +4,7 @@ import json
 import subprocess
 from pathlib import Path
 
-from horustrace.adg import ADGNode, AgentDependencyGraph
+from horustrace.adg import AgentDependencyGraph, ADGNode
 from horustrace.change_analysis import build_git_diff, compare_scans
 from horustrace.cli import main
 from horustrace.git_snapshot import materialize_git_ref
