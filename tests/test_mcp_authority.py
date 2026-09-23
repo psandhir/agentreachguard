@@ -149,6 +149,7 @@ agent = create_react_agent("openai:gpt-4o", tools=[])
     assert agent.mcp_servers == []
     assert any(item.name == "weather" for item in graph.unbound_mcp_servers)
 
+
 def test_langchain_create_agent_consumes_literal_mcp_client_tools(
     tmp_path: Path,
 ) -> None:
