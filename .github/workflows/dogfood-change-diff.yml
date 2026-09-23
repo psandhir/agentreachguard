@@ -1,0 +1,104 @@
+name: Dogfood change-aware diff
+
+on:
+  push:
+    branches:
+      - research/frozen90-69e7da8
+    paths:
+      - ".github/workflows/dogfood-change-diff.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diff:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: pr58-agent-tool-flow
+            base: 3528845d343f3764544699081eff37e4cff9dbfd
+            head: 33160de84944ca94fad432ed155ee5e7384c2bdb
+          - label: pr59-static-attack-path
+            base: 33160de84944ca94fad432ed155ee5e7384c2bdb
+            head: b222de7031b897deb2012667dbe7110434102802
+          - label: pr60-langchain-mcp
+            base: b222de7031b897deb2012667dbe7110434102802
+            head: b3a72d5687794d30277429d4911f92c556c8e124
+          - label: pr61-change-diff
+            base: b3a72d5687794d30277429d4911f92c556c8e124
+            head: 69e7da8bf219520fd289f82606500fcbc4c19897
+    steps:
+      - name: Check out full HorusTrace history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install merged main scanner
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "git+https://github.com/psandhir/horustrace.git@69e7da8bf219520fd289f82606500fcbc4c19897"
+          horustrace --version
+
+      - name: Run JSON security diff
+        run: |
+          horustrace diff "${{ matrix.base }}..${{ matrix.head }}" \
+            --repo . \
+            --format json \
+            --fail-on none \
+            --output "dogfood-${{ matrix.label }}.json"
+
+      - name: Render console security diff
+        run: |
+          horustrace diff "${{ matrix.base }}..${{ matrix.head }}" \
+            --repo . \
+            --fail-on none | tee "dogfood-${{ matrix.label }}.txt"
+
+      - name: Print compact summary
+        env:
+          REPORT: dogfood-${{ matrix.label }}.json
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(Path(os.environ["REPORT"]).read_text())
+          print(json.dumps({
+              "base": report["base"],
+              "head": report["head"],
+              "summary": report["summary"],
+              "introduced": [
+                  {
+                      "rule_id": item["rule_id"],
+                      "severity": item["severity"],
+                      "title": item["title"],
+                      "agent": item.get("agent"),
+                      "location": item.get("location"),
+                  }
+                  for item in report["findings"]["introduced"][:20]
+              ],
+              "worsened": report["findings"]["worsened"][:20],
+              "added_nodes": report["authority"]["added_nodes"][:20],
+              "changed_nodes": report["authority"]["changed_nodes"][:20],
+              "added_edges": report["authority"]["added_edges"][:20],
+          }, indent=2))
+          PY
+
+      - name: Upload diff evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dogfood-${{ matrix.label }}
+          path: |
+            dogfood-${{ matrix.label }}.json
+            dogfood-${{ matrix.label }}.txt
+          if-no-files-found: error
