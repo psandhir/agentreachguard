@@ -21,6 +21,7 @@ from horustrace.config import ScanConfig
 from horustrace.config import apply as apply_config
 from horustrace.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
 from horustrace.flow import analyze_repository_flows
+from horustrace.gcp_iam import enrich_gcp_iam_snapshot
 from horustrace.heuristics import PRIVILEGED_CAPABILITIES
 from horustrace.limits import (
     MAX_FILE_SIZE_BYTES,
@@ -799,6 +800,7 @@ def scan(
     suppressions_path: Path | None = None,
     use_default_suppressions: bool = True,
     config: ScanConfig | None = None,
+    gcp_iam_snapshot: Path | None = None,
 ) -> tuple[Graph, list]:
     root = path.resolve()
     containment_root = canonical_root(root)
@@ -986,6 +988,11 @@ def scan(
     reconstruct_mcp_authority(graph, approved_python_paths)
     reconstruct_mcp_context(graph)
     _link_global_identities(graph)
+    gcp_iam_summary = (
+        enrich_gcp_iam_snapshot(graph, gcp_iam_snapshot)
+        if gcp_iam_snapshot is not None
+        else None
+    )
     _resolve_imported_tool_placeholders(graph)
     annotate_tool_source_provenance(
         graph,
@@ -1107,6 +1114,8 @@ def scan(
             "agent_reachability": flow_agent_reachability,
         },
     }
+    if gcp_iam_summary is not None:
+        graph.coverage.resolution["gcp_iam"] = gcp_iam_summary
 
     annotate_risk_semantics(graph)
     graph.attack_paths = build_attack_paths(graph)
