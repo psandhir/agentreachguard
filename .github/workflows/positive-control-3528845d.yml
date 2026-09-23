@@ -1,0 +1,54 @@
+name: Public Flow Positive Control @ 3528845d
+on:
+  push:
+    branches: [research/frozen-90-3528845d]
+    paths:
+      - "scripts/positive_control_probe.py"
+      - ".github/workflows/positive-control-3528845d.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TARGET_SCANNER_COMMIT: 3528845d343f3764544699081eff37e4cff9dbfd
+      TARGET_REPO_COMMIT: e10a2869346fdd9a076615c3ebd05ce56d434223
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install exact HorusTrace
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@${TARGET_SCANNER_COMMIT}"
+      - name: Fetch pinned public positive control
+        run: |
+          mkdir target
+          git -C target init -q
+          git -C target remote add origin https://github.com/Iwancof/shelper.git
+          git -C target fetch --quiet --depth=1 origin "${TARGET_REPO_COMMIT}"
+          git -C target checkout --quiet --detach FETCH_HEAD
+          test "$(git -C target rev-parse HEAD)" = "${TARGET_REPO_COMMIT}"
+      - name: Probe baseline
+        run: python scripts/positive_control_probe.py target > positive-control-before.json
+      - name: Print key evidence
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("positive-control-before.json"))
+          print("agents/tools")
+          for a in d["agents"]:
+              print(a["name"])
+              for t in a["tools"]:
+                  print(" ",t["name"],"approval=",t["approval"],"caps=",t["capabilities"],"metadata=",t["metadata"])
+          print("flows=",json.dumps(d["flows"],indent=2))
+          print("attack_paths=",json.dumps(d["attack_paths"],indent=2))
+          print("approval_nodes=",json.dumps(d["approval_nodes"],indent=2))
+          print("guarded_edges=",json.dumps(d["guarded_edges"],indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: public-positive-control-before-3528845d
+          path: positive-control-before.json
