@@ -259,6 +259,7 @@ def test_diff_cli_rejects_three_dot_range(tmp_path: Path, capsys) -> None:
     assert result == 1
     assert "revision range must use BASE..HEAD" in capsys.readouterr().err
 
+
 def test_compare_scans_classifies_severity_escalation_as_worsened(
     tmp_path: Path,
 ) -> None:
