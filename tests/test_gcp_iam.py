@@ -212,7 +212,15 @@ def test_scan_cli_enriches_identity_and_reports_cloud_admin_role(
         for fact in finding["provenance"]
         if fact["origin"] == "observed"
     } == {"gcp-iam.json"}
-    assert finding["limitations"] == []
+    assert (
+        "Runtime authorization and control effectiveness are not verified "
+        "by this static scan."
+        in finding["limitations"]
+    )
+    assert not any(
+        "IAM condition expressions were not evaluated" in limitation
+        for limitation in finding["limitations"]
+    )
 
 
 def test_conditional_admin_role_is_reported_with_condition_limitation(
