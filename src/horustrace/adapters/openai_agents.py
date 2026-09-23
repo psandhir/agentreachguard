@@ -551,6 +551,23 @@ def _decorated_tool_network_destinations(
 ) -> list[NetworkDestination]:
     destinations: list[NetworkDestination] = []
     seen: set[tuple[str, str]] = set()
+    literal_urls: dict[str, set[str]] = {}
+
+    for statement in node.body:
+        if not isinstance(statement, (ast.Assign, ast.AnnAssign)):
+            continue
+        value = statement.value
+        if not (
+            isinstance(value, ast.Constant)
+            and isinstance(value.value, str)
+            and value.value.startswith(("http://", "https://"))
+            and urlparse(value.value).hostname
+        ):
+            continue
+        targets = statement.targets if isinstance(statement, ast.Assign) else [statement.target]
+        for target in targets:
+            if isinstance(target, ast.Name):
+                literal_urls.setdefault(target.id, set()).add(value.value)
 
     def add(target: str, source: str, location: ast.AST) -> None:
         key = (target, source)
@@ -606,6 +623,9 @@ def _decorated_tool_network_destinations(
                     and urlparse(part.value).hostname
                 ):
                     add(part.value, "literal_url", part)
+                elif isinstance(part, ast.Name):
+                    for possible in sorted(literal_urls.get(part.id, ())):
+                        add(possible, "literal_url", part)
 
         add("<dynamic-url>", "dynamic_network_call", target_expr or child)
 
