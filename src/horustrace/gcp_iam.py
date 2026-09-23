@@ -85,7 +85,7 @@ def _condition(raw: object) -> dict[str, str] | None:
     if not isinstance(raw, dict):
         raise GcpIamExportError("IAM binding condition must be an object")
     result: dict[str, str] = {}
-    for key in ("title", "description", "expression"):
+    for key in ("title", "description", "expression", "location"):
         value = raw.get(key)
         if value is None:
             continue
