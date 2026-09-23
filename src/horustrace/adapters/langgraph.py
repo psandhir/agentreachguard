@@ -165,8 +165,10 @@ def _computer_control_semantics(
                 read_observed = True
             elif action in _COMPUTER_CONTROL_ONLY_ACTIONS:
                 pass
-            else:
-                # A dynamic action can select a mutating operation at runtime.
+            elif action in _COMPUTER_MUTATING_ACTIONS or action == "dynamic":
+                # Dynamic dispatch can select a mutating operation at runtime, while
+                # unknown literal actions remain control-only until their semantics
+                # are explicitly recognized.
                 mutating = True
                 caps.add("external.write")
                 mutating_sink_location = mutating_sink_location or current_location
