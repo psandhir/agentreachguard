@@ -18,6 +18,11 @@ LAYER_NAMES = {
 def render(graph: Graph, findings: list[Finding], root: Path) -> str:
     counts = Counter(f.severity for f in findings)
     layer_counts = Counter(f.layer for f in findings)
+    source_context_counts = Counter(f.source_context for f in findings)
+    excluded_source_context_counts = graph.configuration_audit.get(
+        "excluded_findings_by_source_context",
+        {},
+    )
     flow_resolution = graph.coverage.resolution.get("flows", {})
     flow_reachability = flow_resolution.get("agent_reachability", {})
     lines = [
@@ -51,6 +56,27 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
     ]
     for layer in range(1, 6):
         lines.append(f"  L{layer} {LAYER_NAMES[layer]}: {layer_counts[layer]} finding(s)")
+    lines.extend(["", "Findings by source context"])
+    for source_context in (
+        "runtime",
+        "test",
+        "example",
+        "tutorial",
+        "notebook",
+        "template-generated",
+        "unknown",
+    ):
+        lines.append(
+            f"  {source_context}: {source_context_counts[source_context]} finding(s)"
+        )
+    if excluded_source_context_counts:
+        lines.append(
+            "  Excluded by source-context filter: "
+            + ", ".join(
+                f"{context}={count}"
+                for context, count in sorted(excluded_source_context_counts.items())
+            )
+        )
     lines.append("")
 
     if graph.suppressed_findings or graph.suppression_diagnostics:
