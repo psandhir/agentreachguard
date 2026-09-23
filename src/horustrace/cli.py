@@ -440,6 +440,11 @@ def main(argv: list[str] | None = None) -> int:
                     "suppressed_findings": [f.as_dict() for f in graph.suppressed_findings],
                     "diagnostics": graph.suppression_diagnostics,
                 },
+                "enrichment": {
+                    "gcp_iam_export": graph.configuration_audit.get(
+                        "gcp_iam_export"
+                    ),
+                },
                 "summary": {
                     "agents": len(graph.agents),
                     "tools": len(graph.all_tools()),
