@@ -1,0 +1,88 @@
+name: Dogfood target security diff
+
+on:
+  push:
+    branches:
+      - research/diff-dogfood-69e7da8
+    paths:
+      - ".github/workflows/dogfood-target-diff.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diff:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: approval-removed
+            base: 69e7da8bf219520fd289f82606500fcbc4c19897
+            head: ac10ac7123a469e35072d5a3ba483a29ff36e7ec
+          - label: wildcard-network-added
+            base: ac10ac7123a469e35072d5a3ba483a29ff36e7ec
+            head: 63cfe6100bce88f2e81bd53a49835370f13c195e
+          - label: combined-security-regression
+            base: 69e7da8bf219520fd289f82606500fcbc4c19897
+            head: 63cfe6100bce88f2e81bd53a49835370f13c195e
+    steps:
+      - name: Check out full target history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install merged main scanner
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "git+https://github.com/psandhir/horustrace.git@69e7da8bf219520fd289f82606500fcbc4c19897"
+          horustrace --version
+
+      - name: Run target security diff
+        run: |
+          horustrace diff "${{ matrix.base }}..${{ matrix.head }}" \
+            --repo . \
+            --format json \
+            --fail-on none \
+            --output "target-${{ matrix.label }}.json"
+
+          horustrace diff "${{ matrix.base }}..${{ matrix.head }}" \
+            --repo . \
+            --fail-on none | tee "target-${{ matrix.label }}.txt"
+
+      - name: Print compact summary
+        env:
+          REPORT: target-${{ matrix.label }}.json
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(Path(os.environ["REPORT"]).read_text())
+          print(json.dumps({
+              "summary": report["summary"],
+              "introduced": report["findings"]["introduced"],
+              "worsened": report["findings"]["worsened"],
+              "added_nodes": report["authority"]["added_nodes"],
+              "changed_nodes": report["authority"]["changed_nodes"],
+              "added_edges": report["authority"]["added_edges"],
+          }, indent=2))
+          PY
+
+      - name: Upload target diff evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: target-${{ matrix.label }}
+          path: |
+            target-${{ matrix.label }}.json
+            target-${{ matrix.label }}.txt
+          if-no-files-found: error
