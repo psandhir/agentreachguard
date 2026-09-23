@@ -138,7 +138,10 @@ def test_enrichment_promotes_matching_generic_service_account_to_gcp(
         tmp_path / "iam.json",
         [_snapshot_records()[0]],
     )
-    identity = Identity(name=f"serviceAccount:{_AGENT_SA}", provider="generic")
+    identity = Identity(
+        name=f"projects/-/serviceAccounts/{_AGENT_SA}",
+        provider="generic",
+    )
     graph = Graph(agents=[Agent(name="analyst", identities=[identity])])
 
     summary = enrich_gcp_iam_snapshot(graph, path)
@@ -170,13 +173,15 @@ def test_scan_cli_enriches_identity_and_reports_cloud_admin_role(
     tmp_path: Path,
     capsys,
 ) -> None:
-    _write_manifest(tmp_path / "horustrace.manifest.yaml")
+    project = tmp_path / "project"
+    project.mkdir()
+    _write_manifest(project / "horustrace.manifest.yaml")
     snapshot = _write_snapshot(tmp_path / "gcp-iam.json")
 
     result = main(
         [
             "scan",
-            str(tmp_path),
+            str(project),
             "--gcp-iam-snapshot",
             str(snapshot),
             "--format",
@@ -249,13 +254,15 @@ def test_graph_cli_exposes_observed_cloud_resource_scopes(
     tmp_path: Path,
     capsys,
 ) -> None:
-    _write_manifest(tmp_path / "horustrace.manifest.yaml")
+    project = tmp_path / "project"
+    project.mkdir()
+    _write_manifest(project / "horustrace.manifest.yaml")
     snapshot = _write_snapshot(tmp_path / "gcp-iam.json")
 
     result = main(
         [
             "graph",
-            str(tmp_path),
+            str(project),
             "--gcp-iam-snapshot",
             str(snapshot),
         ]
