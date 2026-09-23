@@ -271,7 +271,7 @@ def _infer_function_capabilities(
                     NetworkDestination(
                         target=target,
                         restricted=False,
-                        metadata={"source": "literal_url"},
+                        metadata={"source": "literal_url", "network_scope": "fixed_literal_destination"},
                     )
                 )
             else:
@@ -298,7 +298,7 @@ def _infer_function_capabilities(
                         NetworkDestination(
                             target=possible,
                             restricted=False,
-                            metadata={"source": "literal_url"},
+                            metadata={"source": "literal_url", "network_scope": "fixed_literal_destination"},
                         )
                     )
 
@@ -306,7 +306,7 @@ def _infer_function_capabilities(
                     NetworkDestination(
                         target="<dynamic-url>",
                         restricted=False,
-                        metadata={"source": "dynamic_network_call"},
+                        metadata={"source": "dynamic_network_call", "network_scope": "dynamic_destination"},
                     )
                 )
 
