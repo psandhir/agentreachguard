@@ -3,7 +3,7 @@ name: Frozen 90 Repository Rescan
 on:
   push:
     branches:
-      - research/provenance-flow-mcp-rescan
+      - research/frozen90-3528845d
     paths:
       - "src/**"
       - "scripts/frozen_corpus_rescan.py"
