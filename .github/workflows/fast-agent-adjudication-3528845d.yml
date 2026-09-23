@@ -1,0 +1,59 @@
+name: FastAgent Flow Adjudication @ 3528845d
+
+on:
+  push:
+    branches:
+      - research/frozen-90-3528845d
+    paths:
+      - "scripts/fast_agent_adjudication.py"
+      - ".github/workflows/fast-agent-adjudication-3528845d.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  adjudicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TARGET_SCANNER_COMMIT: 3528845d343f3764544699081eff37e4cff9dbfd
+      FAST_AGENT_COMMIT: 96ded66a3d21472047859808ae30095390607171
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install exact HorusTrace scanner
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@${TARGET_SCANNER_COMMIT}"
+      - name: Fetch pinned FastAgent
+        run: |
+          mkdir fast-agent-target
+          git -C fast-agent-target init -q
+          git -C fast-agent-target remote add origin https://github.com/evalstate/fast-agent.git
+          git -C fast-agent-target fetch --quiet --depth=1 --filter=blob:none origin "${FAST_AGENT_COMMIT}"
+          git -C fast-agent-target checkout --quiet --detach FETCH_HEAD
+          test "$(git -C fast-agent-target rev-parse HEAD)" = "${FAST_AGENT_COMMIT}"
+      - name: Dump flow and tool evidence
+        run: python scripts/fast_agent_adjudication.py fast-agent-target > fast-agent-adjudication.json
+      - name: Summarize
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("fast-agent-adjudication.json"))
+          print(json.dumps(d["summary"],indent=2))
+          print("\nUNKNOWN FLOWS")
+          for f in d["flows"]:
+              if f["agent_reachability"] == "unknown":
+                  print(json.dumps({
+                    "flow_id":f["flow_id"],"source_kind":f["source_kind"],"sink_kind":f["sink_kind"],
+                    "execution_context":f["execution_context"],"agent":f["agent"],
+                    "metadata":f["metadata"],"steps":f["steps"]
+                  },indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: fast-agent-adjudication-3528845d
+          path: fast-agent-adjudication.json
+          if-no-files-found: warn
