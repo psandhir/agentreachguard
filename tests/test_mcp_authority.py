@@ -148,3 +148,56 @@ agent = create_react_agent("openai:gpt-4o", tools=[])
     agent = next(item for item in graph.agents if item.name == "agent")
     assert agent.mcp_servers == []
     assert any(item.name == "weather" for item in graph.unbound_mcp_servers)
+
+def test_langchain_create_agent_consumes_literal_mcp_client_tools(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "cyber_agent.py").write_text(
+        """from langchain.agents import create_agent
+from langchain_mcp_adapters.client import MultiServerMCPClient
+
+async def main():
+    client = MultiServerMCPClient(
+        {
+            "cyber_tools": {
+                "command": "python",
+                "args": ["cyber_mcp_server.py"],
+                "transport": "stdio",
+            }
+        }
+    )
+    tools = await client.get_tools()
+    agent = create_agent(model="openai:gpt-5.4-mini", tools=tools)
+    return agent
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    agent = next(item for item in graph.agents if item.name == "agent")
+    assert agent.metadata["framework"] == "langchain"
+    assert [server.name for server in agent.mcp_servers] == ["cyber_tools"]
+
+    server = agent.mcp_servers[0]
+    assert server.metadata["binding_origin"] == "mcp_client_get_tools"
+    assert server.metadata["effective_agent"] == "agent"
+    assert server.metadata["context_binding"] == "bound"
+    assert not any(
+        item.name == "cyber_tools" for item in graph.unbound_mcp_servers
+    )
+
+    assert graph.adg is not None
+    server_nodes = [
+        node
+        for node in graph.adg.nodes
+        if node.kind == "mcp_server"
+        and node.attributes.get("effective_agent") == "agent"
+    ]
+    assert len(server_nodes) == 1
+    assert any(
+        edge.kind == "INVOKES"
+        and edge.target == server_nodes[0].node_id
+        for edge in graph.adg.edges
+    )
+
