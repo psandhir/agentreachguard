@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import collections
 import json
 import sys
 from datetime import UTC, date, datetime
@@ -245,23 +244,33 @@ def main(argv: list[str] | None = None) -> int:
         config = load_config(target if target.is_dir() else target.parent, args.config)
         graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
-        source_context_counts_before = collections.Counter(
-            finding.source_context for finding in findings
-        )
-        excluded_source_context_counts = collections.Counter(
-            finding.source_context
-            for finding in findings
-            if finding.source_context in excluded_source_contexts
-        )
+        source_context_counts_before = {
+            context: sum(
+                finding.source_context == context for finding in findings
+            )
+            for context in SOURCE_CONTEXTS
+            if any(finding.source_context == context for finding in findings)
+        }
+        excluded_source_context_counts = {
+            context: sum(
+                finding.source_context == context for finding in findings
+            )
+            for context in sorted(excluded_source_contexts)
+            if any(finding.source_context == context for finding in findings)
+        }
         if excluded_source_contexts:
             findings = [
                 finding
                 for finding in findings
                 if finding.source_context not in excluded_source_contexts
             ]
-        source_context_counts_after = collections.Counter(
-            finding.source_context for finding in findings
-        )
+        source_context_counts_after = {
+            context: sum(
+                finding.source_context == context for finding in findings
+            )
+            for context in SOURCE_CONTEXTS
+            if any(finding.source_context == context for finding in findings)
+        }
         graph.configuration_audit.update(
             {
                 "excluded_source_contexts": sorted(excluded_source_contexts),
