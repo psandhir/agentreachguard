@@ -208,6 +208,11 @@ def test_scan_cli_enriches_identity_and_reports_cloud_admin_role(
         and "gcp_iam_role=roles/owner" in fact["fact"]
         for fact in finding["provenance"]
     )
+    assert {
+        fact["location"]["path"]
+        for fact in finding["provenance"]
+        if fact["origin"] == "observed"
+    } == {"gcp-iam.json"}
     assert finding["limitations"] == []
 
 
@@ -285,3 +290,64 @@ def test_graph_cli_exposes_observed_cloud_resource_scopes(
         "//storage.googleapis.com/demo-sensitive-bucket",
     ]
     assert identity["attributes"]["conditional_grants"] == 1
+
+def test_scan_without_snapshot_has_no_cloud_enrichment_resolution(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    _write_manifest(project / "horustrace.manifest.yaml")
+
+    result = main(
+        [
+            "scan",
+            str(project),
+            "--format",
+            "json",
+            "--fail-on",
+            "none",
+        ]
+    )
+
+    assert result == 0
+    report = json.loads(capsys.readouterr().out)
+    assert "gcp_iam" not in report["coverage"]["resolution"]
+
+
+def test_graph_without_snapshot_does_not_add_cloud_authority_attributes(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    (project / "horustrace.manifest.yaml").write_text(
+        f"""version: 1
+agents:
+  - name: cloud-analyst
+    identities:
+      - name: {_AGENT_SA}
+        provider: gcp
+        roles: [roles/storage.objectViewer]
+        resource_scope: projects/demo-project/buckets/reports
+        credential_source: workload_identity
+    tools: []
+""",
+        encoding="utf-8",
+    )
+
+    result = main(["graph", str(project)])
+
+    assert result == 0
+    graph = json.loads(capsys.readouterr().out)
+    identity = next(
+        node
+        for node in graph["nodes"]
+        if node["kind"] == "identity" and node["name"] == _AGENT_SA
+    )
+    assert identity["attributes"]["roles"] == ["roles/storage.objectViewer"]
+    assert "authority_source" not in identity["attributes"]
+    assert "resource_scope" not in identity["attributes"]
+    assert "resource_scopes" not in identity["attributes"]
+    assert "conditional_grants" not in identity["attributes"]
+
