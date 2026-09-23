@@ -23,7 +23,10 @@ def test_framework_registry_detects_supported_python_frameworks(tmp_path: Path) 
         "adk.py": ("from google.adk import Agent\n", "google-adk"),
         "langgraph.py": ("from langgraph.graph import StateGraph\n", "langgraph"),
         "openai.py": ("from agents import Agent\n", "openai-agents"),
-        "fast_agent.py": (\n            "from fast_agent import FastAgent\\nfast = FastAgent(\\\"demo\\\")\\n",\n            "fast-agent",\n        ),
+        "fast_agent.py": (
+            "from fast_agent import FastAgent\nfast = FastAgent('demo')\n",
+            "fast-agent",
+        ),
     }
     for filename, (source, expected) in cases.items():
         path = tmp_path / filename
