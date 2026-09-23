@@ -96,6 +96,124 @@ def _name_capabilities(name: str) -> set[str]:
     return caps
 
 
+_COMPUTER_READ_ACTIONS = {"take_screenshot", "screenshot"}
+_COMPUTER_CONTROL_ONLY_ACTIONS = {"scroll", "move_mouse"}
+_COMPUTER_MUTATING_ACTIONS = {
+    "click_mouse",
+    "double_click",
+    "drag_mouse",
+    "press_key",
+    "type_text",
+}
+_BROWSER_RECEIVER_MARKERS = {"browser", "page", "locator"}
+_BROWSER_READ_METHODS = {"screenshot", "content", "inner_text", "text_content"}
+_BROWSER_MUTATING_METHODS = {
+    "click",
+    "dblclick",
+    "fill",
+    "press",
+    "select_option",
+    "set_input_files",
+    "type",
+    "upload_file",
+}
+_BROWSER_NETWORK_READ_METHODS = {"download", "goto", "navigate"}
+
+
+def _computer_control_semantics(
+    path: Path | None,
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> tuple[set[str], dict[str, Any]]:
+    """Detect high-confidence custom computer/browser control sinks.
+
+    Detection is intentionally call-shape based. The word "computer" in a function
+    or variable name is not enough to establish computer-control authority.
+    """
+    caps: set[str] = set()
+    actions: set[str] = set()
+    mutating = False
+    read_observed = False
+    sink_labels: list[str] = []
+    sink_location: SourceLocation | None = None
+    mutating_sink_location: SourceLocation | None = None
+
+    for child in ast.walk(node):
+        if not isinstance(child, ast.Call) or not isinstance(child.func, ast.Attribute):
+            continue
+        called = (_dotted(child.func) or "").lower()
+        leaf = child.func.attr.lower()
+
+        if leaf == "computer":
+            action_node = _kw(child, "action")
+            if action_node is None:
+                continue
+            literal_action = _literal(action_node)
+            action = (
+                literal_action.strip().lower()
+                if isinstance(literal_action, str)
+                else "dynamic"
+            )
+            actions.add(action)
+            caps.add("computer.control")
+            label = f"{called}(action={action})"
+            sink_labels.append(label)
+            current_location = _location(path, child) if path is not None else None
+            sink_location = sink_location or current_location
+
+            if action in _COMPUTER_READ_ACTIONS:
+                caps.add("data.read")
+                read_observed = True
+            elif action in _COMPUTER_CONTROL_ONLY_ACTIONS:
+                pass
+            else:
+                # A dynamic action can select a mutating operation at runtime.
+                mutating = True
+                caps.add("external.write")
+                mutating_sink_location = mutating_sink_location or current_location
+            continue
+
+        receiver = (_dotted(child.func.value) or _call_name(child.func.value) or "").lower()
+        receiver_tokens = set(receiver.replace("-", "_").replace(".", "_").split("_"))
+        if not (receiver_tokens & _BROWSER_RECEIVER_MARKERS):
+            continue
+
+        if leaf in _BROWSER_READ_METHODS:
+            caps.update({"computer.control", "data.read"})
+            actions.add(leaf)
+            read_observed = True
+        elif leaf in _BROWSER_MUTATING_METHODS:
+            caps.update({"computer.control", "external.write"})
+            actions.add(leaf)
+            mutating = True
+        elif leaf in _BROWSER_NETWORK_READ_METHODS:
+            caps.update({"computer.control", "data.read", "network.external"})
+            actions.add(leaf)
+            read_observed = True
+        else:
+            continue
+
+        label = called
+        sink_labels.append(label)
+        current_location = _location(path, child) if path is not None else None
+        sink_location = sink_location or current_location
+        if mutating and mutating_sink_location is None:
+            mutating_sink_location = current_location
+
+    metadata: dict[str, Any] = {}
+    if "computer.control" in caps:
+        metadata = {
+            "computer_control_custom": True,
+            "computer_control_actions": sorted(actions),
+            "computer_control_mutating": mutating,
+            "computer_control_readonly": read_observed and not mutating,
+            "computer_control_sinks": sink_labels,
+            "computer_control_sink": sink_labels[0] if sink_labels else None,
+            "computer_control_sink_location": mutating_sink_location or sink_location,
+            "computer_control_evidence": "call_shape",
+        }
+    return caps, metadata
+
+
 def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[str]:
     caps = _name_capabilities(node.name)
     for child in ast.walk(node):
@@ -120,6 +238,8 @@ def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[
             caps.add("data.read")
         if "secretmanager" in called or "vault" in called or leaf in {"get_secret", "access_secret_version"}:
             caps.add("secrets.read")
+    computer_caps, _ = _computer_control_semantics(None, node)
+    caps.update(computer_caps)
     return caps
 
 
@@ -242,15 +362,22 @@ def _factory_agent(
         if not tool_name:
             continue
         caps = _name_capabilities(tool_name)
+        tool_metadata: dict[str, Any] = {
+            "framework": "langgraph",
+            "factory": call_name,
+        }
         if tool_name in functions:
-            caps.update(_function_capabilities(functions[tool_name]))
+            function = functions[tool_name]
+            caps.update(_function_capabilities(function))
+            _, computer_metadata = _computer_control_semantics(path, function)
+            tool_metadata.update(computer_metadata)
         agent.tools.append(
             Tool(
                 name=tool_name,
                 kind="langgraph_tool",
                 capabilities=caps,
                 location=_location(path, element),
-                metadata={"framework": "langgraph", "factory": call_name},
+                metadata=tool_metadata,
             )
         )
     if tools_expr is not None and not elements:
@@ -351,28 +478,33 @@ def scan_python_file(path: Path) -> Graph:
                     unresolved_dynamic_edge = True
                     continue
                 caps = _name_capabilities(node_name)
+                computer_metadata: dict[str, Any] = {}
                 if function_name and function_name in functions:
-                    caps.update(_function_capabilities(functions[function_name]))
+                    function = functions[function_name]
+                    caps.update(_function_capabilities(function))
+                    _, computer_metadata = _computer_control_semantics(path, function)
                 approval_control = bool(
                     function_name
                     and function_name in functions
                     and _function_has_human_approval_gate(functions[function_name])
                 )
+                tool_metadata = {
+                    "framework": "langgraph",
+                    "function": function_name,
+                    "graph": graph_alias,
+                    "approval_control": approval_control,
+                    "approval_mechanism": (
+                        "langgraph_human_interrupt" if approval_control else None
+                    ),
+                }
+                tool_metadata.update(computer_metadata)
                 tool = Tool(
                     name=node_name,
                     kind="langgraph_node",
                     capabilities=caps,
                     guardrails=approval_control,
                     location=_location(path, call),
-                    metadata={
-                        "framework": "langgraph",
-                        "function": function_name,
-                        "graph": graph_alias,
-                        "approval_control": approval_control,
-                        "approval_mechanism": (
-                            "langgraph_human_interrupt" if approval_control else None
-                        ),
-                    },
+                    metadata=tool_metadata,
                 )
                 agent.tools.append(tool)
                 if any(marker in node_name.lower() for marker in _RETRIEVAL_MARKERS):
