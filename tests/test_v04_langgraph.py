@@ -186,6 +186,19 @@ def test_langgraph_custom_computer_screenshot_is_read_only(tmp_path: Path) -> No
     assert not any(f.rule_id == "AGT023" for f in findings)
 
 
+def test_langgraph_unknown_literal_computer_action_is_not_assumed_mutating(tmp_path: Path) -> None:
+    _write_langgraph_computer_action(tmp_path, "inspect_status")
+
+    graph, findings = scan(tmp_path)
+    tool = next(t for a in graph.agents for t in a.tools if t.name == "take_computer_action")
+
+    assert "computer.control" in tool.capabilities
+    assert "external.write" not in tool.capabilities
+    assert tool.metadata["computer_control_actions"] == ["inspect_status"]
+    assert tool.metadata["computer_control_mutating"] is False
+    assert not any(f.rule_id == "AGT023" for f in findings)
+
+
 def test_langgraph_computer_word_alone_does_not_infer_control(tmp_path: Path) -> None:
     (tmp_path / "agent.py").write_text(
         """from langgraph.graph import StateGraph
