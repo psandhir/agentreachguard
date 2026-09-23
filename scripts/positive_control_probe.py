@@ -7,7 +7,7 @@ from horustrace.adg import build_adg
 
 root=Path(sys.argv[1]).resolve()
 graph, findings=scan(root)
-adg=build_adg(graph)
+adg=build_adg(graph, root)
 print(json.dumps({
   "agents":[{
     "name":a.name,
