@@ -21,6 +21,10 @@ inputs:
     description: Optional explicit suppression YAML path (scan mode only)
     required: false
     default: ""
+  authority-source:
+    description: Optional checked-out Terraform repository containing declared IAM bindings (scan mode only)
+    required: false
+    default: ""
   format:
     description: Scan output format (console, json, sarif); scan mode only
     required: false
@@ -77,6 +81,7 @@ runs:
         SCAN_FORMAT: ${{ inputs.format }}
         SCAN_STRICT: ${{ inputs.strict }}
         SCAN_SUPPRESSIONS: ${{ inputs.suppressions }}
+        SCAN_AUTHORITY_SOURCE: ${{ inputs.authority-source }}
       run: |
         scan_args=(scan "$SCAN_PATH" --fail-on "$SCAN_FAIL_ON" --format "$SCAN_FORMAT")
         case "$SCAN_STRICT" in
@@ -86,6 +91,9 @@ runs:
         esac
         if [[ -n "$SCAN_SUPPRESSIONS" ]]; then
           scan_args+=(--suppressions "$SCAN_SUPPRESSIONS")
+        fi
+        if [[ -n "$SCAN_AUTHORITY_SOURCE" ]]; then
+          scan_args+=(--authority-source "$SCAN_AUTHORITY_SOURCE")
         fi
         horustrace "${scan_args[@]}"
 
@@ -114,10 +122,15 @@ runs:
         DIFF_FAIL_ON: ${{ inputs.fail-on }}
         DIFF_STRICT: ${{ inputs.strict }}
         DIFF_SUPPRESSIONS: ${{ inputs.suppressions }}
+        DIFF_AUTHORITY_SOURCE: ${{ inputs.authority-source }}
         DIFF_GITHUB_SUMMARY: ${{ inputs.github-summary }}
       run: |
         if [[ -n "$DIFF_SUPPRESSIONS" ]]; then
           echo "suppressions is scan-only; HorusTrace diff intentionally ignores suppression files" >&2
+          exit 1
+        fi
+        if [[ -n "$DIFF_AUTHORITY_SOURCE" ]]; then
+          echo "authority-source is scan-only; a current IaC checkout is not applied to historical diff revisions" >&2
           exit 1
         fi
 
