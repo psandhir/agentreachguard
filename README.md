@@ -102,6 +102,23 @@ The v0.3 release (published as HorusTrace) performs repository-aware analysis of
 - client-secret literals (reported without secret material).
 - `.env` API-key/service-account-file indicators.
 - Terraform GCP IAM bindings feeding Layer 3.
+- Optional exact service-account enrichment from a Cloud Asset Inventory
+  `IAM_POLICY` NDJSON export.
+
+Enrich statically normalized GCP identities with observed direct cloud IAM bindings:
+
+```bash
+horustrace scan . \
+  --gcp-iam-export horustrace-iam.ndjson \
+  --fail-on none
+```
+
+Unconditional exact role bindings can participate in Layer-3 identity findings.
+Conditional IAM bindings remain explicit evidence and are not flattened into
+unconditional roles. HorusTrace does not yet calculate inherited IAM, expand groups
+or roles into permissions, or query live Google Cloud APIs. See
+[`docs/gcp-iam-enrichment.md`](docs/gcp-iam-enrichment.md) for the evidence model and
+limitations.
 
 See [`docs/google-adk.md`](docs/google-adk.md) for the exact supported surface and limitations.
 See [`docs/fast-agent.md`](docs/fast-agent.md) for FastAgent coverage and limitations.
