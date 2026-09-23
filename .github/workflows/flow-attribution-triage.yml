@@ -22,13 +22,13 @@ jobs:
         include:
           - name: google-adk-samples
             repo: google/adk-samples
-            sha: f73ad0ea0efe
+            sha: f73ad0ea0efee9665bcf140660b2c78a9572fc21
           - name: langchain-deepagents
             repo: langchain-ai/deepagents
-            sha: d5a18968f266
+            sha: d5a18968f2669ce08290b2d7e2c46da13b696efa
           - name: evalstate-fast-agent
             repo: evalstate/fast-agent
-            sha: 96ded66a3d21
+            sha: 96ded66a3d21472047859808ae30095390607171
 
     steps:
       - name: Check out HorusTrace
