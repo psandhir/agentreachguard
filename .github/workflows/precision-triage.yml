@@ -1,0 +1,62 @@
+name: Precision Triage
+
+on:
+  push:
+    branches:
+      - research/flow-attribution-triage
+    paths:
+      - ".github/workflows/precision-triage.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  trustworthy-adk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install HorusTrace main
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@main"
+      - name: Fetch frozen target
+        run: |
+          git init -q /tmp/target
+          git -C /tmp/target remote add origin https://github.com/sondera-ai/trustworthy-adk.git
+          git -C /tmp/target fetch --quiet --depth=1 --filter=blob:none origin f010ad416087252700863e8f62304b5224811606
+          git -C /tmp/target checkout --quiet --detach FETCH_HEAD
+      - name: Inspect send_email precision
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from horustrace.scanner import scan
+
+          graph, findings = scan(Path("/tmp/target"))
+          for agent in graph.agents:
+              for tool in agent.tools:
+                  if tool.name == "send_email":
+                      print("TOOL " + json.dumps({
+                          "agent": agent.name,
+                          "kind": tool.kind,
+                          "capabilities": sorted(tool.capabilities),
+                          "metadata": tool.metadata,
+                          "location": (
+                              {
+                                  "path": str(tool.location.path),
+                                  "line": tool.location.line,
+                              }
+                              if tool.location else None
+                          ),
+                      }, sort_keys=True, default=str))
+          for finding in findings:
+              if finding.rule_id in {"AGT020", "AGT040"}:
+                  print("FINDING " + json.dumps(finding.as_dict(), sort_keys=True, default=str))
+          print("COUNTS " + json.dumps({
+              "AGT020": sum(f.rule_id == "AGT020" for f in findings),
+              "AGT040": sum(f.rule_id == "AGT040" for f in findings),
+              "total_findings": len(findings),
+          }, sort_keys=True))
+          PY
