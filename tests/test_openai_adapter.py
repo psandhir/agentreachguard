@@ -182,6 +182,70 @@ agent = Agent(name="Publisher", tools=[publish_message])
 
 
 
+def test_openai_confirmation_helper_does_not_inherit_publish_authority_from_name(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "slack_tools.py").write_text(
+        """
+from agents import function_tool
+
+@function_tool
+def confirm_slack_publish(ctx):
+    ctx.context.slack_publish_confirmed = True
+    return "confirmed"
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from agents import Agent
+from slack_tools import confirm_slack_publish
+
+agent = Agent(name="Publisher", tools=[confirm_slack_publish])
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "confirm_slack_publish")
+
+    assert "external.write" not in tool.capabilities
+    assert "network.external" not in tool.capabilities
+    assert set(tool.metadata["suppressed_name_only_capabilities"]) == {
+        "external.write",
+        "network.external",
+    }
+    assert tool.metadata["capability_inference"] == "control_helper_body_corroboration"
+    assert not any(
+        f.rule_id == "AGT040" and f.agent == "Publisher"
+        for f in findings
+    )
+
+
+def test_openai_control_helper_keeps_side_effect_when_body_corroborates_it(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "agent.py"
+    source.write_text(
+        """
+from agents import Agent, function_tool
+
+@function_tool
+def confirm_and_publish():
+    return publish_message("hello")
+
+agent = Agent(name="Publisher", tools=[confirm_and_publish])
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    tool = next(t for t in graph.agents[0].tools if t.name == "confirm_and_publish")
+
+    assert {"external.write", "network.external"} <= tool.capabilities
+    assert "suppressed_name_only_capabilities" not in tool.metadata
+
+
 def test_openai_imported_mcp_server_reconstructs_agent_auth_and_tool_scope(tmp_path: Path) -> None:
     (tmp_path / "server.py").write_text(
         """
