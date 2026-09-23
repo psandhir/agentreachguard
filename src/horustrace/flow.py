@@ -114,6 +114,9 @@ _SAFE_TRANSFORM_CALLS = {
 _SECRET_ENV_MARKERS = {
     "secret", "token", "password", "api_key", "apikey", "private_key", "credential",
 }
+_AGENT_TOOL_CONTEXT_PARAMS = {
+    "self", "cls", "ctx", "context", "run_context", "tool_context",
+}
 
 
 def _location(path: Path, node: ast.AST) -> SourceLocation:
@@ -603,6 +606,53 @@ def _agent_for_chain(
         return None, {"basis": "ambiguous_same_file_tool_function"}
     return None, None
 
+def _parameter_location(info: _Function, name: str) -> SourceLocation:
+    args = [
+        *info.node.args.posonlyargs,
+        *info.node.args.args,
+        *info.node.args.kwonlyargs,
+    ]
+    if info.node.args.vararg:
+        args.append(info.node.args.vararg)
+    if info.node.args.kwarg:
+        args.append(info.node.args.kwarg)
+    node = next((arg for arg in args if arg.arg == name), info.node)
+    return _location(info.path, node)
+
+
+def _agent_tool_parameter_sources(
+    functions: dict[str, _Function],
+    function_key: str,
+    params: frozenset[str],
+    agent_binding: dict[str, str] | None,
+) -> tuple[_Source, ...]:
+    """Materialize symbolic parameters only at a proven agent-tool boundary."""
+    if not agent_binding or agent_binding.get("function") != function_key:
+        return ()
+    if agent_binding.get("basis") not in {"source_function_key", "same_file_tool_function"}:
+        return ()
+
+    info = functions.get(function_key)
+    if info is None:
+        return ()
+
+    tool_name = agent_binding.get("tool") or info.name
+    valid = set(info.params)
+    sources: list[_Source] = []
+    for name in sorted(params):
+        if name not in valid or name.lower() in _AGENT_TOOL_CONTEXT_PARAMS:
+            continue
+        location = _parameter_location(info, name)
+        label = f"{tool_name}.{name}"
+        token = (
+            f"{info.path.as_posix()}:{location.line}:agent_tool_input:"
+            f"{function_key}:{name}"
+        )
+        source_id = "source-v1:" + hashlib.sha256(token.encode("utf-8")).hexdigest()[:20]
+        sources.append(_Source(source_id, "agent_tool_input", label, location))
+    return tuple(sources)
+
+
 def _flow_id(root: Path, source: _Source, sink: _Sink, agent: str | None) -> str:
     payload = "\0".join((
         source.kind,
@@ -637,10 +687,19 @@ def analyze_repository_flows(root: Path, python_paths: list[Path], graph: Graph)
     for function_key in sorted(summaries):
         summary = summaries[function_key]
         for sink in summary.sinks:
-            if not sink.value.sources:
-                continue
             agent, agent_binding = _agent_for_chain(graph, functions, sink.call_chain)
-            for source in sink.value.sources:
+            parameter_sources = ()
+            if agent is not None:
+                parameter_sources = _agent_tool_parameter_sources(
+                    functions,
+                    function_key,
+                    sink.value.params,
+                    agent_binding,
+                )
+            sources = (*sink.value.sources, *parameter_sources)
+            if not sources:
+                continue
+            for source in sources:
                 flow_id = _flow_id(root, source, sink, agent)
                 if flow_id in seen:
                     continue
