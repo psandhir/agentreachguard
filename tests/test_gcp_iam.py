@@ -7,8 +7,8 @@ import pytest
 
 from horustrace.cli import main
 from horustrace.gcp_iam import (
-    GcpIamSnapshotError,
     enrich_gcp_iam_snapshot,
+    GcpIamSnapshotError,
     load_gcp_iam_snapshot,
 )
 from horustrace.models import Agent, Graph, Identity
@@ -250,8 +250,10 @@ def test_conditional_admin_role_is_reported_with_condition_limitation(
 
     assert "conditional_roles=roles/owner" in finding.evidence
     assert finding.limitations == [
-        "The triggering GCP IAM admin role is conditional; "
-        "IAM condition expressions were not evaluated."
+        (
+            "The triggering GCP IAM admin role is conditional; "
+            "IAM condition expressions were not evaluated."
+        )
     ]
 
 
