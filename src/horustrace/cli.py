@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter
 from datetime import UTC, date, datetime
 from pathlib import Path
 
@@ -24,6 +25,35 @@ from horustrace.scanner import ScannerError, scan
 from horustrace.suppressions import SuppressionError, write_baseline
 
 
+SOURCE_CONTEXTS = (
+    "runtime",
+    "test",
+    "example",
+    "tutorial",
+    "notebook",
+    "template-generated",
+    "unknown",
+)
+
+
+def _parse_excluded_source_contexts(values: list[str]) -> set[str]:
+    contexts = {
+        item.strip().lower().replace("_", "-")
+        for value in values
+        for item in value.split(",")
+        if item.strip()
+    }
+    invalid = sorted(contexts - set(SOURCE_CONTEXTS))
+    if invalid:
+        raise ValueError(
+            "unknown source context(s): "
+            + ", ".join(invalid)
+            + "; expected one of: "
+            + ", ".join(SOURCE_CONTEXTS)
+        )
+    return contexts
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="horustrace", description="Security analysis for AI agents")
     parser.add_argument("--version", action="version", version=f"horustrace {__version__}")
@@ -36,6 +66,18 @@ def _parser() -> argparse.ArgumentParser:
     scan_parser.add_argument("--config", type=Path, help="Repository scanner configuration YAML file.")
     scan_parser.add_argument("--suppressions", type=Path,
                              help="Explicit suppression YAML file.")
+    scan_parser.add_argument(
+        "--exclude-source-context",
+        "--exclude-source-role",
+        dest="exclude_source_context",
+        action="append",
+        default=[],
+        metavar="CONTEXTS",
+        help=(
+            "Comma-separated finding source contexts to exclude from active reporting "
+            "and fail-on evaluation. Coverage is not suppressed."
+        ),
+    )
     scan_parser.add_argument("--strict", action="store_true",
                              help="Return exit code 1 when analysis is incomplete.")
     scan_parser.add_argument(
@@ -140,6 +182,16 @@ def main(argv: list[str] | None = None) -> int:
             print(output)
         summary = report["summary"]
         return 0 if summary["passed"] == summary["cases"] else 1
+    excluded_source_contexts: set[str] = set()
+    if args.command == "scan":
+        try:
+            excluded_source_contexts = _parse_excluded_source_contexts(
+                args.exclude_source_context
+            )
+        except ValueError as exc:
+            print(f"horustrace: {exc}", file=sys.stderr)
+            return 1
+
     target = Path(args.path)
     if not target.exists():
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
@@ -193,6 +245,37 @@ def main(argv: list[str] | None = None) -> int:
         config = load_config(target if target.is_dir() else target.parent, args.config)
         graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
+        source_context_counts_before = Counter(
+            finding.source_context for finding in findings
+        )
+        excluded_source_context_counts = Counter(
+            finding.source_context
+            for finding in findings
+            if finding.source_context in excluded_source_contexts
+        )
+        if excluded_source_contexts:
+            findings = [
+                finding
+                for finding in findings
+                if finding.source_context not in excluded_source_contexts
+            ]
+        source_context_counts_after = Counter(
+            finding.source_context for finding in findings
+        )
+        graph.configuration_audit.update(
+            {
+                "excluded_source_contexts": sorted(excluded_source_contexts),
+                "excluded_findings_by_source_context": dict(
+                    sorted(excluded_source_context_counts.items())
+                ),
+                "source_context_counts_before_filter": dict(
+                    sorted(source_context_counts_before.items())
+                ),
+                "source_context_counts_after_filter": dict(
+                    sorted(source_context_counts_after.items())
+                ),
+            }
+        )
     except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
         print(f"horustrace: {exc}", file=sys.stderr)
         return 1
@@ -204,7 +287,30 @@ def main(argv: list[str] | None = None) -> int:
                 "version": __version__,
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
-                "configuration": {"path": str(config.source_path) if config.source_path else None, "repository": {"strict": config.strict}, "cli_overrides": {"strict": bool(args.strict)}, "effective": {"strict": bool(args.strict or config.strict)}, "disabled_rules": disabled_rules, "rule_overrides": {rule_id: {"enabled": override.enabled, "severity": override.severity.label() if override.severity else None} for rule_id, override in config.rules.items()}},
+                "configuration": {
+                    "path": str(config.source_path) if config.source_path else None,
+                    "repository": {"strict": config.strict},
+                    "cli_overrides": {
+                        "strict": bool(args.strict),
+                        "exclude_source_contexts": sorted(excluded_source_contexts),
+                    },
+                    "effective": {
+                        "strict": bool(args.strict or config.strict),
+                        "exclude_source_contexts": sorted(excluded_source_contexts),
+                    },
+                    "disabled_rules": disabled_rules,
+                    "rule_overrides": {
+                        rule_id: {
+                            "enabled": override.enabled,
+                            "severity": (
+                                override.severity.label()
+                                if override.severity
+                                else None
+                            ),
+                        }
+                        for rule_id, override in config.rules.items()
+                    },
+                },
                 "suppressions": {
                     "suppressed_findings": [f.as_dict() for f in graph.suppressed_findings],
                     "diagnostics": graph.suppression_diagnostics,
@@ -238,6 +344,18 @@ def main(argv: list[str] | None = None) -> int:
                     "adg_edges": len(graph.adg.edges) if graph.adg else 0,
                     "findings": len(findings),
                     "suppressed_findings": len(graph.suppressed_findings),
+                    "findings_by_source_context": dict(
+                        sorted(source_context_counts_after.items())
+                    ),
+                    "findings_by_source_context_before_filter": dict(
+                        sorted(source_context_counts_before.items())
+                    ),
+                    "excluded_findings": sum(
+                        excluded_source_context_counts.values()
+                    ),
+                    "excluded_findings_by_source_context": dict(
+                        sorted(excluded_source_context_counts.items())
+                    ),
                     "findings_by_layer": {
                         str(layer): sum(1 for finding in findings if finding.layer == layer)
                         for layer in range(1, 6)
