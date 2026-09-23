@@ -132,6 +132,59 @@ def _auth_from_headers(node: ast.AST | None) -> tuple[bool | None, list[str]]:
     return None, []
 
 
+def _credential_reference(node: ast.AST | None) -> str | None:
+    if node is None:
+        return None
+    if isinstance(node, ast.Call):
+        called = (_dotted(node.func) or _call_name(node.func) or "").lower()
+        if called in {"os.getenv", "os.environ.get"} and node.args:
+            name = _literal(node.args[0])
+            if isinstance(name, str):
+                return f"env:{name}"
+    if (
+        isinstance(node, ast.Subscript)
+        and (_dotted(node.value) or "").lower() == "os.environ"
+    ):
+        name = _literal(node.slice)
+        if isinstance(name, str):
+            return f"env:{name}"
+    if isinstance(node, ast.Name):
+        return f"variable:{node.id}"
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return "literal"
+
+    references = [
+        reference
+        for child in ast.iter_child_nodes(node)
+        if (reference := _credential_reference(child)) is not None
+    ]
+    unique = list(dict.fromkeys(references))
+    non_literal = [reference for reference in unique if reference != "literal"]
+    if len(non_literal) == 1:
+        return non_literal[0]
+    if not non_literal and len(unique) == 1:
+        return unique[0]
+    return None
+
+
+def _auth_credential_source(headers_node: ast.AST | None) -> str | None:
+    entries = _dict_entries(headers_node)
+    auth_headers = {
+        "authorization",
+        "proxy-authorization",
+        "x-api-key",
+        "x-goog-api-key",
+    }
+    references = [
+        reference
+        for key, value in entries.items()
+        if key.lower() in auth_headers
+        if (reference := _credential_reference(value)) is not None
+    ]
+    unique = list(dict.fromkeys(references))
+    return unique[0] if len(unique) == 1 else None
+
+
 def _server_from_connection_dict(
     path: Path,
     name: str,
@@ -146,8 +199,15 @@ def _server_from_connection_dict(
     if not transport:
         transport = "stdio" if "command" in entries else "streamable-http" if "url" in entries or "server_url" in entries else "unknown"
     authenticated, auth_keys = _auth_from_headers(entries.get("headers"))
+    credential_source = _auth_credential_source(entries.get("headers"))
     if url and "headers" not in entries:
         authenticated = False
+    allowed_tools = _string_list(
+        entries.get("allowed_tools") or entries.get("allowedTools")
+    )
+    denied_tools = _string_list(
+        entries.get("denied_tools") or entries.get("deniedTools")
+    )
     return MCPServer(
         name=name,
         transport=transport,
@@ -155,11 +215,14 @@ def _server_from_connection_dict(
         command=command,
         args=_string_list(entries.get("args")),
         authenticated=authenticated,
+        allowed_tools=allowed_tools,
+        denied_tools=denied_tools,
         location=_location(path, node),
         metadata={
             "framework": "mcp",
             "source": "python_connection_config",
             "auth_keys": auth_keys,
+            "credential_source": credential_source,
             "dynamic_mcp_endpoint": bool(("url" in entries or "server_url" in entries) and url is None),
             "dynamic_command": bool("command" in entries and command is None),
         },

@@ -29,6 +29,7 @@ from horustrace.limits import (
     validate_json_safety,
     validate_yaml_safety,
 )
+from horustrace.mcp_authority import reconstruct_mcp_authority
 from horustrace.mcp_context import reconstruct_mcp_context, resolve_imported_mcp_placeholders
 from horustrace.models import (
     Agent,
@@ -736,6 +737,7 @@ def scan(
         graph,
         root if root.is_dir() else root.parent,
     )
+    reconstruct_mcp_authority(graph, approved_python_paths)
     reconstruct_mcp_context(graph)
     _link_global_identities(graph)
     _resolve_imported_tool_placeholders(graph)
