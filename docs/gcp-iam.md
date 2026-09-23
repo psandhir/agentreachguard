@@ -1,7 +1,8 @@
 # Offline GCP IAM authority enrichment
 
 HorusTrace can enrich already-discovered Google Cloud service-account identities with
-an offline Cloud Asset Inventory IAM policy search export.
+offline Cloud Asset Inventory IAM policy evidence. It accepts either IAM policy search
+results or an `exportAssets` IAM-policy snapshot.
 
 This is an optional control-plane evidence source. HorusTrace does not authenticate to
 Google Cloud during a normal scan and does not execute target code.
@@ -29,6 +30,26 @@ The supported input is the native JSON shape returned by
 
 See the Google Cloud documentation:
 <https://docs.cloud.google.com/asset-inventory/docs/search-allow-policies>
+
+### Alternative: export an IAM-policy asset snapshot
+
+For larger or repeatable snapshots, Cloud Asset Inventory can export IAM-policy Asset
+records to Cloud Storage:
+
+```bash
+gcloud asset export \
+  --project=PROJECT_ID \
+  --content-type=iam-policy \
+  --output-path=gs://BUCKET/horustrace-iam.ndjson
+```
+
+Download the resulting object to the trusted analysis workspace before invoking
+HorusTrace. Cloud Storage exports are newline-delimited Asset JSON records. HorusTrace
+normalizes each Asset's `name`, `assetType`, `iamPolicy.bindings[]` and
+`ancestors` into the same internal grant model used for IAM policy search results.
+
+See:
+<https://docs.cloud.google.com/asset-inventory/docs/export-cloud-storage>
 
 ## Enrich a scan
 
@@ -89,8 +110,9 @@ Layer-3 identity rules then run over the enriched identity. For example, an obse
 `roles/owner` grant can trigger `IDN001` for the agent that uses the matched
 service account.
 
-The ADG identity node records the observed resource scopes and marks the authority
-source as `gcp_iam_snapshot`.
+The ADG identity node records the observed resource scopes, normalized IAM grants and
+marks the authority source as `gcp_iam_snapshot`. For `exportAssets` input, grant
+records also retain the exported resource ancestry.
 
 Coverage resolution includes summary counts for:
 
@@ -123,7 +145,10 @@ The snapshot parser:
 - caps IAM search results and normalized grants;
 - fails closed when an explicitly supplied snapshot is malformed;
 - does not execute or import target repository code;
-- does not print credential material.
+- does not print credential material;
+- does not retain IAM CEL condition expressions in normalized graph evidence;
+- records only the snapshot filename in finding provenance rather than an absolute
+  workstation or runner path.
 
 IAM policy exports can contain sensitive organization and principal information. Keep
 the export in an appropriately protected location; committing it to the scanned
