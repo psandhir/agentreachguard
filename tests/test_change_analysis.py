@@ -258,3 +258,83 @@ def test_diff_cli_rejects_three_dot_range(tmp_path: Path, capsys) -> None:
 
     assert result == 1
     assert "revision range must use BASE..HEAD" in capsys.readouterr().err
+
+def test_compare_scans_classifies_severity_escalation_as_worsened(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-severity"
+    head_root = tmp_path / "head-severity"
+    base_root.mkdir()
+    head_root.mkdir()
+    (base_root / "agent.py").write_text("# base\n", encoding="utf-8")
+    (head_root / "agent.py").write_text("# head\n", encoding="utf-8")
+
+    common = {
+        "rule_id": "TEST003",
+        "title": "Severity change",
+        "message": "Severity change",
+        "recommendation": "Review it",
+        "agent": "agent",
+        "evidence": ["same evidence"],
+    }
+    base_finding = Finding(
+        **common,
+        severity=Severity.MEDIUM,
+        location=SourceLocation(base_root / "agent.py"),
+    )
+    head_finding = Finding(
+        **common,
+        severity=Severity.HIGH,
+        location=SourceLocation(head_root / "agent.py"),
+    )
+
+    report = compare_scans(
+        Graph(adg=AgentDependencyGraph()),
+        [base_finding],
+        base_root,
+        Graph(adg=AgentDependencyGraph()),
+        [head_finding],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    assert report["summary"]["introduced_findings"] == 0
+    assert report["summary"]["changed_findings"] == 1
+    assert report["summary"]["worsened_findings"] == 1
+    assert report["findings"]["worsened"][0]["before"]["severity"] == "medium"
+    assert report["findings"]["worsened"][0]["after"]["severity"] == "high"
+
+
+def test_diff_cli_fails_on_worsened_finding_threshold(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    report = {
+        "base": {"analysis_incomplete": False},
+        "head": {"analysis_incomplete": False},
+        "findings": {
+            "introduced": [],
+            "worsened": [
+                {
+                    "before": {"severity": "medium"},
+                    "after": {"severity": "high"},
+                }
+            ],
+        },
+    }
+    monkeypatch.setattr("horustrace.cli.build_git_diff", lambda *_args: report)
+
+    result = main(
+        [
+            "diff",
+            "base..head",
+            "--repo",
+            str(tmp_path),
+            "--fail-on",
+            "high",
+        ]
+    )
+
+    assert result == 2
+
