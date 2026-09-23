@@ -153,8 +153,13 @@ def effective_mcp_authorities(graph: Graph) -> list[EffectiveMCPAuthority]:
                 unresolved.append("tool_filter")
             if auth_state == "unknown":
                 unresolved.append("authentication_state")
-            if auth_state == "authenticated" and identity is None:
-                unresolved.append("identity")
+            if auth_state == "authenticated":
+                if auth_mechanism in {"unknown", "configured-auth"}:
+                    unresolved.append("authentication_mechanism")
+                if identity is None:
+                    unresolved.append("identity")
+                elif identity.credential_source is None:
+                    unresolved.append("credential_source")
             if destination is None:
                 unresolved.append("destination")
 
