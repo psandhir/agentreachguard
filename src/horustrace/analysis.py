@@ -4,13 +4,14 @@ from horustrace.heuristics import (
     HIGH_RISK_CAPABILITIES,
     UNTRUSTED_INPUT_KINDS,
 )
-from horustrace.models import AttackPath, Graph, Severity
+from horustrace.models import AgentReachability, AttackPath, FlowPath, Graph, Severity
 
 _UNTRUSTED_FLOW_SOURCES = {
     "user_input",
     "external_http_response",
     "web_retrieval",
     "mcp_response",
+    "agent_tool_input",
 }
 
 
@@ -38,11 +39,22 @@ def _path_metadata(*, basis: str, flow_id: str | None = None) -> dict:
     }
 
 
+def _flow_path_metadata(flow: FlowPath) -> dict:
+    return {
+        **_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+        "source_kind": flow.source_kind,
+        "sink_kind": flow.sink_kind,
+        "agent_reachability": flow.agent_reachability.value,
+        "execution_context": flow.execution_context.value,
+    }
+
+
 def _flow_backed_paths(graph: Graph) -> list[AttackPath]:
     paths: list[AttackPath] = []
     for flow in graph.flow_paths:
         if (
             not flow.agent
+            or flow.agent_reachability is not AgentReachability.PROVEN_AGENT_REACHABLE
             or flow.basis != "static_dataflow"
             or flow.confidence.value != "supported"
         ):
@@ -61,7 +73,7 @@ def _flow_backed_paths(graph: Graph) -> list[AttackPath]:
                         "a process/code execution sink."
                     ),
                     location=flow.steps[-1].location if flow.steps else None,
-                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                    metadata=_flow_path_metadata(flow),
                 )
             )
         elif flow.source_kind in _UNTRUSTED_FLOW_SOURCES and flow.sink_kind == "memory_write":
@@ -77,7 +89,7 @@ def _flow_backed_paths(graph: Graph) -> list[AttackPath]:
                         "an agent memory/checkpoint write sink."
                     ),
                     location=flow.steps[-1].location if flow.steps else None,
-                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                    metadata=_flow_path_metadata(flow),
                 )
             )
         elif flow.source_kind == "secret_value" and flow.sink_kind == "external_send":
@@ -93,7 +105,7 @@ def _flow_backed_paths(graph: Graph) -> list[AttackPath]:
                         "source to an external send sink."
                     ),
                     location=flow.steps[-1].location if flow.steps else None,
-                    metadata=_path_metadata(basis="static_dataflow", flow_id=flow.flow_id),
+                    metadata=_flow_path_metadata(flow),
                 )
             )
     return paths
