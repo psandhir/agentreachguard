@@ -22,17 +22,21 @@ jobs:
           - name: issue-triager-agent
             repo: pamelafox/issue-triager-agent
             sha: 64d94249a94cfc2eefb5d52c0a954a936bc6b421
+            horustrace_ref: fix/langgraph-local-container-mutation
           - name: github-standup-agent
             repo: andrewm4894/github-standup-agent
             sha: cf2ff06f96409e9515580d5ea4d6c94774b12436
+            horustrace_ref: fix/openai-control-helper-capabilities
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
-      - name: Install HorusTrace main
-        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@main"
+      - name: Install HorusTrace candidate
+        env:
+          HORUSTRACE_REF: ${{ matrix.horustrace_ref }}
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@${HORUSTRACE_REF}"
       - name: Fetch frozen target
         env:
           TARGET_REPO: ${{ matrix.repo }}
