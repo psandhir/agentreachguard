@@ -133,8 +133,12 @@ horustrace authority . --format json --output mcp-authority.json
 The authority report answers which normalized agent is statically bound to each MCP
 server, the known positive/negative tool scope, authentication identity and credential
 source, fixed destination, and resource authority. Unknown remote tool catalogues,
-dynamic filters, authentication state, or destinations remain explicit in the
-`unresolved` list rather than being inferred.
+dynamic filters, authentication state, authentication mechanism, credential source, or
+destinations remain explicit in the `unresolved` list rather than being inferred.
+
+A relationship is marked `fully_resolved` only when every reported security dimension
+has static evidence. For authenticated MCP relationships this requires a concrete
+authentication mechanism, a resolved identity, and a known credential source.
 
 
 ### ADK demo
