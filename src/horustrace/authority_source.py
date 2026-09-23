@@ -122,20 +122,21 @@ def _authority_files(root: Path) -> list[Path]:
     files: list[Path] = []
     visited = 0
     for candidate in root.rglob("*"):
-        if candidate.is_file():
-            visited += 1
-            if visited > MAX_FILES_VISITED:
-                raise AuthoritySourceError(
-                    f"{root}: authority-source traversal exceeds the "
-                    f"{MAX_FILES_VISITED}-file safety limit"
-                )
         try:
             relative = candidate.relative_to(root)
         except ValueError:
             continue
         if any(part in _IGNORED_DIRS for part in relative.parts):
             continue
-        if not candidate.is_file() or candidate.suffix.lower() != ".tf":
+        if not candidate.is_file():
+            continue
+        visited += 1
+        if visited > MAX_FILES_VISITED:
+            raise AuthoritySourceError(
+                f"{root}: authority-source traversal exceeds the "
+                f"{MAX_FILES_VISITED}-file safety limit"
+            )
+        if candidate.suffix.lower() != ".tf":
             continue
         if not is_within_root(candidate, containment_root):
             raise AuthoritySourceError(
@@ -146,6 +147,11 @@ def _authority_files(root: Path) -> list[Path]:
                 raise AuthoritySourceError(
                     f"{candidate}: Terraform authority source exceeds the file safety limit"
                 )
+            candidate.read_text(encoding="utf-8")
+        except UnicodeDecodeError as exc:
+            raise AuthoritySourceError(
+                f"{candidate}: Terraform authority source is not valid UTF-8"
+            ) from exc
         except OSError as exc:
             raise AuthoritySourceError(
                 f"{candidate}: cannot inspect Terraform authority source"
