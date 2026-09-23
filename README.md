@@ -396,14 +396,76 @@ example `git fetch origin main`.
 
 ## GitHub Action
 
+### Full repository scan
+
+The default Action mode remains a normal scan:
+
 ```yaml
-- uses: psandhir/horustrace@v0.4.0
+- uses: psandhir/horustrace@v0.4.1
   with:
     path: .
     fail-on: high
     strict: "true"
     suppressions: .horustrace.suppressions.yaml
 ```
+
+### Pull-request security delta
+
+Use `mode: diff` to gate only security changes introduced by a pull request:
+
+```yaml
+name: HorusTrace PR Security
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  horustrace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: psandhir/horustrace@v0.4.1
+        with:
+          mode: diff
+          fail-on: high
+          strict: "true"
+```
+
+Diff mode reads the immutable `pull_request.base.sha` and `pull_request.head.sha`
+values from the GitHub event payload. A shallow checkout is sufficient: HorusTrace
+checks whether those commits are already present and fetches only the missing immutable
+revisions. Fork pull requests have a narrow `refs/pull/<number>/head` fallback.
+
+The Action does not compare against GitHub's synthetic pull-request merge commit and
+does not require a moving base-branch name. It writes the context-aware Markdown
+security delta to the job log and, by default, to the GitHub Step Summary. The same
+`--fail-on` and `--strict` exit semantics used by `horustrace diff` determine the
+Action result.
+
+The workflow must check out the target repository before invoking HorusTrace. The
+Action installs HorusTrace from its own Action revision and statically materializes
+the target commits; it does not import target modules or launch target agents/MCP
+servers.
+
+For non-`pull_request` events, provide both immutable revisions explicitly:
+
+```yaml
+- uses: psandhir/horustrace@v0.4.1
+  with:
+    mode: diff
+    base-sha: 0123456789abcdef0123456789abcdef01234567
+    head-sha: 89abcdef0123456789abcdef0123456789abcdef
+    fail-on: high
+```
+
+Branch names and tags are deliberately not accepted by these Action override inputs.
+The Action exposes `base-sha`, `head-sha`, and `report-path` outputs for downstream
+steps. Set `github-summary: "false"` if a workflow does not want the Markdown summary.
+Explicit suppression files are scan-only; diff mode fails rather than pretending a
+suppression file affects change analysis.
 
 ## Design principles
 
