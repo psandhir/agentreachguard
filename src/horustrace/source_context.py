@@ -4,6 +4,8 @@ from pathlib import Path
 
 SOURCE_CONTEXTS = (
     "runtime",
+    "cli",
+    "application-support",
     "test",
     "example",
     "tutorial",
@@ -14,6 +16,8 @@ SOURCE_CONTEXTS = (
 
 NON_RUNTIME_SOURCE_CONTEXTS = frozenset(
     {
+        "cli",
+        "application-support",
         "test",
         "example",
         "tutorial",
@@ -42,6 +46,20 @@ _TEMPLATE_DIRS = {
     "fixtures",
     "benchmark",
     "benchmarks",
+}
+_CLI_DIRS = {"cli", "command", "commands"}
+_APPLICATION_SUPPORT_DIRS = {
+    "ci",
+    "cicd",
+    "deploy",
+    "deployment",
+    "infra",
+    "infrastructure",
+    "migration",
+    "migrations",
+    "script",
+    "scripts",
+    "setup",
 }
 
 
@@ -77,6 +95,15 @@ def classify_source_context(path: Path | None) -> str:
         or name.endswith((".template", ".j2", ".jinja", ".jinja2"))
     ):
         return "template-generated"
+    if (
+        path_parts_match(lowered_parts, _CLI_DIRS)
+        or name == "__main__.py"
+        or name == "cli.py"
+        or name.endswith("_cli.py")
+    ):
+        return "cli"
+    if path_parts_match(lowered_parts, _APPLICATION_SUPPORT_DIRS):
+        return "application-support"
     return "runtime"
 
 
