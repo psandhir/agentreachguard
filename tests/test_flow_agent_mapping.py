@@ -193,3 +193,124 @@ workflow.add_node("executor", fetch_and_execute)
     assert flows[0].metadata["agent_binding"]["basis"] == "source_function_key"
     tool = next(t for t in graph.agents[0].tools if t.name == "executor")
     assert tool.metadata["source_function_key"] == "workflow.fetch_and_execute"
+
+
+
+def test_normalized_agent_tool_parameter_becomes_flow_source(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """
+import subprocess
+from agents import Agent, function_tool
+
+@function_tool
+def run_command(command: str) -> str:
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
+
+agent = Agent(name="Executor", instructions="Run commands.", tools=[run_command])
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+    flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "agent_tool_input"
+        and flow.sink_kind == "process_execute"
+    ]
+
+    assert len(flows) == 1
+    flow = flows[0]
+    assert flow.agent == "Executor"
+    assert flow.source_label == "run_command.command"
+    assert flow.basis == "static_dataflow"
+    assert flow.metadata["agent_binding"]["basis"] == "source_function_key"
+    assert flow.metadata["agent_binding"]["function"] == "agent.run_command"
+
+
+def test_agent_tool_parameter_flows_through_local_helper(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """
+import subprocess
+from agents import Agent, function_tool
+
+def execute(command: str) -> str:
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
+
+@function_tool
+def run_command(command: str) -> str:
+    return execute(command)
+
+agent = Agent(name="Executor", instructions="Run commands.", tools=[run_command])
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+    flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "agent_tool_input"
+        and flow.sink_kind == "process_execute"
+    ]
+
+    assert len(flows) == 1
+    assert flows[0].agent == "Executor"
+    assert flows[0].metadata["agent_binding"]["basis"] == "source_function_key"
+    assert flows[0].metadata["call_chain"] == [
+        "agent.run_command",
+        "agent.execute",
+    ]
+
+
+def test_plain_function_parameter_is_not_promoted_to_agent_tool_input(tmp_path: Path) -> None:
+    source = tmp_path / "helper.py"
+    source.write_text(
+        """
+import subprocess
+
+def run_command(command: str) -> str:
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout
+""",
+        encoding="utf-8",
+    )
+
+    graph = Graph()
+    flows = analyze_repository_flows(tmp_path, [source], graph)
+
+    assert flows == []
+
+
+def test_framework_context_parameter_is_not_promoted_to_agent_tool_input(tmp_path: Path) -> None:
+    (tmp_path / "agent.py").write_text(
+        """
+import subprocess
+from agents import Agent, function_tool
+
+@function_tool
+def run_command(ctx, command: str) -> str:
+    subprocess.run(ctx, shell=True)
+    return command
+
+agent = Agent(name="Executor", instructions="Run commands.", tools=[run_command])
+""",
+        encoding="utf-8",
+    )
+
+    from horustrace.scanner import scan
+
+    graph, _ = scan(tmp_path)
+
+    assert not [
+        flow
+        for flow in graph.flow_paths
+        if flow.source_kind == "agent_tool_input"
+        and flow.source_label == "run_command.ctx"
+    ]
