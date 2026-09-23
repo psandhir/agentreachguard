@@ -12,6 +12,7 @@ from horustrace.gcp_iam import (
     load_gcp_iam_snapshot,
 )
 from horustrace.models import Agent, Graph, Identity
+from horustrace.rules.builtin import evaluate
 
 
 _AGENT_SA = "agent@demo-project.iam.gserviceaccount.com"
@@ -202,10 +203,46 @@ def test_scan_cli_enriches_identity_and_reports_cloud_admin_role(
         and "gcp_iam_role=roles/owner" in fact["fact"]
         for fact in finding["provenance"]
     )
-    assert any(
-        "IAM condition expressions were not evaluated" in limitation
-        for limitation in finding["limitations"]
+    assert finding["limitations"] == []
+
+
+def test_conditional_admin_role_is_reported_with_condition_limitation(
+    tmp_path: Path,
+) -> None:
+    snapshot = _write_snapshot(
+        tmp_path / "conditional-admin.json",
+        [
+            {
+                "resource": "//cloudresourcemanager.googleapis.com/projects/demo-project",
+                "assetType": "cloudresourcemanager.googleapis.com/Project",
+                "policy": {
+                    "bindings": [
+                        {
+                            "role": "roles/owner",
+                            "members": [f"serviceAccount:{_AGENT_SA}"],
+                            "condition": {
+                                "title": "temporary-owner",
+                                "expression": (
+                                    "request.time < timestamp('2030-01-01T00:00:00Z')"
+                                ),
+                            },
+                        }
+                    ]
+                },
+            }
+        ],
     )
+    identity = Identity(name=_AGENT_SA, provider="gcp")
+    graph = Graph(agents=[Agent(name="analyst", identities=[identity])])
+
+    enrich_gcp_iam_snapshot(graph, snapshot)
+    finding = next(item for item in evaluate(graph) if item.rule_id == "IDN001")
+
+    assert "conditional_roles=roles/owner" in finding.evidence
+    assert finding.limitations == [
+        "The triggering GCP IAM admin role is conditional; "
+        "IAM condition expressions were not evaluated."
+    ]
 
 
 def test_graph_cli_exposes_observed_cloud_resource_scopes(
