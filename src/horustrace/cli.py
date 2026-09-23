@@ -17,6 +17,7 @@ from horustrace.change_analysis import build_git_diff
 from horustrace.change_analysis import render_console as render_diff_console
 from horustrace.change_analysis import render_markdown as render_diff_markdown
 from horustrace.config import ConfigError, load_config
+from horustrace.gcp_iam import GcpIamExportError
 from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
 from horustrace.models import Severity
@@ -57,6 +58,14 @@ def _parser() -> argparse.ArgumentParser:
     scan_parser.add_argument("--format", choices=["console", "json", "sarif"], default="console")
     scan_parser.add_argument("--output", type=Path)
     scan_parser.add_argument("--config", type=Path, help="Repository scanner configuration YAML file.")
+    scan_parser.add_argument(
+        "--gcp-iam-export",
+        type=Path,
+        help=(
+            "Optional Cloud Asset Inventory IAM_POLICY NDJSON export used to enrich "
+            "exact matching GCP identities."
+        ),
+    )
     scan_parser.add_argument("--suppressions", type=Path,
                              help="Explicit suppression YAML file.")
     scan_parser.add_argument(
@@ -100,10 +109,12 @@ def _parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("path", nargs="?", default=".")
     graph_parser.add_argument("--output", type=Path)
     graph_parser.add_argument("--config", type=Path)
+    graph_parser.add_argument("--gcp-iam-export", type=Path)
     aibom_parser = sub.add_parser("aibom", help="Generate an Agent Bill of Materials")
     aibom_parser.add_argument("path", nargs="?", default=".")
     aibom_parser.add_argument("--output", type=Path)
     aibom_parser.add_argument("--config", type=Path)
+    aibom_parser.add_argument("--gcp-iam-export", type=Path)
     diff_parser = sub.add_parser(
         "diff",
         help="Compare findings and effective authority across two Git revisions",
@@ -282,8 +293,19 @@ def main(argv: list[str] | None = None) -> int:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
-            graph, _ = scan(target, config=config)
-        except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
+            graph, _ = scan(
+                target,
+                config=config,
+                gcp_iam_export=args.gcp_iam_export,
+            )
+        except (
+            ConfigError,
+            GcpIamExportError,
+            ManifestError,
+            ScannerError,
+            SuppressionError,
+            ScanLimitError,
+        ) as exc:
             print(f"horustrace: {exc}", file=sys.stderr)
             return 1
         if graph.adg is None:
@@ -324,7 +346,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Wrote {len(findings)} expiring suppressions to {args.output}")
             return 0
         config = load_config(target if target.is_dir() else target.parent, args.config)
-        graph, findings = scan(target, suppressions_path=args.suppressions, config=config)
+        graph, findings = scan(
+            target,
+            suppressions_path=args.suppressions,
+            config=config,
+            gcp_iam_export=args.gcp_iam_export,
+        )
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
         source_context_counts_before = {
             context: sum(
@@ -367,7 +394,14 @@ def main(argv: list[str] | None = None) -> int:
                 ),
             }
         )
-    except (ConfigError, ManifestError, ScannerError, SuppressionError, ScanLimitError) as exc:
+    except (
+        ConfigError,
+        GcpIamExportError,
+        ManifestError,
+        ScannerError,
+        SuppressionError,
+        ScanLimitError,
+    ) as exc:
         print(f"horustrace: {exc}", file=sys.stderr)
         return 1
     if args.format == "console":
