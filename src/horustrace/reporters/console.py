@@ -5,6 +5,7 @@ from pathlib import Path
 
 from horustrace.models import Finding, Graph, Severity
 from horustrace.provenance import control_observations
+from horustrace.source_context import SOURCE_CONTEXTS
 
 LAYER_NAMES = {
     1: "Agent configuration",
@@ -57,15 +58,7 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
     for layer in range(1, 6):
         lines.append(f"  L{layer} {LAYER_NAMES[layer]}: {layer_counts[layer]} finding(s)")
     lines.extend(["", "Findings by source context"])
-    for source_context in (
-        "runtime",
-        "test",
-        "example",
-        "tutorial",
-        "notebook",
-        "template-generated",
-        "unknown",
-    ):
+    for source_context in SOURCE_CONTEXTS:
         lines.append(
             f"  {source_context}: {source_context_counts[source_context]} finding(s)"
         )
@@ -78,6 +71,27 @@ def render(graph: Graph, findings: list[Finding], root: Path) -> str:
             )
         )
     lines.append("")
+
+    gcp_iam = graph.configuration_audit.get("gcp_iam_export")
+    if gcp_iam:
+        lines.extend(
+            [
+                "GCP IAM enrichment",
+                f"  Export: {gcp_iam.get('path')}",
+                f"  Records: {gcp_iam.get('records', 0)}",
+                (
+                    "  Service-account bindings: "
+                    f"{gcp_iam.get('service_account_bindings', 0)}"
+                ),
+                f"  Matched identities: {gcp_iam.get('matched_identities', 0)}",
+                f"  Matched bindings: {gcp_iam.get('matched_bindings', 0)}",
+                (
+                    "  Conditional matched bindings: "
+                    f"{gcp_iam.get('conditional_matched_bindings', 0)}"
+                ),
+                "",
+            ]
+        )
 
     if graph.suppressed_findings or graph.suppression_diagnostics:
         lines.append("Suppressions")
