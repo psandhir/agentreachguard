@@ -219,26 +219,71 @@ def _computer_control_semantics(
 def _local_container_names(
     node: ast.FunctionDef | ast.AsyncFunctionDef,
 ) -> set[str]:
-    """Return locals initialized as in-memory collection objects."""
-    names: set[str] = set()
-    for child in ast.walk(node):
-        if not isinstance(child, (ast.Assign, ast.AnnAssign)):
-            continue
-        value = child.value
-        targets = child.targets if isinstance(child, ast.Assign) else [child.target]
-        local_container = isinstance(value, (ast.Dict, ast.List, ast.Set))
-        if isinstance(value, ast.Call):
-            local_container = (_call_name(value.func) or "") in {
-                "dict",
-                "list",
-                "set",
-            }
-        if not local_container:
-            continue
-        for target in targets:
-            if isinstance(target, ast.Name):
-                names.add(target.id)
-    return names
+    """Return locals proven to remain in-memory collection objects."""
+    assignments: dict[str, list[ast.AST | None]] = {}
+    excluded = {
+        arg.arg
+        for arg in (
+            list(node.args.posonlyargs)
+            + list(node.args.args)
+            + list(node.args.kwonlyargs)
+        )
+    }
+    if node.args.vararg:
+        excluded.add(node.args.vararg.arg)
+    if node.args.kwarg:
+        excluded.add(node.args.kwarg.arg)
+
+    class AssignmentVisitor(ast.NodeVisitor):
+        def visit_FunctionDef(self, child: ast.FunctionDef) -> None:
+            return
+
+        def visit_AsyncFunctionDef(self, child: ast.AsyncFunctionDef) -> None:
+            return
+
+        def visit_Lambda(self, child: ast.Lambda) -> None:
+            return
+
+        def visit_ClassDef(self, child: ast.ClassDef) -> None:
+            return
+
+        def visit_Global(self, child: ast.Global) -> None:
+            excluded.update(child.names)
+
+        def visit_Nonlocal(self, child: ast.Nonlocal) -> None:
+            excluded.update(child.names)
+
+        def visit_Assign(self, child: ast.Assign) -> None:
+            for target in child.targets:
+                if isinstance(target, ast.Name):
+                    assignments.setdefault(target.id, []).append(child.value)
+            self.generic_visit(child.value)
+
+        def visit_AnnAssign(self, child: ast.AnnAssign) -> None:
+            if isinstance(child.target, ast.Name):
+                assignments.setdefault(child.target.id, []).append(child.value)
+            if child.value is not None:
+                self.generic_visit(child.value)
+
+    visitor = AssignmentVisitor()
+    for statement in node.body:
+        visitor.visit(statement)
+
+    def is_local_container(value: ast.AST | None) -> bool:
+        if isinstance(value, (ast.Dict, ast.List, ast.Set)):
+            return True
+        return (
+            isinstance(value, ast.Call)
+            and (_call_name(value.func) or "") in {"dict", "list", "set"}
+        )
+
+    return {
+        name
+        for name, values in assignments.items()
+        if name not in excluded
+        and values
+        and all(is_local_container(value) for value in values)
+    }
 
 
 def _is_local_container_update(
