@@ -8,7 +8,11 @@ from horustrace.models import Graph, Identity, SourceLocation
 RESOURCE_RE = re.compile(r'^\s*resource\s+"([^"]+)"\s+"([^"]+)"\s*\{')
 ROLE_RE = re.compile(r'\b(role|role_definition_name)\s*=\s*"([^"]+)"')
 MEMBER_RE = re.compile(r'\b(member|principal_id)\s*=\s*"([^"]+)"')
-SCOPE_RE = re.compile(r'\b(scope|project|resource_group_name)\s*=\s*"([^"]+)"')
+MEMBERS_RE = re.compile(r'\bmembers\s*=\s*\[([^\]]*)\]', re.DOTALL)
+SCOPE_RE = re.compile(
+    r'\b(scope|project|folder|org_id|organization|resource_group_name|service_account_id)'
+    r'\s*=\s*"([^"]+)"'
+)
 ACTIONS_RE = re.compile(r'"Action"\s*:\s*(\[[^\]]*\]|"[^"]+")', re.DOTALL)
 STRING_RE = re.compile(r'"([^"]+)"')
 
@@ -46,6 +50,16 @@ def _blocks(text: str):
         yield resource_type, name, start + 1, "\n".join(lines[start:i])
 
 
+def _literal_members(block: str) -> list[str]:
+    members: list[str] = []
+    singular = MEMBER_RE.search(block)
+    if singular:
+        members.append(singular.group(2))
+    for match in MEMBERS_RE.finditer(block):
+        members.extend(STRING_RE.findall(match.group(1)))
+    return list(dict.fromkeys(members))
+
+
 def scan_terraform(path: Path) -> Graph:
     graph = Graph()
     try:
@@ -57,18 +71,19 @@ def scan_terraform(path: Path) -> Graph:
         location = SourceLocation(path=path, line=line)
         if resource_type in GCP_RESOURCES:
             role = ROLE_RE.search(block)
-            member = MEMBER_RE.search(block)
             scope = SCOPE_RE.search(block)
-            graph.identities.append(
-                Identity(
-                    name=(member.group(2) if member else resource_name),
-                    provider="gcp",
-                    roles={role.group(2)} if role else set(),
-                    resource_scope=scope.group(2) if scope else None,
-                    location=location,
-                    metadata={"terraform_resource": resource_type},
+            members = _literal_members(block) or [resource_name]
+            for member in members:
+                graph.identities.append(
+                    Identity(
+                        name=member,
+                        provider="gcp",
+                        roles={role.group(2)} if role else set(),
+                        resource_scope=scope.group(2) if scope else None,
+                        location=location,
+                        metadata={"terraform_resource": resource_type},
+                    )
                 )
-            )
         elif resource_type in AZURE_RESOURCES:
             role = ROLE_RE.search(block)
             member = MEMBER_RE.search(block)

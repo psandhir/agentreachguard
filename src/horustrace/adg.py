@@ -231,6 +231,8 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 "permissions": sorted(identity.permissions),
                 "oauth_scopes": sorted(identity.oauth_scopes),
                 "credential_source": identity.credential_source,
+                "resource_scope": identity.resource_scope,
+                "declared_authority": identity.metadata.get("declared_authority"),
             },
         )
         identity_ids.setdefault(identity.name, identity_id)
