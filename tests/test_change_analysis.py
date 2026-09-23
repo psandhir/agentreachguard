@@ -1,0 +1,260 @@
+from __future__ import annotations
+
+import json
+import subprocess
+from pathlib import Path
+
+from horustrace.adg import ADGNode, AgentDependencyGraph
+from horustrace.change_analysis import build_git_diff, compare_scans
+from horustrace.cli import main
+from horustrace.git_snapshot import materialize_git_ref
+from horustrace.models import Finding, Graph, Severity, SourceLocation
+
+
+_SECURE_MANIFEST = """version: 1
+agents:
+  - name: finance-agent
+    data:
+      - name: finance-reports
+        classification: confidential
+        selector: /finance/approved-reports/**
+    policy:
+      required: [data.read, external.write, network.external]
+      allowed_resources: [/finance/approved-reports/**]
+      allowed_destinations: [https://mail.example.internal/**]
+      require_approval_for: [external.write]
+      max_privileged_capabilities: 1
+    tools:
+      - name: send_email
+        capabilities: [external.write, network.external]
+        human_approval: true
+        guardrails: true
+        destinations: [https://mail.example.internal/send]
+"""
+
+_UNAPPROVED_MANIFEST = _SECURE_MANIFEST.replace(
+    "human_approval: true",
+    "human_approval: false",
+)
+
+
+def _git(repo: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(repo), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+def _init_repo(tmp_path: Path) -> tuple[Path, str, str]:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _git(repo, "init")
+    _git(repo, "config", "user.email", "horustrace@example.test")
+    _git(repo, "config", "user.name", "HorusTrace Tests")
+
+    manifest = repo / "horustrace.manifest.yaml"
+    manifest.write_text(_SECURE_MANIFEST, encoding="utf-8")
+    _git(repo, "add", "horustrace.manifest.yaml")
+    _git(repo, "commit", "-m", "secure baseline")
+    base = _git(repo, "rev-parse", "HEAD")
+
+    manifest.write_text(_UNAPPROVED_MANIFEST, encoding="utf-8")
+    _git(repo, "add", "horustrace.manifest.yaml")
+    _git(repo, "commit", "-m", "remove approval")
+    head = _git(repo, "rev-parse", "HEAD")
+    return repo, base, head
+
+
+def test_finding_line_movement_is_unchanged(tmp_path: Path) -> None:
+    base_root = tmp_path / "base"
+    head_root = tmp_path / "head"
+    base_root.mkdir()
+    head_root.mkdir()
+    (base_root / "agent.py").write_text("# base\n", encoding="utf-8")
+    (head_root / "agent.py").write_text("# head\n", encoding="utf-8")
+
+    base_finding = Finding(
+        rule_id="TEST001",
+        severity=Severity.HIGH,
+        title="Example",
+        message="Example",
+        recommendation="Fix it",
+        location=SourceLocation(base_root / "agent.py", line=3),
+        agent="agent",
+        evidence=["same semantic evidence"],
+    )
+    head_finding = Finding(
+        rule_id="TEST001",
+        severity=Severity.HIGH,
+        title="Example",
+        message="Example",
+        recommendation="Fix it",
+        location=SourceLocation(head_root / "agent.py", line=30),
+        agent="agent",
+        evidence=["same semantic evidence"],
+    )
+
+    report = compare_scans(
+        Graph(adg=AgentDependencyGraph()),
+        [base_finding],
+        base_root,
+        Graph(adg=AgentDependencyGraph()),
+        [head_finding],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    assert report["summary"]["introduced_findings"] == 0
+    assert report["summary"]["resolved_findings"] == 0
+    assert report["summary"]["unchanged_findings"] == 1
+
+
+def test_compare_scans_reports_added_capability_and_introduced_finding(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base"
+    head_root = tmp_path / "head"
+    base_root.mkdir()
+    head_root.mkdir()
+
+    node_id = "adg-v1:example"
+    base_graph = Graph(
+        adg=AgentDependencyGraph(
+            nodes=[
+                ADGNode(
+                    node_id=node_id,
+                    kind="tool",
+                    name="agent:publisher",
+                    attributes={"capabilities": ["data.read"]},
+                )
+            ]
+        )
+    )
+    head_graph = Graph(
+        adg=AgentDependencyGraph(
+            nodes=[
+                ADGNode(
+                    node_id=node_id,
+                    kind="tool",
+                    name="agent:publisher",
+                    attributes={
+                        "capabilities": ["data.read", "external.write"],
+                    },
+                )
+            ]
+        )
+    )
+    finding = Finding(
+        rule_id="TEST002",
+        severity=Severity.HIGH,
+        title="New authority",
+        message="New authority",
+        recommendation="Review it",
+        agent="agent",
+        evidence=["publisher gained external.write"],
+    )
+
+    report = compare_scans(
+        base_graph,
+        [],
+        base_root,
+        head_graph,
+        [finding],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    assert report["summary"]["introduced_findings"] == 1
+    assert report["summary"]["introduced_high_or_critical"] == 1
+    assert report["summary"]["changed_authority_nodes"] == 1
+    changed = report["authority"]["changed_nodes"][0]
+    assert changed["added_capabilities"] == ["external.write"]
+
+
+def test_materialize_git_ref_uses_committed_content(tmp_path: Path) -> None:
+    repo, base, head = _init_repo(tmp_path)
+
+    with materialize_git_ref(repo, base) as snapshot:
+        content = (snapshot.root / "horustrace.manifest.yaml").read_text(
+            encoding="utf-8"
+        )
+        assert snapshot.commit == base
+        assert "human_approval: true" in content
+        assert "human_approval: false" not in content
+
+    assert base != head
+
+
+def test_build_git_diff_detects_removed_approval(tmp_path: Path) -> None:
+    repo, base, head = _init_repo(tmp_path)
+
+    report = build_git_diff(repo, base, head)
+
+    assert report["base"]["commit"] == base
+    assert report["head"]["commit"] == head
+    assert report["summary"]["introduced_findings"] >= 1
+    assert report["summary"]["introduced_high_or_critical"] >= 1
+    assert report["summary"]["changed_authority_nodes"] >= 1
+    assert any(
+        item["name"] == "finance-agent:send_email"
+        for item in report["authority"]["changed_nodes"]
+    )
+
+
+def test_diff_cli_fails_only_on_introduced_threshold(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    repo, base, head = _init_repo(tmp_path)
+
+    result = main(
+        [
+            "diff",
+            f"{base}..{head}",
+            "--repo",
+            str(repo),
+            "--format",
+            "json",
+            "--fail-on",
+            "high",
+        ]
+    )
+
+    assert result == 2
+    report = json.loads(capsys.readouterr().out)
+    assert report["summary"]["introduced_high_or_critical"] >= 1
+
+    reverse = main(
+        [
+            "diff",
+            f"{head}..{base}",
+            "--repo",
+            str(repo),
+            "--format",
+            "json",
+            "--fail-on",
+            "high",
+        ]
+    )
+    assert reverse == 0
+
+
+def test_diff_cli_rejects_three_dot_range(tmp_path: Path, capsys) -> None:
+    repo, base, head = _init_repo(tmp_path)
+
+    result = main(
+        [
+            "diff",
+            f"{base}...{head}",
+            "--repo",
+            str(repo),
+        ]
+    )
+
+    assert result == 1
+    assert "revision range must use BASE..HEAD" in capsys.readouterr().err
