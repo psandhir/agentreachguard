@@ -141,11 +141,13 @@ def _credential_reference(node: ast.AST | None) -> str | None:
             name = _literal(node.args[0])
             if isinstance(name, str):
                 return f"env:{name}"
-    if isinstance(node, ast.Subscript):
-        if (_dotted(node.value) or "").lower() == "os.environ":
-            name = _literal(node.slice)
-            if isinstance(name, str):
-                return f"env:{name}"
+    if (
+        isinstance(node, ast.Subscript)
+        and (_dotted(node.value) or "").lower() == "os.environ"
+    ):
+        name = _literal(node.slice)
+        if isinstance(name, str):
+            return f"env:{name}"
     if isinstance(node, ast.Name):
         return f"variable:{node.id}"
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
