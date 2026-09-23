@@ -251,9 +251,9 @@ def enrich_graph_with_gcp_iam_export(
     for binding in bindings:
         by_principal.setdefault(binding.principal, []).append(binding)
 
-    matched_identity_ids: set[int] = set()
+    matched_identity_keys: set[tuple[str, str]] = set()
     matched_bindings: set[tuple[object, ...]] = set()
-    conditional_matched = 0
+    conditional_matched_bindings: set[tuple[object, ...]] = set()
 
     identities: list[Identity] = []
     seen_identity_ids: set[int] = set()
@@ -277,7 +277,7 @@ def enrich_graph_with_gcp_iam_export(
         if not matches:
             continue
 
-        matched_identity_ids.add(id(identity))
+        matched_identity_keys.add((identity.name, identity.provider))
         unconditional_resources: set[str] = set()
         authority = list(identity.metadata.get("gcp_iam_bindings") or [])
         existing_authority = {
@@ -302,10 +302,11 @@ def enrich_graph_with_gcp_iam_export(
                 tuple(sorted((binding.condition or {}).items())),
             )
             matched_bindings.add(binding_key)
+            if binding.conditional:
+                conditional_matched_bindings.add(binding_key)
 
             location = SourceLocation(path=path, line=binding.line)
             if binding.conditional:
-                conditional_matched += 1
                 fact = f"gcp_iam_conditional_role={binding.role}@{binding.resource}"
             else:
                 identity.roles.add(binding.role)
@@ -329,7 +330,7 @@ def enrich_graph_with_gcp_iam_export(
     return GcpIamEnrichmentSummary(
         records=records,
         service_account_bindings=len(bindings),
-        matched_identities=len(matched_identity_ids),
+        matched_identities=len(matched_identity_keys),
         matched_bindings=len(matched_bindings),
-        conditional_matched_bindings=conditional_matched,
+        conditional_matched_bindings=len(conditional_matched_bindings),
     )
