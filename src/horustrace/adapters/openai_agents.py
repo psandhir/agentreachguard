@@ -468,6 +468,83 @@ def _inline_confirmation_gate(node: ast.FunctionDef | ast.AsyncFunctionDef) -> b
     return False
 
 
+_CONTROL_HELPER_PREFIXES = {
+    "approve",
+    "check",
+    "confirm",
+    "validate",
+    "verify",
+}
+_CONTROL_NAME_SENSITIVE_CAPABILITIES = {
+    "data.write",
+    "destructive.write",
+    "external.write",
+    "identity.admin",
+    "network.external",
+    "process.execute",
+    "secrets.read",
+}
+
+
+def _body_call_capabilities(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> set[str]:
+    """Collect semantic evidence from calls made by a decorated tool body."""
+    capabilities: set[str] = set()
+    for child in ast.walk(node):
+        if not isinstance(child, ast.Call):
+            continue
+        called = _dotted_name(child.func) or _call_name(child.func) or ""
+        capabilities.update(infer_capabilities(called))
+
+        normalized = called.lower()
+        if (
+            normalized
+            in {
+                "exec",
+                "eval",
+                "compile",
+                "builtins.exec",
+                "builtins.eval",
+                "builtins.compile",
+                "os.system",
+                "os.popen",
+            }
+            or normalized.startswith("subprocess.")
+            or "create_subprocess_" in normalized
+        ):
+            capabilities.add("process.execute")
+    return capabilities
+
+
+def _decorated_tool_capabilities(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> tuple[set[str], dict[str, Any]]:
+    """Keep control/helper names from implying privileged side effects by themselves."""
+    name_capabilities = set(infer_capabilities(node.name))
+    body_capabilities = _body_call_capabilities(node)
+    capabilities = set(name_capabilities)
+
+    first_token = node.name.lower().replace("-", "_").split("_", 1)[0]
+    suppressed: set[str] = set()
+    if first_token in _CONTROL_HELPER_PREFIXES:
+        suppressed = (
+            name_capabilities
+            & _CONTROL_NAME_SENSITIVE_CAPABILITIES
+            - body_capabilities
+        )
+        capabilities.difference_update(suppressed)
+
+    metadata: dict[str, Any] = {
+        "name_inferred_capabilities": sorted(name_capabilities),
+        "body_call_inferred_capabilities": sorted(body_capabilities),
+    }
+    if suppressed:
+        metadata["suppressed_name_only_capabilities"] = sorted(suppressed)
+        metadata["capability_inference"] = "control_helper_body_corroboration"
+    return capabilities, metadata
+
+
 def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef) -> Tool | None:
     for decorator in node.decorator_list:
         decorator_name: str | None = None
@@ -485,14 +562,16 @@ def _decorated_function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFuncti
 
         if decorator_name in {"function_tool", "tool"}:
             inline_approval = _inline_confirmation_gate(node)
+            capabilities, capability_metadata = _decorated_tool_capabilities(node)
             tool = Tool(
                 name=node.name,
                 kind="function",
-                capabilities=infer_capabilities(node.name),
+                capabilities=capabilities,
                 approval=True if inline_approval else needs_approval,
                 guardrails=guardrails or inline_approval,
                 location=_location(path, node),
                 metadata={
+                    **capability_metadata,
                     "approval_mechanism": (
                         "inline_confirmation" if inline_approval else None
                     ),
