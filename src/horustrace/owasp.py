@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import Counter
 
-from horustrace.models import Finding, Severity
+from horustrace.models import Finding
 from horustrace.rule_registry import OWASP_AGENTIC_TAXONOMY, iter_rule_metadata
 
 
