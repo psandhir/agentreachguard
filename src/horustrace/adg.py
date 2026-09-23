@@ -220,23 +220,30 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
         ),
     )
     for identity in identities:
+        identity_attributes = {
+            "provider": identity.provider,
+            "roles": sorted(identity.roles),
+            "permissions": sorted(identity.permissions),
+            "oauth_scopes": sorted(identity.oauth_scopes),
+            "credential_source": identity.credential_source,
+        }
+        gcp_iam_bindings = identity.metadata.get("gcp_iam_bindings")
+        if gcp_iam_bindings:
+            identity_attributes.update(
+                {
+                    "resource_scope": identity.resource_scope,
+                    "gcp_iam_bindings": gcp_iam_bindings,
+                    "gcp_iam_evidence_source": identity.metadata.get(
+                        "gcp_iam_evidence_source"
+                    ),
+                }
+            )
         identity_id = builder.node(
             "identity",
             identity.name,
             location=identity.location,
             framework=_framework(identity.metadata),
-            attributes={
-                "provider": identity.provider,
-                "roles": sorted(identity.roles),
-                "permissions": sorted(identity.permissions),
-                "oauth_scopes": sorted(identity.oauth_scopes),
-                "resource_scope": identity.resource_scope,
-                "credential_source": identity.credential_source,
-                "gcp_iam_bindings": identity.metadata.get("gcp_iam_bindings", []),
-                "gcp_iam_evidence_source": identity.metadata.get(
-                    "gcp_iam_evidence_source"
-                ),
-            },
+            attributes=identity_attributes,
         )
         identity_ids.setdefault(identity.name, identity_id)
 
