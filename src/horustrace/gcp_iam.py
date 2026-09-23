@@ -264,9 +264,7 @@ def enrich_gcp_iam_snapshot(graph: Graph, path: Path) -> dict[str, Any]:
             if fact not in identity.provenance:
                 identity.provenance.append(fact)
 
-        identity.metadata["gcp_iam_snapshot"] = path.name
-        identity.metadata["gcp_iam_resources"] = sorted(resources)
-        identity.metadata["gcp_iam_grants"] = sorted(
+        sorted_grants = sorted(
             grant_records,
             key=lambda item: (
                 str(item.get("resource")),
@@ -274,7 +272,23 @@ def enrich_gcp_iam_snapshot(graph: Graph, path: Path) -> dict[str, Any]:
                 bool(item.get("conditional")),
             ),
         )
+        role_conditions: dict[str, list[bool]] = {}
+        for item in sorted_grants:
+            if not isinstance(item, dict) or not isinstance(item.get("role"), str):
+                continue
+            role_conditions.setdefault(item["role"], []).append(
+                bool(item.get("conditional"))
+            )
+
+        identity.metadata["gcp_iam_snapshot"] = path.name
+        identity.metadata["gcp_iam_resources"] = sorted(resources)
+        identity.metadata["gcp_iam_grants"] = sorted_grants
         identity.metadata["gcp_iam_conditional_grants"] = conditional_grants
+        identity.metadata["gcp_iam_conditional_only_roles"] = sorted(
+            role
+            for role, conditions in role_conditions.items()
+            if conditions and all(conditions)
+        )
 
         if identity.resource_scope is None and len(resources) == 1:
             identity.resource_scope = next(iter(resources))
