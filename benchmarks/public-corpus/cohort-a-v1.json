@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-public-corpus-cohort-a",
+  "frozen_at": "2026-09-22",
+  "baseline_scanner": "horustrace==0.4.1",
+  "source_workflow_run_id": 35696667988,
+  "selection": {
+    "total": 30,
+    "application_repositories": 21,
+    "framework_stress_repositories": 9,
+    "criteria": [
+      "exact commits recovered from the successful Cohort A split validation run used in the published 90-repository aggregate",
+      "public repositories",
+      "static analysis only; target repositories are never imported, installed, or executed"
+    ]
+  },
+  "repositories": [
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "google/adk-samples",
+      "sha": "f73ad0ea0efee9665bcf140660b2c78a9572fc21"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "google-marketing-solutions/google_ads_adk",
+      "sha": "dd007a7f83cb99178eb898902882dab592a832a9"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "box-community/google-adk-box-agent",
+      "sha": "c35dc3d306a7baa3629fd7c72c37e1791cda1e9e"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "arjunprabhulal/google-adk-masterclass",
+      "sha": "d52895fdcd16d2be2bc11363a08bb14c3455bb3d"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "okahu-demos/adk-travel-agent",
+      "sha": "74a09d074fafd0fdd5f1a1a507a960bc4f2ac417"
+    },
+    {
+      "tier": "application",
+      "category": "google-adk",
+      "repo": "Roji-val/A2A_ADK_MCP",
+      "sha": "d32c623cd17c22f07b5614e3b2891b750ec8598e"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "temporal-community/openai-agents-demos",
+      "sha": "ee5f871b48cb26ec28239ef7a4719ab10c4903e8"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "lastmile-ai/openai-agents-mcp",
+      "sha": "8d73ef658dbe04a39b28680017183b80a66a77b0"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "slack-samples/bolt-python-starter-agent",
+      "sha": "11c0c31345a8a6088d8f26cb928a6423bb39e081"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "Azure-Samples/python-ai-agent-frameworks-demos",
+      "sha": "161b43b906d7d9350ce5f63f733ad357771ae439"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "pdeitel/Python-OpenAI-API-and-Intro-to-Agents-SDK",
+      "sha": "1978539da05f15b0bf8cd2d78b52896d6019adff"
+    },
+    {
+      "tier": "application",
+      "category": "openai-agents",
+      "repo": "AsharibAli/agentic-ai-projects",
+      "sha": "51005b953b9797516f965bb86fd7abe902b20b9f"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "NirDiamant/GenAI_Agents",
+      "sha": "d9c0e2993c2dcaaf82888de7c0ed296e711b852a"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "NirDiamant/agents-towards-production",
+      "sha": "172848240c64457a4a8991949ee5bcbfe6b08f2d"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "gotohuman/examples-langgraph-py",
+      "sha": "df202346a74039ce00cb4075b08dc14b36304fef"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "langchain-ai/agent-inbox-langgraph-example",
+      "sha": "f56c3326c7cc6652e56431240b669e5ca4c72f96"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "guy-hartstein/company-research-agent",
+      "sha": "5b2caa8277605b98aa7029246267faeba8a312fb"
+    },
+    {
+      "tier": "application",
+      "category": "langgraph",
+      "repo": "liangdabiao/langgraph_multi-agent-rag-customer-support",
+      "sha": "a30f9646fb1df73b7b5547b86ce3035765034176"
+    },
+    {
+      "tier": "application",
+      "category": "mcp-mixed",
+      "repo": "juleswhite/python-agents-mcp-course",
+      "sha": "13f4e907f502079ea6f10fe2d27cef1121efd34a"
+    },
+    {
+      "tier": "application",
+      "category": "mcp-mixed",
+      "repo": "arjunprabhulal/adk-python-mcp-client",
+      "sha": "a77a2345ebfef8fad16d423f3d0df8f8335473a0"
+    },
+    {
+      "tier": "application",
+      "category": "mcp-mixed",
+      "repo": "dabidstudio/python_mcp_agent",
+      "sha": "9a1c852fcc9996d2a2aef6ba15b993ba3b72ffec"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "google-adk",
+      "repo": "google/adk-python",
+      "sha": "686384246751dfa4703657f4730f02194fc028a9"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "google-adk",
+      "repo": "GoogleCloudPlatform/agent-starter-pack",
+      "sha": "659f047742457bd55e5db0edd088cf678b6f0669"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "openai-agents",
+      "repo": "openai/openai-agents-python",
+      "sha": "32edd3c3ecde37a7fb6bf4b082f35f1d8f7f086b"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "langgraph",
+      "repo": "langchain-ai/langgraph-swarm-py",
+      "sha": "5442a15cdd0ed210589148900c9960c24c489d04"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "langgraph",
+      "repo": "langchain-ai/deepagents",
+      "sha": "d5a18968f2669ce08290b2d7e2c46da13b696efa"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "lastmile-ai/mcp-agent",
+      "sha": "f62d849350816588b1c6294e7914bbe4d8b84072"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "evalstate/fast-agent",
+      "sha": "96ded66a3d21472047859808ae30095390607171"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "IBM/mcp-context-forge",
+      "sha": "1950bcb8b6f6566d0283b07c455a3f084e67d678"
+    },
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "ArcadeAI/arcade-mcp",
+      "sha": "6e4d67c95422ecdc23b6e045ca9c4837b0838d55"
+    }
+  ]
+}
