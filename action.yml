@@ -1,8 +1,12 @@
 name: HorusTrace Security Scan
-description: Static policy-as-code security analysis for AI agent projects
+description: Static policy-as-code security analysis and PR security deltas for AI agent projects
 inputs:
+  mode:
+    description: Action mode (scan or diff)
+    required: false
+    default: scan
   path:
-    description: Path to scan
+    description: Path to scan, or any path inside the Git repository in diff mode
     required: false
     default: .
   fail-on:
@@ -14,23 +18,58 @@ inputs:
     required: false
     default: "false"
   suppressions:
-    description: Optional explicit suppression YAML path
+    description: Optional explicit suppression YAML path (scan mode only)
     required: false
     default: ""
   format:
-    description: Output format (console, json, sarif)
+    description: Scan output format (console, json, sarif); scan mode only
     required: false
     default: console
+  base-sha:
+    description: Optional immutable base commit SHA override for diff mode
+    required: false
+    default: ""
+  head-sha:
+    description: Optional immutable head commit SHA override for diff mode
+    required: false
+    default: ""
+  github-summary:
+    description: Write the Markdown security delta to the GitHub Step Summary in diff mode
+    required: false
+    default: "true"
+outputs:
+  base-sha:
+    description: Immutable base commit used by diff mode
+    value: ${{ steps.prepare.outputs.base_sha }}
+  head-sha:
+    description: Immutable head commit used by diff mode
+    value: ${{ steps.prepare.outputs.head_sha }}
+  report-path:
+    description: Path to the generated Markdown security-delta report
+    value: ${{ steps.diff.outputs.report_path }}
 runs:
   using: composite
   steps:
+    - name: Validate action mode
+      shell: bash
+      env:
+        ACTION_MODE: ${{ inputs.mode }}
+      run: |
+        case "$ACTION_MODE" in
+          scan|diff) ;;
+          *) echo "mode must be scan or diff" >&2; exit 1 ;;
+        esac
+
     - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: '3.12'
+
     - name: Install HorusTrace
       shell: bash
       run: python -m pip install "$GITHUB_ACTION_PATH"
+
     - name: Scan agent project
+      if: ${{ inputs.mode == 'scan' }}
       shell: bash
       env:
         SCAN_PATH: ${{ inputs.path }}
@@ -49,6 +88,72 @@ runs:
           scan_args+=(--suppressions "$SCAN_SUPPRESSIONS")
         fi
         horustrace "${scan_args[@]}"
+
+    - name: Prepare immutable PR revisions
+      id: prepare
+      if: ${{ inputs.mode == 'diff' }}
+      shell: bash
+      env:
+        DIFF_PATH: ${{ inputs.path }}
+        DIFF_BASE_SHA: ${{ inputs.base-sha }}
+        DIFF_HEAD_SHA: ${{ inputs.head-sha }}
+      run: |
+        python -m horustrace.github_action \
+          --repo "$DIFF_PATH" \
+          --base-sha "$DIFF_BASE_SHA" \
+          --head-sha "$DIFF_HEAD_SHA" \
+          --output-file "$GITHUB_OUTPUT"
+
+    - name: Analyze PR security delta
+      id: diff
+      if: ${{ inputs.mode == 'diff' }}
+      shell: bash
+      env:
+        DIFF_REPO_ROOT: ${{ steps.prepare.outputs.repo_root }}
+        DIFF_REVISION_RANGE: ${{ steps.prepare.outputs.revision_range }}
+        DIFF_FAIL_ON: ${{ inputs.fail-on }}
+        DIFF_STRICT: ${{ inputs.strict }}
+        DIFF_SUPPRESSIONS: ${{ inputs.suppressions }}
+        DIFF_GITHUB_SUMMARY: ${{ inputs.github-summary }}
+      run: |
+        if [[ -n "$DIFF_SUPPRESSIONS" ]]; then
+          echo "suppressions is scan-only; HorusTrace diff intentionally ignores suppression files" >&2
+          exit 1
+        fi
+
+        case "$DIFF_GITHUB_SUMMARY" in
+          true|false) ;;
+          *) echo "github-summary must be true or false" >&2; exit 1 ;;
+        esac
+
+        report="$RUNNER_TEMP/horustrace-security-delta-${GITHUB_RUN_ID:-run}-${GITHUB_JOB:-job}.md"
+        diff_args=(
+          diff "$DIFF_REVISION_RANGE"
+          --repo "$DIFF_REPO_ROOT"
+          --format markdown
+          --output "$report"
+          --fail-on "$DIFF_FAIL_ON"
+        )
+        case "$DIFF_STRICT" in
+          true) diff_args+=(--strict) ;;
+          false) ;;
+          *) echo "strict must be true or false" >&2; exit 1 ;;
+        esac
+
+        set +e
+        horustrace "${diff_args[@]}"
+        status=$?
+        set -e
+
+        if [[ -f "$report" ]]; then
+          cat "$report"
+          echo "report_path=$report" >> "$GITHUB_OUTPUT"
+          if [[ "$DIFF_GITHUB_SUMMARY" == "true" ]]; then
+            cat "$report" >> "$GITHUB_STEP_SUMMARY"
+          fi
+        fi
+
+        exit "$status"
 branding:
   icon: shield
   color: blue
