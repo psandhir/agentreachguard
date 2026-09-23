@@ -123,7 +123,9 @@ def test_ensure_commit_available_fetches_exact_missing_commit(tmp_path: Path) ->
     _git(source, "config", "user.email", "horustrace@example.test")
     _git(source, "config", "user.name", "HorusTrace Tests")
     base = _commit(source, "agent.py", "base\n")
-    head = _commit(source, "agent.py", "head\n")
+    head = _commit(source, "feature.py", "head\n")
+    _git(source, "branch", "feature", head)
+    _git(source, "reset", "--hard", base)
 
     remote = tmp_path / "remote.git"
     subprocess.run(
@@ -149,11 +151,8 @@ def test_ensure_commit_available_fetches_exact_missing_commit(tmp_path: Path) ->
         capture_output=True,
         text=True,
     )
-    assert _git(checkout, "rev-parse", "HEAD") == head
+    assert _git(checkout, "rev-parse", "HEAD") == base
 
-    _git(checkout, "reset", "--hard", base)
-    _git(checkout, "reflog", "expire", "--expire=now", "--all")
-    _git(checkout, "gc", "--prune=now")
     probe = subprocess.run(
         ["git", "-C", str(checkout), "cat-file", "-e", f"{head}^{{commit}}"],
         check=False,
@@ -169,71 +168,37 @@ def test_ensure_commit_available_fetches_exact_missing_commit(tmp_path: Path) ->
 
 def test_ensure_commit_available_uses_pull_request_head_fallback(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    source = tmp_path / "source"
-    source.mkdir()
-    _git(source, "init")
-    _git(source, "config", "user.email", "horustrace@example.test")
-    _git(source, "config", "user.name", "HorusTrace Tests")
-    base = _commit(source, "agent.py", "base\n")
-    head = _commit(source, "feature.py", "head\n")
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    expected = "a" * 40
+    state = {"available": False}
+    calls: list[str] = []
 
-    remote = tmp_path / "remote.git"
-    subprocess.run(
-        ["git", "clone", "--bare", str(source), str(remote)],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    subprocess.run(
-        [
-            "git",
-            "--git-dir",
-            str(remote),
-            "update-ref",
-            "refs/pull/42/head",
-            head,
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    subprocess.run(
-        [
-            "git",
-            "--git-dir",
-            str(remote),
-            "update-ref",
-            "refs/heads/master",
-            base,
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
+    monkeypatch.setattr(
+        "horustrace.github_action._has_commit",
+        lambda _repo, _sha: state["available"],
     )
 
-    checkout = tmp_path / "checkout"
-    subprocess.run(
-        [
-            "git",
-            "clone",
-            "--quiet",
-            "--depth=1",
-            "--branch",
-            "master",
-            remote.as_uri(),
-            str(checkout),
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
+    def fake_fetch(_repo: Path, ref: str) -> bool:
+        calls.append(ref)
+        if ref == "refs/pull/42/head":
+            state["available"] = True
+            return True
+        return False
+
+    monkeypatch.setattr("horustrace.github_action._fetch", fake_fetch)
+    monkeypatch.setattr(
+        "horustrace.github_action.resolve_commit",
+        lambda _repo, _ref: expected,
     )
 
     ensure_commit_available(
-        checkout,
-        head,
+        repo,
+        expected,
         pull_request_number=42,
         allow_pull_request_head_fallback=True,
     )
 
-    assert _git(checkout, "rev-parse", "--verify", f"{head}^{{commit}}") == head
+    assert calls == [expected, "refs/pull/42/head"]
