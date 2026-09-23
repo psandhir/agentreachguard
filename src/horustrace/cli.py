@@ -23,7 +23,6 @@ from horustrace.rule_registry import iter_rule_metadata
 from horustrace.scanner import ScannerError, scan
 from horustrace.suppressions import SuppressionError, write_baseline
 
-
 SOURCE_CONTEXTS = (
     "runtime",
     "test",
