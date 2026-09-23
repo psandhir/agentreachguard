@@ -558,7 +558,7 @@ def main(argv: list[str] | None = None) -> int:
         output = json.dumps(render_sarif(
             findings, graph.coverage, control_observations(graph),
             graph.suppressed_findings, graph.suppression_diagnostics,
-            graph.flow_paths,
+            graph.flow_paths, disabled_rules,
         ), indent=2)
 
     if args.output:
