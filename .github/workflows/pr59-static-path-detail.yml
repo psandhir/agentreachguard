@@ -1,0 +1,70 @@
+name: PR59 Static Path Detail
+
+on:
+  push:
+    branches:
+      - research/frozen90-3528845d
+    paths:
+      - ".github/workflows/pr59-static-path-detail.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: adk-samples
+            repo: google/adk-samples
+            sha: f73ad0ea0efee9665bcf140660b2c78a9572fc21
+          - label: adk-python
+            repo: google/adk-python
+            sha: 686384246751dfa4703657f4730f02194fc028a9
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install PR59 scanner
+        run: python -m pip install "git+https://github.com/psandhir/horustrace.git@75c2c576372f02c1dabaead44360451863231826"
+      - name: Clone pinned target
+        run: |
+          git clone --quiet --filter=blob:none "https://github.com/${{ matrix.repo }}.git" target
+          git -C target checkout --quiet "${{ matrix.sha }}"
+      - name: Print static-flow evidence
+        env:
+          TARGET_REPO: ${{ matrix.repo }}
+          TARGET_SHA: ${{ matrix.sha }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from horustrace.scanner import scan
+
+          graph, findings = scan(Path("target"))
+          print("TARGET", os.environ["TARGET_REPO"], os.environ["TARGET_SHA"])
+          print("PROVEN_AGENT_FLOWS")
+          for flow in graph.flow_paths:
+              if flow.agent_reachability.value == "proven_agent_reachable":
+                  print(json.dumps(flow.as_dict(), default=str, sort_keys=True))
+          print("STATIC_ATTACK_PATHS")
+          for path in graph.attack_paths:
+              if path.metadata.get("basis") == "static_dataflow":
+                  print(json.dumps({
+                      "path_id": path.path_id,
+                      "agent": path.agent,
+                      "nodes": path.nodes,
+                      "severity": path.severity.label(),
+                      "rationale": path.rationale,
+                      "metadata": path.metadata,
+                  }, default=str, sort_keys=True))
+          print("SUPPORTED_PATH_FINDINGS")
+          for finding in findings:
+              if finding.rule_id.startswith("PATH") and finding.confidence and finding.confidence.value == "supported":
+                  print(json.dumps(finding.as_dict(), default=str, sort_keys=True))
+          PY
