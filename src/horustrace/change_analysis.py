@@ -297,18 +297,29 @@ def render_console(report: dict[str, Any]) -> str:
         f"Head: {report['head']['ref']} ({(report['head']['commit'] or 'unknown')[:12]})",
         "",
         "Summary",
-        f"  Introduced findings: {summary['introduced_findings']} "
-        f"({summary['introduced_high_or_critical']} high/critical)",
+        (
+            f"  Introduced findings: {summary['introduced_findings']} "
+            f"({summary['introduced_high_or_critical']} high/critical)"
+        ),
         f"  Resolved findings:   {summary['resolved_findings']}",
-        f"  Changed findings:    {summary['changed_findings']} "
-        f"({summary['worsened_findings']} worsened)",
-        f"  Authority nodes:     +{summary['added_authority_nodes']} "
-        f"-{summary['removed_authority_nodes']} "
-        f"~{summary['changed_authority_nodes']}",
-        f"  Authority edges:     +{summary['added_authority_edges']} "
-        f"-{summary['removed_authority_edges']}",
-        f"  Analysis: base={'incomplete' if report['base']['analysis_incomplete'] else 'complete'}, "
-        f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}",
+        (
+            f"  Changed findings:    {summary['changed_findings']} "
+            f"({summary['worsened_findings']} worsened)"
+        ),
+        (
+            f"  Authority nodes:     +{summary['added_authority_nodes']} "
+            f"-{summary['removed_authority_nodes']} "
+            f"~{summary['changed_authority_nodes']}"
+        ),
+        (
+            f"  Authority edges:     +{summary['added_authority_edges']} "
+            f"-{summary['removed_authority_edges']}"
+        ),
+        (
+            "  Analysis: "
+            f"base={'incomplete' if report['base']['analysis_incomplete'] else 'complete'}, "
+            f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}"
+        ),
     ]
 
     introduced = report["findings"]["introduced"]
