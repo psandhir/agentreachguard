@@ -230,7 +230,12 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
                 "roles": sorted(identity.roles),
                 "permissions": sorted(identity.permissions),
                 "oauth_scopes": sorted(identity.oauth_scopes),
+                "resource_scope": identity.resource_scope,
                 "credential_source": identity.credential_source,
+                "gcp_iam_bindings": identity.metadata.get("gcp_iam_bindings", []),
+                "gcp_iam_evidence_source": identity.metadata.get(
+                    "gcp_iam_evidence_source"
+                ),
             },
         )
         identity_ids.setdefault(identity.name, identity_id)
