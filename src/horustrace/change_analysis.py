@@ -519,17 +519,23 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines = [
         "# HorusTrace Security Delta",
         "",
-        f"Base: `{report['base']['ref']}` "
-        f"(`{(report['base']['commit'] or 'unknown')[:12]}`)",
-        f"Head: `{report['head']['ref']}` "
-        f"(`{(report['head']['commit'] or 'unknown')[:12]}`)",
+        (
+            f"Base: `{report['base']['ref']}` "
+            f"(`{(report['base']['commit'] or 'unknown')[:12]}`)"
+        ),
+        (
+            f"Head: `{report['head']['ref']}` "
+            f"(`{(report['head']['commit'] or 'unknown')[:12]}`)"
+        ),
         "",
     ]
     if report["base"]["analysis_incomplete"] or report["head"]["analysis_incomplete"]:
         lines.extend(
             [
-                "> **Analysis incomplete.** The absence of a reported change is not "
-                "proof that no security-relevant change exists.",
+                (
+                    "> **Analysis incomplete.** The absence of a reported change is not "
+                    "proof that no security-relevant change exists."
+                ),
                 "",
             ]
         )
