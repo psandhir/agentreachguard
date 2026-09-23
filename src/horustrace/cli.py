@@ -13,7 +13,10 @@ from horustrace.benchmark import BenchmarkError
 from horustrace.benchmark import render_console as render_benchmark_console
 from horustrace.benchmark import render_json as render_benchmark_json
 from horustrace.benchmark import run as run_benchmark
+from horustrace.change_analysis import build_git_diff
+from horustrace.change_analysis import render_console as render_diff_console
 from horustrace.config import ConfigError, load_config
+from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
 from horustrace.models import Severity
 from horustrace.provenance import control_observations
@@ -109,6 +112,40 @@ def _parser() -> argparse.ArgumentParser:
     aibom_parser.add_argument("path", nargs="?", default=".")
     aibom_parser.add_argument("--output", type=Path)
     aibom_parser.add_argument("--config", type=Path)
+    diff_parser = sub.add_parser(
+        "diff",
+        help="Compare findings and effective authority across two Git revisions",
+    )
+    diff_parser.add_argument(
+        "revision_range",
+        metavar="BASE..HEAD",
+        help="Two Git revisions separated by '..', for example origin/main..HEAD.",
+    )
+    diff_parser.add_argument(
+        "--repo",
+        type=Path,
+        default=Path("."),
+        help="Path inside the Git repository to compare (default: current directory).",
+    )
+    diff_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    diff_parser.add_argument("--output", type=Path)
+    diff_parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Return exit code 1 when either revision has incomplete analysis.",
+    )
+    diff_parser.add_argument(
+        "--fail-on",
+        choices=["none", "low", "medium", "high", "critical"],
+        default="high",
+        help=(
+            "Return exit code 2 when an introduced finding meets the severity threshold."
+        ),
+    )
     return parser
 
 
@@ -151,6 +188,15 @@ def _rule_catalogue_console() -> str:
     return "\n".join(lines).rstrip()
 
 
+def _parse_revision_range(value: str) -> tuple[str, str]:
+    if "..." in value or value.count("..") != 1:
+        raise ValueError("revision range must use BASE..HEAD")
+    base_ref, head_ref = (item.strip() for item in value.split("..", 1))
+    if not base_ref or not head_ref:
+        raise ValueError("revision range must include both BASE and HEAD")
+    return base_ref, head_ref
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     if args.command == "rules":
@@ -180,6 +226,45 @@ def main(argv: list[str] | None = None) -> int:
             print(output)
         summary = report["summary"]
         return 0 if summary["passed"] == summary["cases"] else 1
+    if args.command == "diff":
+        try:
+            base_ref, head_ref = _parse_revision_range(args.revision_range)
+            report = build_git_diff(args.repo, base_ref, head_ref)
+        except (
+            ValueError,
+            GitSnapshotError,
+            ConfigError,
+            ManifestError,
+            ScannerError,
+            SuppressionError,
+            ScanLimitError,
+        ) as exc:
+            print(f"horustrace: {exc}", file=sys.stderr)
+            return 1
+
+        output = (
+            json.dumps(report, indent=2)
+            if args.format == "json"
+            else render_diff_console(report)
+        )
+        if args.output:
+            args.output.write_text(output + "\n", encoding="utf-8")
+        else:
+            print(output)
+
+        if args.strict and (
+            report["base"]["analysis_incomplete"]
+            or report["head"]["analysis_incomplete"]
+        ):
+            return 1
+        if args.fail_on != "none":
+            threshold = Severity.parse(args.fail_on)
+            if any(
+                Severity.parse(item["severity"]) >= threshold
+                for item in report["findings"]["introduced"]
+            ):
+                return 2
+        return 0
     excluded_source_contexts: set[str] = set()
     if args.command == "scan":
         try:
