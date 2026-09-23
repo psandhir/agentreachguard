@@ -10,6 +10,10 @@ from horustrace.config import load_config
 from horustrace.git_snapshot import GitSnapshot, materialize_git_ref
 from horustrace.models import Finding, Graph, Severity
 from horustrace.scanner import scan
+from horustrace.source_context import (
+    classify_source_context,
+    is_non_runtime_source_context,
+)
 from horustrace.suppressions import fingerprint
 
 _MAX_CONSOLE_ITEMS = 40
@@ -68,6 +72,30 @@ def _finding_semantics(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _record_source_context(record: dict[str, Any]) -> str:
+    location = record.get("location") or {}
+    path = location.get("path")
+    if not isinstance(path, str) or not path:
+        return "unknown"
+    return classify_source_context(Path(path))
+
+
+def _authority_node_record(node: dict[str, Any]) -> dict[str, Any]:
+    return {
+        **node,
+        "source_context": _record_source_context(node),
+    }
+
+
+def _context_counts(items: list[dict[str, Any]], *, nested_after: bool = False) -> dict[str, int]:
+    counter: Counter[str] = Counter()
+    for item in items:
+        record = item.get("after", {}) if nested_after else item
+        context = str(record.get("source_context") or "unknown")
+        counter[context] += 1
+    return dict(sorted(counter.items()))
+
+
 def _semantic_node(node: dict[str, Any]) -> dict[str, Any]:
     return {
         "kind": node.get("kind"),
@@ -95,6 +123,7 @@ def _changed_node_record(
         "kind": after.get("kind"),
         "name": after.get("name"),
         "framework": after.get("framework"),
+        "source_context": _record_source_context(after),
         "changed_attributes": changed_attribute_keys,
         "added_capabilities": sorted(after_capabilities - before_capabilities),
         "removed_capabilities": sorted(before_capabilities - after_capabilities),
@@ -109,12 +138,19 @@ def _edge_record(
 ) -> dict[str, Any]:
     source = nodes.get(edge.get("source"), {})
     target = nodes.get(edge.get("target"), {})
+    context = _record_source_context(edge)
+    if context == "unknown":
+        source_context = _record_source_context(source)
+        target_context = _record_source_context(target)
+        if source_context == target_context:
+            context = source_context
     return {
         **edge,
         "source_name": source.get("name"),
         "source_kind": source.get("kind"),
         "target_name": target.get("name"),
         "target_kind": target.get("kind"),
+        "source_context": context,
     }
 
 
@@ -182,13 +218,18 @@ def compare_scans(
     removed_edge_ids = sorted(set(base_edges) - set(head_edges))
     all_nodes = {**base_nodes, **head_nodes}
 
+    added_nodes = [_authority_node_record(head_nodes[item]) for item in added_node_ids]
+    removed_nodes = [_authority_node_record(base_nodes[item]) for item in removed_node_ids]
+    added_edges = [_edge_record(head_edges[item], all_nodes) for item in added_edge_ids]
+    removed_edges = [_edge_record(base_edges[item], all_nodes) for item in removed_edge_ids]
+
     introduced_by_severity = Counter(item["severity"] for item in introduced)
     high_or_critical = sum(
         Severity.parse(item["severity"]) >= Severity.HIGH for item in introduced
     )
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "base": {
             "ref": base_ref,
             "commit": base_commit,
@@ -230,15 +271,23 @@ def compare_scans(
             "worsened": worsened_findings,
         },
         "authority": {
-            "added_nodes": [head_nodes[item] for item in added_node_ids],
-            "removed_nodes": [base_nodes[item] for item in removed_node_ids],
+            "added_nodes": added_nodes,
+            "removed_nodes": removed_nodes,
             "changed_nodes": changed_nodes,
-            "added_edges": [
-                _edge_record(head_edges[item], all_nodes) for item in added_edge_ids
-            ],
-            "removed_edges": [
-                _edge_record(base_edges[item], all_nodes) for item in removed_edge_ids
-            ],
+            "added_edges": added_edges,
+            "removed_edges": removed_edges,
+        },
+        "context_summary": {
+            "introduced_findings": _context_counts(introduced),
+            "worsened_findings": _context_counts(
+                worsened_findings,
+                nested_after=True,
+            ),
+            "added_authority_nodes": _context_counts(added_nodes),
+            "removed_authority_nodes": _context_counts(removed_nodes),
+            "changed_authority_nodes": _context_counts(changed_nodes),
+            "added_authority_edges": _context_counts(added_edges),
+            "removed_authority_edges": _context_counts(removed_edges),
         },
     }
 
@@ -355,3 +404,202 @@ def render_console(report: dict[str, Any]) -> str:
             lines.append(f"  ... {total - _MAX_CONSOLE_ITEMS} more authority changes")
 
     return "\n".join(lines)
+
+def _markdown_location(record: dict[str, Any]) -> str:
+    location = record.get("location")
+    if not location:
+        return ""
+    path = location.get("path")
+    line = location.get("line")
+    if not path:
+        return ""
+    suffix = f":{line}" if line else ""
+    return f" `{path}{suffix}`"
+
+
+def _split_context(
+    items: list[dict[str, Any]],
+    *,
+    nested_after: bool = False,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    application: list[dict[str, Any]] = []
+    non_runtime: list[dict[str, Any]] = []
+    for item in items:
+        record = item.get("after", {}) if nested_after else item
+        context = str(record.get("source_context") or "unknown")
+        target = non_runtime if is_non_runtime_source_context(context) else application
+        target.append(item)
+    return application, non_runtime
+
+
+def _render_markdown_findings(
+    lines: list[str],
+    title: str,
+    introduced: list[dict[str, Any]],
+    worsened: list[dict[str, Any]],
+) -> None:
+    if not introduced and not worsened:
+        return
+    lines.extend(["", f"### {title}", ""])
+    for item in introduced[:_MAX_CONSOLE_ITEMS]:
+        context = item.get("source_context") or "unknown"
+        agent = f"; agent `{item['agent']}`" if item.get("agent") else ""
+        lines.append(
+            f"- **{item['severity'].upper()} {item['rule_id']}** — "
+            f"{item['title']}{_markdown_location(item)} "
+            f"(context `{context}`{agent})"
+        )
+    for item in worsened[:_MAX_CONSOLE_ITEMS]:
+        before = item["before"]
+        after = item["after"]
+        context = after.get("source_context") or "unknown"
+        lines.append(
+            f"- **{before['severity'].upper()} → {after['severity'].upper()} "
+            f"{after['rule_id']}** — {after['title']}{_markdown_location(after)} "
+            f"(context `{context}`)"
+        )
+    total = len(introduced) + len(worsened)
+    if total > _MAX_CONSOLE_ITEMS:
+        lines.append(f"- … {total - _MAX_CONSOLE_ITEMS} more finding changes")
+
+
+def _render_markdown_authority(
+    lines: list[str],
+    title: str,
+    added_nodes: list[dict[str, Any]],
+    changed_nodes: list[dict[str, Any]],
+    added_edges: list[dict[str, Any]],
+) -> None:
+    if not added_nodes and not changed_nodes and not added_edges:
+        return
+    lines.extend(["", f"### {title}", ""])
+    emitted = 0
+    for item in added_nodes:
+        if emitted >= _MAX_CONSOLE_ITEMS:
+            break
+        context = item.get("source_context") or "unknown"
+        capabilities = item.get("attributes", {}).get("capabilities") or []
+        suffix = f"; capabilities `{', '.join(capabilities)}`" if capabilities else ""
+        lines.append(
+            f"- **Added {item['kind']}** `{item['name']}` "
+            f"(context `{context}`{suffix})"
+        )
+        emitted += 1
+    for item in changed_nodes:
+        if emitted >= _MAX_CONSOLE_ITEMS:
+            break
+        context = item.get("source_context") or "unknown"
+        changes = ", ".join(item.get("changed_attributes") or []) or "attributes"
+        capabilities = item.get("added_capabilities") or []
+        suffix = f"; added capabilities `{', '.join(capabilities)}`" if capabilities else ""
+        lines.append(
+            f"- **Changed {item['kind']}** `{item['name']}` — {changes} "
+            f"(context `{context}`{suffix})"
+        )
+        emitted += 1
+    for item in added_edges:
+        if emitted >= _MAX_CONSOLE_ITEMS:
+            break
+        context = item.get("source_context") or "unknown"
+        lines.append(
+            f"- **Added {item['kind']}** "
+            f"`{item.get('source_name') or item['source']}` → "
+            f"`{item.get('target_name') or item['target']}` "
+            f"(context `{context}`)"
+        )
+        emitted += 1
+    total = len(added_nodes) + len(changed_nodes) + len(added_edges)
+    if total > _MAX_CONSOLE_ITEMS:
+        lines.append(f"- … {total - _MAX_CONSOLE_ITEMS} more authority changes")
+
+
+def render_markdown(report: dict[str, Any]) -> str:
+    """Render a concise GitHub-friendly security delta."""
+    summary = report["summary"]
+    lines = [
+        "# HorusTrace Security Delta",
+        "",
+        f"Base: `{report['base']['ref']}` "
+        f"(`{(report['base']['commit'] or 'unknown')[:12]}`)",
+        f"Head: `{report['head']['ref']}` "
+        f"(`{(report['head']['commit'] or 'unknown')[:12]}`)",
+        "",
+    ]
+    if report["base"]["analysis_incomplete"] or report["head"]["analysis_incomplete"]:
+        lines.extend(
+            [
+                "> **Analysis incomplete.** The absence of a reported change is not "
+                "proof that no security-relevant change exists.",
+                "",
+            ]
+        )
+
+    lines.extend(
+        [
+            "| Security delta | Count |",
+            "|---|---:|",
+            f"| Introduced findings | {summary['introduced_findings']} |",
+            f"| Introduced high/critical | {summary['introduced_high_or_critical']} |",
+            f"| Worsened findings | {summary['worsened_findings']} |",
+            f"| Resolved findings | {summary['resolved_findings']} |",
+            f"| Added authority nodes | {summary['added_authority_nodes']} |",
+            f"| Changed authority nodes | {summary['changed_authority_nodes']} |",
+            f"| Added authority edges | {summary['added_authority_edges']} |",
+        ]
+    )
+
+    runtime_introduced, nonruntime_introduced = _split_context(
+        report["findings"]["introduced"]
+    )
+    runtime_worsened, nonruntime_worsened = _split_context(
+        report["findings"]["worsened"],
+        nested_after=True,
+    )
+    runtime_added_nodes, nonruntime_added_nodes = _split_context(
+        report["authority"]["added_nodes"]
+    )
+    runtime_changed_nodes, nonruntime_changed_nodes = _split_context(
+        report["authority"]["changed_nodes"]
+    )
+    runtime_added_edges, nonruntime_added_edges = _split_context(
+        report["authority"]["added_edges"]
+    )
+
+    _render_markdown_findings(
+        lines,
+        "Application/runtime finding changes",
+        runtime_introduced,
+        runtime_worsened,
+    )
+    _render_markdown_authority(
+        lines,
+        "Application/runtime authority changes",
+        runtime_added_nodes,
+        runtime_changed_nodes,
+        runtime_added_edges,
+    )
+    _render_markdown_findings(
+        lines,
+        "Non-runtime finding changes",
+        nonruntime_introduced,
+        nonruntime_worsened,
+    )
+    _render_markdown_authority(
+        lines,
+        "Non-runtime authority changes",
+        nonruntime_added_nodes,
+        nonruntime_changed_nodes,
+        nonruntime_added_edges,
+    )
+
+    if (
+        not report["findings"]["introduced"]
+        and not report["findings"]["worsened"]
+        and not report["authority"]["added_nodes"]
+        and not report["authority"]["changed_nodes"]
+        and not report["authority"]["added_edges"]
+    ):
+        lines.extend(["", "No introduced or worsened security delta was detected."])
+
+    return "\n".join(lines) + "\n"
+
