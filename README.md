@@ -43,7 +43,7 @@ The scanner is **static-first and local-first**. It does not import target Pytho
 - Common MCP JSON configuration (`mcp.json`, `.mcp.json`).
 - Framework-neutral `horustrace.manifest.yaml` for business/security intent.
 - Terraform (`.tf`) for an initial GCP/Azure/AWS IAM view.
-- **Offline GCP IAM authority enrichment** from Cloud Asset Inventory `search-all-iam-policies` JSON exports for already-discovered service accounts.
+- **Offline GCP IAM authority enrichment** from Cloud Asset Inventory `search-all-iam-policies` JSON or `exportAssets` IAM-policy snapshots for already-discovered service accounts.
 - ADK `.env` credential-source checks without exposing secret values in findings.
 
 ## Google ADK coverage
