@@ -187,6 +187,9 @@ def compare_scans(
             "ref": base_ref,
             "commit": base_commit,
             "coverage_incomplete": base_graph.coverage.incomplete,
+            "analysis_incomplete": (
+                base_graph.coverage.incomplete or base_skipped_entries > 0
+            ),
             "adg_digest": base_graph.adg.canonical_digest() if base_graph.adg else None,
             "skipped_non_regular_git_entries": base_skipped_entries,
         },
@@ -194,6 +197,9 @@ def compare_scans(
             "ref": head_ref,
             "commit": head_commit,
             "coverage_incomplete": head_graph.coverage.incomplete,
+            "analysis_incomplete": (
+                head_graph.coverage.incomplete or head_skipped_entries > 0
+            ),
             "adg_digest": head_graph.adg.canonical_digest() if head_graph.adg else None,
             "skipped_non_regular_git_entries": head_skipped_entries,
         },
@@ -292,8 +298,8 @@ def render_console(report: dict[str, Any]) -> str:
         f"~{summary['changed_authority_nodes']}",
         f"  Authority edges:     +{summary['added_authority_edges']} "
         f"-{summary['removed_authority_edges']}",
-        f"  Coverage: base={'incomplete' if report['base']['coverage_incomplete'] else 'complete'}, "
-        f"head={'incomplete' if report['head']['coverage_incomplete'] else 'complete'}",
+        f"  Analysis: base={'incomplete' if report['base']['analysis_incomplete'] else 'complete'}, "
+        f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}",
     ]
 
     introduced = report["findings"]["introduced"]
