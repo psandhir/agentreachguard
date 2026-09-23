@@ -285,3 +285,63 @@ def test_graph_cli_accepts_gcp_iam_export(tmp_path: Path, capsys) -> None:
     )
     assert identity["attributes"]["roles"] == ["roles/owner"]
     assert len(identity["attributes"]["gcp_iam_bindings"]) == 2
+
+def test_conditional_admin_binding_does_not_become_unconditional_role(
+    tmp_path: Path,
+) -> None:
+    _write_manifest(tmp_path / "horustrace.manifest.yaml")
+    export = tmp_path / "conditional.ndjson"
+    export.write_text(
+        json.dumps(
+            {
+                "name": "//cloudresourcemanager.googleapis.com/projects/example",
+                "assetType": "cloudresourcemanager.googleapis.com/Project",
+                "iamPolicy": {
+                    "bindings": [
+                        {
+                            "role": "roles/owner",
+                            "members": [
+                                "serviceAccount:agent-sa@example.iam.gserviceaccount.com"
+                            ],
+                            "condition": {
+                                "title": "break-glass-window",
+                                "expression": (
+                                    "request.time < "
+                                    "timestamp('2030-01-01T00:00:00Z')"
+                                ),
+                            },
+                        }
+                    ]
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path, gcp_iam_export=export)
+
+    identity = graph.agents[0].identities[0]
+    assert identity.roles == set()
+    assert not any(finding.rule_id == "IDN001" for finding in findings)
+    assert len(identity.metadata["gcp_iam_bindings"]) == 1
+    assert identity.metadata["gcp_iam_bindings"][0]["conditional"] is True
+
+
+def test_default_scan_preserves_identity_adg_attribute_shape(tmp_path: Path) -> None:
+    _write_manifest(tmp_path / "horustrace.manifest.yaml")
+
+    graph, _ = scan(tmp_path)
+
+    assert graph.adg is not None
+    identity_node = next(
+        node for node in graph.adg.nodes if node.kind == "identity"
+    )
+    assert set(identity_node.attributes) == {
+        "provider",
+        "roles",
+        "permissions",
+        "oauth_scopes",
+        "credential_source",
+    }
+
