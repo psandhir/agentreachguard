@@ -44,3 +44,30 @@ jobs:
       - run: python -m pip install build
       - run: python -m build
       - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/horustrace --help && wheel-venv/bin/horustrace rules --format json && wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high && wheel-venv/bin/python -c "import horustrace"
+
+  action-pr-diff:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Run HorusTrace PR security delta
+        id: horustrace
+        uses: ./
+        with:
+          mode: diff
+          fail-on: high
+          strict: "false"
+      - name: Verify immutable diff outputs
+        shell: bash
+        env:
+          BASE_SHA: ${{ steps.horustrace.outputs.base-sha }}
+          HEAD_SHA: ${{ steps.horustrace.outputs.head-sha }}
+          REPORT_PATH: ${{ steps.horustrace.outputs.report-path }}
+        run: |
+          [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ -f "$REPORT_PATH" ]]
+          grep -q '^# HorusTrace Security Delta' "$REPORT_PATH"
+
