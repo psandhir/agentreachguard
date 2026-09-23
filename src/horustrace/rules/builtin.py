@@ -107,6 +107,18 @@ def _identity_findings(identity: Identity, agent: str | None = None) -> list[Fin
                 evidence=[f"credential_source={identity.credential_source}"],
             )
         )
+    for finding in findings:
+        finding.provenance.extend(
+            fact for fact in identity.provenance if fact not in finding.provenance
+        )
+        if (
+            finding.rule_id == "IDN001"
+            and identity.metadata.get("gcp_iam_conditional_grants")
+        ):
+            finding.limitations.append(
+                "One or more observed GCP IAM grants are conditional; "
+                "IAM condition expressions were not evaluated."
+            )
     return findings
 
 
