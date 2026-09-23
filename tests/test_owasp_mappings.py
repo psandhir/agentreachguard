@@ -18,6 +18,7 @@ def test_required_initial_owasp_mappings_are_present() -> None:
         "IDN001", "IDN002", "IDN003", "IDN004",
     ))
     assert RULE_REGISTRY["AGT050"].owasp_agentic == ("ASI04",)
+    assert RULE_REGISTRY["PATH007"].owasp_agentic == ("ASI06",)
     assert all("ASI05" in RULE_REGISTRY[rule_id].owasp_agentic for rule_id in (
         "AGT020", "ADK002", "ADK004", "ADK012",
     ))
