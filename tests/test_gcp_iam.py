@@ -14,7 +14,6 @@ from horustrace.gcp_iam import (
 from horustrace.models import Agent, Graph, Identity
 from horustrace.rules.builtin import evaluate
 
-
 _AGENT_SA = "agent@demo-project.iam.gserviceaccount.com"
 _OTHER_SA = "other@demo-project.iam.gserviceaccount.com"
 
