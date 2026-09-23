@@ -1,0 +1,124 @@
+name: Flow Attribution Triage
+
+on:
+  push:
+    branches:
+      - research/flow-attribution-triage
+    paths:
+      - ".github/workflows/flow-attribution-triage.yml"
+      - "src/**"
+
+permissions:
+  contents: read
+
+jobs:
+  triage:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: google-adk-samples
+            repo: google/adk-samples
+            sha: f73ad0ea0efe
+          - name: langchain-deepagents
+            repo: langchain-ai/deepagents
+            sha: d5a18968f266
+          - name: evalstate-fast-agent
+            repo: evalstate/fast-agent
+            sha: 96ded66a3d21
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install HorusTrace
+        run: python -m pip install -e .
+
+      - name: Fetch frozen target
+        env:
+          TARGET_REPO: ${{ matrix.repo }}
+          TARGET_SHA: ${{ matrix.sha }}
+        run: |
+          git init -q /tmp/target
+          git -C /tmp/target remote add origin "https://github.com/${TARGET_REPO}.git"
+          git -C /tmp/target fetch --quiet --depth=1 --filter=blob:none origin "${TARGET_SHA}"
+          git -C /tmp/target checkout --quiet --detach FETCH_HEAD
+          echo "repo=${TARGET_REPO} sha=$(git -C /tmp/target rev-parse HEAD)"
+
+      - name: Triage unknown flow attribution
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          from horustrace.scanner import scan
+
+          graph, _ = scan(Path("/tmp/target"))
+          unknown = [
+              flow for flow in graph.flow_paths
+              if getattr(flow.agent_reachability, "value", flow.agent_reachability) == "unknown"
+          ]
+
+          print(f"agents={len(graph.agents)} flows={len(graph.flow_paths)} unknown={len(unknown)}")
+          print("unknown_execution_contexts=" + json.dumps(Counter(
+              getattr(flow.execution_context, "value", flow.execution_context)
+              for flow in unknown
+          ), sort_keys=True))
+
+          for index, flow in enumerate(unknown, 1):
+              payload = flow.as_dict()
+              chain = list((payload.get("metadata") or {}).get("call_chain") or [])
+              leaf_names = {item.rsplit(".", 1)[-1] for item in chain}
+              candidates = []
+              for agent in graph.agents:
+                  for tool in agent.tools:
+                      source_key = tool.metadata.get("source_function_key")
+                      source_function = (
+                          tool.metadata.get("source_function")
+                          or tool.metadata.get("function")
+                      )
+                      if (
+                          source_key in chain
+                          or tool.name in leaf_names
+                          or source_function in leaf_names
+                      ):
+                          candidates.append({
+                              "agent": agent.name,
+                              "tool": tool.name,
+                              "kind": tool.kind,
+                              "source_function_key": source_key,
+                              "source_function": source_function,
+                              "source_module": tool.metadata.get("source_module"),
+                              "import_module": tool.metadata.get("import_module"),
+                              "tool_path": (
+                                  tool.location.path.as_posix()
+                                  if tool.location is not None else None
+                              ),
+                              "tool_line": (
+                                  tool.location.line
+                                  if tool.location is not None else None
+                              ),
+                          })
+
+              print("FLOW " + json.dumps({
+                  "index": index,
+                  "flow_id": payload.get("flow_id"),
+                  "source_kind": payload.get("source_kind"),
+                  "sink_kind": payload.get("sink_kind"),
+                  "agent": payload.get("agent"),
+                  "execution_context": payload.get("execution_context"),
+                  "agent_reachability": payload.get("agent_reachability"),
+                  "steps": payload.get("steps"),
+                  "metadata": payload.get("metadata"),
+                  "candidate_tools": candidates,
+              }, sort_keys=True, default=str))
+          PY
