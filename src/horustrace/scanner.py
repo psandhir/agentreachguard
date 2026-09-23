@@ -21,6 +21,7 @@ from horustrace.config import ScanConfig
 from horustrace.config import apply as apply_config
 from horustrace.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
 from horustrace.flow import analyze_repository_flows
+from horustrace.gcp_iam import enrich_graph_with_gcp_iam_export
 from horustrace.heuristics import PRIVILEGED_CAPABILITIES
 from horustrace.limits import (
     MAX_FILE_SIZE_BYTES,
@@ -799,6 +800,7 @@ def scan(
     suppressions_path: Path | None = None,
     use_default_suppressions: bool = True,
     config: ScanConfig | None = None,
+    gcp_iam_export: Path | None = None,
 ) -> tuple[Graph, list]:
     root = path.resolve()
     containment_root = canonical_root(root)
@@ -986,6 +988,12 @@ def scan(
     reconstruct_mcp_authority(graph, approved_python_paths)
     reconstruct_mcp_context(graph)
     _link_global_identities(graph)
+    if gcp_iam_export is not None:
+        summary = enrich_graph_with_gcp_iam_export(graph, gcp_iam_export)
+        graph.configuration_audit["gcp_iam_export"] = {
+            "path": gcp_iam_export.as_posix(),
+            **summary.as_dict(),
+        }
     _resolve_imported_tool_placeholders(graph)
     annotate_tool_source_provenance(
         graph,
@@ -1118,7 +1126,7 @@ def scan(
         )
     attach_findings(graph, findings)
     findings, disabled_rules = apply_config(config or ScanConfig(), findings)
-    graph.configuration_audit = {"disabled_rules": disabled_rules}
+    graph.configuration_audit["disabled_rules"] = disabled_rules
     suppression_file = suppressions_path
     if suppression_file is None and use_default_suppressions:
         base = root if root.is_dir() else root.parent
