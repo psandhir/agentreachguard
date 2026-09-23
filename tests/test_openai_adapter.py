@@ -137,6 +137,20 @@ agent = Agent(name="Publisher", tools=[publish_message])
     assert tool.guardrails is True
     assert tool.metadata.get("approval_mechanism") == "inline_confirmation"
     assert tool.metadata.get("approval_scope") == "execution_gate"
+    assert graph.adg is not None
+    control = next(
+        node
+        for node in graph.adg.nodes
+        if node.kind == "approval_control"
+        and node.attributes.get("protects_tool") == "publish_message"
+    )
+    assert control.attributes["mechanism"] == "inline_confirmation"
+    assert control.attributes["scope"] == "execution_gate"
+    assert control.attributes["mandatory"] is True
+    assert any(
+        edge.kind == "GUARDED_BY" and edge.target == control.node_id
+        for edge in graph.adg.edges
+    )
     assert not any(
         f.rule_id in {"AGT022", "AGT040"} and f.agent == "Publisher"
         for f in findings

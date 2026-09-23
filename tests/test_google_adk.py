@@ -335,6 +335,20 @@ app = App(
     assert agent.metadata.get("approval_plugin") is True
     assert delete_tool.approval is True
     assert delete_tool.metadata.get("approval_mechanism") == "adk_hitl_tool_plugin"
+    assert graph.adg is not None
+    controls = [
+        node
+        for node in graph.adg.nodes
+        if node.kind == "approval_control"
+    ]
+    assert len(controls) == 1
+    assert controls[0].attributes["mechanism"] == "adk_hitl_tool_plugin"
+    assert controls[0].attributes["protects_tool"] == "delete_user"
+    assert controls[0].attributes["mandatory"] is True
+    assert any(
+        edge.kind == "GUARDED_BY" and edge.target == controls[0].node_id
+        for edge in graph.adg.edges
+    )
     assert note_tool.approval is not True
     assert note_tool.guardrails is False
 
