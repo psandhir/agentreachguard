@@ -216,8 +216,46 @@ def _computer_control_semantics(
     return caps, metadata
 
 
+def _local_container_names(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> set[str]:
+    """Return locals initialized as in-memory collection objects."""
+    names: set[str] = set()
+    for child in ast.walk(node):
+        if not isinstance(child, (ast.Assign, ast.AnnAssign)):
+            continue
+        value = child.value
+        targets = child.targets if isinstance(child, ast.Assign) else [child.target]
+        local_container = isinstance(value, (ast.Dict, ast.List, ast.Set))
+        if isinstance(value, ast.Call):
+            local_container = (_call_name(value.func) or "") in {
+                "dict",
+                "list",
+                "set",
+            }
+        if not local_container:
+            continue
+        for target in targets:
+            if isinstance(target, ast.Name):
+                names.add(target.id)
+    return names
+
+
+def _is_local_container_update(
+    call: ast.Call,
+    local_containers: set[str],
+) -> bool:
+    return (
+        isinstance(call.func, ast.Attribute)
+        and call.func.attr == "update"
+        and isinstance(call.func.value, ast.Name)
+        and call.func.value.id in local_containers
+    )
+
+
 def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[str]:
     caps = _name_capabilities(node.name)
+    local_containers = _local_container_names(node)
     for child in ast.walk(node):
         if not isinstance(child, ast.Call):
             continue
@@ -235,7 +273,8 @@ def _function_capabilities(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[
             if leaf in {"post", "put", "patch", "delete"}:
                 caps.add("external.write")
         if leaf in {"write", "update", "save", "insert", "create", "put"}:
-            caps.add("data.write")
+            if not _is_local_container_update(child, local_containers):
+                caps.add("data.write")
         if leaf in {"read", "get", "search", "retrieve", "fetch", "query"}:
             caps.add("data.read")
         if "secretmanager" in called or "vault" in called or leaf in {"get_secret", "access_secret_version"}:
