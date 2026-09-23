@@ -123,6 +123,20 @@ horustrace rules
 horustrace rules --format json --output rules.json
 ```
 
+Inspect effective MCP authority reconstructed from static evidence:
+
+```bash
+horustrace authority .
+horustrace authority . --format json --output mcp-authority.json
+```
+
+The authority report answers which normalized agent is statically bound to each MCP
+server, the known positive/negative tool scope, authentication identity and credential
+source, fixed destination, and resource authority. Unknown remote tool catalogues,
+dynamic filters, authentication state, or destinations remain explicit in the
+`unresolved` list rather than being inferred.
+
+
 ### ADK demo
 
 ```bash
