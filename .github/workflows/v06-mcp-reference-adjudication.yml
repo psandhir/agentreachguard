@@ -1,0 +1,92 @@
+name: v0.6 MCP Reference Adjudication
+
+on:
+  push:
+    branches:
+      - research/v0.6-frozen-90
+    paths:
+      - ".github/workflows/v06-mcp-reference-adjudication.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  adjudicate:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: fast-agent
+            repo: evalstate/fast-agent
+            sha: 96ded66a3d21472047859808ae30095390607171
+          - name: klavis
+            repo: Klavis-AI/klavis
+            sha: 45c9f7da83d1cf43f7429b96f9c8e8153542ea1e
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install current HorusTrace
+        run: python -m pip install -e .
+
+      - name: Fetch frozen target
+        env:
+          REPO: ${{ matrix.repo }}
+          SHA: ${{ matrix.sha }}
+        run: |
+          mkdir target
+          git -C target init -q
+          git -C target remote add origin "https://github.com/${REPO}.git"
+          git -C target fetch --quiet --depth=1 --filter=blob:none origin "${SHA}"
+          git -C target checkout --quiet --detach FETCH_HEAD
+          test "$(git -C target rev-parse HEAD)" = "${SHA}"
+
+      - name: Emit unresolved MCP references
+        env:
+          NAME: ${{ matrix.name }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          from horustrace.config import load_config
+          from horustrace.mcp_resolution import unresolved_mcp_summary
+          from horustrace.scanner import scan
+
+          root = Path("target")
+          graph, _ = scan(root, config=load_config(root))
+          report = unresolved_mcp_summary(graph)
+          refs = [
+              item
+              for item in report["references"]
+              if item["reference_kind"] == "agent_reference"
+          ]
+          Path(f"mcp-adjudication-{os.environ['NAME']}.json").write_text(
+              json.dumps(
+                  {
+                      "summary": report["summary"],
+                      "agent_references": refs,
+                  },
+                  indent=2,
+              )
+              + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(refs, indent=2))
+          PY
+
+      - name: Upload adjudication
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-adjudication-${{ matrix.name }}
+          path: mcp-adjudication-${{ matrix.name }}.json
