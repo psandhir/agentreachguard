@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from horustrace.authority_contract import authority_contract_report
+from horustrace.scanner import scan
 from horustrace.models import (
     Agent,
     AgentPolicy,
@@ -490,3 +491,166 @@ def test_violation_fingerprint_excludes_sensitive_observed_values(tmp_path: Path
 
     assert first["violations"][0]["observed"] != second["violations"][0]["observed"]
     assert first["violations"][0]["result_id"] == second["violations"][0]["result_id"]
+
+
+
+def test_explanation_links_precise_clause_to_effective_authority(
+    tmp_path: Path,
+) -> None:
+    manifest = tmp_path / "horustrace.manifest.yaml"
+    manifest.write_text(
+        """
+version: 1
+agents:
+  - name: support
+    tools:
+      - name: shell
+        capabilities: [process.execute]
+        human_approval: false
+    policy:
+      authority:
+        deny:
+          capabilities: [process.execute]
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    report = authority_contract_report(graph)
+
+    violation = report["violations"][0]
+    assert violation["contract_location"] == {
+        "path": str(manifest),
+        "line": 12,
+        "column": 25,
+    }
+    explanation = violation["explanation"]
+    assert explanation["schema_version"] == 1
+    assert explanation["policy"]["clause"] == "deny.capabilities"
+    assert explanation["policy"]["location"] == violation["contract_location"]
+    assert explanation["policy"]["expected"] == ["process.execute"]
+    assert explanation["authority"]["relationship_id"] == (
+        violation["authority_relationship_id"]
+    )
+    assert explanation["authority"]["target"] == {
+        "kind": "tool",
+        "name": "shell",
+    }
+    assert explanation["authority"]["observed"] == ["process.execute"]
+    assert explanation["control"]["required"] is False
+    assert explanation["runtime_effectiveness"] == "not_verified"
+
+
+def test_explanation_includes_resource_destination_and_identity_evidence(
+    tmp_path: Path,
+) -> None:
+    location = SourceLocation(tmp_path / "agent.py", line=17)
+    identity = Identity(
+        name="writer",
+        provider="generic",
+        roles={"writer"},
+        credential_source="environment",
+        location=location,
+    )
+    contract_location = SourceLocation(
+        tmp_path / "horustrace.manifest.yaml",
+        line=31,
+        column=9,
+    )
+    graph = Graph(
+        agents=[
+            Agent(
+                name="support",
+                identities=[identity],
+                tools=[
+                    Tool(
+                        name="send",
+                        kind="function",
+                        capabilities={"external.write"},
+                        identity="writer",
+                        approval=True,
+                        resources=[
+                            ResourceScope(
+                                kind="ticket",
+                                selector="tickets/123",
+                                access={"external.write"},
+                                location=location,
+                            )
+                        ],
+                        destinations=[
+                            NetworkDestination(
+                                target="https://external.example.test",
+                                location=location,
+                            )
+                        ],
+                        location=location,
+                    )
+                ],
+                policy=AgentPolicy(
+                    authority=_contract(
+                        allow=AuthorityScope(
+                            destinations={"https://internal.example.test/*"},
+                        ),
+                        location=contract_location,
+                    )
+                ),
+            )
+        ]
+    )
+
+    report = authority_contract_report(graph)
+    explanation = report["violations"][0]["explanation"]
+
+    assert explanation["identity"]["name"] == "writer"
+    assert explanation["control"]["required"] is True
+    assert explanation["resources"][0]["selector"] == "tickets/123"
+    assert (
+        explanation["destinations"][0]["target"]
+        == "https://external.example.test"
+    )
+    assert explanation["authority"]["dimensions"]["identity"] == "resolved"
+
+
+def test_missing_clause_location_falls_back_to_contract_location(
+    tmp_path: Path,
+) -> None:
+    location = SourceLocation(tmp_path / "agent.py", line=4)
+    contract_location = SourceLocation(
+        tmp_path / "horustrace.manifest.yaml",
+        line=40,
+        column=5,
+    )
+    graph = Graph(
+        agents=[
+            Agent(
+                name="agent",
+                tools=[
+                    Tool(
+                        name="shell",
+                        kind="function",
+                        capabilities={"process.execute"},
+                        approval=True,
+                        location=location,
+                    )
+                ],
+                policy=AgentPolicy(
+                    authority=_contract(
+                        deny=AuthorityScope(capabilities={"process.execute"}),
+                        location=contract_location,
+                    )
+                ),
+            )
+        ]
+    )
+
+    violation = authority_contract_report(graph)["violations"][0]
+
+    assert violation["contract_location"] == {
+        "path": str(contract_location.path),
+        "line": 40,
+        "column": 5,
+    }
+    assert (
+        violation["explanation"]["policy"]["location"]
+        == violation["contract_location"]
+    )
