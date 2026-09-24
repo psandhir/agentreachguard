@@ -124,6 +124,7 @@ def _relative(path: Path | None, root: Path) -> str | None:
 def scan_target(target: Path) -> dict:
     from horustrace import __version__
     from horustrace.config import load_config
+    from horustrace.owasp import build_owasp_agentic_summary
     from horustrace.scanner import scan
 
     config = load_config(target)
@@ -268,6 +269,7 @@ def scan_target(target: Path) -> dict:
             context: dict(counter) for context, counter in rules_by_context.items()
         },
         "finding_details": finding_details,
+        "owasp_agentic": build_owasp_agentic_summary(findings),
         "diagnostics": dict(diagnostics),
     }
 
@@ -332,6 +334,79 @@ def _merge_counter(results: list[dict], field: str) -> dict[str, int]:
     return dict(counter)
 
 
+def _aggregate_owasp(results: list[dict]) -> dict:
+    categories: dict[str, dict] = {}
+    mapped_findings = 0
+    runtime_mapped_findings = 0
+    for item in results:
+        report = item.get("owasp_agentic") or {}
+        summary = report.get("summary") or {}
+        mapped_findings += int(summary.get("mapped_findings", 0) or 0)
+        runtime_mapped_findings += int(summary.get("runtime_mapped_findings", 0) or 0)
+        for category in report.get("categories", []):
+            risk_id = category["id"]
+            aggregate = categories.setdefault(
+                risk_id,
+                {
+                    "id": risk_id,
+                    "title": category["title"],
+                    "mapped_rules": category.get("mapped_rules", []),
+                    "finding_count": 0,
+                    "runtime_finding_count": 0,
+                    "non_runtime_finding_count": 0,
+                    "unknown_source_context_finding_count": 0,
+                    "source_contexts": collections.Counter(),
+                    "affected_repositories": [],
+                    "runtime_affected_repositories": [],
+                    "finding_rule_ids": set(),
+                    "runtime_finding_rule_ids": set(),
+                },
+            )
+            aggregate["finding_count"] += int(category.get("finding_count", 0) or 0)
+            aggregate["runtime_finding_count"] += int(
+                category.get("runtime_finding_count", 0) or 0
+            )
+            aggregate["non_runtime_finding_count"] += int(
+                category.get("non_runtime_finding_count", 0) or 0
+            )
+            aggregate["unknown_source_context_finding_count"] += int(
+                category.get("unknown_source_context_finding_count", 0) or 0
+            )
+            aggregate["source_contexts"].update(category.get("source_contexts", {}) or {})
+            aggregate["finding_rule_ids"].update(category.get("finding_rule_ids", []))
+            aggregate["runtime_finding_rule_ids"].update(
+                category.get("runtime_finding_rule_ids", [])
+            )
+            if category.get("finding_count", 0):
+                aggregate["affected_repositories"].append(item["repo"])
+            if category.get("runtime_finding_count", 0):
+                aggregate["runtime_affected_repositories"].append(item["repo"])
+
+    ordered = []
+    for risk_id in sorted(categories):
+        category = categories[risk_id]
+        category["source_contexts"] = dict(category["source_contexts"])
+        category["affected_repositories"] = sorted(set(category["affected_repositories"]))
+        category["runtime_affected_repositories"] = sorted(
+            set(category["runtime_affected_repositories"])
+        )
+        category["affected_repository_count"] = len(category["affected_repositories"])
+        category["runtime_affected_repository_count"] = len(
+            category["runtime_affected_repositories"]
+        )
+        category["finding_rule_ids"] = sorted(category["finding_rule_ids"])
+        category["runtime_finding_rule_ids"] = sorted(
+            category["runtime_finding_rule_ids"]
+        )
+        ordered.append(category)
+
+    return {
+        "mapped_findings": mapped_findings,
+        "runtime_mapped_findings": runtime_mapped_findings,
+        "categories": ordered,
+    }
+
+
 def build_summary(results: list[dict]) -> dict:
     scanned = [item for item in results if item.get("scan") == "ok"]
     numeric = [
@@ -372,6 +447,7 @@ def build_summary(results: list[dict]) -> dict:
             scanned,
             "flow_agent_reachability",
         ),
+        "owasp_agentic": _aggregate_owasp(scanned),
     }
 
 
@@ -440,6 +516,15 @@ def render_markdown(report: dict) -> str:
     if not summary["flow_agent_reachability"]:
         lines.append("- none")
 
+    lines += ["", "## OWASP Agentic Top 10", ""]
+    for category in summary["owasp_agentic"]["categories"]:
+        lines.append(
+            f"- {category['id']} {category['title']}: "
+            f"runtime={category['runtime_finding_count']} / "
+            f"total={category['finding_count']}; "
+            f"runtime repos={category['runtime_affected_repository_count']} / "
+            f"affected repos={category['affected_repository_count']}"
+        )
     lines += ["", "## Finding source contexts", ""]
     for key, value in sorted(summary["finding_source_contexts"].items()):
         lines.append(f"- {key}: {value}")
