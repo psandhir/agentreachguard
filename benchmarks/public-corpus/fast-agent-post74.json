@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "repositories": [
+    {
+      "tier": "framework-stress",
+      "category": "mcp-mixed",
+      "repo": "evalstate/fast-agent",
+      "sha": "96ded66a3d21472047859808ae30095390607171"
+    }
+  ]
+}
