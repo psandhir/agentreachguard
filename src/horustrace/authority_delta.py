@@ -185,12 +185,10 @@ def _approval_weakened(
         return True
     if before.get("guardrails") is True and after.get("guardrails") is not True:
         return True
-    if (
+    return (
         before.get("inherited_control") is True
         and after.get("inherited_control") is not True
-    ):
-        return True
-    return False
+    )
 
 
 def _changed_relationship(
