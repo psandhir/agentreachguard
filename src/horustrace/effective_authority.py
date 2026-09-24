@@ -18,7 +18,7 @@ EFFECTIVE_AUTHORITY_SCHEMA_VERSION = 1
 
 
 def _stable_relationship_id(agent: str, target_kind: str, target_name: str) -> str:
-    payload = "\0".join((agent, target_kind, target_name))
+    payload = f"{agent}\0{target_kind}\0{target_name}"
     digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
     return f"authority-v1:{digest}"
 
