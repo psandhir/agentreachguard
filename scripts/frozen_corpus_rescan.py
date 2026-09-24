@@ -124,16 +124,20 @@ def _relative(path: Path | None, root: Path) -> str | None:
 def scan_target(target: Path) -> dict:
     from horustrace import __version__
     from horustrace.authority_contract import authority_contract_report
+    from horustrace.authority_resolution import authority_resolution_summary
     from horustrace.config import load_config
     from horustrace.effective_authority import effective_authority_relationships
     from horustrace.mcp_resolution import unresolved_mcp_summary
     from horustrace.owasp import build_owasp_agentic_summary
+    from horustrace.policy_proposal import build_authority_policy_proposal
     from horustrace.scanner import scan
     from horustrace.trust_boundaries import trust_boundary_report
 
     config = load_config(target)
     graph, findings = scan(target, config=config)
     authority_contract = authority_contract_report(graph)
+    authority_resolution = authority_resolution_summary(graph)
+    policy_proposal = build_authority_policy_proposal(graph)
     trust_boundaries = trust_boundary_report(
         effective_authority_relationships(graph)
     )
@@ -337,6 +341,41 @@ def scan_target(target: Path) -> dict:
             )
             or {}
         ),
+        "authority_fully_resolved_relationships": int(
+            authority_resolution.get("fully_resolved_relationships", 0) or 0
+        ),
+        "authority_partially_resolved_relationships": int(
+            authority_resolution.get("partially_resolved_relationships", 0) or 0
+        ),
+        "authority_unknown_relationships": int(
+            authority_resolution.get("unknown_relationships", 0) or 0
+        ),
+        "authority_unresolved_relationships": int(
+            authority_resolution.get("unresolved_relationships", 0) or 0
+        ),
+        "authority_fully_resolved_ratio": float(
+            authority_resolution.get("fully_resolved_ratio", 0.0) or 0.0
+        ),
+        "authority_unresolved_dimensions": dict(
+            authority_resolution.get("unresolved_dimensions", {}) or {}
+        ),
+        "policy_proposal_agents": int(
+            (policy_proposal.get("summary") or {}).get("agents", 0) or 0
+        ),
+        "policy_proposal_agents_with_unresolved_authority": int(
+            (policy_proposal.get("summary") or {}).get(
+                "agents_with_unresolved_authority",
+                0,
+            )
+            or 0
+        ),
+        "policy_proposal_relationships_observed": int(
+            (policy_proposal.get("summary") or {}).get(
+                "relationships_observed",
+                0,
+            )
+            or 0
+        ),
         "authority_contract_agents": int(
             contract_summary.get("agents_with_contract", 0) or 0
         ),
@@ -536,6 +575,11 @@ def build_summary(results: list[dict]) -> dict:
         "agent_attribution_gaps", "attack_paths", "static_dataflow_attack_paths",
         "adg_nodes", "adg_edges", "bound_mcp_references", "unbound_mcp_references",
         "unresolved_mcp_references", "unresolved_mcp_agent_references",
+        "authority_fully_resolved_relationships",
+        "authority_partially_resolved_relationships", "authority_unknown_relationships",
+        "authority_unresolved_relationships", "policy_proposal_agents",
+        "policy_proposal_agents_with_unresolved_authority",
+        "policy_proposal_relationships_observed",
         "authority_contract_agents", "authority_contract_relationships",
         "authority_contract_violations", "authority_contract_unresolved",
         "authority_explanations_complete", "trust_boundary_relationships",
@@ -589,6 +633,10 @@ def build_summary(results: list[dict]) -> dict:
         "mcp_unresolved_by_resolution_class": _merge_counter(
             scanned,
             "mcp_unresolved_by_resolution_class",
+        ),
+        "authority_unresolved_dimensions": _merge_counter(
+            scanned,
+            "authority_unresolved_dimensions",
         ),
         "trust_boundary_classes": {
             family: _merge_counter(
@@ -660,6 +708,18 @@ def render_markdown(report: dict) -> str:
             f"{totals['trust_boundary_unknown_identity']}/"
             f"{totals['trust_boundary_unknown_control']}/"
             f"{totals['trust_boundary_unknown_mcp_scope']}"
+        ),
+        (
+            f"- Authority resolution: fully={totals['authority_fully_resolved_relationships']}; "
+            f"partial={totals['authority_partially_resolved_relationships']}; "
+            f"unknown={totals['authority_unknown_relationships']}; "
+            f"unresolved={totals['authority_unresolved_relationships']}"
+        ),
+        (
+            f"- Policy bootstrap: agents={totals['policy_proposal_agents']}; "
+            f"agents with unresolved authority="
+            f"{totals['policy_proposal_agents_with_unresolved_authority']}; "
+            f"relationships observed={totals['policy_proposal_relationships_observed']}"
         ),
         (
             f"- Authority Contracts: agents={totals['authority_contract_agents']}; "
@@ -759,6 +819,15 @@ def render_markdown(report: dict) -> str:
     ):
         lines.append(f"- {key}: {value}")
     if not summary["mcp_unresolved_by_resolution_class"]:
+        lines.append("- none")
+
+    lines += ["", "## Authority unresolved dimensions", ""]
+    for key, value in sorted(
+        summary["authority_unresolved_dimensions"].items(),
+        key=lambda item: (-item[1], item[0]),
+    ):
+        lines.append(f"- {key}: {value}")
+    if not summary["authority_unresolved_dimensions"]:
         lines.append("- none")
 
     lines += ["", "## Trust-boundary classifications", ""]
