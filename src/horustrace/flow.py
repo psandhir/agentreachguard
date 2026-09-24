@@ -261,21 +261,66 @@ def _sink_kind(called: str) -> tuple[str, str] | None:
     return None
 
 
+def _process_execution_value(called: str, call: ast.Call, evaluator) -> _Value:
+    \"\"\"Return only values that can control the executed program or code.
+
+    For subprocess APIs, stdin/data kwargs such as input= are payload, not
+    executable selection. Treating every keyword as process-control data creates
+    false source-to-execution paths when secrets or documents are merely piped to
+    a fixed helper process.
+    \"\"\"
+    lower = called.lower()
+    leaf = lower.rsplit(\".\", 1)[-1]
+
+    if lower.startswith(\"subprocess.\"):
+        values = [evaluator(call.args[0])] if call.args else []
+        values.extend(
+            evaluator(keyword.value)
+            for keyword in call.keywords
+            if keyword.arg in {\"args\", \"executable\"}
+        )
+        return _Value.combine(values)
+
+    if \"create_subprocess_exec\" in lower:
+        values = [evaluator(arg) for arg in call.args]
+        values.extend(
+            evaluator(keyword.value)
+            for keyword in call.keywords
+            if keyword.arg == \"executable\"
+        )
+        return _Value.combine(values)
+
+    if \"create_subprocess_shell\" in lower:
+        values = [evaluator(call.args[0])] if call.args else []
+        return _Value.combine(values)
+
+    if lower in {\"exec\", \"eval\", \"compile\", \"os.system\", \"os.popen\"}:
+        return _Value.combine(evaluator(arg) for arg in call.args)
+
+    if leaf in {\"run_command\", \"execute_bash\", \"shell_command\"}:
+        values = [evaluator(arg) for arg in call.args]
+        values.extend(evaluator(keyword.value) for keyword in call.keywords)
+        return _Value.combine(values)
+
+    return _Value()
+
+
 def _sink_value(called: str, call: ast.Call, evaluator) -> _Value:
     kind = _sink_kind(called)
-    if kind and kind[0] == "external_send":
+    if kind and kind[0] == \"external_send\":
         values = [evaluator(arg) for arg in call.args[1:]]
         values.extend(
             evaluator(keyword.value)
             for keyword in call.keywords
-            if keyword.arg in {"data", "json", "content", "body", "files"}
+            if keyword.arg in {\"data\", \"json\", \"content\", \"body\", \"files\"}
         )
         if values:
             return _Value.combine(values)
+    if kind and kind[0] == \"process_execute\":
+        return _process_execution_value(called, call, evaluator)
     values = [evaluator(arg) for arg in call.args]
     values.extend(evaluator(keyword.value) for keyword in call.keywords)
     return _Value.combine(values)
-
 
 def _instantiate(value: _Value, parameters: dict[str, _Value]) -> _Value:
     values = [
