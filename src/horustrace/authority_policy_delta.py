@@ -166,7 +166,9 @@ def _change_id(
 def _contract_nonempty(contract: AuthorityContract | None) -> bool:
     if contract is None:
         return False
-    if contract.require_approval_for or contract.mcp_tools:
+    if contract.require_approval_for:
+        return True
+    if any(item.allowed_tools or item.denied_tools for item in contract.mcp_tools):
         return True
     return any(
         getattr(contract.allow, dimension) or getattr(contract.deny, dimension)
@@ -244,6 +246,11 @@ def _scope_changes(
         clause = f"{mode}.{dimension}"
         before = set(getattr(base_scope, dimension))
         after = set(getattr(head_scope, dimension))
+        if mode == "allow":
+            # A literal "*" is semantically equivalent to no positive
+            # constraint under the evaluator's fnmatch allow semantics.
+            before = set() if "*" in before else before
+            after = set() if "*" in after else after
         if before == after:
             continue
 
