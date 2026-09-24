@@ -41,7 +41,7 @@ def _auth(headers: Any) -> tuple[bool | None, list[str], str | None]:
         if match:
             credential_source = f"env:{match.group(1)}"
             break
-    return (True if auth_keys else False), auth_keys, credential_source
+    return bool(auth_keys), auth_keys, credential_source
 
 
 def _server_from_config(
