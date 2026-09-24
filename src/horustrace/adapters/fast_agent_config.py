@@ -70,11 +70,42 @@ def _server_from_config(
     if not isinstance(args, list):
         args = []
 
-    authenticated, auth_keys, credential_source = _auth(config.get("headers"))
+    header_authenticated, auth_keys, credential_source = _auth(
+        config.get("headers")
+    )
     transport = str(
         config.get("transport")
         or ("stdio" if command else "http" if url else "unknown")
     )
+
+    auth_config = config.get("auth")
+    oauth_enabled = False
+    if url and transport.lower() in {
+        "http",
+        "sse",
+        "streamable_http",
+        "streamable-http",
+    }:
+        oauth_enabled = not (
+            isinstance(auth_config, dict)
+            and auth_config.get("oauth") is False
+        )
+
+    authenticated = header_authenticated
+    if oauth_enabled:
+        authenticated = True
+        auth_keys = sorted({*auth_keys, "oauth"})
+        if credential_source is None:
+            persist = (
+                auth_config.get("persist")
+                if isinstance(auth_config, dict)
+                else None
+            )
+            credential_source = (
+                f"oauth:{persist}"
+                if isinstance(persist, str) and persist
+                else "oauth:keyring"
+            )
 
     metadata: dict[str, Any] = {
         "framework": "fast-agent",
