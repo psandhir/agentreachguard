@@ -205,3 +205,30 @@ def test_flow_coverage_reports_context_and_reachability(tmp_path: Path) -> None:
     assert flows["execution_contexts"]["runtime"] == 1
     assert flows["agent_reachability"]["proven_non_agent"] == 1
     assert flows["agent_reachability"]["unknown"] == 1
+
+
+def test_non_agent_context_is_proven_without_any_normalized_agents(tmp_path: Path) -> None:
+    _write_dangerous_flow(tmp_path / "scripts" / "maintenance.py")
+    _write_dangerous_flow(tmp_path / "tests" / "test_helper.py")
+
+    graph, _ = scan(tmp_path)
+
+    by_context = {flow.execution_context: flow for flow in graph.flow_paths}
+    assert by_context[FlowExecutionContext.APPLICATION_SUPPORT].agent_reachability is (
+        AgentReachability.PROVEN_NON_AGENT
+    )
+    assert by_context[FlowExecutionContext.TEST].agent_reachability is (
+        AgentReachability.PROVEN_NON_AGENT
+    )
+    assert not graph.agents
+
+
+def test_runtime_flow_without_normalized_agents_remains_unknown(tmp_path: Path) -> None:
+    _write_dangerous_flow(tmp_path / "worker.py")
+
+    graph, _ = scan(tmp_path)
+    flow = next(iter(graph.flow_paths))
+
+    assert not graph.agents
+    assert flow.execution_context is FlowExecutionContext.RUNTIME
+    assert flow.agent_reachability is AgentReachability.UNKNOWN

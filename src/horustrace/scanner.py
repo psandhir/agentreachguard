@@ -322,8 +322,7 @@ def _classify_flow_agent_reachability(
         return AgentReachability.UNKNOWN
 
     if (
-        graph.agents
-        and flow.execution_context in _NON_AGENT_FLOW_CONTEXTS
+        flow.execution_context in _NON_AGENT_FLOW_CONTEXTS
         and binding is None
     ):
         flow.metadata["agent_reachability_basis"] = (
