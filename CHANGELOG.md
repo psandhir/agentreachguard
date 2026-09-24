@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Evaluate Effective Authority Relationship v1 against Authority Contract v1 with explicit compliant/violation/unresolved outcomes, stable violation IDs, approval semantics and MCP tool-scope enforcement.
 - Add Authority Contract v1 under `policy.authority`, with normalized allow/deny authority dimensions, approval requirements and per-server MCP tool scope while preserving existing manifest-policy semantics.
 
 ## 0.5.0 - 2026-09-24
