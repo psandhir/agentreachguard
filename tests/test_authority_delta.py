@@ -161,9 +161,16 @@ def test_change_report_surfaces_effective_authority_expansion(tmp_path: Path) ->
     )
 
     assert report["summary"]["expanded_authority_relationships"] == 1
+    assert report["summary"]["trust_boundary_crossings"] == 2
+    assert report["summary"]["expanded_or_weakened_boundary_crossings"] == 2
     assert report["effective_authority_delta"]["expansions"]
     rendered = render_markdown(report)
     assert "Expanded effective-authority relationships | 1" in rendered
+    assert "Trust-boundary crossings | 2" in rendered
+    assert "Expanded/weakened trust boundaries | 2" in rendered
+    assert "### Application/runtime trust-boundary crossings" in rendered
+    assert "**Expanded mutation boundary**" in rendered
+    assert "**Weakened control boundary**" in rendered
     assert "**Authority expanded**" in rendered
     assert "capabilities_added" in rendered
     assert "approval_weakened" in rendered
