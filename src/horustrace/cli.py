@@ -207,6 +207,14 @@ def _parser() -> argparse.ArgumentParser:
             "Return exit code 2 when an introduced finding meets the severity threshold."
         ),
     )
+    diff_parser.add_argument(
+        "--fail-on-policy-violation",
+        action="store_true",
+        help=(
+            "Return exit code 2 when the head revision introduces a new "
+            "Authority Contract violation."
+        ),
+    )
     return parser
 
 
@@ -344,6 +352,11 @@ def main(argv: list[str] | None = None) -> int:
             or report["head"]["analysis_incomplete"]
         ):
             return 1
+        if (
+            args.fail_on_policy_violation
+            and report["authority_policy_delta"]["introduced_violations"]
+        ):
+            return 2
         if args.fail_on != "none":
             threshold = Severity.parse(args.fail_on)
             introduced_at_threshold = any(
