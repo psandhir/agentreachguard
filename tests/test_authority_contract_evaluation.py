@@ -449,3 +449,44 @@ def test_relationship_outcome_is_compliant_when_supported_evidence_satisfies_con
     assert report["summary"]["violations"] == 0
     assert report["summary"]["unresolved"] == 0
     assert report["relationships"][0]["status"] == "compliant"
+
+
+
+def test_violation_fingerprint_excludes_sensitive_observed_values(tmp_path: Path) -> None:
+    def make_graph(identity_name: str) -> Graph:
+        location = SourceLocation(tmp_path / "agent.py")
+        identity = Identity(
+            name=identity_name,
+            provider="generic",
+            credential_source="environment",
+            location=location,
+        )
+        return Graph(
+            agents=[
+                Agent(
+                    name="agent",
+                    identities=[identity],
+                    tools=[
+                        Tool(
+                            name="send",
+                            kind="function",
+                            capabilities={"external.write"},
+                            identity=identity_name,
+                            approval=True,
+                            location=location,
+                        )
+                    ],
+                    policy=AgentPolicy(
+                        authority=_contract(
+                            allow=AuthorityScope(identities={"approved-principal"}),
+                        )
+                    ),
+                )
+            ]
+        )
+
+    first = authority_contract_report(make_graph("secret-principal-a"))
+    second = authority_contract_report(make_graph("secret-principal-b"))
+
+    assert first["violations"][0]["observed"] != second["violations"][0]["observed"]
+    assert first["violations"][0]["result_id"] == second["violations"][0]["result_id"]
