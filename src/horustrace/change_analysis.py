@@ -353,6 +353,23 @@ def _format_location(record: dict[str, Any]) -> str:
     return f" {location['path']}:{location['line']}"
 
 
+def _relationship_label(item: dict[str, Any]) -> str:
+    target = item.get("target") or {}
+    return (
+        f"{item.get('agent') or '<unknown>'} -> "
+        f"{target.get('kind') or 'target'}:{target.get('name') or '<unknown>'}"
+    )
+
+
+def _expansion_added_capabilities(item: dict[str, Any]) -> list[str]:
+    capabilities = item.get("capabilities")
+    if isinstance(capabilities, dict):
+        return list(capabilities.get("added") or [])
+    if isinstance(capabilities, list):
+        return list(capabilities)
+    return []
+
+
 def render_console(report: dict[str, Any]) -> str:
     summary = report["summary"]
     lines = [
@@ -379,6 +396,12 @@ def render_console(report: dict[str, Any]) -> str:
         (
             f"  Authority edges:     +{summary['added_authority_edges']} "
             f"-{summary['removed_authority_edges']}"
+        ),
+        (
+            f"  Effective authority: +{summary['added_authority_relationships']} "
+            f"-{summary['removed_authority_relationships']} "
+            f"~{summary['changed_authority_relationships']} "
+            f"({summary['expanded_authority_relationships']} expanded)"
         ),
         (
             "  Analysis: "
@@ -419,7 +442,27 @@ def render_console(report: dict[str, Any]) -> str:
         if total > _MAX_CONSOLE_ITEMS:
             lines.append(f"  ... {total - _MAX_CONSOLE_ITEMS} more authority changes")
 
+    expansions = report["effective_authority_delta"]["expansions"]
+    if expansions:
+        lines.extend(["", "Effective authority expansions"])
+        for item in expansions[:_MAX_CONSOLE_ITEMS]:
+            reasons = ",".join(item.get("expansion_reasons") or [])
+            capabilities = _expansion_added_capabilities(item)
+            cap_suffix = (
+                f" +capabilities={','.join(capabilities)}"
+                if capabilities
+                else ""
+            )
+            lines.append(
+                f"  ! {_relationship_label(item)} reasons={reasons}{cap_suffix}"
+            )
+        if len(expansions) > _MAX_CONSOLE_ITEMS:
+            lines.append(
+                f"  ... {len(expansions) - _MAX_CONSOLE_ITEMS} more authority expansions"
+            )
+
     return "\n".join(lines)
+
 
 def _markdown_location(record: dict[str, Any]) -> str:
     location = record.get("location")
@@ -529,6 +572,33 @@ def _render_markdown_authority(
         lines.append(f"- … {total - _MAX_CONSOLE_ITEMS} more authority changes")
 
 
+def _render_markdown_authority_expansions(
+    lines: list[str],
+    title: str,
+    expansions: list[dict[str, Any]],
+) -> None:
+    if not expansions:
+        return
+    lines.extend(["", f"### {title}", ""])
+    for item in expansions[:_MAX_CONSOLE_ITEMS]:
+        context = item.get("source_context") or "unknown"
+        reasons = ", ".join(item.get("expansion_reasons") or []) or "authority changed"
+        capabilities = _expansion_added_capabilities(item)
+        capability_suffix = (
+            f"; added capabilities `{', '.join(capabilities)}`"
+            if capabilities
+            else ""
+        )
+        lines.append(
+            f"- **Authority expanded** `{_relationship_label(item)}` — "
+            f"{reasons} (context `{context}`{capability_suffix})"
+        )
+    if len(expansions) > _MAX_CONSOLE_ITEMS:
+        lines.append(
+            f"- … {len(expansions) - _MAX_CONSOLE_ITEMS} more authority expansions"
+        )
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     """Render a concise GitHub-friendly security delta."""
     summary = report["summary"]
@@ -567,6 +637,10 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"| Added authority nodes | {summary['added_authority_nodes']} |",
             f"| Changed authority nodes | {summary['changed_authority_nodes']} |",
             f"| Added authority edges | {summary['added_authority_edges']} |",
+            (
+                f"| Expanded effective-authority relationships | "
+                f"{summary['expanded_authority_relationships']} |"
+            ),
         ]
     )
 
@@ -586,7 +660,15 @@ def render_markdown(report: dict[str, Any]) -> str:
     runtime_added_edges, nonruntime_added_edges = _split_context(
         report["authority"]["added_edges"]
     )
+    runtime_expansions, nonruntime_expansions = _split_context(
+        report["effective_authority_delta"]["expansions"]
+    )
 
+    _render_markdown_authority_expansions(
+        lines,
+        "Application/runtime effective authority expansions",
+        runtime_expansions,
+    )
     _render_markdown_findings(
         lines,
         "Application/runtime finding changes",
@@ -599,6 +681,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         runtime_added_nodes,
         runtime_changed_nodes,
         runtime_added_edges,
+    )
+    _render_markdown_authority_expansions(
+        lines,
+        "Non-runtime effective authority expansions",
+        nonruntime_expansions,
     )
     _render_markdown_findings(
         lines,
@@ -620,6 +707,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         and not report["authority"]["added_nodes"]
         and not report["authority"]["changed_nodes"]
         and not report["authority"]["added_edges"]
+        and not report["effective_authority_delta"]["expansions"]
     ):
         lines.extend(["", "No introduced or worsened security delta was detected."])
 
