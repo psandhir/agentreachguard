@@ -201,8 +201,16 @@ def _mutation_boundary(
             ("capability=data.write",),
             "partial",
         )
-    if capabilities & {"data.read", "secrets.read", "network.external", "mcp.remote", "mcp.local"}:
-        return BoundaryDimension("no_mutation", ("no_write_capability_observed",))
+    if (
+        "process.execute" in capabilities
+        or "computer.control" in capabilities
+        or relationship.target_kind == "mcp_server"
+    ):
+        return BoundaryDimension(
+            "unknown",
+            ("mutation_effect_not_bounded_by_normalized_capability",),
+            "unknown",
+        )
     if relationship.dimensions.get("capabilities") == "unknown":
         return BoundaryDimension("unknown", (), "unknown")
     return BoundaryDimension("no_mutation", ("no_write_capability_observed",))
