@@ -1,0 +1,46 @@
+name: Arcade Main Entrypoint Diversity Validation
+
+on:
+  push:
+    branches: [research/arcade-main-entrypoint-diversity]
+    paths:
+      - ".github/workflows/arcade-main-entrypoint-diversity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e .
+      - run: |
+          git clone --filter=blob:none https://github.com/ArcadeAI/arcade-mcp.git arcade-mcp
+          git -C arcade-mcp checkout 6e4d67c95422ecdc23b6e045ca9c4837b0838d55
+      - name: Capture evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from horustrace.scanner import scan
+
+          graph, _ = scan(Path("arcade-mcp"))
+          unknown = [
+              flow.as_dict()
+              for flow in graph.flow_paths
+              if flow.agent_reachability.value == "unknown"
+          ]
+          Path("arcade-main-entrypoint-diversity.json").write_text(
+              json.dumps({"unknown_flows": unknown}, indent=2),
+              encoding="utf-8",
+          )
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: arcade-main-entrypoint-diversity
+          path: arcade-main-entrypoint-diversity.json
