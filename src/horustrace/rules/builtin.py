@@ -3,6 +3,7 @@ from __future__ import annotations
 import ipaddress
 from urllib.parse import urlparse
 
+from horustrace.effective_authority import effective_authority_relationships
 from horustrace.heuristics import (
     BROAD_OAUTH_SCOPES,
     PRIVILEGED_CAPABILITIES,
@@ -130,6 +131,19 @@ def _identity_findings(identity: Identity, agent: str | None = None) -> list[Fin
 
 def evaluate(graph: Graph) -> list[Finding]:
     findings: list[Finding] = []
+    authority_relationships = effective_authority_relationships(graph)
+    authority_by_key = {
+        (item.agent, item.target_kind, item.target_name): item
+        for item in authority_relationships
+    }
+    mcp_authority_by_object: dict[int, object] = {}
+    for authority_agent in graph.agents:
+        for authority_server in authority_agent.mcp_servers:
+            relationship = authority_by_key.get(
+                (authority_agent.name, "mcp_server", authority_server.name)
+            )
+            if relationship is not None:
+                mcp_authority_by_object[id(authority_server)] = relationship
 
     # Layer 1: agent/framework/MCP configuration controls.
     for agent in graph.agents:
@@ -138,6 +152,9 @@ def evaluate(graph: Graph) -> list[Finding]:
             callbacks.get("before_tool_callback")
         )
         for tool in agent.tools:
+            tool_authority = authority_by_key.get(
+                (agent.name, "tool", tool.name)
+            )
             if (
                 "process.execute" in tool.capabilities
                 and tool.approval is not True
@@ -181,14 +198,50 @@ def evaluate(graph: Graph) -> list[Finding]:
                         ],
                     )
                 )
+            authority_has_control = (
+                tool_authority is not None
+                and tool_authority.dimensions.get("approval") == "resolved"
+                and (
+                    tool_authority.approval.get("required") is True
+                    or bool(tool_authority.approval.get("guardrails"))
+                    or bool(tool_authority.approval.get("inherited_control"))
+                )
+            )
             if (
                 tool.capabilities & PRIVILEGED_CAPABILITIES
                 and not tool.metadata.get("computer_control_custom")
+                and not authority_has_control
                 and not tool.guardrails
                 and tool.approval is not True
                 and not agent_tool_control
             ):
-                findings.append(Finding("AGT040", Severity.MEDIUM, "Privileged tool lacks explicit guardrail or approval", f"Privileged tool '{tool.name}' has no detected guardrail or approval configuration.", "Add tool input/output guardrails and/or explicit approval appropriate to the action.", layer=1, location=tool.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(tool.capabilities))]))
+                evidence = ["capabilities=" + ",".join(sorted(tool.capabilities))]
+                if tool_authority is not None:
+                    evidence.extend(
+                        [
+                            f"authority_relationship={tool_authority.relationship_id}",
+                            "approval_resolution="
+                            + tool_authority.dimensions.get("approval", "unknown"),
+                        ]
+                    )
+                findings.append(
+                    Finding(
+                        "AGT040",
+                        Severity.MEDIUM,
+                        "Privileged tool lacks explicit guardrail or approval",
+                        f"Privileged tool '{tool.name}' has no detected guardrail or approval configuration.",
+                        "Add tool input/output guardrails and/or explicit approval appropriate to the action.",
+                        layer=1,
+                        location=tool.location,
+                        agent=agent.name,
+                        evidence=evidence,
+                        authority_relationship_id=(
+                            tool_authority.relationship_id
+                            if tool_authority is not None
+                            else None
+                        ),
+                    )
+                )
 
     # Google ADK framework-specific controls. These rules consume normalized
     # Tool metadata emitted by the first-class ADK Python/YAML adapters.
@@ -257,8 +310,40 @@ def evaluate(graph: Graph) -> list[Finding]:
                 findings.append(Finding("AGT031", Severity.HIGH, "Unencrypted remote MCP transport", f"MCP server '{server.name}' uses plaintext HTTP: {server.url}", "Use HTTPS/WSS with certificate validation for remote MCP connections.", layer=1, location=server.location, evidence=[f"url={server.url}"]))
             if server.authenticated is False and not loopback:
                 findings.append(Finding("AGT030", Severity.HIGH, "Remote MCP server has no detected authentication", f"No recognized authentication mechanism was detected for remote MCP server '{server.name}'.", "Require authenticated MCP access using a scoped token/OAuth or workload identity.", layer=1, location=server.location, evidence=[f"url={server.url}", f"authenticated={server.authenticated}"]))
-            if not server.allowed_tools and not loopback:
-                findings.append(Finding("AGT032", Severity.MEDIUM, "Remote MCP lacks an explicit tool allowlist", f"Remote MCP server '{server.name}' has no detected explicit tool allowlist.", "Use an explicit MCP tool allowlist for production agents, especially for privileged servers. A denylist alone cannot prove the remaining surface is safe.", layer=1, location=server.location, evidence=[f"url={server.url}", "allowed_tools=none"]))
+            server_authority = mcp_authority_by_object.get(id(server))
+            tool_scope_resolved = (
+                server_authority is not None
+                and server_authority.dimensions.get("tool_scope") == "resolved"
+                and server_authority.tool_scope is not None
+                and server_authority.tool_scope.get("scope") == "explicit_allowlist"
+            )
+            if not tool_scope_resolved and not server.allowed_tools and not loopback:
+                evidence = [f"url={server.url}", "allowed_tools=none"]
+                if server_authority is not None:
+                    evidence.extend(
+                        [
+                            f"authority_relationship={server_authority.relationship_id}",
+                            "tool_scope_resolution="
+                            + server_authority.dimensions.get("tool_scope", "unknown"),
+                        ]
+                    )
+                findings.append(
+                    Finding(
+                        "AGT032",
+                        Severity.MEDIUM,
+                        "Remote MCP lacks an explicit tool allowlist",
+                        f"Remote MCP server '{server.name}' has no detected explicit tool allowlist.",
+                        "Use an explicit MCP tool allowlist for production agents, especially for privileged servers. A denylist alone cannot prove the remaining surface is safe.",
+                        layer=1,
+                        location=server.location,
+                        evidence=evidence,
+                        authority_relationship_id=(
+                            server_authority.relationship_id
+                            if server_authority is not None
+                            else None
+                        ),
+                    )
+                )
         if package_is_unpinned(server.command, server.args):
             findings.append(Finding("AGT050", Severity.MEDIUM, "Unpinned MCP package execution", f"MCP server '{server.name}' launches a package runner without an explicit package version.", "Pin MCP server packages to a reviewed version or immutable digest.", layer=1, location=server.location, evidence=[f"command={server.command}", "args=" + " ".join(server.args)]))
         if (
@@ -289,8 +374,48 @@ def evaluate(graph: Graph) -> list[Finding]:
             findings.append(Finding("CAP003", Severity.HIGH, "High aggregate agent authority", f"Agent '{agent.name}' combines {len(privileged)} privileged capability classes.", "Split duties across narrower agents/tools or introduce explicit control boundaries and approvals.", layer=2, location=agent.location, agent=agent.name, evidence=["privileged=" + ",".join(privileged), f"threshold={max_priv}"]))
         if "process.execute" in caps and "network.external" in caps:
             findings.append(Finding("CAP004", Severity.HIGH, "Command execution combined with external network access", f"Agent '{agent.name}' can execute processes and reach external networks.", "Sandbox execution and restrict egress to an explicit destination allowlist.", layer=2, location=agent.location, agent=agent.name, evidence=["process.execute", "network.external"]))
-        if "data.read" in caps and ("data.write" in caps or "destructive.write" in caps):
-            findings.append(Finding("CAP005", Severity.MEDIUM, "Combined read and write authority", f"Agent '{agent.name}' can both read and modify data.", "Apply resource-level least privilege; separate read-only analysis from mutation where practical.", layer=2, location=agent.location, agent=agent.name, evidence=["data.read", "data.write/destructive.write"]))
+        agent_authorities = [
+            item for item in authority_relationships if item.agent == agent.name
+        ]
+        read_authorities = [
+            item for item in agent_authorities if "data.read" in item.capabilities
+        ]
+        write_authorities = [
+            item
+            for item in agent_authorities
+            if {"data.write", "destructive.write"} & set(item.capabilities)
+        ]
+        authority_confirms_read_write = bool(read_authorities and write_authorities)
+        if (
+            authority_confirms_read_write
+            or (
+                not agent_authorities
+                and "data.read" in caps
+                and ("data.write" in caps or "destructive.write" in caps)
+            )
+        ):
+            linked = sorted(
+                {
+                    item.relationship_id
+                    for item in [*read_authorities, *write_authorities]
+                }
+            )
+            evidence = ["data.read", "data.write/destructive.write"]
+            evidence.extend(f"authority_relationship={item}" for item in linked)
+            findings.append(
+                Finding(
+                    "CAP005",
+                    Severity.MEDIUM,
+                    "Combined read and write authority",
+                    f"Agent '{agent.name}' can both read and modify data.",
+                    "Apply resource-level least privilege; separate read-only analysis from mutation where practical.",
+                    layer=2,
+                    location=agent.location,
+                    agent=agent.name,
+                    evidence=evidence,
+                    authority_relationship_id=(linked[0] if len(linked) == 1 else None),
+                )
+            )
         for required_approval in sorted(policy.require_approval_for & caps):
             relevant = [t for t in agent.tools if required_approval in t.capabilities]
             if relevant and any(t.approval is not True for t in relevant):
@@ -343,8 +468,57 @@ def evaluate(graph: Graph) -> list[Finding]:
         ]
         if explicit_broad_destinations:
             findings.append(Finding("NET001", Severity.HIGH, "Outbound reachability lacks a detected restriction", f"Agent '{agent.name}' has broad destinations or no detected restriction for a possible outbound destination.", "Use egress allowlists/proxies and restrict outbound connectivity to required hosts.", layer=4, location=agent.location, agent=agent.name, evidence=["destinations=" + ",".join(d.target for d in explicit_broad_destinations)]))
-        elif outbound_caps and not destinations and unconstrained_outbound_tools:
-            findings.append(Finding("NET002", Severity.MEDIUM, "Outbound capability has no destination constraint", f"Agent '{agent.name}' has external network/write capability but no explicit destination allowlist was detected.", "Declare and enforce permitted destinations for outbound tools.", layer=4, location=agent.location, agent=agent.name, evidence=["capabilities=" + ",".join(sorted(agent.capabilities & {"network.external", "external.write"}))]))
+        else:
+            outbound_authorities = [
+                item
+                for item in authority_relationships
+                if item.agent == agent.name
+                and {"network.external", "external.write"} & set(item.capabilities)
+            ]
+            unresolved_destination_authorities = [
+                item
+                for item in outbound_authorities
+                if item.dimensions.get("destinations") != "resolved"
+            ]
+            authority_destination_gap = bool(unresolved_destination_authorities)
+            legacy_destination_gap = (
+                outbound_caps and not destinations and unconstrained_outbound_tools
+            )
+            if authority_destination_gap or (
+                not outbound_authorities and legacy_destination_gap
+            ):
+                linked = sorted(
+                    item.relationship_id
+                    for item in unresolved_destination_authorities
+                )
+                evidence = [
+                    "capabilities="
+                    + ",".join(
+                        sorted(
+                            agent.capabilities
+                            & {"network.external", "external.write"}
+                        )
+                    )
+                ]
+                evidence.extend(
+                    f"authority_relationship={item}" for item in linked
+                )
+                findings.append(
+                    Finding(
+                        "NET002",
+                        Severity.MEDIUM,
+                        "Outbound capability has no destination constraint",
+                        f"Agent '{agent.name}' has external network/write capability but no explicit destination allowlist was detected.",
+                        "Declare and enforce permitted destinations for outbound tools.",
+                        layer=4,
+                        location=agent.location,
+                        agent=agent.name,
+                        evidence=evidence,
+                        authority_relationship_id=(
+                            linked[0] if len(linked) == 1 else None
+                        ),
+                    )
+                )
 
         if policy := agent.policy:
             if policy.allowed_resources:
