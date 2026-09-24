@@ -1,10 +1,9 @@
 """Framework adapter registry for Python agent source files."""
 from __future__ import annotations
 
-from collections.abc import Callable
-from dataclasses import dataclass
 from pathlib import Path
 
+from horustrace.adapters.contract import PythonFrameworkAdapter
 from horustrace.adapters.fast_agent import is_fast_agent_file
 from horustrace.adapters.fast_agent import scan_python_file as scan_fast_agent_python
 from horustrace.adapters.google_adk import is_google_adk_file
@@ -20,13 +19,6 @@ from horustrace.adapters.pydantic_ai import scan_python_file as scan_pydantic_ai
 from horustrace.models import Graph
 
 
-@dataclass(frozen=True, slots=True)
-class PythonFrameworkAdapter:
-    name: str
-    detector: Callable[[Path], bool]
-    scanner: Callable[[Path], Graph]
-
-
 PYTHON_FRAMEWORK_ADAPTERS: tuple[PythonFrameworkAdapter, ...] = (
     PythonFrameworkAdapter("google-adk", is_google_adk_file, scan_google_adk_python),
     PythonFrameworkAdapter("langgraph", is_langgraph_file, scan_langgraph_python),
@@ -35,6 +27,15 @@ PYTHON_FRAMEWORK_ADAPTERS: tuple[PythonFrameworkAdapter, ...] = (
     PythonFrameworkAdapter("fast-agent", is_fast_agent_file, scan_fast_agent_python),
     PythonFrameworkAdapter("mcp-python", is_mcp_python_file, scan_mcp_python),
 )
+
+
+def adapter_catalogue() -> list[dict[str, object]]:
+    """Return the stable built-in adapter contract catalogue."""
+    result: list[dict[str, object]] = []
+    for adapter in PYTHON_FRAMEWORK_ADAPTERS:
+        adapter.validate()
+        result.append(adapter.as_dict())
+    return result
 
 
 def detect_python_frameworks(path: Path) -> list[str]:
