@@ -106,6 +106,8 @@ def test_conditioned_binding_does_not_become_unconditional_authority() -> None:
 
     relationship = deployed_authority_report(_graph(), bundle)["relationships"][0]
 
+    assert relationship["roles"] == []
+    assert relationship["conditional_roles"] == ["roles/storage.objectAdmin"]
     assert relationship["permissions"] == []
     assert relationship["conditional_permissions"] == [
         "storage.objects.create",
