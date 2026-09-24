@@ -18,6 +18,9 @@ security layers:
 
 > Status: **v0.5.0**. Findings and authority relationships are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
+Release notes: [`docs/releases/v0.5.0.md`](docs/releases/v0.5.0.md)  
+Frozen-90 validation baseline: [`docs/research/frozen-90-v0.5.0-baseline.md`](docs/research/frozen-90-v0.5.0-baseline.md)
+
 ## Security model
 
 ```text
