@@ -322,6 +322,7 @@ def _sink_value(called: str, call: ast.Call, evaluator) -> _Value:
     values.extend(evaluator(keyword.value) for keyword in call.keywords)
     return _Value.combine(values)
 
+
 def _instantiate(value: _Value, parameters: dict[str, _Value]) -> _Value:
     values = [
         _Value(sources=value.sources, unresolved=value.unresolved),
