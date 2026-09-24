@@ -1,9 +1,9 @@
-from horustrace.deployed_authority import deployed_authority_report
 from horustrace.deployment_evidence import (
     DeploymentEvidenceBundle,
     DeploymentWorkloadEvidence,
     IAMBindingEvidence,
 )
+from horustrace.deployed_authority import deployed_authority_report
 from horustrace.models import Agent, Graph
 
 
