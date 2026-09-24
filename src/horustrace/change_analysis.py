@@ -275,6 +275,16 @@ def compare_scans(
             "removed_authority_relationships": authority_delta["summary"]["removed_relationships"],
             "changed_authority_relationships": authority_delta["summary"]["changed_relationships"],
             "expanded_authority_relationships": authority_delta["summary"]["expanded_relationships"],
+            "trust_boundary_crossings": authority_delta["summary"]["trust_boundary_crossings"],
+            "expanded_or_weakened_boundary_crossings": authority_delta["summary"][
+                "expanded_or_weakened_boundary_crossings"
+            ],
+            "expanded_boundary_crossings_by_family": authority_delta["summary"][
+                "expanded_boundary_crossings_by_family"
+            ],
+            "weakened_boundary_crossings_by_family": authority_delta["summary"][
+                "weakened_boundary_crossings_by_family"
+            ],
         },
         "findings": {
             "introduced": introduced,
@@ -404,6 +414,10 @@ def render_console(report: dict[str, Any]) -> str:
             f"({summary['expanded_authority_relationships']} expanded)"
         ),
         (
+            f"  Trust boundaries:    {summary['trust_boundary_crossings']} crossings "
+            f"({summary['expanded_or_weakened_boundary_crossings']} expanded/weakened)"
+        ),
+        (
             "  Analysis: "
             f"base={'incomplete' if report['base']['analysis_incomplete'] else 'complete'}, "
             f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}"
@@ -441,6 +455,35 @@ def render_console(report: dict[str, Any]) -> str:
         total = len(added_nodes) + len(changed_nodes)
         if total > _MAX_CONSOLE_ITEMS:
             lines.append(f"  ... {total - _MAX_CONSOLE_ITEMS} more authority changes")
+
+    boundary_changes = [
+        item
+        for item in report["effective_authority_delta"]["changed"]
+        if item.get("trust_boundary_crossings")
+    ]
+    if boundary_changes:
+        lines.extend(["", "Trust boundary crossings"])
+        emitted = 0
+        for item in boundary_changes:
+            for crossing in item.get("trust_boundary_crossings", []):
+                if emitted >= _MAX_CONSOLE_ITEMS:
+                    break
+                lines.append(
+                    f"  ~ {_relationship_label(item)} "
+                    f"{crossing['family']}:{crossing['before']}->{crossing['after']} "
+                    f"[{crossing['direction']}]"
+                )
+                emitted += 1
+            if emitted >= _MAX_CONSOLE_ITEMS:
+                break
+        total_crossings = sum(
+            len(item.get("trust_boundary_crossings", []))
+            for item in boundary_changes
+        )
+        if total_crossings > _MAX_CONSOLE_ITEMS:
+            lines.append(
+                f"  ... {total_crossings - _MAX_CONSOLE_ITEMS} more boundary crossings"
+            )
 
     expansions = report["effective_authority_delta"]["expansions"]
     if expansions:
@@ -572,6 +615,34 @@ def _render_markdown_authority(
         lines.append(f"- … {total - _MAX_CONSOLE_ITEMS} more authority changes")
 
 
+def _render_markdown_boundary_crossings(
+    lines: list[str],
+    title: str,
+    changes: list[dict[str, Any]],
+) -> None:
+    crossings = [
+        (item, crossing)
+        for item in changes
+        for crossing in item.get("trust_boundary_crossings", [])
+    ]
+    if not crossings:
+        return
+    lines.extend(["", f"### {title}", ""])
+    for item, crossing in crossings[:_MAX_CONSOLE_ITEMS]:
+        context = item.get("source_context") or "unknown"
+        lines.append(
+            f"- **{crossing['direction'].replace('_', ' ').title()} "
+            f"{crossing['family']} boundary** "
+            f"`{_relationship_label(item)}` — "
+            f"`{crossing['before']}` → `{crossing['after']}` "
+            f"(context `{context}`)"
+        )
+    if len(crossings) > _MAX_CONSOLE_ITEMS:
+        lines.append(
+            f"- … {len(crossings) - _MAX_CONSOLE_ITEMS} more trust-boundary crossings"
+        )
+
+
 def _render_markdown_authority_expansions(
     lines: list[str],
     title: str,
@@ -641,6 +712,11 @@ def render_markdown(report: dict[str, Any]) -> str:
                 f"| Expanded effective-authority relationships | "
                 f"{summary['expanded_authority_relationships']} |"
             ),
+            f"| Trust-boundary crossings | {summary['trust_boundary_crossings']} |",
+            (
+                f"| Expanded/weakened trust boundaries | "
+                f"{summary['expanded_or_weakened_boundary_crossings']} |"
+            ),
         ]
     )
 
@@ -663,7 +739,20 @@ def render_markdown(report: dict[str, Any]) -> str:
     runtime_expansions, nonruntime_expansions = _split_context(
         report["effective_authority_delta"]["expansions"]
     )
+    boundary_changes = [
+        item
+        for item in report["effective_authority_delta"]["changed"]
+        if item.get("trust_boundary_crossings")
+    ]
+    runtime_boundary_changes, nonruntime_boundary_changes = _split_context(
+        boundary_changes
+    )
 
+    _render_markdown_boundary_crossings(
+        lines,
+        "Application/runtime trust-boundary crossings",
+        runtime_boundary_changes,
+    )
     _render_markdown_authority_expansions(
         lines,
         "Application/runtime effective authority expansions",
@@ -681,6 +770,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         runtime_added_nodes,
         runtime_changed_nodes,
         runtime_added_edges,
+    )
+    _render_markdown_boundary_crossings(
+        lines,
+        "Non-runtime trust-boundary crossings",
+        nonruntime_boundary_changes,
     )
     _render_markdown_authority_expansions(
         lines,
@@ -708,6 +802,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         and not report["authority"]["changed_nodes"]
         and not report["authority"]["added_edges"]
         and not report["effective_authority_delta"]["expansions"]
+        and not boundary_changes
     ):
         lines.extend(["", "No introduced or worsened security delta was detected."])
 
