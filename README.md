@@ -4,9 +4,11 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
-**Five-layer policy-as-code security analysis for AI agents.**
+**Static effective-authority and attack-path analysis for AI agents.**
 
-HorusTrace statically discovers agent configuration and evaluates five connected security layers:
+HorusTrace reconstructs what agents can actually reach and do from source,
+configuration, MCP, identity, policy, and IaC evidence, then evaluates five connected
+security layers:
 
 1. **Agent configuration** — tools, approvals, guardrails, MCP, code execution and framework-specific controls.
 2. **Capability analysis** — effective authority, capability budgets, prohibited actions and dangerous combinations.
@@ -14,7 +16,10 @@ HorusTrace statically discovers agent configuration and evaluates five connected
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.4.1** on `main`. Findings are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.5.0**. Findings and authority relationships are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+
+Release notes: [`docs/releases/v0.5.0.md`](docs/releases/v0.5.0.md)  
+Frozen-90 validation baseline: [`docs/research/frozen-90-v0.5.0-baseline.md`](docs/research/frozen-90-v0.5.0-baseline.md)
 
 ## Security model
 
@@ -122,6 +127,18 @@ List the built-in rule catalogue without scanning a project:
 horustrace rules
 horustrace rules --format json --output rules.json
 ```
+
+Inspect the built-in framework-adapter contract:
+
+```bash
+horustrace adapters
+horustrace adapters --format json
+```
+
+Adapter contract v1 keeps framework-specific parsing behind a stable static interface
+that emits HorusTrace's normalized graph model. Built-in adapters do not import or
+execute target applications, and HorusTrace does not auto-load arbitrary installed
+third-party plugins.
 
 Summarize effective detector coverage against the **OWASP Top 10 for Agentic
 Applications 2026**:
@@ -463,7 +480,8 @@ The diff reports:
 - newly introduced and resolved findings using stable `arg-v1` fingerprints;
 - existing findings whose security semantics changed, including severity escalations;
 - added, removed and semantically changed Agent Dependency Graph nodes;
-- added and removed authority edges such as invocation, delegation, identity, data and network relationships.
+- added and removed authority edges such as invocation, delegation, identity, data and network relationships;
+- semantic **effective-authority expansions**, including added capabilities, IAM roles or permissions, OAuth scopes, identities, resources or destinations, weakened approval controls, and widened MCP tool scope.
 
 Use it as a PR gate:
 
@@ -513,7 +531,7 @@ example `git fetch origin main`.
 The default Action mode remains a normal scan:
 
 ```yaml
-- uses: psandhir/horustrace@v0.4.1
+- uses: psandhir/horustrace@v0.5.0
   with:
     path: .
     fail-on: high
@@ -539,7 +557,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: psandhir/horustrace@v0.4.1
+      - uses: psandhir/horustrace@v0.5.0
         with:
           mode: diff
           fail-on: high
@@ -565,7 +583,7 @@ servers.
 For non-`pull_request` events, provide both immutable revisions explicitly:
 
 ```yaml
-- uses: psandhir/horustrace@v0.4.1
+- uses: psandhir/horustrace@v0.5.0
   with:
     mode: diff
     base-sha: 0123456789abcdef0123456789abcdef01234567
