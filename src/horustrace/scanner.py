@@ -1088,11 +1088,17 @@ def scan(
         main_guard_entrypoints,
         project_script_entrypoints,
     )
-    annotate_flow_entrypoints(
-        analysis_root,
-        approved_python_paths,
-        graph.flow_paths,
-    )
+    unknown_flows = [
+        flow
+        for flow in graph.flow_paths
+        if flow.agent_reachability is AgentReachability.UNKNOWN
+    ]
+    if unknown_flows:
+        annotate_flow_entrypoints(
+            analysis_root,
+            approved_python_paths,
+            unknown_flows,
+        )
     notebook_tempdir.cleanup()
 
     flow_execution_contexts = {
