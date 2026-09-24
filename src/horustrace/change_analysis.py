@@ -6,6 +6,7 @@ from contextlib import ExitStack
 from pathlib import Path
 from typing import Any
 
+from horustrace.authority_delta import compare_effective_authority
 from horustrace.config import load_config
 from horustrace.git_snapshot import GitSnapshot, materialize_git_ref
 from horustrace.models import Finding, Graph, Severity
@@ -223,6 +224,13 @@ def compare_scans(
     added_edges = [_edge_record(head_edges[item], all_nodes) for item in added_edge_ids]
     removed_edges = [_edge_record(base_edges[item], all_nodes) for item in removed_edge_ids]
 
+    authority_delta = compare_effective_authority(
+        base_graph,
+        base_root,
+        head_graph,
+        head_root,
+    )
+
     introduced_by_severity = Counter(item["severity"] for item in introduced)
     high_or_critical = sum(
         Severity.parse(item["severity"]) >= Severity.HIGH for item in introduced
@@ -263,6 +271,10 @@ def compare_scans(
             "changed_authority_nodes": len(changed_nodes),
             "added_authority_edges": len(added_edge_ids),
             "removed_authority_edges": len(removed_edge_ids),
+            "added_authority_relationships": authority_delta["summary"]["added_relationships"],
+            "removed_authority_relationships": authority_delta["summary"]["removed_relationships"],
+            "changed_authority_relationships": authority_delta["summary"]["changed_relationships"],
+            "expanded_authority_relationships": authority_delta["summary"]["expanded_relationships"],
         },
         "findings": {
             "introduced": introduced,
@@ -277,6 +289,7 @@ def compare_scans(
             "added_edges": added_edges,
             "removed_edges": removed_edges,
         },
+        "effective_authority_delta": authority_delta,
         "context_summary": {
             "introduced_findings": _context_counts(introduced),
             "worsened_findings": _context_counts(
@@ -288,6 +301,9 @@ def compare_scans(
             "changed_authority_nodes": _context_counts(changed_nodes),
             "added_authority_edges": _context_counts(added_edges),
             "removed_authority_edges": _context_counts(removed_edges),
+            "expanded_authority_relationships": _context_counts(
+                authority_delta["expansions"]
+            ),
         },
     }
 
