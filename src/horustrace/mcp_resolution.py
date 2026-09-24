@@ -310,22 +310,32 @@ def unresolved_mcp_summary(graph: Graph) -> dict[str, Any]:
     references = unresolved_mcp_references(graph)
     reasons = sorted({item.reason for item in references})
     classes = sorted({item.resolution_class for item in references})
+    declarations = [
+        item for item in references if item.reference_kind == "server_declaration"
+    ]
+    agent_references = [
+        item for item in references if item.reference_kind == "agent_reference"
+    ]
+    declaration_reasons = sorted({item.reason for item in declarations})
+    agent_reasons = sorted({item.reason for item in agent_references})
     return {
         "schema_version": MCP_UNRESOLVED_REFERENCE_SCHEMA_VERSION,
         "runtime_effectiveness": "not_verified",
         "summary": {
             "unresolved_references": len(references),
-            "server_declarations": sum(
-                item.reference_kind == "server_declaration"
-                for item in references
-            ),
-            "agent_references": sum(
-                item.reference_kind == "agent_reference"
-                for item in references
-            ),
+            "server_declarations": len(declarations),
+            "agent_references": len(agent_references),
             "by_reason": {
                 reason: sum(item.reason == reason for item in references)
                 for reason in reasons
+            },
+            "declaration_by_reason": {
+                reason: sum(item.reason == reason for item in declarations)
+                for reason in declaration_reasons
+            },
+            "agent_reference_by_reason": {
+                reason: sum(item.reason == reason for item in agent_references)
+                for reason in agent_reasons
             },
             "by_resolution_class": {
                 resolution_class: sum(
