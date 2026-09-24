@@ -78,8 +78,105 @@ agents:
         ],
         "location": {
             "path": str(manifest),
-            "line": 1,
-            "column": 1,
+            "line": 7,
+            "column": 9,
+        },
+        "clause_locations": {
+            "allow.capabilities": {
+                "path": str(manifest),
+                "line": 8,
+                "column": 25,
+            },
+            "allow.destinations": {
+                "path": str(manifest),
+                "line": 11,
+                "column": 25,
+            },
+            "allow.iam_roles": {
+                "path": str(manifest),
+                "line": 12,
+                "column": 22,
+            },
+            "allow.identities": {
+                "path": str(manifest),
+                "line": 9,
+                "column": 23,
+            },
+            "allow.mcp_servers": {
+                "path": str(manifest),
+                "line": 15,
+                "column": 24,
+            },
+            "allow.oauth_scopes": {
+                "path": str(manifest),
+                "line": 14,
+                "column": 25,
+            },
+            "allow.permissions": {
+                "path": str(manifest),
+                "line": 13,
+                "column": 24,
+            },
+            "allow.resources": {
+                "path": str(manifest),
+                "line": 10,
+                "column": 22,
+            },
+            "deny.capabilities": {
+                "path": str(manifest),
+                "line": 17,
+                "column": 25,
+            },
+            "deny.destinations": {
+                "path": str(manifest),
+                "line": 20,
+                "column": 25,
+            },
+            "deny.iam_roles": {
+                "path": str(manifest),
+                "line": 21,
+                "column": 22,
+            },
+            "deny.identities": {
+                "path": str(manifest),
+                "line": 18,
+                "column": 23,
+            },
+            "deny.mcp_servers": {
+                "path": str(manifest),
+                "line": 24,
+                "column": 24,
+            },
+            "deny.oauth_scopes": {
+                "path": str(manifest),
+                "line": 23,
+                "column": 25,
+            },
+            "deny.permissions": {
+                "path": str(manifest),
+                "line": 22,
+                "column": 24,
+            },
+            "deny.resources": {
+                "path": str(manifest),
+                "line": 19,
+                "column": 22,
+            },
+            "mcp_tools.github.allow": {
+                "path": str(manifest),
+                "line": 28,
+                "column": 20,
+            },
+            "mcp_tools.github.deny": {
+                "path": str(manifest),
+                "line": 29,
+                "column": 19,
+            },
+            "require_approval_for": {
+                "path": str(manifest),
+                "line": 25,
+                "column": 31,
+            },
         },
     }
 
@@ -158,3 +255,32 @@ agents:
 
     assert "agents[0].policy.authority.allow.capabilites" in str(error.value)
     assert f"{manifest}:8:" in str(error.value)
+
+
+
+def test_single_agent_authority_contract_retains_clause_location(tmp_path: Path) -> None:
+    manifest = tmp_path / "horustrace.manifest.yaml"
+    manifest.write_text(
+        """
+version: 1
+agent:
+  name: single
+  policy:
+    authority:
+      deny:
+        capabilities: [process.execute]
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    contract = graph.agents[0].policy.authority
+
+    assert contract is not None
+    assert contract.clause_locations["deny.capabilities"] == (
+        contract.clause_locations["deny.capabilities"]
+    )
+    location = contract.clause_locations["deny.capabilities"]
+    assert location.path == manifest
+    assert location.line == 8
+    assert location.column == 23
