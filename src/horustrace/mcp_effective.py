@@ -222,8 +222,11 @@ def effective_mcp_authority_report(graph: Graph) -> dict[str, Any]:
             "unbound_servers": len(graph.unbound_mcp_servers),
             "unresolved_references": unresolved_summary["unresolved_references"],
             "unresolved_agent_references": unresolved_summary["agent_references"],
-            "unbound_by_reason": unresolved_summary["by_reason"],
-            "unbound_by_resolution_class": unresolved_summary[
+            "unbound_by_reason": unresolved_summary[
+                "declaration_by_reason"
+            ],
+            "unresolved_by_reason": unresolved_summary["by_reason"],
+            "unresolved_by_resolution_class": unresolved_summary[
                 "by_resolution_class"
             ],
             "fully_resolved_relationships": sum(
