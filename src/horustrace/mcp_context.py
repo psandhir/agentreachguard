@@ -67,6 +67,80 @@ def resolve_imported_mcp_placeholders(graph: Graph, root: Path) -> None:
         ]
 
 
+
+def resolve_fast_agent_mcp_references(graph: Graph) -> None:
+    """Bind FastAgent servers=[...] references when the MCP server name is unique.
+
+    The binding is repository-static and intentionally name-scoped only after
+    FastAgent has explicitly declared the server reference. Ambiguous duplicate
+    server names remain unresolved.
+    """
+    concrete_by_name: dict[str, list[MCPServer]] = {}
+    for server in graph.unbound_mcp_servers:
+        if server.metadata.get("placeholder"):
+            continue
+        concrete_by_name.setdefault(server.name, []).append(server)
+
+    used: set[int] = set()
+    for agent in graph.agents:
+        if agent.metadata.get("framework") != "fast-agent":
+            continue
+        refs = agent.metadata.get("mcp_server_refs")
+        if not isinstance(refs, list):
+            continue
+
+        tool_filters = agent.metadata.get("mcp_tool_filters")
+        if not isinstance(tool_filters, dict):
+            tool_filters = {}
+
+        for ref in refs:
+            if not isinstance(ref, str) or not ref:
+                continue
+            matches = concrete_by_name.get(ref, [])
+            if len(matches) != 1:
+                for server in matches:
+                    server.metadata.setdefault(
+                        "context_binding",
+                        "ambiguous_fast_agent_reference",
+                    )
+                continue
+
+            source = matches[0]
+            resolved = deepcopy(source)
+            configured_filter = tool_filters.get(ref)
+            if isinstance(configured_filter, list) and all(
+                isinstance(item, str) for item in configured_filter
+            ):
+                if resolved.allowed_tools:
+                    configured = set(configured_filter)
+                    resolved.allowed_tools = [
+                        item
+                        for item in resolved.allowed_tools
+                        if item in configured
+                    ]
+                else:
+                    resolved.allowed_tools = list(configured_filter)
+                resolved.metadata["fast_agent_tool_filter"] = list(
+                    configured_filter
+                )
+
+            resolved.metadata = {
+                **resolved.metadata,
+                "binding_origin": "fast_agent_servers_reference",
+                "effective_agent": agent.name,
+                "fast_agent_server_reference": ref,
+                "repository_resolved": True,
+            }
+            agent.mcp_servers.append(resolved)
+            used.add(id(source))
+
+    if used:
+        graph.unbound_mcp_servers = [
+            server
+            for server in graph.unbound_mcp_servers
+            if id(server) not in used
+        ]
+
 def _authority_scope(server: MCPServer) -> str:
     if server.allowed_tools:
         return "explicit_allowlist"
