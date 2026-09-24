@@ -45,6 +45,7 @@ from horustrace.mcp_context import (
     resolve_fast_agent_mcp_references,
     resolve_imported_mcp_placeholders,
 )
+from horustrace.mcp_resolution import unresolved_mcp_summary
 from horustrace.models import (
     Agent,
     AgentReachability,
@@ -1114,6 +1115,8 @@ def scan(
         for reachability in AgentReachability
     }
 
+    mcp_unresolved = unresolved_mcp_summary(graph)["summary"]
+
     graph.coverage.resolution = {
         "tools": {
             "resolved_entities": resolved_tools,
@@ -1164,19 +1167,12 @@ def scan(
         "mcp": {
             "bound": sum(len(agent.mcp_servers) for agent in graph.agents),
             "unbound": len(graph.unbound_mcp_servers),
-            "unbound_by_reason": {
-                reason: sum(
-                    str(server.metadata.get("context_binding") or "unbound")
-                    == reason
-                    for server in graph.unbound_mcp_servers
-                )
-                for reason in sorted(
-                    {
-                        str(server.metadata.get("context_binding") or "unbound")
-                        for server in graph.unbound_mcp_servers
-                    }
-                )
-            },
+            "unresolved_references": mcp_unresolved["unresolved_references"],
+            "unresolved_agent_references": mcp_unresolved["agent_references"],
+            "unbound_by_reason": mcp_unresolved["by_reason"],
+            "unbound_by_resolution_class": mcp_unresolved[
+                "by_resolution_class"
+            ],
         },
     }
     if authority_enrichment is not None:
