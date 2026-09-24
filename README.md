@@ -167,6 +167,15 @@ The existing `mcp_authority` block in normal JSON scan output remains available 
 backward compatibility; the generic relationship model is exposed separately as
 `effective_authority`.
 
+FastAgent agents that declare static `servers=[...]` references are reconciled to
+repository-discovered MCP server definitions only when the server name is unique.
+Per-agent FastAgent `tools={server: [...]}` filters are projected onto the bound
+relationship. Duplicate server names remain unbound and are reported as ambiguous.
+
+Coverage resolution also exposes reason breakdowns for unbound MCP servers and
+unknown flow reachability so research runs can distinguish missing evidence from
+ambiguous evidence without guessing.
+
 Authority-aware findings link supported rule results back to the stable relationship
 that informed them through `authority_relationship_id`. The first consumers are
 `AGT040`, `AGT032`, `NET002`, and `CAP005`. When relationship evidence is
