@@ -6,51 +6,60 @@ _No unreleased changes yet._
 
 ## 0.5.0 - 2026-09-24
 
-- Validate the integrated release against the frozen 90-repository public corpus: 90/90 scanned, 0 errors/timeouts, 6 proven agent-reachable flows, 133 proven non-agent flows, and 1 intentionally preserved unknown runtime flow.
-- Add the versioned Agent Security Graph (ASG) v1, combining framework-neutral
-  topology, effective-authority relationships, static flow evidence, attack paths,
-  and analysis-resolution state in one deterministic portable document.
-- Add `horustrace security-graph` with repository-relative paths and a canonical
-  digest stable across checkout locations.
-- Add bounded inbound entrypoint provenance for static flows, including class methods,
-  CLI roots and MCP-server lifecycle paths, while preserving unknown reachability
-  when the evidence remains shared or ambiguous.
-- Add semantic Authority Delta v1 to `horustrace diff`, reporting effective-authority
-  expansion from new capabilities, identities, IAM roles/permissions, OAuth scopes,
-  weakened approvals, widened MCP tool scope, new resources and new destinations.
-- Add framework Adapter Contract v1 plus `horustrace adapters` introspection and
-  contributor guidance, while retaining the static/no-target-execution trust boundary.
-- Distinguish executable/process control from subprocess payload and configuration
-  data, eliminating false secret-to-process execution flows without weakening
-  command-control detection.
-- Improve non-agent execution-context proof and residual-flow telemetry; the frozen
-  public study now preserves ambiguity rather than forcing unsupported reachability.
-- Parse FastAgent `fast-agent.yaml` / `fast-agent.yml` MCP server definitions,
-  normalize static URL/stdio targets and header auth evidence, and bind explicit
-  `servers=[...]` agent references to the nearest enclosing config scope while
-  preserving ambiguous duplicate-name cases as unresolved.
-- Bind static FastAgent `servers=[...]` references to uniquely discovered MCP
-  server definitions, project per-agent MCP tool filters, preserve duplicate-name
-  ambiguity, and expose reason-level telemetry for unbound MCP references and
-  unknown flow reachability.
-- Make AGT040, AGT032, NET002 and CAP005 consume effective-authority
-  relationships where available, attach stable `authority_relationship_id` values to
-  linked findings, carry inherited agent tool-control evidence into authority
-  resolution, and preserve conservative legacy fallbacks for unresolved cases.
-- Add generic effective-authority reconstruction for normalized agent-to-tool and
-  agent-to-MCP relationships, with stable relationship IDs, explicit resolution
-  dimensions, ADG evidence, conservative unresolved fields, and
-  `runtime_effectiveness: not_verified`. Preserve the existing `mcp_authority`
-  JSON block while adding `effective_authority`.
-- Make OWASP Agentic reporting source-context aware with runtime-first status,
-  per-category runtime/total counts, source-context breakdowns, affected-agent
-  summaries, and frozen-corpus aggregation of affected/runtime-affected repositories.
-- Add first-class OWASP Top 10 for Agentic Applications 2026 reporting with conservative
-  rule mappings, a new `horustrace owasp` command, JSON/SARIF coverage summaries,
-  console finding labels, ASI06 persistent-memory coverage, and explicit
-  `not_assessed` semantics for categories without enabled detectors.
-- Add first-class Pydantic AI / Pydantic AI Harness static analysis for `Agent`, function tools, `FunctionToolset`, approvals, MCP and security-relevant capabilities.
-- Add first-class FastAgent Python analysis for decorator-defined agents/workflows, explicit function tools, shell authority and static delegation.
+- Validate the integrated release against the frozen 90-repository public corpus:
+  90/90 scanned, 0 errors/timeouts, 6 proven agent-reachable flows, 133 proven
+  non-agent flows, and 1 intentionally preserved unknown runtime flow.
+- Add Agent Security Graph (ASG) v1 and `horustrace security-graph`, combining
+  topology, effective authority, static flows, attack paths and resolution state in a
+  deterministic portable document.
+- Add generic Effective Authority Relationship v1 for agent-to-tool and agent-to-MCP
+  relationships, with stable IDs, identity/credential evidence, approval, MCP scope,
+  resources, destinations, mutation/network semantics and per-dimension resolution.
+- Make AGT040, AGT032, NET002 and CAP005 authority-aware while preserving
+  conservative fallbacks for incomplete relationships.
+- Add semantic Authority Delta v1 to `horustrace diff`, including capability,
+  identity/IAM, OAuth, approval, MCP tool-scope, resource and destination expansion.
+- Add change-aware Git security diff, contextual Markdown rendering and a first-class
+  GitHub Action for pull-request security deltas.
+- Add canonical provenance-based flow-to-agent attribution for imported tools, remove
+  weak repository-wide name/single-agent shortcuts and preserve ambiguous bindings as
+  unresolved.
+- Add flow execution-context and reachability semantics:
+  `proven_agent_reachable`, `proven_non_agent` and `unknown`, including explicit
+  CLI entrypoint evidence and source-context filtering.
+- Add bounded inbound entrypoint provenance, including class methods, runtime roots and
+  MCP-server lifecycle paths, with representative evidence preserved under output
+  bounds.
+- Trace normalized agent-tool inputs into supported security-sensitive sinks and
+  promote proven agent-reachable static flows into static-dataflow-backed attack
+  paths.
+- Add contextual MCP authority reconstruction for OpenAI Agents, LangGraph/LangChain
+  clients, LangChain `create_agent`, FastAgent and imported MCP server objects,
+  including auth, destination, identity, allow/deny scope and supported resources.
+- Add first-class FastAgent Python support plus `fast-agent.yaml` /
+  `fast-agent.yml` MCP parsing, nearest-config binding and per-agent tool filters.
+- Add first-class Pydantic AI / Pydantic AI Harness support for agents, function tools,
+  toolsets, approvals, MCP and security-relevant Harness/provider capabilities.
+- Project explicit approval controls into the ADG and refine LangGraph interrupt,
+  OpenAI preview/confirm and ADK HITL semantics.
+- Add custom LangGraph computer-control semantics and distinguish mutating actions
+  from screenshot/read-only behavior.
+- Add opt-in, offline Terraform GCP IAM correlation through `--authority-source`
+  without cloud API access or live IAM downloads.
+- Add first-class OWASP Top 10 for Agentic Applications 2026 reporting via
+  `horustrace owasp`, JSON/SARIF summaries and runtime/source-context-aware status.
+- Add framework Adapter Contract v1 and `horustrace adapters`, retaining the
+  static/no-target-execution trust boundary.
+- Add reason-level telemetry for unbound MCP references and residual unknown
+  reachability in frozen-corpus research runs.
+- Improve risk precision for fixed destinations vs broad egress, local/session state
+  mutations vs persistent/external writes, and sensitive mutation domains.
+- Remove multiple corpus-discovered false positives, including qualified
+  `re.compile(...)` as code execution, name-only side-effect authority on control
+  helpers, and subprocess payload/configuration data as executable control.
+- Preserve unknown runtime behavior when evidence is shared or ambiguous rather than
+  forcing an agent/non-agent conclusion.
+
 
 ### 0.4 development
 
