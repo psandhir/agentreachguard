@@ -600,3 +600,76 @@ def test_security_delta_renders_contract_weakening(
     assert "Authority Contract weakenings | 1" in markdown
     assert "### Authority Contract weakenings" in markdown
     assert "change `contract_removed`" in markdown
+
+
+def test_contract_delta_detects_clause_removal_while_contract_remains(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-clause"
+    head_root = tmp_path / "head-clause"
+    base = _graph(
+        base_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            deny=AuthorityScope(capabilities={"process.execute"}),
+            require_approval_for={"process.execute"},
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert {
+        (item["clause"], item["change"])
+        for item in delta["contract_weakenings"]
+    } == {
+        ("deny.capabilities", "deny_constraint_removed"),
+        ("require_approval_for", "approval_requirement_removed"),
+    }
+
+
+def test_contract_delta_detects_mcp_allowlist_removal(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-mcp-remove"
+    head_root = tmp_path / "head-mcp-remove"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools={"issues_read"},
+                )
+            ],
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools=set(),
+                )
+            ],
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert delta["summary"]["contract_weakenings"] == 1
+    assert delta["contract_weakenings"][0]["change"] == "mcp_allowlist_removed"
