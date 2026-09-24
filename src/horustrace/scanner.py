@@ -1169,8 +1169,11 @@ def scan(
             "unbound": len(graph.unbound_mcp_servers),
             "unresolved_references": mcp_unresolved["unresolved_references"],
             "unresolved_agent_references": mcp_unresolved["agent_references"],
-            "unbound_by_reason": mcp_unresolved["by_reason"],
-            "unbound_by_resolution_class": mcp_unresolved[
+            "unbound_by_reason": mcp_unresolved[
+                "declaration_by_reason"
+            ],
+            "unresolved_by_reason": mcp_unresolved["by_reason"],
+            "unresolved_by_resolution_class": mcp_unresolved[
                 "by_resolution_class"
             ],
         },
