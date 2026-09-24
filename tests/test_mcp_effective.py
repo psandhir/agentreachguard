@@ -154,9 +154,14 @@ def test_authority_cli_json_exposes_effective_relationship(
 
     report = json.loads(capsys.readouterr().out)
     assert report["schema_version"] == 1
-    assert report["summary"]["bound_relationships"] == 1
-    assert report["authorities"][0]["agent"] == "agent"
-    assert report["authorities"][0]["server"] == "slack"
+    assert report["summary"]["relationships"] >= 1
+    relationship = next(
+        item
+        for item in report["relationships"]
+        if item["target"] == {"kind": "mcp_server", "name": "slack"}
+    )
+    assert relationship["agent"] == "agent"
+    assert relationship["runtime_effectiveness"] == "not_verified"
 
 
 def test_authority_cli_console_is_human_readable(
@@ -168,11 +173,12 @@ def test_authority_cli_console_is_human_readable(
     assert main(["authority", str(tmp_path)]) == 0
 
     output = capsys.readouterr().out
-    assert "HorusTrace Effective MCP Authority" in output
-    assert "agent -> slack" in output
-    assert "search_messages, read_thread" in output
-    assert "identity=agent:slack:mcp-auth" in output
-    assert "fixed_remote_endpoint https://mcp.example.test/mcp" in output
+    assert "HorusTrace Effective Authority" in output
+    assert "agent -> mcp_server:slack" in output
+    assert "allowed=search_messages, read_thread" in output
+    assert "identity: agent:slack:mcp-auth" in output
+    assert "https://mcp.example.test/mcp" in output
+    assert "Runtime effectiveness:          NOT VERIFIED" in output
 
 
 def test_scan_json_embeds_mcp_authority_report(
