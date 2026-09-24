@@ -4,7 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from urllib.parse import urlparse
 
-from horustrace.models import Graph, Identity, MCPServer
+from horustrace.models import Agent, Graph, Identity, MCPServer
 
 
 def _module_name(path: Path, root: Path) -> str:
