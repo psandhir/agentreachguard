@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "corpus": "horustrace-frozen-90",
+  "frozen_at": "2026-09-22",
+  "run_date": "2026-09-24",
+  "scanner_validation_commit": "bee59738dd8ea4778a8dd0ea74039304dc307a78",
+  "product_lineage_commit": "dbb06f6531c4343db6cb6ce087db27cc52c2e550",
+  "workflow_run_id": 36036585304,
+  "comparison": {
+    "baseline": "v0.5.0 final frozen-90",
+    "workflow_run_id": 36023300135,
+    "legacy_metrics_delta_zero": true,
+    "v0_5": {
+      "repositories": 90,
+      "scanned": 90,
+      "complete": 39,
+      "incomplete": 51,
+      "scan_errors": 0,
+      "scan_timeouts": 0,
+      "clone_failures": 0,
+      "clone_timeouts": 0,
+      "agents": 2076,
+      "tools": 3413,
+      "mcp_servers": 633,
+      "identities": 78,
+      "flows": 140,
+      "proven_agent_reachable_flows": 6,
+      "proven_non_agent_flows": 133,
+      "unknown_agent_reachability_flows": 1,
+      "attack_paths": 25,
+      "static_dataflow_attack_paths": 2,
+      "adg_nodes": 6690,
+      "adg_edges": 5630,
+      "bound_mcp_references": 117,
+      "concrete_unbound_mcp_declarations": 516,
+      "mcp_agent_invokes": 117,
+      "mcp_identity_edges": 3,
+      "approval_control_nodes": 82,
+      "approval_guarded_edges": 82,
+      "approved_tools": 105,
+      "guarded_tools": 41,
+      "findings": 1105
+    },
+    "v0_6": {
+      "repositories": 90,
+      "scanned": 90,
+      "complete": 39,
+      "incomplete": 51,
+      "scan_errors": 0,
+      "scan_timeouts": 0,
+      "clone_failures": 0,
+      "clone_timeouts": 0,
+      "agents": 2076,
+      "tools": 3413,
+      "mcp_servers": 633,
+      "identities": 78,
+      "flows": 140,
+      "proven_agent_reachable_flows": 6,
+      "proven_non_agent_flows": 133,
+      "unknown_agent_reachability_flows": 1,
+      "attack_paths": 25,
+      "static_dataflow_attack_paths": 2,
+      "adg_nodes": 6690,
+      "adg_edges": 5630,
+      "bound_mcp_references": 117,
+      "concrete_unbound_mcp_declarations": 516,
+      "mcp_agent_invokes": 117,
+      "mcp_identity_edges": 3,
+      "approval_control_nodes": 82,
+      "approval_guarded_edges": 82,
+      "approved_tools": 105,
+      "guarded_tools": 41,
+      "findings": 1105
+    }
+  },
+  "cohorts": {
+    "a": {
+      "agents": 1571,
+      "tools": 2365,
+      "mcp_servers": 412,
+      "identities": 37,
+      "flows": 121,
+      "proven_agent_reachable_flows": 2,
+      "proven_non_agent_flows": 118,
+      "unknown_agent_reachability_flows": 1,
+      "attack_paths": 21,
+      "static_dataflow_attack_paths": 2,
+      "adg_nodes": 5132,
+      "adg_edges": 4373,
+      "bound_mcp_references": 104,
+      "concrete_unbound_mcp_declarations": 308,
+      "findings": 800,
+      "unresolved_mcp_observations": 318,
+      "unresolved_mcp_agent_references": 10
+    },
+    "b": {
+      "agents": 138,
+      "tools": 197,
+      "mcp_servers": 51,
+      "identities": 10,
+      "flows": 6,
+      "proven_agent_reachable_flows": 4,
+      "proven_non_agent_flows": 2,
+      "unknown_agent_reachability_flows": 0,
+      "attack_paths": 2,
+      "static_dataflow_attack_paths": 0,
+      "adg_nodes": 356,
+      "adg_edges": 252,
+      "bound_mcp_references": 2,
+      "concrete_unbound_mcp_declarations": 49,
+      "findings": 41,
+      "unresolved_mcp_observations": 49,
+      "unresolved_mcp_agent_references": 0
+    },
+    "c": {
+      "agents": 367,
+      "tools": 851,
+      "mcp_servers": 170,
+      "identities": 31,
+      "flows": 13,
+      "proven_agent_reachable_flows": 0,
+      "proven_non_agent_flows": 13,
+      "unknown_agent_reachability_flows": 0,
+      "attack_paths": 2,
+      "static_dataflow_attack_paths": 0,
+      "adg_nodes": 1202,
+      "adg_edges": 1005,
+      "bound_mcp_references": 11,
+      "concrete_unbound_mcp_declarations": 159,
+      "findings": 264,
+      "unresolved_mcp_observations": 164,
+      "unresolved_mcp_agent_references": 5
+    }
+  },
+  "v0_6_evidence": {
+    "unresolved_mcp_observations": 531,
+    "unresolved_mcp_agent_references": 15,
+    "unresolved_mcp_by_reason": {
+      "declaration_not_agent_bound": 516,
+      "server_not_declared": 13,
+      "ambiguous_multiple_candidates": 1,
+      "dynamic_server_selection": 1
+    },
+    "unresolved_mcp_by_resolution_class": {
+      "resolvable_static": 529,
+      "evidence_limited": 2
+    },
+    "trust_boundaries": {
+      "relationships": 2600,
+      "unknown_dimensions": {
+        "mutation": 1180,
+        "network": 0,
+        "identity": 2592,
+        "control": 2428,
+        "mcp_scope": 109
+      },
+      "classes": {
+        "mutation": {
+          "no_mutation": 1133,
+          "local_session_mutation": 9,
+          "internal_mutation_unspecified": 211,
+          "persistent_internal_mutation": 6,
+          "external_side_effect": 55,
+          "destructive_mutation": 3,
+          "security_identity_sensitive_mutation": 3,
+          "unknown": 1180
+        },
+        "network": {
+          "no_external_network": 2288,
+          "fixed_destination": 16,
+          "provider_constrained_destination": 108,
+          "internet_retrieval": 135,
+          "arbitrary_egress": 53
+        },
+        "identity": {
+          "workload_service_identity": 8,
+          "unknown": 2592
+        },
+        "control": {
+          "mandatory_approval": 83,
+          "guardrail_control": 87,
+          "explicitly_no_approval": 2,
+          "unknown": 2428
+        },
+        "mcp_scope": {
+          "explicit_allowlist": 8,
+          "unknown": 109,
+          "not_applicable": 2483
+        }
+      }
+    },
+    "authority_contract": {
+      "agents_with_contract": 0,
+      "relationships_evaluated": 0,
+      "violations": 0,
+      "unresolved": 0,
+      "explanations_complete": 0,
+      "interpretation": "The frozen public corpus contains no repository-local v0.6 Authority Contract policies; zero results are absence of policy input, not evidence of compliance."
+    }
+  },
+  "mcp_manual_adjudication": {
+    "contributing_repositories": {
+      "Klavis-AI/klavis": {
+        "frozen_sha": "45c9f7da83d1cf43f7429b96f9c8e8153542ea1e",
+        "agent_references": 5,
+        "reasons": {
+          "server_not_declared": 5
+        },
+        "conclusion": "All five references have zero static candidate declarations at the pinned SHA."
+      },
+      "evalstate/fast-agent": {
+        "frozen_sha": "96ded66a3d21472047859808ae30095390607171",
+        "agent_references": 10,
+        "reasons": {
+          "server_not_declared": 8,
+          "ambiguous_multiple_candidates": 1,
+          "dynamic_server_selection": 1
+        },
+        "conclusion": "Eight test/manual references have no declaration; one docs reference has 11 same-name candidates without unique scope; one reference is runtime-computed."
+      }
+    },
+    "conclusion": "No unresolved reference was silently treated as bound, and manual review found no generic resolver defect among the 15 newly surfaced references."
+  },
+  "release_bar": {
+    "repositories_90_of_90": true,
+    "zero_scan_errors": true,
+    "zero_scan_timeouts": true,
+    "reachability_regression": false,
+    "concrete_mcp_inventory_regression": false,
+    "unresolved_reference_false_binding_found": false,
+    "runtime_effectiveness": "not_verified"
+  }
+}
