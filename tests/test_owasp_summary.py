@@ -144,7 +144,8 @@ def test_scan_json_includes_owasp_summary(tmp_path: Path, capsys) -> None:
     assert report["owasp_agentic"]["summary"]["categories"] == 10
     assert "runtime_mapped_findings" in report["owasp_agentic"]["summary"]
     assert _category(report["owasp_agentic"], "ASI05")["status"] == "finding"
-    assert _category(report["owasp_agentic"], "ASI05")["source_contexts"]["unknown"] >= 1
+    asi05 = _category(report["owasp_agentic"], "ASI05")
+    assert sum(asi05["source_contexts"].values()) == asi05["finding_count"]
 
 
 def test_scan_console_shows_owasp_mapping_on_finding(tmp_path: Path, capsys) -> None:
