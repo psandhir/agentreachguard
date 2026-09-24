@@ -161,3 +161,54 @@ agent = Agent(name="ops", tools=[execute_user_command])
         item.rule_id == "PATH001" and item.confidence is Confidence.SUPPORTED
         for item in findings
     )
+
+
+def test_subprocess_stdin_payload_does_not_count_as_executable_control(tmp_path: Path) -> None:
+    (tmp_path / "worker.py").write_text(
+        """
+import os
+import subprocess
+
+def load_data():
+    token = os.getenv("HF_TOKEN")
+    subprocess.run(
+        ["duckdb", "-json"],
+        input=token,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    assert not any(
+        flow.source_kind == "secret_value"
+        and flow.sink_kind == "process_execute"
+        for flow in graph.flow_paths
+    )
+
+
+def test_subprocess_args_keyword_still_counts_as_executable_control(tmp_path: Path) -> None:
+    (tmp_path / "worker.py").write_text(
+        """
+import subprocess
+
+def run_user_command():
+    command = input("command")
+    subprocess.run(args=command, shell=True)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    flow = next(
+        item
+        for item in graph.flow_paths
+        if item.source_kind == "user_input"
+        and item.sink_kind == "process_execute"
+    )
+    assert flow.sink_label == "subprocess.run"
