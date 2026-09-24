@@ -10,6 +10,10 @@ from horustrace import __version__
 from horustrace.adapters.manifest import ManifestError
 from horustrace.adapters.registry import adapter_catalogue
 from horustrace.aibom import build_aibom
+from horustrace.authority_query import (
+    query_effective_authority,
+    render_authority_query_console,
+)
 from horustrace.authority_resolution import authority_resolution_summary
 from horustrace.benchmark import BenchmarkError
 from horustrace.benchmark import render_console as render_benchmark_console
@@ -192,6 +196,45 @@ def _parser() -> argparse.ArgumentParser:
     policy_parser.add_argument("--output", type=Path)
     policy_parser.add_argument("--config", type=Path)
     policy_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
+    query_parser = sub.add_parser(
+        "query",
+        help="Query effective authority and delegated reachability",
+    )
+    query_parser.add_argument("path", nargs="?", default=".")
+    query_parser.add_argument("--agent", help="Filter principal agent name (glob supported).")
+    query_parser.add_argument(
+        "--capability",
+        help="Filter effective capability (glob supported).",
+    )
+    query_parser.add_argument(
+        "--target",
+        help="Filter tool/MCP target name or kind:name (glob supported).",
+    )
+    query_parser.add_argument(
+        "--destination",
+        help="Filter network destination (glob supported).",
+    )
+    query_parser.add_argument(
+        "--identity",
+        help="Filter effective identity name (glob supported).",
+    )
+    query_parser.add_argument(
+        "--resolution",
+        choices=["fully_resolved", "partially_resolved", "unknown"],
+        help="Filter authority resolution status.",
+    )
+    query_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    query_parser.add_argument("--output", type=Path)
+    query_parser.add_argument("--config", type=Path)
+    query_parser.add_argument(
         "--authority-source",
         type=Path,
         help="Checked-out Terraform repository containing declared IAM bindings.",
@@ -427,7 +470,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
 
-    if args.command in {"graph", "security-graph", "aibom", "authority", "policy", "owasp"}:
+    if args.command in {"graph", "security-graph", "aibom", "authority", "policy", "query", "owasp"}:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
@@ -461,6 +504,26 @@ def main(argv: list[str] | None = None) -> int:
                     "review JSON diagnostics before enforcement",
                     file=sys.stderr,
                 )
+        elif args.command == "query":
+            try:
+                report = query_effective_authority(
+                    graph,
+                    root,
+                    agent=args.agent,
+                    capability=args.capability,
+                    target=args.target,
+                    destination=args.destination,
+                    identity=args.identity,
+                    resolution=args.resolution,
+                )
+            except ValueError as exc:
+                print(f"horustrace: {exc}", file=sys.stderr)
+                return 1
+            output = (
+                json.dumps(report, indent=2)
+                if args.format == "json"
+                else render_authority_query_console(report)
+            )
         elif args.command == "owasp":
             disabled_rules = graph.configuration_audit.get("disabled_rules", [])
             report = build_owasp_agentic_summary(
