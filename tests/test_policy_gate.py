@@ -10,6 +10,7 @@ def _report(
     *,
     introduced_violations: list[dict] | None = None,
     introduced_unresolved: list[dict] | None = None,
+    contract_weakenings: list[dict] | None = None,
     analysis_incomplete: bool = False,
 ) -> dict:
     return {
@@ -22,6 +23,7 @@ def _report(
         "authority_policy_delta": {
             "introduced_violations": introduced_violations or [],
             "introduced_unresolved": introduced_unresolved or [],
+            "contract_weakenings": contract_weakenings or [],
         },
     }
 
@@ -59,6 +61,75 @@ def test_diff_policy_gate_fails_only_on_introduced_violation(
 
     assert result == 2
     json.loads(capsys.readouterr().out)
+
+
+
+
+def test_diff_policy_gate_fails_on_contract_weakening(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    monkeypatch.setattr(
+        "horustrace.cli.build_git_diff",
+        lambda *_args: _report(
+            contract_weakenings=[
+                {
+                    "change_id": "contract-delta-v1:test",
+                    "clause": "deny.capabilities",
+                    "change": "deny_constraint_removed",
+                }
+            ]
+        ),
+    )
+
+    result = main(
+        [
+            "diff",
+            "base..head",
+            "--repo",
+            str(tmp_path),
+            "--format",
+            "json",
+            "--fail-on",
+            "none",
+            "--fail-on-policy-violation",
+        ]
+    )
+
+    assert result == 2
+
+
+def test_diff_contract_weakening_does_not_fail_without_opt_in(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    monkeypatch.setattr(
+        "horustrace.cli.build_git_diff",
+        lambda *_args: _report(
+            contract_weakenings=[
+                {
+                    "change_id": "contract-delta-v1:test",
+                    "clause": "require_approval_for",
+                    "change": "approval_requirement_removed",
+                }
+            ]
+        ),
+    )
+
+    result = main(
+        [
+            "diff",
+            "base..head",
+            "--repo",
+            str(tmp_path),
+            "--format",
+            "json",
+            "--fail-on",
+            "none",
+        ]
+    )
+
+    assert result == 0
 
 
 def test_diff_policy_violation_does_not_fail_without_opt_in(
