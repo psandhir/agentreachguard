@@ -198,9 +198,36 @@ def _reverse_callers(callables: dict[str, _Callable]) -> dict[str, set[str]]:
     return reverse
 
 
+def _provenance_priority(info: _Callable, root: Path) -> tuple[int, str]:
+    relative_path = Path(_relative(info.path, root))
+    semantic = f"{info.module}.{info.owner_class or ''}".lower()
+    if info.owner_class and "mcp" in semantic and "server" in semantic:
+        return 0, info.key
+
+    context = classify_source_context(relative_path)
+    if context == "runtime":
+        lowered_parts = {part.lower() for part in relative_path.parts}
+        name = relative_path.name.lower()
+        if (
+            path_parts_match(lowered_parts, _CLI_DIRS)
+            or name == "__main__.py"
+            or name == "cli.py"
+            or name.endswith("_cli.py")
+        ):
+            return 2, info.key
+        return 1, info.key
+    if context in {"example", "tutorial", "notebook", "template-generated"}:
+        return 3, info.key
+    if context == "test":
+        return 4, info.key
+    return 5, info.key
+
+
 def _root_chains(
     target: str,
     reverse: dict[str, set[str]],
+    callables: dict[str, _Callable],
+    root: Path,
 ) -> tuple[list[list[str]], bool]:
     chains: list[list[str]] = []
     truncated = False
@@ -210,7 +237,10 @@ def _root_chains(
         if len(chains) >= MAX_INBOUND_ENTRYPOINTS:
             truncated = True
             return
-        callers = sorted(reverse.get(current, set()) - set(path))
+        callers = sorted(
+            reverse.get(current, set()) - set(path),
+            key=lambda key: _provenance_priority(callables[key], root),
+        )
         if not callers:
             chains.append(list(reversed(path)))
             return
@@ -314,7 +344,7 @@ def annotate_flow_entrypoints(
         if target is None:
             continue
 
-        chains, truncated = _root_chains(target, reverse)
+        chains, truncated = _root_chains(target, reverse, callables, root)
         entrypoints = [
             record
             for chain in chains
