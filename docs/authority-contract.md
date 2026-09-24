@@ -100,3 +100,44 @@ policy:
 Authority Contract v1 is additive to these fields. Evaluation of the new contract
 against Effective Authority Relationship v1 is implemented separately so schema
 parsing does not silently change legacy finding behavior.
+
+
+## Evaluation semantics
+
+Authority Contract v1 is evaluated against Effective Authority Relationship v1.
+
+Each relationship with an attached contract receives one of three outcomes:
+
+- `compliant` — supported static evidence satisfies every applicable contract clause;
+- `violation` — supported static evidence contradicts at least one contract clause;
+- `unresolved` — no violation is proven, but one or more constrained dimensions lack
+  sufficient static evidence.
+
+Violation and unresolved records link back to the stable
+`authority_relationship_id` and identify the exact contract clause, expected policy
+values and observed evidence. Runtime effectiveness remains `not_verified`.
+
+Examples of high-confidence violations include:
+
+- an observed capability explicitly denied by the contract;
+- a resource or destination outside an explicit allowlist;
+- an observed IAM role, permission or OAuth scope denied by policy;
+- an explicitly disabled approval for a capability that requires approval;
+- an MCP server outside the allowed server set;
+- an MCP server exposing tools outside an explicit contract allowlist.
+
+An unspecified approval state is not treated as approval. It remains unresolved.
+Likewise, missing identity/resource/destination evidence does not become a clean policy
+result.
+
+### MCP tool scope
+
+Per-server MCP tool contracts distinguish explicit scope from incomplete evidence.
+
+An explicit server allowlist that exposes tools outside the contract is a violation.
+A contract requiring an MCP allowlist is also violated when the relationship is known
+to be unrestricted or denylist-only. Dynamic filters remain unresolved unless their
+effective tool scope can be reconstructed.
+
+For deny-only MCP clauses, HorusTrace reports unresolved when the server catalogue is
+unknown and cannot prove whether the denied tool is reachable.
