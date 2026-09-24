@@ -8,6 +8,7 @@ does not treat as agent tools.
 from __future__ import annotations
 
 import ast
+from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -17,6 +18,8 @@ from horustrace.source_context import classify_source_context, path_parts_match
 
 MAX_INBOUND_PROVENANCE_DEPTH = 8
 MAX_INBOUND_ENTRYPOINTS = 32
+MAX_INBOUND_PROVENANCE_CANDIDATES = 1024
+MAX_INBOUND_PROVENANCE_STATES = 8192
 _CLI_DIRS = {"cli", "command", "commands"}
 _MCP_LIFECYCLE_METHODS = {
     "__init__",
@@ -202,27 +205,85 @@ def _root_chains(
     target: str,
     reverse: dict[str, set[str]],
 ) -> tuple[list[list[str]], bool]:
+    """Return a bounded, breadth-first set of inbound root chains.
+
+    Candidate discovery is intentionally larger than the emitted entrypoint budget.
+    This prevents a high-cardinality source context (for example tests) from
+    consuming the whole evidence budget before a different runtime branch is
+    explored.
+    """
     chains: list[list[str]] = []
+    queue = deque([(target, [target], 0)])
+    states = 0
     truncated = False
 
-    def visit(current: str, path: list[str], depth: int) -> None:
-        nonlocal truncated
-        if len(chains) >= MAX_INBOUND_ENTRYPOINTS:
+    while queue:
+        if states >= MAX_INBOUND_PROVENANCE_STATES:
             truncated = True
-            return
+            break
+        current, path, depth = queue.popleft()
+        states += 1
+
         callers = sorted(reverse.get(current, set()) - set(path))
         if not callers:
             chains.append(list(reversed(path)))
-            return
+            if len(chains) >= MAX_INBOUND_PROVENANCE_CANDIDATES:
+                truncated = bool(queue)
+                break
+            continue
+
         if depth >= MAX_INBOUND_PROVENANCE_DEPTH:
             truncated = True
             chains.append(list(reversed(path)))
-            return
-        for caller in callers:
-            visit(caller, [*path, caller], depth + 1)
+            if len(chains) >= MAX_INBOUND_PROVENANCE_CANDIDATES:
+                break
+            continue
 
-    visit(target, [target], 0)
+        for caller in callers:
+            queue.append((caller, [*path, caller], depth + 1))
+
+    if queue:
+        truncated = True
     return chains, truncated
+
+
+def _entrypoint_sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
+    return (
+        item["kind"],
+        item["function"],
+        item["location"]["path"],
+        item["location"]["line"],
+        tuple(item["inbound_call_chain"]),
+    )
+
+
+def _select_entrypoints(entrypoints: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Keep representative evidence from every discovered entrypoint kind."""
+    ordered = sorted(entrypoints, key=_entrypoint_sort_key)
+    if len(ordered) <= MAX_INBOUND_ENTRYPOINTS:
+        return ordered
+
+    representatives: dict[str, dict[str, Any]] = {}
+    for item in ordered:
+        representatives.setdefault(item["kind"], item)
+
+    selected = sorted(representatives.values(), key=_entrypoint_sort_key)
+    if len(selected) >= MAX_INBOUND_ENTRYPOINTS:
+        return selected[:MAX_INBOUND_ENTRYPOINTS]
+
+    selected_keys = {
+        _entrypoint_sort_key(item)
+        for item in selected
+    }
+    for item in ordered:
+        key = _entrypoint_sort_key(item)
+        if key in selected_keys:
+            continue
+        selected.append(item)
+        selected_keys.add(key)
+        if len(selected) >= MAX_INBOUND_ENTRYPOINTS:
+            break
+    return selected
 
 
 def _relative(path: Path, root: Path) -> str:
@@ -320,16 +381,13 @@ def annotate_flow_entrypoints(
             for chain in chains
             if (record := _entrypoint_record(chain, callables, root)) is not None
         ]
-        entrypoints.sort(
-            key=lambda item: (
-                item["kind"],
-                item["function"],
-                item["location"]["path"],
-                item["location"]["line"],
-            )
-        )
+        candidate_count = len(entrypoints)
+        if candidate_count > MAX_INBOUND_ENTRYPOINTS:
+            truncated = True
+        entrypoints = _select_entrypoints(entrypoints)
         flow.metadata["inbound_entrypoints"] = entrypoints
         flow.metadata["inbound_entrypoint_kinds"] = sorted(
             {item["kind"] for item in entrypoints}
         )
+        flow.metadata["inbound_entrypoint_candidates"] = candidate_count
         flow.metadata["inbound_provenance_truncated"] = truncated
