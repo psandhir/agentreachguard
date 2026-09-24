@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from horustrace.models import FlowPath, SourceLocation
+from horustrace.models import AgentReachability, FlowPath, SourceLocation
 from horustrace.source_context import classify_source_context, path_parts_match
 
 MAX_INBOUND_PROVENANCE_DEPTH = 8
@@ -323,13 +323,26 @@ def annotate_flow_entrypoints(
     python_paths: list[Path],
     flows: list[FlowPath],
 ) -> None:
-    """Attach bounded inbound entrypoint evidence to supported flows."""
+    """Attach bounded inbound evidence only where agent reachability is unresolved.
+
+    Proven agent-tool and proven non-agent flows already have stronger reachability
+    evidence. Restricting reverse-call indexing to unknown flows avoids reparsing an
+    entire repository when provenance cannot change or clarify the classification.
+    """
+    unresolved_flows = [
+        flow
+        for flow in flows
+        if flow.agent_reachability is AgentReachability.UNKNOWN
+    ]
+    if not unresolved_flows:
+        return
+
     callables = _collect_callables(root, python_paths)
     if not callables:
         return
     reverse = _reverse_callers(callables)
 
-    for flow in flows:
+    for flow in unresolved_flows:
         call_chain = flow.metadata.get("call_chain")
         if not isinstance(call_chain, list) or not call_chain:
             continue
