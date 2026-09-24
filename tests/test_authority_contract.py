@@ -277,9 +277,6 @@ agent:
     contract = graph.agents[0].policy.authority
 
     assert contract is not None
-    assert contract.clause_locations["deny.capabilities"] == (
-        contract.clause_locations["deny.capabilities"]
-    )
     location = contract.clause_locations["deny.capabilities"]
     assert location.path == manifest
     assert location.line == 8
