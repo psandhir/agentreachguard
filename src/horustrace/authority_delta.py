@@ -1,15 +1,24 @@
-"""Semantic effective-authority delta for HorusTrace v0.5."""
+"""Semantic effective-authority delta with Trust Boundary Classification v1."""
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from horustrace.effective_authority import effective_authority_report
+from horustrace.effective_authority import (
+    EffectiveAuthorityRelationship,
+    effective_authority_report,
+    effective_authority_relationships,
+)
 from horustrace.models import Graph
 from horustrace.source_context import classify_source_context
+from horustrace.trust_boundaries import (
+    classify_boundary_crossings,
+    classify_relationship,
+)
 
-AUTHORITY_DELTA_SCHEMA_VERSION = 1
+AUTHORITY_DELTA_SCHEMA_VERSION = 2
 
 
 def _relative_path(value: str, root: Path) -> str:
@@ -49,6 +58,15 @@ def _relationship_index(graph: Graph, root: Path) -> dict[str, dict[str, Any]]:
     return {
         item["relationship_id"]: item
         for item in relationships
+    }
+
+
+def _typed_relationship_index(
+    graph: Graph,
+) -> dict[str, EffectiveAuthorityRelationship]:
+    return {
+        relationship.relationship_id: relationship
+        for relationship in effective_authority_relationships(graph)
     }
 
 
@@ -191,9 +209,17 @@ def _approval_weakened(
     )
 
 
+def _boundary_classification(
+    relationship: EffectiveAuthorityRelationship,
+) -> dict[str, Any]:
+    return classify_relationship(relationship).as_dict()
+
+
 def _changed_relationship(
     before: dict[str, Any],
     after: dict[str, Any],
+    before_relationship: EffectiveAuthorityRelationship,
+    after_relationship: EffectiveAuthorityRelationship,
 ) -> dict[str, Any]:
     changed_dimensions = [
         key
@@ -252,6 +278,14 @@ def _changed_relationship(
     if destinations["added"]:
         expansion_reasons.append("destinations_added")
 
+    crossings = [
+        crossing.as_dict()
+        for crossing in classify_boundary_crossings(
+            before_relationship,
+            after_relationship,
+        )
+    ]
+
     return {
         "relationship_id": after["relationship_id"],
         "agent": after["agent"],
@@ -283,8 +317,46 @@ def _changed_relationship(
             "after": after.get("resolution"),
         },
         "expansion_reasons": expansion_reasons,
+        "trust_boundaries": {
+            "before": _boundary_classification(before_relationship),
+            "after": _boundary_classification(after_relationship),
+        },
+        "trust_boundary_crossings": crossings,
         "before": before,
         "after": after,
+    }
+
+
+def _crossing_summary(
+    changed: list[dict[str, Any]],
+) -> dict[str, Any]:
+    crossings = [
+        crossing
+        for item in changed
+        for crossing in item.get("trust_boundary_crossings", [])
+    ]
+    expanded_by_family = Counter(
+        crossing["family"]
+        for crossing in crossings
+        if crossing["direction"] == "expanded"
+    )
+    weakened_by_family = Counter(
+        crossing["family"]
+        for crossing in crossings
+        if crossing["direction"] == "weakened"
+    )
+    return {
+        "trust_boundary_crossings": len(crossings),
+        "expanded_or_weakened_boundary_crossings": sum(
+            crossing["direction"] in {"expanded", "weakened"}
+            for crossing in crossings
+        ),
+        "expanded_boundary_crossings_by_family": dict(
+            sorted(expanded_by_family.items())
+        ),
+        "weakened_boundary_crossings_by_family": dict(
+            sorted(weakened_by_family.items())
+        ),
     }
 
 
@@ -297,6 +369,8 @@ def compare_effective_authority(
     """Compare stable effective-authority relationships across two scans."""
     base = _relationship_index(base_graph, base_root)
     head = _relationship_index(head_graph, head_root)
+    base_typed = _typed_relationship_index(base_graph)
+    head_typed = _typed_relationship_index(head_graph)
 
     added_ids = sorted(set(head) - set(base))
     removed_ids = sorted(set(base) - set(head))
@@ -307,6 +381,7 @@ def compare_effective_authority(
             **head[item],
             "source_context": _source_context(head[item]),
             "expansion_reasons": ["new_relationship"],
+            "trust_boundaries": _boundary_classification(head_typed[item]),
         }
         for item in added_ids
     ]
@@ -314,11 +389,17 @@ def compare_effective_authority(
         {
             **base[item],
             "source_context": _source_context(base[item]),
+            "trust_boundaries": _boundary_classification(base_typed[item]),
         }
         for item in removed_ids
     ]
     changed = [
-        _changed_relationship(base[item], head[item])
+        _changed_relationship(
+            base[item],
+            head[item],
+            base_typed[item],
+            head_typed[item],
+        )
         for item in common_ids
         if _semantic_relationship(base[item]) != _semantic_relationship(head[item])
     ]
@@ -330,6 +411,7 @@ def compare_effective_authority(
             if item["expansion_reasons"]
         ],
     ]
+    crossing_summary = _crossing_summary(changed)
 
     return {
         "schema_version": AUTHORITY_DELTA_SCHEMA_VERSION,
@@ -338,6 +420,7 @@ def compare_effective_authority(
             "removed_relationships": len(removed),
             "changed_relationships": len(changed),
             "expanded_relationships": len(expansions),
+            **crossing_summary,
         },
         "added": added,
         "removed": removed,
