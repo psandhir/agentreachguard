@@ -242,6 +242,9 @@ def scan_target(target: Path) -> dict:
         ),
         "flow_execution_contexts": dict(flow_execution_contexts),
         "flow_agent_reachability": dict(flow_agent_reachability),
+        "flow_unknown_reachability_by_basis": dict(
+            flow_resolution.get("unknown_reachability_by_basis", {}) or {}
+        ),
         "flow_pairs": dict(flow_pairs),
         "attack_paths": len(graph.attack_paths),
         "static_dataflow_attack_paths": attack_basis.get("static_dataflow", 0),
@@ -252,6 +255,13 @@ def scan_target(target: Path) -> dict:
         "adg_edge_kinds": (adg.get("summary") or {}).get("edge_kinds", {}),
         "bound_mcp_references": sum(len(agent.mcp_servers) for agent in graph.agents),
         "unbound_mcp_references": len(graph.unbound_mcp_servers),
+        "mcp_unbound_by_reason": dict(
+            ((graph.coverage.resolution or {}).get("mcp", {}) or {}).get(
+                "unbound_by_reason",
+                {},
+            )
+            or {}
+        ),
         "mcp_agent_invokes": mcp_agent_invokes,
         "mcp_identity_edges": mcp_identity_edges,
         "approval_control_nodes": len(approval_nodes),
@@ -447,6 +457,14 @@ def build_summary(results: list[dict]) -> dict:
             scanned,
             "flow_agent_reachability",
         ),
+        "flow_unknown_reachability_by_basis": _merge_counter(
+            scanned,
+            "flow_unknown_reachability_by_basis",
+        ),
+        "mcp_unbound_by_reason": _merge_counter(
+            scanned,
+            "mcp_unbound_by_reason",
+        ),
         "owasp_agentic": _aggregate_owasp(scanned),
     }
 
@@ -514,6 +532,20 @@ def render_markdown(report: dict) -> str:
     for key, value in sorted(summary["flow_agent_reachability"].items()):
         lines.append(f"- {key}: {value}")
     if not summary["flow_agent_reachability"]:
+        lines.append("- none")
+
+    lines += ["", "## Unknown flow reachability by basis", ""]
+    for key, value in sorted(
+        summary["flow_unknown_reachability_by_basis"].items()
+    ):
+        lines.append(f"- {key}: {value}")
+    if not summary["flow_unknown_reachability_by_basis"]:
+        lines.append("- none")
+
+    lines += ["", "## Unbound MCP by reason", ""]
+    for key, value in sorted(summary["mcp_unbound_by_reason"].items()):
+        lines.append(f"- {key}: {value}")
+    if not summary["mcp_unbound_by_reason"]:
         lines.append("- none")
 
     lines += ["", "## OWASP Agentic Top 10", ""]

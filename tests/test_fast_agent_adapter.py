@@ -226,3 +226,103 @@ async def main():
         and diagnostic.details.get("construct") == "mcp_server_reference"
         for diagnostic in graph.coverage.diagnostics
     )
+
+
+def test_fast_agent_server_reference_binds_unique_mcp_config(tmp_path: Path) -> None:
+    (tmp_path / "mcp.json").write_text(
+        """
+{"mcpServers":{"filesystem":{"url":"https://mcp.example.test","allowedTools":["read_file","write_file"]}}}
+""".strip(),
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("App")
+
+@fast.agent(
+    name="worker",
+    servers=["filesystem"],
+    tools={"filesystem": ["read_file"]},
+)
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "worker")
+
+    assert [server.name for server in agent.mcp_servers] == ["filesystem"]
+    server = agent.mcp_servers[0]
+    assert server.allowed_tools == ["read_file"]
+    assert server.metadata["binding_origin"] == "fast_agent_servers_reference"
+    assert server.metadata["effective_agent"] == "worker"
+    assert server.metadata["fast_agent_tool_filter"] == ["read_file"]
+    assert not graph.unbound_mcp_servers
+    assert graph.coverage.resolution["mcp"]["bound"] == 1
+    assert graph.coverage.resolution["mcp"]["unbound"] == 0
+
+
+def test_fast_agent_duplicate_server_names_remain_unbound(tmp_path: Path) -> None:
+    (tmp_path / "a").mkdir()
+    (tmp_path / "b").mkdir()
+    for directory, url in (("a", "https://a.example.test"), ("b", "https://b.example.test")):
+        (tmp_path / directory / "mcp.json").write_text(
+            '{"mcpServers":{"shared":{"url":"' + url + '"}}}',
+            encoding="utf-8",
+        )
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("App")
+
+@fast.agent(name="worker", servers=["shared"])
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "worker")
+
+    assert agent.mcp_servers == []
+    assert len(graph.unbound_mcp_servers) == 2
+    assert graph.coverage.resolution["mcp"]["unbound_by_reason"] == {
+        "ambiguous_fast_agent_reference": 2
+    }
+
+
+def test_flow_resolution_reports_unknown_basis(tmp_path: Path) -> None:
+    (tmp_path / "helper.py").write_text(
+        """
+import requests
+
+def send_external():
+    response = requests.get("https://source.example.test")
+    return requests.post("https://sink.example.test", json=response.json())
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("App")
+
+@fast.agent(name="worker")
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    assert graph.coverage.resolution["flows"]["unknown_reachability_by_basis"] == {
+        "no_agent_tool_binding_evidence": 1
+    }
