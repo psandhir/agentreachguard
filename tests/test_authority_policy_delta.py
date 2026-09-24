@@ -286,3 +286,62 @@ def test_security_delta_renders_introduced_contract_violation(
     assert "### Introduced Authority Contract violations" in markdown
     assert "clause `allow.capabilities`" in markdown
     assert "reason `capabilities_outside_allowlist`" in markdown
+
+
+
+def test_policy_delta_normalizes_nested_explanation_locations(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-explain"
+    head_root = tmp_path / "head-explain"
+    base_contract = AuthorityContract(
+        allow=AuthorityScope(capabilities={"data.read"}),
+        location=SourceLocation(
+            base_root / "horustrace.manifest.yaml",
+            line=5,
+            column=7,
+        ),
+        clause_locations={
+            "allow.capabilities": SourceLocation(
+                base_root / "horustrace.manifest.yaml",
+                line=8,
+                column=25,
+            )
+        },
+    )
+    head_contract = AuthorityContract(
+        allow=AuthorityScope(capabilities={"data.read"}),
+        location=SourceLocation(
+            head_root / "horustrace.manifest.yaml",
+            line=5,
+            column=7,
+        ),
+        clause_locations={
+            "allow.capabilities": SourceLocation(
+                head_root / "horustrace.manifest.yaml",
+                line=8,
+                column=25,
+            )
+        },
+    )
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=base_contract,
+    )
+    head = _graph(
+        head_root,
+        capabilities={"external.write"},
+        contract=head_contract,
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+    violation = delta["introduced_violations"][0]
+
+    assert violation["contract_location"]["path"] == "horustrace.manifest.yaml"
+    assert violation["relationship_location"]["path"] == "agent.py"
+    assert (
+        violation["explanation"]["policy"]["location"]["path"]
+        == "horustrace.manifest.yaml"
+    )
+    assert violation["explanation"]["authority"]["location"]["path"] == "agent.py"

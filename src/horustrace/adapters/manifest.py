@@ -46,10 +46,8 @@ class _ManifestLoader(yaml.SafeLoader):
         return super().construct_mapping(node, deep=deep)
 
 
-def _validate_manifest(raw: object, path: Path, text: str) -> None:
-    from horustrace.manifest_schema import validate
-
-    positions = {}
+def _manifest_positions(path: Path, text: str) -> dict[str, object]:
+    positions: dict[str, object] = {}
 
     def visit(node, field="document", ancestors=frozenset()):
         if id(node) in ancestors:
@@ -67,6 +65,32 @@ def _validate_manifest(raw: object, path: Path, text: str) -> None:
     node = yaml.compose(text, Loader=_ManifestLoader)
     if node is not None:
         visit(node)
+    return positions
+
+
+def _source_location(
+    path: Path,
+    positions: dict[str, object],
+    field: str,
+) -> SourceLocation | None:
+    mark = positions.get(field)
+    if mark is None:
+        return None
+    return SourceLocation(
+        path=path,
+        line=mark.line + 1,
+        column=mark.column + 1,
+    )
+
+
+def _validate_manifest(
+    raw: object,
+    path: Path,
+    text: str,
+) -> dict[str, object]:
+    from horustrace.manifest_schema import validate
+
+    positions = _manifest_positions(path, text)
 
     def fail(field, message):
         mark = positions.get(field)
@@ -74,6 +98,7 @@ def _validate_manifest(raw: object, path: Path, text: str) -> None:
         raise ManifestError(f"{path}{position}: invalid manifest: {field} {message}")
 
     validate(raw, fail)
+    return positions
 
 
 def _strings(value) -> list[str]:
@@ -115,26 +140,84 @@ def _authority_scope(raw: object) -> AuthorityScope:
     )
 
 
-def _authority_contract(raw: object, path: Path) -> AuthorityContract | None:
+def _authority_contract(
+    raw: object,
+    path: Path,
+    positions: dict[str, object],
+    field_prefix: str,
+) -> AuthorityContract | None:
     if raw is None:
         return None
     if not isinstance(raw, dict):
         return None
-    mcp_tools = [
-        MCPToolContract(
-            server=str(item.get("server")),
-            allowed_tools=set(_strings(item.get("allow"))),
-            denied_tools=set(_strings(item.get("deny"))),
+
+    clause_locations: dict[str, SourceLocation] = {}
+    for mode in ("allow", "deny"):
+        scope = raw.get(mode)
+        if not isinstance(scope, dict):
+            continue
+        for dimension in (
+            "capabilities",
+            "identities",
+            "resources",
+            "destinations",
+            "iam_roles",
+            "permissions",
+            "oauth_scopes",
+            "mcp_servers",
+        ):
+            if dimension not in scope:
+                continue
+            location = _source_location(
+                path,
+                positions,
+                f"{field_prefix}.{mode}.{dimension}",
+            )
+            if location is not None:
+                clause_locations[f"{mode}.{dimension}"] = location
+
+    if "require_approval_for" in raw:
+        location = _source_location(
+            path,
+            positions,
+            f"{field_prefix}.require_approval_for",
         )
-        for item in raw.get("mcp_tools", []) or []
-        if isinstance(item, dict)
-    ]
+        if location is not None:
+            clause_locations["require_approval_for"] = location
+
+    mcp_tools = []
+    for index, item in enumerate(raw.get("mcp_tools", []) or []):
+        if not isinstance(item, dict):
+            continue
+        server = str(item.get("server"))
+        mcp_tools.append(
+            MCPToolContract(
+                server=server,
+                allowed_tools=set(_strings(item.get("allow"))),
+                denied_tools=set(_strings(item.get("deny"))),
+            )
+        )
+        for mode in ("allow", "deny"):
+            if mode not in item:
+                continue
+            location = _source_location(
+                path,
+                positions,
+                f"{field_prefix}.mcp_tools[{index}].{mode}",
+            )
+            if location is not None:
+                clause_locations[f"mcp_tools.{server}.{mode}"] = location
+
     return AuthorityContract(
         allow=_authority_scope(raw.get("allow")),
         deny=_authority_scope(raw.get("deny")),
         require_approval_for=set(_strings(raw.get("require_approval_for"))),
         mcp_tools=sorted(mcp_tools, key=lambda item: item.server),
-        location=SourceLocation(path=path),
+        location=(
+            _source_location(path, positions, field_prefix)
+            or SourceLocation(path=path)
+        ),
+        clause_locations=clause_locations,
     )
 
 
@@ -152,19 +235,26 @@ def scan_manifest(path: Path) -> Graph:
         raise ManifestError(f"{path}: manifest is not valid UTF-8") from exc
     except OSError as exc:
         raise ManifestError(f"{path}: cannot read manifest") from exc
-    _validate_manifest(raw, path, text)
+    positions = _validate_manifest(raw, path, text)
 
     for raw_identity in raw.get("identities", []) or []:
         if isinstance(raw_identity, dict):
             graph.identities.append(_identity(raw_identity, path))
 
     agent_items = raw.get("agents")
+    agent_prefixes: list[str] = []
     if not agent_items and raw.get("agent"):
         agent_items = [raw.get("agent")]
+        agent_prefixes = ["agent"]
+    elif isinstance(agent_items, list):
+        agent_prefixes = [
+            f"agents[{index}]"
+            for index in range(len(agent_items))
+        ]
     if not isinstance(agent_items, list):
         return graph
 
-    for item in agent_items:
+    for item, agent_prefix in zip(agent_items, agent_prefixes, strict=True):
         if not isinstance(item, dict):
             continue
         agent = Agent(name=str(item.get("name") or "unnamed-agent"), location=SourceLocation(path=path))
@@ -297,7 +387,12 @@ def scan_manifest(path: Path) -> Graph:
                 max_privileged_capabilities=int(policy_raw["max_privileged_capabilities"])
                 if isinstance(policy_raw.get("max_privileged_capabilities"), int)
                 else None,
-                authority=_authority_contract(policy_raw.get("authority"), path),
+                authority=_authority_contract(
+                    policy_raw.get("authority"),
+                    path,
+                    positions,
+                    f"{agent_prefix}.policy.authority",
+                ),
             )
         graph.agents.append(agent)
 

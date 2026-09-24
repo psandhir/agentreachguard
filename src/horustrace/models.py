@@ -217,6 +217,7 @@ class AuthorityContract:
     require_approval_for: set[str] = field(default_factory=set)
     mcp_tools: list[MCPToolContract] = field(default_factory=list)
     location: SourceLocation | None = None
+    clause_locations: dict[str, SourceLocation] = field(default_factory=dict)
     schema_version: int = 1
 
     def as_dict(self) -> dict[str, Any]:
@@ -238,6 +239,14 @@ class AuthorityContract:
                 if self.location
                 else None
             ),
+            "clause_locations": {
+                key: {
+                    "path": str(value.path),
+                    "line": value.line,
+                    "column": value.column,
+                }
+                for key, value in sorted(self.clause_locations.items())
+            },
         }
 
 

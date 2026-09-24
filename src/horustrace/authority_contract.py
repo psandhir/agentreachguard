@@ -62,6 +62,7 @@ class AuthorityContractResult:
     observed: tuple[str, ...]
     relationship_location: dict[str, Any] | None
     contract_location: dict[str, Any] | None
+    explanation: dict[str, Any]
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -78,16 +79,76 @@ class AuthorityContractResult:
             "runtime_effectiveness": "not_verified",
             "relationship_location": self.relationship_location,
             "contract_location": self.contract_location,
+            "explanation": self.explanation,
         }
 
 
-def _contract_location(contract: AuthorityContract) -> dict[str, Any] | None:
-    if contract.location is None:
+def _location_dict(location: Any) -> dict[str, Any] | None:
+    if location is None:
         return None
     return {
-        "path": str(contract.location.path),
-        "line": contract.location.line,
-        "column": contract.location.column,
+        "path": str(location.path),
+        "line": location.line,
+        "column": location.column,
+    }
+
+
+def _contract_location(
+    contract: AuthorityContract,
+    clause: str,
+) -> dict[str, Any] | None:
+    exact = contract.clause_locations.get(clause)
+    return _location_dict(exact or contract.location)
+
+
+def _sorted_documents(values: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(
+        (dict(value) for value in values),
+        key=lambda item: json.dumps(item, sort_keys=True, default=str),
+    )
+
+
+def _explanation(
+    relationship: EffectiveAuthorityRelationship,
+    contract: AuthorityContract,
+    *,
+    clause: str,
+    dimension: str,
+    expected: tuple[str, ...],
+    observed: tuple[str, ...],
+) -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "policy": {
+            "clause": clause,
+            "dimension": dimension,
+            "location": _contract_location(contract, clause),
+            "expected": list(expected),
+        },
+        "authority": {
+            "relationship_id": relationship.relationship_id,
+            "agent": relationship.agent,
+            "target": {
+                "kind": relationship.target_kind,
+                "name": relationship.target_name,
+            },
+            "location": relationship.location,
+            "resolution": relationship.resolution,
+            "dimensions": dict(sorted(relationship.dimensions.items())),
+            "observed": list(observed),
+        },
+        "identity": dict(relationship.identity) if relationship.identity else None,
+        "control": dict(relationship.approval),
+        "resources": _sorted_documents(relationship.resources),
+        "destinations": _sorted_documents(relationship.destinations),
+        "mcp_tool_scope": (
+            dict(relationship.tool_scope)
+            if relationship.tool_scope is not None
+            else None
+        ),
+        "source_evidence": _sorted_documents(relationship.evidence),
+        "unresolved_dimensions": sorted(relationship.unresolved),
+        "runtime_effectiveness": "not_verified",
     }
 
 
@@ -122,7 +183,15 @@ def _result(
         expected=expected_values,
         observed=observed_values,
         relationship_location=relationship.location,
-        contract_location=_contract_location(contract),
+        contract_location=_contract_location(contract, clause),
+        explanation=_explanation(
+            relationship,
+            contract,
+            clause=clause,
+            dimension=dimension,
+            expected=expected_values,
+            observed=observed_values,
+        ),
     )
 
 
