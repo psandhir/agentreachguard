@@ -16,10 +16,10 @@ security layers:
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.5.0**. Findings and authority relationships are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.6.0**. Findings, effective-authority relationships and Authority Contract assessments are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
 
-Release notes: [`docs/releases/v0.5.0.md`](docs/releases/v0.5.0.md)  
-Frozen-90 validation baseline: [`docs/research/frozen-90-v0.5.0-baseline.md`](docs/research/frozen-90-v0.5.0-baseline.md)
+Release notes: [`docs/releases/v0.6.0.md`](docs/releases/v0.6.0.md)  
+Frozen-90 validation baseline: [`docs/research/frozen-90-v0.6.0-baseline.md`](docs/research/frozen-90-v0.6.0-baseline.md)
 
 ## Security model
 
@@ -36,6 +36,26 @@ Which end-to-end attack paths exist?
 ```
 
 The scanner is **static-first and local-first**. It does not import target Python modules and does not launch MCP servers or agents.
+
+## Authority policy and pull-request enforcement
+
+v0.6 adds a repository-local **Authority Contract** under `policy.authority`. A contract can constrain capabilities, identities, IAM roles/permissions, OAuth scopes, resources, destinations, MCP servers and per-server MCP tool scope, and can require approval for selected capabilities.
+
+Contract evaluation produces three explicit outcomes:
+
+- `compliant` — supported static evidence satisfies the contract;
+- `violation` — supported static evidence conflicts with the contract;
+- `unresolved` — available evidence is insufficient to prove either outcome.
+
+Unknown evidence is never silently treated as compliant.
+
+`horustrace diff` compares both effective authority and Authority Contract posture. The optional policy gate fails on newly introduced violations **or on contract weakening**, including removed deny rules, widened allowlists, removed approval requirements and widened MCP tool scope:
+
+```bash
+horustrace diff BASE..HEAD --repo . --fail-on-policy-violation
+```
+
+The first-party GitHub Action exposes the same opt-in `fail-on-policy-violation` behavior. Policy results include precise manifest clause provenance and a structured explanation chain back to the effective-authority and source evidence that informed the assessment.
 
 ## Current framework/input coverage
 
@@ -207,7 +227,7 @@ When the same server name exists in multiple configurations, the nearest enclosi
 FastAgent configuration to the agent source file is preferred; otherwise binding
 requires repository-wide uniqueness. Per-agent FastAgent
 `tools={server: [...]}` filters are projected onto the bound relationship.
-Ambiguous server names remain unbound.
+Ambiguous server names remain unresolved and are not promoted into effective authority.
 
 Coverage resolution also exposes reason breakdowns for unbound MCP servers and
 unknown flow reachability so research runs can distinguish missing evidence from
