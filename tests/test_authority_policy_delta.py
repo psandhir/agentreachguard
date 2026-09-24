@@ -282,7 +282,12 @@ def test_security_delta_renders_introduced_contract_violation(
     assert "clause=allow.capabilities" in console
     assert "reason=capabilities_outside_allowlist" in console
 
+    assert report["security_review"]["summary"]["items"] == 1
+    assert report["security_review"]["summary"]["items_with_policy_violations"] == 1
+
     markdown = render_markdown(report)
+    assert "## Security impact review" in markdown
+    assert "Authority Contract: **VIOLATION**" in markdown
     assert "Introduced Authority Contract violations | 1" in markdown
     assert "### Introduced Authority Contract violations" in markdown
     assert "clause `allow.capabilities`" in markdown

@@ -12,6 +12,7 @@ from horustrace.config import load_config
 from horustrace.git_snapshot import GitSnapshot, materialize_git_ref
 from horustrace.models import Finding, Graph, Severity
 from horustrace.scanner import scan
+from horustrace.security_review import build_security_review
 from horustrace.source_context import (
     classify_source_context,
     is_non_runtime_source_context,
@@ -238,6 +239,7 @@ def compare_scans(
         head_root,
         authority_delta,
     )
+    security_review = build_security_review(authority_delta, authority_policy_delta)
 
     introduced_by_severity = Counter(item["severity"] for item in introduced)
     high_or_critical = sum(
@@ -333,6 +335,7 @@ def compare_scans(
         },
         "effective_authority_delta": authority_delta,
         "authority_policy_delta": authority_policy_delta,
+        "security_review": security_review,
         "context_summary": {
             "introduced_findings": _context_counts(introduced),
             "worsened_findings": _context_counts(
@@ -895,6 +898,40 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"| Introduced unresolved contract assessments | {summary['introduced_policy_unresolved']} |",
         ]
     )
+
+    review = report.get("security_review", {"items": []})
+    if review.get("items"):
+        lines.extend(["", "## Security impact review"])
+        for item in review["items"]:
+            if item["kind"] == "policy_weakening":
+                weakening = item["policy_weakening"]
+                lines.append(
+                    f"- **{item.get('agent') or '<unknown>'}**: Authority Contract "
+                    f"weakened — clause `{weakening.get('clause')}`, "
+                    f"change `{weakening.get('change')}`."
+                )
+                continue
+            target = item.get("target") or {}
+            lines.append(
+                f"- **{item.get('agent') or '<unknown>'} → "
+                f"{target.get('kind') or 'target'}:{target.get('name') or '<unknown>'}**"
+            )
+            reasons = item.get("expansion_reasons") or []
+            if reasons:
+                formatted_reasons = ", ".join(f"`{reason}`" for reason in reasons)
+                lines.append(f"  - Authority expansion: {formatted_reasons}")
+            for crossing in item.get("trust_boundary_crossings") or []:
+                lines.append(
+                    f"  - Trust boundary: **{crossing.get('direction')} "
+                    f"{crossing.get('family')}** — `{crossing.get('before')}` → "
+                    f"`{crossing.get('after')}`"
+                )
+            for violation in item.get("policy_violations") or []:
+                lines.append(
+                    f"  - Authority Contract: **VIOLATION** — clause "
+                    f"`{violation.get('clause')}`, reason `{violation.get('reason')}`"
+                )
+            lines.append("  - Runtime effectiveness: `not_verified`")
 
     _render_markdown_policy_delta(lines, report)
 
