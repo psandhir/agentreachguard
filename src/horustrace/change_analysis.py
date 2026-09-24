@@ -404,6 +404,18 @@ def _expansion_added_capabilities(item: dict[str, Any]) -> list[str]:
     return []
 
 
+def _location_label(location: dict[str, Any] | None) -> str:
+    if not location:
+        return "<unknown>"
+    path = location.get("path") or "<unknown>"
+    line = location.get("line")
+    column = location.get("column")
+    suffix = f":{line}" if line else ""
+    if line and column:
+        suffix += f":{column}"
+    return f"{path}{suffix}"
+
+
 def render_console(report: dict[str, Any]) -> str:
     summary = report["summary"]
     lines = [
@@ -460,9 +472,12 @@ def render_console(report: dict[str, Any]) -> str:
         lines.extend(["", "Introduced Authority Contract violations"])
         for item in introduced_policy[:_MAX_CONSOLE_ITEMS]:
             observed = ",".join(item.get("observed") or []) or "<none>"
+            policy_location = _location_label(item.get("contract_location"))
+            authority_location = _location_label(item.get("relationship_location"))
             lines.append(
                 f"  ! {_relationship_label(item)} clause={item['clause']} "
-                f"reason={item['reason']} observed={observed}"
+                f"reason={item['reason']} observed={observed} "
+                f"policy={policy_location} authority={authority_location}"
             )
         if len(introduced_policy) > _MAX_CONSOLE_ITEMS:
             lines.append(
@@ -473,9 +488,12 @@ def render_console(report: dict[str, Any]) -> str:
     if introduced_unresolved:
         lines.extend(["", "Introduced unresolved Authority Contract assessments"])
         for item in introduced_unresolved[:_MAX_CONSOLE_ITEMS]:
+            policy_location = _location_label(item.get("contract_location"))
+            authority_location = _location_label(item.get("relationship_location"))
             lines.append(
                 f"  ? {_relationship_label(item)} clause={item['clause']} "
-                f"reason={item['reason']}"
+                f"reason={item['reason']} policy={policy_location} "
+                f"authority={authority_location}"
             )
         if len(introduced_unresolved) > _MAX_CONSOLE_ITEMS:
             lines.append(
@@ -688,20 +706,24 @@ def _render_markdown_policy_delta(
             expected = ", ".join(item.get("expected") or []) or "<none>"
             observed = ", ".join(item.get("observed") or []) or "<none>"
             context = item.get("source_context") or "unknown"
+            policy_location = _location_label(item.get("contract_location"))
+            authority_location = _location_label(item.get("relationship_location"))
             lines.append(
                 f"- **Policy violation** `{_relationship_label(item)}` — "
-                f"clause `{item['clause']}`; reason `{item['reason']}`; "
-                f"expected `{expected}`; observed `{observed}` "
-                f"(context `{context}`)"
+                f"clause `{item['clause']}` at `{policy_location}`; "
+                f"reason `{item['reason']}`; expected `{expected}`; "
+                f"observed `{observed}`; authority source "
+                f"`{authority_location}` (context `{context}`)"
             )
     if resolved:
         lines.extend(["", "### Resolved Authority Contract violations", ""])
         for item in resolved[:_MAX_CONSOLE_ITEMS]:
             context = item.get("source_context") or "unknown"
+            policy_location = _location_label(item.get("contract_location"))
             lines.append(
                 f"- **Resolved policy violation** `{_relationship_label(item)}` — "
-                f"clause `{item['clause']}`; reason `{item['reason']}` "
-                f"(context `{context}`)"
+                f"clause `{item['clause']}` at `{policy_location}`; "
+                f"reason `{item['reason']}` (context `{context}`)"
             )
     if unresolved:
         lines.extend(["", "### Introduced unresolved Authority Contract assessments", ""])
@@ -710,10 +732,13 @@ def _render_markdown_policy_delta(
         )
         for item in unresolved[:_MAX_CONSOLE_ITEMS]:
             context = item.get("source_context") or "unknown"
+            policy_location = _location_label(item.get("contract_location"))
+            authority_location = _location_label(item.get("relationship_location"))
             lines.append(
                 f"- **Unresolved** `{_relationship_label(item)}` — "
-                f"clause `{item['clause']}`; reason `{item['reason']}` "
-                f"(context `{context}`)"
+                f"clause `{item['clause']}` at `{policy_location}`; "
+                f"reason `{item['reason']}`; authority source "
+                f"`{authority_location}` (context `{context}`)"
             )
 
 
