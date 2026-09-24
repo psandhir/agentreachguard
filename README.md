@@ -131,14 +131,20 @@ horustrace owasp .
 horustrace owasp . --format json --output owasp-agentic.json
 ```
 
-The OWASP report deliberately distinguishes three states:
+The OWASP report preserves detector-level status while adding a runtime-first view:
 
-- `FINDING` — one or more mapped HorusTrace rules fired.
+- `FINDING` — one or more mapped findings are classified as runtime application source.
+- `NO RUNTIME FINDINGS` — mapped findings exist, but only outside runtime or with unknown source context.
 - `NO MAPPED FINDINGS` — enabled mapped detectors exist, but none fired in this scan.
 - `NOT ASSESSED` — HorusTrace currently has no enabled mapped detector for that category.
 
+Each category includes total and runtime finding counts, a source-context breakdown
+(`runtime`, `test`, `example`, `tutorial`, `notebook`, CLI/support,
+template-generated and `unknown`), triggered rules, and affected agents. Unknown
+source context is reported separately rather than treated as non-runtime.
+
 This is detector-level coverage, not a claim that an OWASP category is fully mitigated
-or absent at runtime. Normal JSON and SARIF scan output also includes an
+or absent at runtime. Normal JSON and SARIF scan output also includes the enriched
 `owasp_agentic` summary, and console findings show their mapped ASI identifiers.
 
 Inspect effective MCP authority reconstructed from static evidence:
