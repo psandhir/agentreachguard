@@ -175,3 +175,27 @@ def test_cap005_uses_authority_relationship_evidence(tmp_path: Path) -> None:
         for item in finding.evidence
     )
     assert finding.authority_relationship_id is not None
+
+
+def test_net002_not_emitted_for_fixed_managed_service_semantics(tmp_path: Path) -> None:
+    location = SourceLocation(tmp_path / "agent.py", line=11)
+    graph = Graph(
+        agents=[
+            Agent(
+                name="managed-search",
+                tools=[
+                    Tool(
+                        name="google_search",
+                        kind="function",
+                        capabilities={"network.external"},
+                        location=location,
+                        metadata={"network_semantics": "fixed_managed_service"},
+                    )
+                ],
+                location=location,
+            )
+        ]
+    )
+    graph.adg = build_adg(graph, tmp_path)
+
+    assert not any(item.rule_id == "NET002" for item in evaluate(graph))
