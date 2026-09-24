@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Upgrade Authority Delta to schema v2 with additive trust-boundary classifications and before/after crossings in JSON, console, and Markdown diff output while preserving v1 delta fields.
 - Add Trust Boundary Classification v1 for mutation, network, identity, approval/control and MCP scope, including evidence-backed before/after boundary crossings without numeric risk scoring.
 - Evaluate Effective Authority Relationship v1 against Authority Contract v1 with explicit compliant/violation/unresolved outcomes, stable violation IDs, approval semantics and MCP tool-scope enforcement.
 - Add Authority Contract v1 under `policy.authority`, with normalized allow/deny authority dimensions, approval requirements and per-server MCP tool scope while preserving existing manifest-policy semantics.
