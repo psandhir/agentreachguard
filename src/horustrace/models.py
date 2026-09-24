@@ -457,6 +457,7 @@ class Finding:
     fingerprint: str | None = None
     confidence: Confidence | None = None
     source_context: str = "unknown"
+    authority_relationship_id: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         from horustrace.rule_registry import get_rule_metadata

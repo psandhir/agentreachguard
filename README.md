@@ -167,6 +167,13 @@ The existing `mcp_authority` block in normal JSON scan output remains available 
 backward compatibility; the generic relationship model is exposed separately as
 `effective_authority`.
 
+Authority-aware findings link supported rule results back to the stable relationship
+that informed them through `authority_relationship_id`. The first consumers are
+`AGT040`, `AGT032`, `NET002`, and `CAP005`. When relationship evidence is
+unavailable or incomplete, HorusTrace preserves the existing conservative rule fallback
+rather than inferring a missing identity, approval, resource, tool catalogue, or
+destination.
+
 ### Declared IAM authority from a Terraform repository
 
 When application identities and IAM bindings live in separate repositories, check out

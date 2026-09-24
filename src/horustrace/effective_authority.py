@@ -153,12 +153,21 @@ def _tool_relationship(
     tool: Tool,
 ) -> EffectiveAuthorityRelationship:
     identity = _identity(graph, agent, tool.identity)
+    callbacks = agent.metadata.get("callbacks") or {}
+    inherited_control = bool(agent.metadata.get("approval_plugin")) or bool(
+        callbacks.get("before_tool_callback")
+    )
+    approval_resolved = (
+        tool.approval is not None
+        or tool.guardrails
+        or inherited_control
+    )
     unresolved: list[str] = []
     dimensions = {
         "target": "resolved",
         "capabilities": "resolved" if tool.capabilities else "unknown",
         "identity": "resolved" if identity is not None else "unknown",
-        "approval": "resolved" if tool.approval is not None or tool.guardrails else "unknown",
+        "approval": "resolved" if approval_resolved else "unknown",
         "resources": "resolved" if tool.resources else "unknown",
         "destinations": "resolved" if tool.destinations else "unknown",
     }
@@ -166,7 +175,7 @@ def _tool_relationship(
         unresolved.append("capabilities")
     if identity is None:
         unresolved.append("identity")
-    if tool.approval is None and not tool.guardrails:
+    if not approval_resolved:
         unresolved.append("approval")
     if not tool.resources:
         unresolved.append("resources")
@@ -209,14 +218,25 @@ def _tool_relationship(
         approval={
             "required": tool.approval,
             "guardrails": tool.guardrails,
-            "mechanism": tool.metadata.get("approval_mechanism"),
+            "inherited_control": inherited_control,
+            "mechanism": (
+                tool.metadata.get("approval_mechanism")
+                or (
+                    "agent_before_tool_control"
+                    if inherited_control
+                    else None
+                )
+            ),
         },
         tool_scope=None,
         resources=tuple(_resource(resource) for resource in tool.resources),
         destinations=destinations,
         semantics={
             "mutation": tool.metadata.get("mutation_semantics"),
-            "network": tool.metadata.get("network_semantics"),
+            "network": (
+                tool.metadata.get("network_semantics")
+                or tool.metadata.get("network_scope")
+            ),
             "sensitive_write_domain": tool.metadata.get("sensitive_write_domain"),
         },
         dimensions=dimensions,

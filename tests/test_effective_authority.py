@@ -101,6 +101,7 @@ def test_effective_authority_reconstructs_direct_tool_relationship(tmp_path: Pat
     assert relationship["approval"] == {
         "required": True,
         "guardrails": False,
+        "inherited_control": False,
         "mechanism": "human_confirmation",
     }
     assert relationship["resources"][0]["selector"] == "support/*"
@@ -181,3 +182,32 @@ def test_effective_authority_report_summary_counts_relationship_types(tmp_path: 
     assert report["summary"]["relationships_with_identity"] == 2
     assert report["summary"]["relationships_with_approval_evidence"] == 2
     assert report["summary"]["relationships_with_destination_evidence"] == 2
+
+
+def test_effective_authority_includes_inherited_agent_tool_control(tmp_path: Path) -> None:
+    location = SourceLocation(tmp_path / "agent.py", line=4)
+    graph = Graph(
+        agents=[
+            Agent(
+                name="controlled",
+                tools=[
+                    Tool(
+                        name="write",
+                        kind="function",
+                        capabilities={"data.write"},
+                        location=location,
+                    )
+                ],
+                location=location,
+                metadata={"callbacks": {"before_tool_callback": "guard"}},
+            )
+        ]
+    )
+    graph.adg = build_adg(graph, tmp_path)
+
+    relationship = effective_authority_report(graph)["relationships"][0]
+
+    assert relationship["dimensions"]["approval"] == "resolved"
+    assert relationship["approval"]["inherited_control"] is True
+    assert relationship["approval"]["mechanism"] == "agent_before_tool_control"
+    assert "approval" not in relationship["unresolved"]
