@@ -17,12 +17,13 @@ from horustrace.change_analysis import build_git_diff
 from horustrace.change_analysis import render_console as render_diff_console
 from horustrace.change_analysis import render_markdown as render_diff_markdown
 from horustrace.config import ConfigError, load_config
+from horustrace.effective_authority import (
+    effective_authority_report,
+    render_effective_authority_console,
+)
 from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
-from horustrace.mcp_effective import (
-    effective_mcp_authority_report,
-    render_effective_mcp_authority_console,
-)
+from horustrace.mcp_effective import effective_mcp_authority_report
 from horustrace.models import Severity
 from horustrace.owasp import build_owasp_agentic_summary, render_owasp_agentic_console
 from horustrace.provenance import control_observations
@@ -337,11 +338,11 @@ def main(argv: list[str] | None = None) -> int:
             return 1
 
         if args.command == "authority":
-            report = effective_mcp_authority_report(graph)
+            report = effective_authority_report(graph)
             output = (
                 json.dumps(report, indent=2)
                 if args.format == "json"
-                else render_effective_mcp_authority_console(graph, target)
+                else render_effective_authority_console(graph, target)
             )
         elif args.command == "owasp":
             disabled_rules = graph.configuration_audit.get("disabled_rules", [])
@@ -461,6 +462,7 @@ def main(argv: list[str] | None = None) -> int:
                 "coverage": graph.coverage.as_dict(),
                 "control_observations": control_observations(graph),
                 "mcp_authority": effective_mcp_authority_report(graph),
+                "effective_authority": effective_authority_report(graph),
                 "owasp_agentic": build_owasp_agentic_summary(
                     findings,
                     disabled_rules=disabled_rules,

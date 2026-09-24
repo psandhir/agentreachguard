@@ -147,22 +147,25 @@ This is detector-level coverage, not a claim that an OWASP category is fully mit
 or absent at runtime. Normal JSON and SARIF scan output also includes the enriched
 `owasp_agentic` summary, and console findings show their mapped ASI identifiers.
 
-Inspect effective MCP authority reconstructed from static evidence:
+Inspect effective agent authority reconstructed from static evidence:
 
 ```bash
 horustrace authority .
-horustrace authority . --format json --output mcp-authority.json
+horustrace authority . --format json --output effective-authority.json
 ```
 
-The authority report answers which normalized agent is statically bound to each MCP
-server, the known positive/negative tool scope, authentication identity and credential
-source, fixed destination, and resource authority. Unknown remote tool catalogues,
-dynamic filters, authentication state, authentication mechanism, credential source, or
-destinations remain explicit in the `unresolved` list rather than being inferred.
+The authority report reconstructs normalized agent-to-tool and agent-to-MCP
+relationships, including capabilities, identity and credential evidence, approval,
+tool filters, resources, destinations, mutation/network semantics, and the ADG
+`INVOKES` evidence that supports the relationship. Every relationship reports
+`runtime_effectiveness: not_verified`.
 
-A relationship is marked `fully_resolved` only when every reported security dimension
-has static evidence. For authenticated MCP relationships this requires a concrete
-authentication mechanism, a resolved identity, and a known credential source.
+Each security dimension is explicitly marked as `resolved`, `partially_resolved`,
+or `unknown`. Missing identity, approval, resource, destination, or MCP tool-catalogue
+evidence remains in the relationship's `unresolved` list rather than being inferred.
+The existing `mcp_authority` block in normal JSON scan output remains available for
+backward compatibility; the generic relationship model is exposed separately as
+`effective_authority`.
 
 ### Declared IAM authority from a Terraform repository
 

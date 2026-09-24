@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add generic effective-authority reconstruction for normalized agent-to-tool and
+  agent-to-MCP relationships, with stable relationship IDs, explicit resolution
+  dimensions, ADG evidence, conservative unresolved fields, and
+  `runtime_effectiveness: not_verified`. Preserve the existing `mcp_authority`
+  JSON block while adding `effective_authority`.
 - Make OWASP Agentic reporting source-context aware with runtime-first status,
   per-category runtime/total counts, source-context breakdowns, affected-agent
   summaries, and frozen-corpus aggregation of affected/runtime-affected repositories.
