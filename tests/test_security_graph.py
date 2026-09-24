@@ -1,0 +1,78 @@
+import json
+from pathlib import Path
+
+from horustrace.cli import main
+from horustrace.scanner import scan
+from horustrace.security_graph import (
+    AGENT_SECURITY_GRAPH_MODEL,
+    build_agent_security_graph,
+)
+
+
+def _project(root: Path) -> None:
+    root.mkdir(parents=True, exist_ok=True)
+    (root / "agent.py").write_text(
+        """from agents import Agent, function_tool
+
+@function_tool
+def send_message(message: str) -> str:
+    return message
+
+agent = Agent(
+    name="support",
+    instructions="Help support users.",
+    tools=[send_message],
+)
+""",
+        encoding="utf-8",
+    )
+
+
+def test_security_graph_is_deterministic_and_workspace_portable(tmp_path: Path) -> None:
+    first_root = tmp_path / "first"
+    second_root = tmp_path / "second"
+    _project(first_root)
+    _project(second_root)
+
+    first_graph, _ = scan(first_root)
+    second_graph, _ = scan(second_root)
+    first = build_agent_security_graph(first_graph, first_root)
+    second = build_agent_security_graph(second_graph, second_root)
+
+    assert first.as_dict()["schema_version"] == 1
+    assert first.as_dict()["model"] == AGENT_SECURITY_GRAPH_MODEL
+    assert first.canonical_digest() == second.canonical_digest()
+    assert first.as_dict() == second.as_dict()
+
+    encoded = json.dumps(first.as_dict())
+    assert str(first_root) not in encoded
+    assert str(second_root) not in encoded
+
+
+def test_security_graph_co_locates_security_evidence(tmp_path: Path) -> None:
+    _project(tmp_path)
+    graph, _ = scan(tmp_path)
+
+    document = build_agent_security_graph(graph, tmp_path).as_dict()
+
+    assert document["topology"]["schema_version"] == 1
+    assert document["effective_authority"]["schema_version"] == 1
+    assert document["summary"]["topology_nodes"] >= 2
+    assert document["summary"]["authority_relationships"] >= 1
+    assert document["summary"]["flows"] == len(document["flows"])
+    assert document["summary"]["attack_paths"] == len(document["attack_paths"])
+    assert document["digest"].startswith("sha256:")
+    assert document["resolution"]["coverage_incomplete"] is graph.coverage.incomplete
+
+
+def test_security_graph_cli_writes_json(tmp_path: Path) -> None:
+    _project(tmp_path)
+    output = tmp_path / "asg.json"
+
+    assert main(["security-graph", str(tmp_path), "--output", str(output)]) == 0
+
+    document = json.loads(output.read_text(encoding="utf-8"))
+    assert document["schema_version"] == 1
+    assert document["model"] == AGENT_SECURITY_GRAPH_MODEL
+    assert document["root"] == "."
+    assert document["digest"].startswith("sha256:")
