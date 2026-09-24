@@ -232,13 +232,14 @@ def _relative(path: Path, root: Path) -> str:
         return path.name
 
 
-def _entrypoint_kind(info: _Callable) -> tuple[str, str]:
-    context = classify_source_context(info.path)
+def _entrypoint_kind(info: _Callable, root: Path) -> tuple[str, str]:
+    relative_path = Path(_relative(info.path, root))
+    context = classify_source_context(relative_path)
     if context in {"test", "example", "tutorial", "notebook", "template-generated"}:
         return context.replace("-", "_"), f"source_context:{context}"
 
-    lowered_parts = {part.lower() for part in info.path.parts}
-    name = info.path.name.lower()
+    lowered_parts = {part.lower() for part in relative_path.parts}
+    name = relative_path.name.lower()
     if (
         path_parts_match(lowered_parts, _CLI_DIRS)
         or name == "__main__.py"
@@ -268,7 +269,7 @@ def _entrypoint_record(
     info = callables.get(key)
     if info is None:
         return None
-    kind, basis = _entrypoint_kind(info)
+    kind, basis = _entrypoint_kind(info, root)
     location = SourceLocation(
         info.path,
         line=getattr(info.node, "lineno", 1) or 1,
