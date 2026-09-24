@@ -199,6 +199,13 @@ def test_scan_json_embeds_mcp_authority_report(
     report = json.loads(capsys.readouterr().out)
     assert report["mcp_authority"]["summary"]["bound_relationships"] == 1
     assert report["mcp_authority"]["authorities"][0]["server"] == "slack"
+    relationship = next(
+        item
+        for item in report["effective_authority"]["relationships"]
+        if item["target"] == {"kind": "mcp_server", "name": "slack"}
+    )
+    assert relationship["agent"] == "agent"
+    assert relationship["runtime_effectiveness"] == "not_verified"
 
 def test_authenticated_relationship_with_generic_configured_auth_is_not_fully_resolved() -> None:
     identity = Identity(
