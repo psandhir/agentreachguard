@@ -10,6 +10,7 @@ from horustrace import __version__
 from horustrace.adapters.manifest import ManifestError
 from horustrace.adapters.registry import adapter_catalogue
 from horustrace.aibom import build_aibom
+from horustrace.authority_resolution import authority_resolution_summary
 from horustrace.benchmark import BenchmarkError
 from horustrace.benchmark import render_console as render_benchmark_console
 from horustrace.benchmark import render_json as render_benchmark_json
@@ -91,6 +92,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     scan_parser.add_argument("--strict", action="store_true",
                              help="Return exit code 1 when analysis is incomplete.")
+    scan_parser.add_argument(
+        "--max-unresolved-authority",
+        type=int,
+        metavar="N",
+        help=(
+            "Return exit code 1 when more than N effective-authority relationships "
+            "are partially resolved or unknown."
+        ),
+    )
     scan_parser.add_argument(
         "--fail-on",
         choices=["none", "low", "medium", "high", "critical"],
@@ -227,6 +237,14 @@ def _parser() -> argparse.ArgumentParser:
         default="high",
         help=(
             "Return exit code 2 when an introduced finding meets the severity threshold."
+        ),
+    )
+    diff_parser.add_argument(
+        "--fail-on-authority-regression",
+        action="store_true",
+        help=(
+            "Return exit code 1 when the head revision has more unresolved "
+            "effective-authority relationships than the base revision."
         ),
     )
     diff_parser.add_argument(
@@ -374,6 +392,8 @@ def main(argv: list[str] | None = None) -> int:
             or report["head"]["analysis_incomplete"]
         ):
             return 1
+        if args.fail_on_authority_regression and report["authority_resolution"]["regressed"]:
+            return 1
         if args.fail_on_policy_violation and (
             report["authority_policy_delta"]["introduced_violations"]
             or report["authority_policy_delta"]["contract_weakenings"]
@@ -509,6 +529,7 @@ def main(argv: list[str] | None = None) -> int:
             authority_source=args.authority_source,
         )
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
+        authority_resolution = authority_resolution_summary(graph)
         source_context_counts_before = {
             context: sum(
                 finding.source_context == context for finding in findings
@@ -563,6 +584,7 @@ def main(argv: list[str] | None = None) -> int:
                 "control_observations": control_observations(graph),
                 "mcp_authority": effective_mcp_authority_report(graph),
                 "effective_authority": effective_authority_report(graph),
+                "authority_resolution": authority_resolution,
                 "owasp_agentic": build_owasp_agentic_summary(
                     findings,
                     disabled_rules=disabled_rules,
@@ -688,6 +710,19 @@ def main(argv: list[str] | None = None) -> int:
         args.output.write_text(output + "\n", encoding="utf-8")
     else:
         print(output)
+
+    if args.max_unresolved_authority is not None:
+        if args.max_unresolved_authority < 0:
+            print("horustrace: --max-unresolved-authority must be >= 0", file=sys.stderr)
+            return 1
+        if authority_resolution["unresolved_relationships"] > args.max_unresolved_authority:
+            print(
+                "horustrace: unresolved effective-authority relationship budget exceeded: "
+                f"{authority_resolution['unresolved_relationships']} > "
+                f"{args.max_unresolved_authority}",
+                file=sys.stderr,
+            )
+            return 1
 
     expired_suppression = any(d["status"] == "expired" for d in graph.suppression_diagnostics)
     if (args.strict or config.strict) and (graph.coverage.incomplete or expired_suppression):
