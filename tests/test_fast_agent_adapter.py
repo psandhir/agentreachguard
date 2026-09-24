@@ -292,8 +292,11 @@ async def main():
 
     assert agent.mcp_servers == []
     assert len(graph.unbound_mcp_servers) == 2
+    assert graph.coverage.resolution["mcp"]["unresolved_references"] == 3
+    assert graph.coverage.resolution["mcp"]["unresolved_agent_references"] == 1
     assert graph.coverage.resolution["mcp"]["unbound_by_reason"] == {
-        "ambiguous_fast_agent_reference": 2
+        "ambiguous_multiple_candidates": 1,
+        "declaration_not_agent_bound": 2,
     }
 
 
