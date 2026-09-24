@@ -1,4 +1,5 @@
 name: FastAgent Post-74 Validation
+# rerun after manifest schema fix
 
 on:
   push:
