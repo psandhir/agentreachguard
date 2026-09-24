@@ -386,14 +386,11 @@ def evaluate(graph: Graph) -> list[Finding]:
             if {"data.write", "destructive.write"} & set(item.capabilities)
         ]
         authority_confirms_read_write = bool(read_authorities and write_authorities)
-        if (
-            authority_confirms_read_write
-            or (
-                not agent_authorities
-                and "data.read" in caps
-                and ("data.write" in caps or "destructive.write" in caps)
-            )
-        ):
+        legacy_read_write = (
+            "data.read" in caps
+            and ("data.write" in caps or "destructive.write" in caps)
+        )
+        if authority_confirms_read_write or legacy_read_write:
             linked = sorted(
                 {
                     item.relationship_id
