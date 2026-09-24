@@ -241,12 +241,15 @@ def _network_boundary(
         )
 
     destination_status = relationship.dimensions.get("destinations", "unknown")
-    if destination_status == "resolved" and relationship.destinations:
-        if all(item.get("restricted") is True for item in relationship.destinations):
-            return BoundaryDimension(
-                "fixed_destination",
-                ("restricted_destination_evidence",),
-            )
+    if (
+        destination_status == "resolved"
+        and relationship.destinations
+        and all(item.get("restricted") is True for item in relationship.destinations)
+    ):
+        return BoundaryDimension(
+            "fixed_destination",
+            ("restricted_destination_evidence",),
+        )
     return BoundaryDimension("unknown", (), "unknown")
 
 
