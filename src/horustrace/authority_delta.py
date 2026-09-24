@@ -8,8 +8,8 @@ from typing import Any
 
 from horustrace.effective_authority import (
     EffectiveAuthorityRelationship,
-    effective_authority_report,
     effective_authority_relationships,
+    effective_authority_report,
 )
 from horustrace.models import Graph
 from horustrace.source_context import classify_source_context
