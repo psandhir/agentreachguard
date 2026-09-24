@@ -7,8 +7,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 from horustrace.deployed_authority import (
     DeployedAuthorityRelationship,
@@ -250,9 +251,7 @@ def _evaluate_relationship(
 
     if any(item.status == "violation" for item in results):
         status = "violation"
-    elif any(item.status == "unresolved" for item in results):
-        status = "unresolved"
-    elif relationship.unresolved:
+    elif any(item.status == "unresolved" for item in results) or relationship.unresolved:
         status = "unresolved"
     else:
         status = "compliant"
