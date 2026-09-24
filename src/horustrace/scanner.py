@@ -35,7 +35,11 @@ from horustrace.limits import (
     validate_yaml_safety,
 )
 from horustrace.mcp_authority import reconstruct_mcp_authority
-from horustrace.mcp_context import reconstruct_mcp_context, resolve_imported_mcp_placeholders
+from horustrace.mcp_context import (
+    reconstruct_mcp_context,
+    resolve_fast_agent_mcp_references,
+    resolve_imported_mcp_placeholders,
+)
 from horustrace.models import (
     Agent,
     AgentReachability,
@@ -988,6 +992,7 @@ def scan(
         graph,
         root if root.is_dir() else root.parent,
     )
+    resolve_fast_agent_mcp_references(graph)
     reconstruct_mcp_authority(graph, approved_python_paths)
     reconstruct_mcp_context(graph)
     authority_enrichment = None
@@ -1119,6 +1124,37 @@ def scan(
             ),
             "execution_contexts": flow_execution_contexts,
             "agent_reachability": flow_agent_reachability,
+            "unknown_reachability_by_basis": {
+                basis: sum(
+                    flow.agent_reachability == AgentReachability.UNKNOWN
+                    and flow.metadata.get("agent_reachability_basis") == basis
+                    for flow in graph.flow_paths
+                )
+                for basis in sorted(
+                    {
+                        str(flow.metadata.get("agent_reachability_basis"))
+                        for flow in graph.flow_paths
+                        if flow.agent_reachability == AgentReachability.UNKNOWN
+                    }
+                )
+            },
+        },
+        "mcp": {
+            "bound": sum(len(agent.mcp_servers) for agent in graph.agents),
+            "unbound": len(graph.unbound_mcp_servers),
+            "unbound_by_reason": {
+                reason: sum(
+                    str(server.metadata.get("context_binding") or "unbound")
+                    == reason
+                    for server in graph.unbound_mcp_servers
+                )
+                for reason in sorted(
+                    {
+                        str(server.metadata.get("context_binding") or "unbound")
+                        for server in graph.unbound_mcp_servers
+                    }
+                )
+            },
         },
     }
     if authority_enrichment is not None:
