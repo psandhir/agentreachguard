@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-_No unreleased changes yet._
+- Add Authority Contract v1 under `policy.authority`, with normalized allow/deny authority dimensions, approval requirements and per-server MCP tool scope while preserving existing manifest-policy semantics.
 
 ## 0.5.0 - 2026-09-24
 
