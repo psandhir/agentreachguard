@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Make AGT040, AGT032, NET002 and CAP005 consume effective-authority
+  relationships where available, attach stable `authority_relationship_id` values to
+  linked findings, carry inherited agent tool-control evidence into authority
+  resolution, and preserve conservative legacy fallbacks for unresolved cases.
 - Add generic effective-authority reconstruction for normalized agent-to-tool and
   agent-to-MCP relationships, with stable relationship IDs, explicit resolution
   dimensions, ADG evidence, conservative unresolved fields, and
