@@ -27,6 +27,11 @@ from horustrace.limits import ScanLimitError
 from horustrace.mcp_effective import effective_mcp_authority_report
 from horustrace.models import Severity
 from horustrace.owasp import build_owasp_agentic_summary, render_owasp_agentic_console
+from horustrace.policy_proposal import (
+    build_authority_policy_proposal,
+    render_authority_policy_json,
+    render_authority_policy_yaml,
+)
 from horustrace.provenance import control_observations
 from horustrace.reporters.console import render as render_console
 from horustrace.reporters.sarif import render as render_sarif
@@ -164,6 +169,23 @@ def _parser() -> argparse.ArgumentParser:
     )
     authority_parser.add_argument("--output", type=Path)
     authority_parser.add_argument("--config", type=Path)
+    policy_parser = sub.add_parser(
+        "policy",
+        help="Generate a reviewable Authority Contract proposal from observed authority",
+    )
+    policy_parser.add_argument("path", nargs="?", default=".")
+    policy_parser.add_argument(
+        "--format",
+        choices=["yaml", "json"],
+        default="yaml",
+    )
+    policy_parser.add_argument("--output", type=Path)
+    policy_parser.add_argument("--config", type=Path)
+    policy_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
     aibom_parser = sub.add_parser("aibom", help="Generate an Agent Bill of Materials")
     aibom_parser.add_argument("path", nargs="?", default=".")
     aibom_parser.add_argument("--output", type=Path)
@@ -385,7 +407,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
 
-    if args.command in {"graph", "security-graph", "aibom", "authority", "owasp"}:
+    if args.command in {"graph", "security-graph", "aibom", "authority", "policy", "owasp"}:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
@@ -406,6 +428,19 @@ def main(argv: list[str] | None = None) -> int:
                 if args.format == "json"
                 else render_effective_authority_console(graph, target)
             )
+        elif args.command == "policy":
+            report = build_authority_policy_proposal(graph)
+            output = (
+                render_authority_policy_json(report)
+                if args.format == "json"
+                else render_authority_policy_yaml(report)
+            )
+            if report["diagnostics"] and args.format == "yaml":
+                print(
+                    "horustrace: policy proposal contains unresolved authority; "
+                    "review JSON diagnostics before enforcement",
+                    file=sys.stderr,
+                )
         elif args.command == "owasp":
             disabled_rules = graph.configuration_audit.get("disabled_rules", [])
             report = build_owasp_agentic_summary(
