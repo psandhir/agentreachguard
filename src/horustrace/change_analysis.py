@@ -308,6 +308,15 @@ def compare_scans(
             "introduced_policy_unresolved": authority_policy_delta["summary"][
                 "introduced_unresolved"
             ],
+            "authority_contract_changes": authority_policy_delta["summary"][
+                "contract_changes"
+            ],
+            "authority_contract_weakenings": authority_policy_delta["summary"][
+                "contract_weakenings"
+            ],
+            "authority_contract_strengthenings": authority_policy_delta["summary"][
+                "contract_strengthenings"
+            ],
         },
         "findings": {
             "introduced": introduced,
@@ -458,7 +467,8 @@ def render_console(report: dict[str, Any]) -> str:
             f"head={summary['head_policy_violations']} "
             f"+{summary['introduced_policy_violations']} "
             f"-{summary['resolved_policy_violations']} "
-            f"({summary['introduced_policy_unresolved']} new unresolved)"
+            f"({summary['authority_contract_weakenings']} policy weakenings; "
+            f"{summary['introduced_policy_unresolved']} new unresolved)"
         ),
         (
             "  Analysis: "
@@ -466,6 +476,23 @@ def render_console(report: dict[str, Any]) -> str:
             f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}"
         ),
     ]
+
+    policy_weakenings = report["authority_policy_delta"]["contract_weakenings"]
+    if policy_weakenings:
+        lines.extend(["", "Authority Contract weakenings"])
+        for item in policy_weakenings[:_MAX_CONSOLE_ITEMS]:
+            policy_location = _location_label(item.get("contract_location"))
+            before = ",".join(item.get("before") or []) or "<none>"
+            after = ",".join(item.get("after") or []) or "<none>"
+            lines.append(
+                f"  ! agent={item['agent']} clause={item['clause']} "
+                f"change={item['change']} before={before} after={after} "
+                f"policy={policy_location}"
+            )
+        if len(policy_weakenings) > _MAX_CONSOLE_ITEMS:
+            lines.append(
+                f"  ... {len(policy_weakenings) - _MAX_CONSOLE_ITEMS} more policy weakenings"
+            )
 
     introduced_policy = report["authority_policy_delta"]["introduced_violations"]
     if introduced_policy:
@@ -699,6 +726,20 @@ def _render_markdown_policy_delta(
     introduced = policy["introduced_violations"]
     resolved = policy["resolved_violations"]
     unresolved = policy["introduced_unresolved"]
+    weakenings = policy["contract_weakenings"]
+
+    if weakenings:
+        lines.extend(["", "### Authority Contract weakenings", ""])
+        for item in weakenings[:_MAX_CONSOLE_ITEMS]:
+            before = ", ".join(item.get("before") or []) or "<none>"
+            after = ", ".join(item.get("after") or []) or "<none>"
+            policy_location = _location_label(item.get("contract_location"))
+            lines.append(
+                f"- **Policy weakened** agent `{item['agent']}` — "
+                f"clause `{item['clause']}` at `{policy_location}`; "
+                f"change `{item['change']}`; "
+                f"before `{before}`; after `{after}`"
+            )
 
     if introduced:
         lines.extend(["", "### Introduced Authority Contract violations", ""])
@@ -848,6 +889,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"| Head Authority Contract violations | {summary['head_policy_violations']} |",
             f"| Introduced Authority Contract violations | {summary['introduced_policy_violations']} |",
             f"| Resolved Authority Contract violations | {summary['resolved_policy_violations']} |",
+            f"| Authority Contract changes | {summary['authority_contract_changes']} |",
+            f"| Authority Contract weakenings | {summary['authority_contract_weakenings']} |",
+            f"| Authority Contract strengthenings | {summary['authority_contract_strengthenings']} |",
             f"| Introduced unresolved contract assessments | {summary['introduced_policy_unresolved']} |",
         ]
     )
@@ -938,6 +982,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         and not report["effective_authority_delta"]["expansions"]
         and not boundary_changes
         and not report["authority_policy_delta"]["introduced_violations"]
+        and not report["authority_policy_delta"]["contract_weakenings"]
         and not report["authority_policy_delta"]["introduced_unresolved"]
     ):
         lines.extend(["", "No introduced or worsened security delta was detected."])
