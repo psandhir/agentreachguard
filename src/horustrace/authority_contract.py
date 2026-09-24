@@ -463,16 +463,33 @@ def evaluate_relationship(
 def authority_contract_report(graph: Graph) -> dict[str, Any]:
     agents: dict[str, Agent] = {agent.name: agent for agent in graph.agents}
     relationships = effective_authority_relationships(graph)
-    evaluated_relationships = 0
     results: list[AuthorityContractResult] = []
+    relationship_evaluations: list[dict[str, Any]] = []
 
     for relationship in relationships:
         agent = agents.get(relationship.agent)
         contract = agent.policy.authority if agent is not None else None
         if contract is None:
             continue
-        evaluated_relationships += 1
-        results.extend(evaluate_relationship(relationship, contract))
+        relationship_results = evaluate_relationship(relationship, contract)
+        results.extend(relationship_results)
+        violations = sum(item.status == "violation" for item in relationship_results)
+        unresolved = sum(item.status == "unresolved" for item in relationship_results)
+        status = "violation" if violations else "unresolved" if unresolved else "compliant"
+        relationship_evaluations.append(
+            {
+                "authority_relationship_id": relationship.relationship_id,
+                "agent": relationship.agent,
+                "target": {
+                    "kind": relationship.target_kind,
+                    "name": relationship.target_name,
+                },
+                "status": status,
+                "violations": violations,
+                "unresolved": unresolved,
+                "runtime_effectiveness": "not_verified",
+            }
+        )
 
     results = sorted(
         results,
@@ -485,6 +502,15 @@ def authority_contract_report(graph: Graph) -> dict[str, Any]:
             item.result_id,
         ),
     )
+    relationship_evaluations = sorted(
+        relationship_evaluations,
+        key=lambda item: (
+            item["agent"],
+            item["target"]["kind"],
+            item["target"]["name"],
+            item["authority_relationship_id"],
+        ),
+    )
     violations = [item for item in results if item.status == "violation"]
     unresolved = [item for item in results if item.status == "unresolved"]
     return {
@@ -494,10 +520,20 @@ def authority_contract_report(graph: Graph) -> dict[str, Any]:
             "agents_with_contract": sum(
                 agent.policy.authority is not None for agent in graph.agents
             ),
-            "relationships_evaluated": evaluated_relationships,
+            "relationships_evaluated": len(relationship_evaluations),
+            "compliant_relationships": sum(
+                item["status"] == "compliant" for item in relationship_evaluations
+            ),
+            "violation_relationships": sum(
+                item["status"] == "violation" for item in relationship_evaluations
+            ),
+            "unresolved_relationships": sum(
+                item["status"] == "unresolved" for item in relationship_evaluations
+            ),
             "violations": len(violations),
             "unresolved": len(unresolved),
         },
+        "relationships": relationship_evaluations,
         "violations": [item.as_dict() for item in violations],
         "unresolved": [item.as_dict() for item in unresolved],
     }
