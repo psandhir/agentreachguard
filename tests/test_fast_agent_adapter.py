@@ -271,7 +271,7 @@ def test_fast_agent_duplicate_server_names_remain_unbound(tmp_path: Path) -> Non
     (tmp_path / "b").mkdir()
     for directory, url in (("a", "https://a.example.test"), ("b", "https://b.example.test")):
         (tmp_path / directory / "mcp.json").write_text(
-            '{"mcpServers":{"shared":{"url":"' + url + '"}}',
+            '{"mcpServers":{"shared":{"url":"' + url + '"}}}',
             encoding="utf-8",
         )
     (tmp_path / "agent.py").write_text(
