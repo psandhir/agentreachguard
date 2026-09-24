@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from horustrace.authority_delta import compare_effective_authority
+from horustrace.authority_policy_delta import compare_authority_contracts
 from horustrace.config import load_config
 from horustrace.git_snapshot import GitSnapshot, materialize_git_ref
 from horustrace.models import Finding, Graph, Severity
@@ -230,6 +231,13 @@ def compare_scans(
         head_graph,
         head_root,
     )
+    authority_policy_delta = compare_authority_contracts(
+        base_graph,
+        base_root,
+        head_graph,
+        head_root,
+        authority_delta,
+    )
 
     introduced_by_severity = Counter(item["severity"] for item in introduced)
     high_or_critical = sum(
@@ -285,6 +293,21 @@ def compare_scans(
             "weakened_boundary_crossings_by_family": authority_delta["summary"][
                 "weakened_boundary_crossings_by_family"
             ],
+            "base_policy_violations": authority_policy_delta["summary"][
+                "base_violations"
+            ],
+            "head_policy_violations": authority_policy_delta["summary"][
+                "head_violations"
+            ],
+            "introduced_policy_violations": authority_policy_delta["summary"][
+                "introduced_violations"
+            ],
+            "resolved_policy_violations": authority_policy_delta["summary"][
+                "resolved_violations"
+            ],
+            "introduced_policy_unresolved": authority_policy_delta["summary"][
+                "introduced_unresolved"
+            ],
         },
         "findings": {
             "introduced": introduced,
@@ -300,6 +323,7 @@ def compare_scans(
             "removed_edges": removed_edges,
         },
         "effective_authority_delta": authority_delta,
+        "authority_policy_delta": authority_policy_delta,
         "context_summary": {
             "introduced_findings": _context_counts(introduced),
             "worsened_findings": _context_counts(
@@ -418,11 +442,45 @@ def render_console(report: dict[str, Any]) -> str:
             f"({summary['expanded_or_weakened_boundary_crossings']} expanded/weakened)"
         ),
         (
+            f"  Authority policy:    base={summary['base_policy_violations']} "
+            f"head={summary['head_policy_violations']} "
+            f"+{summary['introduced_policy_violations']} "
+            f"-{summary['resolved_policy_violations']} "
+            f"({summary['introduced_policy_unresolved']} new unresolved)"
+        ),
+        (
             "  Analysis: "
             f"base={'incomplete' if report['base']['analysis_incomplete'] else 'complete'}, "
             f"head={'incomplete' if report['head']['analysis_incomplete'] else 'complete'}"
         ),
     ]
+
+    introduced_policy = report["authority_policy_delta"]["introduced_violations"]
+    if introduced_policy:
+        lines.extend(["", "Introduced Authority Contract violations"])
+        for item in introduced_policy[:_MAX_CONSOLE_ITEMS]:
+            observed = ",".join(item.get("observed") or []) or "<none>"
+            lines.append(
+                f"  ! {_relationship_label(item)} clause={item['clause']} "
+                f"reason={item['reason']} observed={observed}"
+            )
+        if len(introduced_policy) > _MAX_CONSOLE_ITEMS:
+            lines.append(
+                f"  ... {len(introduced_policy) - _MAX_CONSOLE_ITEMS} more policy violations"
+            )
+
+    introduced_unresolved = report["authority_policy_delta"]["introduced_unresolved"]
+    if introduced_unresolved:
+        lines.extend(["", "Introduced unresolved Authority Contract assessments"])
+        for item in introduced_unresolved[:_MAX_CONSOLE_ITEMS]:
+            lines.append(
+                f"  ? {_relationship_label(item)} clause={item['clause']} "
+                f"reason={item['reason']}"
+            )
+        if len(introduced_unresolved) > _MAX_CONSOLE_ITEMS:
+            lines.append(
+                f"  ... {len(introduced_unresolved) - _MAX_CONSOLE_ITEMS} more unresolved assessments"
+            )
 
     introduced = report["findings"]["introduced"]
     if introduced:
@@ -615,6 +673,50 @@ def _render_markdown_authority(
         lines.append(f"- … {total - _MAX_CONSOLE_ITEMS} more authority changes")
 
 
+def _render_markdown_policy_delta(
+    lines: list[str],
+    report: dict[str, Any],
+) -> None:
+    policy = report["authority_policy_delta"]
+    introduced = policy["introduced_violations"]
+    resolved = policy["resolved_violations"]
+    unresolved = policy["introduced_unresolved"]
+
+    if introduced:
+        lines.extend(["", "### Introduced Authority Contract violations", ""])
+        for item in introduced[:_MAX_CONSOLE_ITEMS]:
+            expected = ", ".join(item.get("expected") or []) or "<none>"
+            observed = ", ".join(item.get("observed") or []) or "<none>"
+            context = item.get("source_context") or "unknown"
+            lines.append(
+                f"- **Policy violation** `{_relationship_label(item)}` — "
+                f"clause `{item['clause']}`; reason `{item['reason']}`; "
+                f"expected `{expected}`; observed `{observed}` "
+                f"(context `{context}`)"
+            )
+    if resolved:
+        lines.extend(["", "### Resolved Authority Contract violations", ""])
+        for item in resolved[:_MAX_CONSOLE_ITEMS]:
+            context = item.get("source_context") or "unknown"
+            lines.append(
+                f"- **Resolved policy violation** `{_relationship_label(item)}` — "
+                f"clause `{item['clause']}`; reason `{item['reason']}` "
+                f"(context `{context}`)"
+            )
+    if unresolved:
+        lines.extend(["", "### Introduced unresolved Authority Contract assessments", ""])
+        lines.append(
+            "These are not policy violations and do not fail the policy gate."
+        )
+        for item in unresolved[:_MAX_CONSOLE_ITEMS]:
+            context = item.get("source_context") or "unknown"
+            lines.append(
+                f"- **Unresolved** `{_relationship_label(item)}` — "
+                f"clause `{item['clause']}`; reason `{item['reason']}` "
+                f"(context `{context}`)"
+            )
+
+
 def _render_markdown_boundary_crossings(
     lines: list[str],
     title: str,
@@ -717,8 +819,15 @@ def render_markdown(report: dict[str, Any]) -> str:
                 f"| Expanded/weakened trust boundaries | "
                 f"{summary['expanded_or_weakened_boundary_crossings']} |"
             ),
+            f"| Base Authority Contract violations | {summary['base_policy_violations']} |",
+            f"| Head Authority Contract violations | {summary['head_policy_violations']} |",
+            f"| Introduced Authority Contract violations | {summary['introduced_policy_violations']} |",
+            f"| Resolved Authority Contract violations | {summary['resolved_policy_violations']} |",
+            f"| Introduced unresolved contract assessments | {summary['introduced_policy_unresolved']} |",
         ]
     )
+
+    _render_markdown_policy_delta(lines, report)
 
     runtime_introduced, nonruntime_introduced = _split_context(
         report["findings"]["introduced"]
@@ -803,6 +912,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         and not report["authority"]["added_edges"]
         and not report["effective_authority_delta"]["expansions"]
         and not boundary_changes
+        and not report["authority_policy_delta"]["introduced_violations"]
+        and not report["authority_policy_delta"]["introduced_unresolved"]
     ):
         lines.extend(["", "No introduced or worsened security delta was detected."])
 
