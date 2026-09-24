@@ -157,10 +157,11 @@ async def main():
 
     assert graph.agents[0].mcp_servers == []
     assert len(graph.unbound_mcp_servers) == 2
-    assert {
-        server.metadata.get("context_binding")
-        for server in graph.unbound_mcp_servers
-    } == {"ambiguous_fast_agent_reference"}
+    assert len(graph.unresolved_mcp_references) == 1
+    reference = graph.unresolved_mcp_references[0]
+    assert reference.name == "shared"
+    assert reference.metadata["context_binding"] == "ambiguous_fast_agent_reference"
+    assert reference.metadata["candidate_count"] == 2
 
 
 def test_fast_agent_http_oauth_is_enabled_by_default(tmp_path: Path) -> None:

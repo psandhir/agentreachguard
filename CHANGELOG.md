@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add MCP unresolved-reference taxonomy v1 with evidence-backed binding reasons, separate agent-reference tracking, and protection against unresolved imported placeholders being treated as bound authority.
 - Add Explainability v2 with precise Authority Contract clause provenance and structured policy → effective-authority → identity/control/resource/destination/source evidence chains in policy results and diffs.
 - Add a change-aware Authority Contract policy delta and opt-in `--fail-on-policy-violation` / GitHub Action gate that fails only for newly introduced contract violations while reporting resolved and unresolved policy state separately.
 - Upgrade Authority Delta to schema v2 with additive trust-boundary classifications and before/after crossings in JSON, console, and Markdown diff output while preserving v1 delta fields.

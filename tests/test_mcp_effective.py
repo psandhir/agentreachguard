@@ -45,6 +45,11 @@ def test_effective_mcp_authority_exposes_agent_identity_filter_and_destination(
         "mcp_servers": 1,
         "bound_relationships": 1,
         "unbound_servers": 0,
+        "unresolved_references": 0,
+        "unresolved_agent_references": 0,
+        "unbound_by_reason": {},
+        "unresolved_by_reason": {},
+        "unresolved_by_resolution_class": {},
         "fully_resolved_relationships": 1,
         "explicit_tool_scopes": 1,
         "identity_bound_relationships": 1,
@@ -136,7 +141,11 @@ agent = create_react_agent("openai:gpt-4o", tools=[])
     assert report["summary"]["bound_relationships"] == 0
     assert report["summary"]["unbound_servers"] == 1
     assert report["authorities"] == []
-    assert report["unbound"][0]["server"] == "weather"
+    unresolved = report["unbound"][0]
+    assert unresolved["server"] == "weather"
+    assert unresolved["reference_kind"] == "server_declaration"
+    assert unresolved["reason"] == "declaration_not_agent_bound"
+    assert unresolved["resolution_class"] == "resolvable_static"
 
 
 def test_authority_cli_json_exposes_effective_relationship(

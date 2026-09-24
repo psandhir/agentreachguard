@@ -23,48 +23,116 @@ def _module_matches(path: Path, root: Path, import_module: str) -> bool:
     return module == import_module or module.endswith(f".{import_module}")
 
 
+def _unresolved_reference(
+    *,
+    agent: Agent,
+    name: str,
+    framework: str,
+    reason_hint: str,
+    location,
+    metadata: dict | None = None,
+) -> MCPServer:
+    return MCPServer(
+        name=name,
+        transport="reference",
+        authenticated=None,
+        location=location,
+        metadata={
+            "framework": framework,
+            "reference_only": True,
+            "reference_agent": agent.name,
+            "context_binding": reason_hint,
+            **(metadata or {}),
+        },
+    )
+
+
 def resolve_imported_mcp_placeholders(graph: Graph, root: Path) -> None:
     """Bind imported MCP server objects only when the repository match is unique."""
     concrete = [
         server
         for server in graph.unbound_mcp_servers
         if not server.metadata.get("placeholder")
+        and not server.metadata.get("reference_only")
     ]
     used: set[int] = set()
+    unresolved: list[MCPServer] = []
 
     for agent in graph.agents:
-        for index, server in enumerate(list(agent.mcp_servers)):
+        retained: list[MCPServer] = []
+        for server in agent.mcp_servers:
             if not server.metadata.get("placeholder"):
+                retained.append(server)
                 continue
+
             import_module = server.metadata.get("import_module")
+            matches = []
+            if isinstance(import_module, str) and import_module:
+                matches = [
+                    candidate
+                    for candidate in concrete
+                    if candidate.name == server.name
+                    and candidate.location is not None
+                    and _module_matches(candidate.location.path, root, import_module)
+                ]
+
+            if len(matches) == 1:
+                source = matches[0]
+                resolved = deepcopy(source)
+                resolved.metadata = {
+                    **resolved.metadata,
+                    "repository_resolved": True,
+                    "import_module": import_module,
+                    "imported_binding": True,
+                    "binding_origin": "repository_import_reference",
+                }
+                retained.append(resolved)
+                used.add(id(source))
+                continue
+
             if not isinstance(import_module, str) or not import_module:
-                continue
-            matches = [
-                candidate
-                for candidate in concrete
-                if candidate.name == server.name
-                and candidate.location is not None
-                and _module_matches(candidate.location.path, root, import_module)
-            ]
-            if len(matches) != 1:
-                server.metadata["context_binding"] = "ambiguous_or_unresolved"
-                continue
+                reason_hint = "unsupported_import_reference"
+            elif len(matches) > 1:
+                reason_hint = "ambiguous_imported_reference"
+            else:
+                reason_hint = "unresolved_imported_reference"
 
-            source = matches[0]
-            resolved = deepcopy(source)
-            resolved.metadata = {
-                **resolved.metadata,
-                "repository_resolved": True,
-                "import_module": import_module,
-                "imported_binding": True,
-            }
-            agent.mcp_servers[index] = resolved
-            used.add(id(source))
+            unresolved.append(
+                _unresolved_reference(
+                    agent=agent,
+                    name=server.name,
+                    framework=str(server.metadata.get("framework") or "unknown"),
+                    reason_hint=reason_hint,
+                    location=server.location,
+                    metadata={
+                        "import_module": import_module,
+                        "candidate_count": len(matches),
+                        "candidate_declarations": [
+                            {
+                                "server": candidate.name,
+                                "transport": candidate.transport,
+                                "destination": candidate.url or candidate.command,
+                                "location": (
+                                    {
+                                        "path": str(candidate.location.path),
+                                        "line": candidate.location.line,
+                                        "column": candidate.location.column,
+                                    }
+                                    if candidate.location is not None
+                                    else None
+                                ),
+                            }
+                            for candidate in matches
+                        ],
+                    },
+                )
+            )
+        agent.mcp_servers = retained
 
-    if used:
-        graph.unbound_mcp_servers = [
-            server for server in graph.unbound_mcp_servers if id(server) not in used
-        ]
+    graph.unbound_mcp_servers = [
+        server for server in graph.unbound_mcp_servers if id(server) not in used
+    ]
+    graph.unresolved_mcp_references.extend(unresolved)
 
 
 
@@ -96,17 +164,18 @@ def resolve_fast_agent_mcp_references(graph: Graph) -> None:
     """Bind FastAgent servers=[...] using nearest config scope or unique fallback."""
     concrete_by_name: dict[str, list[MCPServer]] = {}
     for server in graph.unbound_mcp_servers:
-        if server.metadata.get("placeholder"):
+        if server.metadata.get("placeholder") or server.metadata.get("reference_only"):
             continue
         concrete_by_name.setdefault(server.name, []).append(server)
 
     used: set[int] = set()
+    unresolved: list[MCPServer] = []
     for agent in graph.agents:
         if agent.metadata.get("framework") != "fast-agent":
             continue
         refs = agent.metadata.get("mcp_server_refs")
         if not isinstance(refs, list):
-            continue
+            refs = []
 
         tool_filters = agent.metadata.get("mcp_tool_filters")
         if not isinstance(tool_filters, dict):
@@ -119,11 +188,39 @@ def resolve_fast_agent_mcp_references(graph: Graph) -> None:
             scoped = _fast_agent_scoped_matches(agent, matches)
             selected = scoped if scoped else matches
             if len(selected) != 1:
-                for server in selected or matches:
-                    server.metadata.setdefault(
-                        "context_binding",
-                        "ambiguous_fast_agent_reference",
+                unresolved.append(
+                    _unresolved_reference(
+                        agent=agent,
+                        name=ref,
+                        framework="fast-agent",
+                        reason_hint=(
+                            "ambiguous_fast_agent_reference"
+                            if len(selected) > 1
+                            else "missing_fast_agent_declaration"
+                        ),
+                        location=agent.location,
+                        metadata={
+                            "candidate_count": len(selected),
+                            "candidate_declarations": [
+                                {
+                                    "server": candidate.name,
+                                    "transport": candidate.transport,
+                                    "destination": candidate.url or candidate.command,
+                                    "location": (
+                                        {
+                                            "path": str(candidate.location.path),
+                                            "line": candidate.location.line,
+                                            "column": candidate.location.column,
+                                        }
+                                        if candidate.location is not None
+                                        else None
+                                    ),
+                                }
+                                for candidate in selected
+                            ],
+                        },
                     )
+                )
                 continue
 
             source = selected[0]
@@ -155,12 +252,23 @@ def resolve_fast_agent_mcp_references(graph: Graph) -> None:
             agent.mcp_servers.append(resolved)
             used.add(id(source))
 
-    if used:
-        graph.unbound_mcp_servers = [
-            server
-            for server in graph.unbound_mcp_servers
-            if id(server) not in used
-        ]
+        if agent.metadata.get("dynamic_mcp_servers") is True:
+            unresolved.append(
+                _unresolved_reference(
+                    agent=agent,
+                    name="<dynamic>",
+                    framework="fast-agent",
+                    reason_hint="dynamic_server_selection",
+                    location=agent.location,
+                )
+            )
+
+    graph.unbound_mcp_servers = [
+        server
+        for server in graph.unbound_mcp_servers
+        if id(server) not in used
+    ]
+    graph.unresolved_mcp_references.extend(unresolved)
 
 def _authority_scope(server: MCPServer) -> str:
     if server.allowed_tools:

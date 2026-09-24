@@ -11,9 +11,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from horustrace.mcp_resolution import unresolved_mcp_summary
 from horustrace.models import Agent, Graph, Identity, MCPServer, ResourceScope, SourceLocation
 
-MCP_AUTHORITY_SCHEMA_VERSION = 1
+MCP_AUTHORITY_SCHEMA_VERSION = 2
 
 
 def _location(location: SourceLocation | None) -> dict[str, Any] | None:
@@ -211,20 +212,23 @@ def effective_mcp_authorities(graph: Graph) -> list[EffectiveMCPAuthority]:
 
 def effective_mcp_authority_report(graph: Graph) -> dict[str, Any]:
     authorities = effective_mcp_authorities(graph)
-    unbound = sorted(
-        graph.unbound_mcp_servers,
-        key=lambda server: (
-            server.name,
-            server.url or server.command or "",
-            server.transport,
-        ),
-    )
+    unresolved = unresolved_mcp_summary(graph)
+    unresolved_summary = unresolved["summary"]
     return {
         "schema_version": MCP_AUTHORITY_SCHEMA_VERSION,
         "summary": {
             "mcp_servers": len(graph.all_mcp_servers()),
             "bound_relationships": len(authorities),
-            "unbound_servers": len(unbound),
+            "unbound_servers": len(graph.unbound_mcp_servers),
+            "unresolved_references": unresolved_summary["unresolved_references"],
+            "unresolved_agent_references": unresolved_summary["agent_references"],
+            "unbound_by_reason": unresolved_summary[
+                "declaration_by_reason"
+            ],
+            "unresolved_by_reason": unresolved_summary["by_reason"],
+            "unresolved_by_resolution_class": unresolved_summary[
+                "by_resolution_class"
+            ],
             "fully_resolved_relationships": sum(
                 authority.fully_resolved for authority in authorities
             ),
@@ -242,18 +246,7 @@ def effective_mcp_authority_report(graph: Graph) -> dict[str, Any]:
             ),
         },
         "authorities": [authority.as_dict() for authority in authorities],
-        "unbound": [
-            {
-                "server": server.name,
-                "transport": server.transport,
-                "destination": server.url or server.command,
-                "location": _location(server.location),
-                "reason": str(
-                    server.metadata.get("context_binding") or "unbound"
-                ),
-            }
-            for server in unbound
-        ],
+        "unbound": unresolved["references"],
     }
 
 
@@ -270,6 +263,8 @@ def render_effective_mcp_authority_console(
         f"MCP servers:            {summary['mcp_servers']}",
         f"Bound relationships:    {summary['bound_relationships']}",
         f"Unbound servers:        {summary['unbound_servers']}",
+        f"Unresolved references:  {summary['unresolved_references']}",
+        f"  Agent references:     {summary['unresolved_agent_references']}",
         f"Fully resolved:         {summary['fully_resolved_relationships']}",
         f"Explicit tool scopes:   {summary['explicit_tool_scopes']}",
         f"Identity-bound:         {summary['identity_bound_relationships']}",
@@ -327,12 +322,25 @@ def render_effective_mcp_authority_console(
         lines.append("")
 
     if report["unbound"]:
-        lines.append("Unbound MCP servers")
+        lines.append("Unresolved MCP bindings")
         for item in report["unbound"]:
+            agent = f" agent={item['agent']}" if item.get("agent") else ""
             lines.append(
-                f"  {item['server']} ({item['transport']}): "
-                f"{item['destination'] or 'destination unknown'}"
+                f"  {item['server']} ({item['reference_kind']}){agent}: "
+                f"{item['reason']} [{item['resolution_class']}]"
             )
+            if item.get("candidate_declarations"):
+                lines.append(
+                    "    candidates: "
+                    + ", ".join(
+                        str(candidate.get("server") or "<unknown>")
+                        for candidate in item["candidate_declarations"]
+                    )
+                )
+            if item.get("evidence_gaps"):
+                lines.append(
+                    "    needs: " + ", ".join(item["evidence_gaps"])
+                )
         lines.append("")
 
     if not authorities and not report["unbound"]:
