@@ -52,9 +52,13 @@ def test_denied_capability_produces_stable_relationship_linked_violation(tmp_pat
     assert report["summary"] == {
         "agents_with_contract": 1,
         "relationships_evaluated": 1,
+        "compliant_relationships": 0,
+        "violation_relationships": 1,
+        "unresolved_relationships": 0,
         "violations": 1,
         "unresolved": 0,
     }
+    assert report["relationships"][0]["status"] == "violation"
     violation = report["violations"][0]
     assert violation["clause"] == "deny.capabilities"
     assert violation["reason"] == "denied_capabilities_observed"
@@ -393,3 +397,55 @@ def test_violation_ids_do_not_depend_on_checkout_path(tmp_path: Path) -> None:
         first["violations"][0]["authority_relationship_id"]
         == second["violations"][0]["authority_relationship_id"]
     )
+
+
+def test_relationship_outcome_is_compliant_when_supported_evidence_satisfies_contract(
+    tmp_path: Path,
+) -> None:
+    location = SourceLocation(tmp_path / "agent.py")
+    graph = Graph(
+        agents=[
+            Agent(
+                name="reader",
+                tools=[
+                    Tool(
+                        name="read",
+                        kind="function",
+                        capabilities={"data.read"},
+                        approval=True,
+                        resources=[
+                            ResourceScope(
+                                kind="ticket",
+                                selector="tickets/123",
+                                access={"data.read"},
+                                location=location,
+                            )
+                        ],
+                        destinations=[
+                            NetworkDestination(
+                                target="https://support.example.test/api",
+                                location=location,
+                            )
+                        ],
+                        location=location,
+                    )
+                ],
+                policy=AgentPolicy(
+                    authority=_contract(
+                        allow=AuthorityScope(
+                            capabilities={"data.read"},
+                            resources={"tickets/*"},
+                            destinations={"https://support.example.test/*"},
+                        )
+                    )
+                ),
+            )
+        ]
+    )
+
+    report = authority_contract_report(graph)
+
+    assert report["summary"]["compliant_relationships"] == 1
+    assert report["summary"]["violations"] == 0
+    assert report["summary"]["unresolved"] == 0
+    assert report["relationships"][0]["status"] == "compliant"
