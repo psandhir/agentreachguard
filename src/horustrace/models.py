@@ -173,6 +173,75 @@ class DataSource:
 
 
 @dataclass(slots=True)
+class AuthorityScope:
+    capabilities: set[str] = field(default_factory=set)
+    identities: set[str] = field(default_factory=set)
+    resources: set[str] = field(default_factory=set)
+    destinations: set[str] = field(default_factory=set)
+    iam_roles: set[str] = field(default_factory=set)
+    permissions: set[str] = field(default_factory=set)
+    oauth_scopes: set[str] = field(default_factory=set)
+    mcp_servers: set[str] = field(default_factory=set)
+
+    def as_dict(self) -> dict[str, list[str]]:
+        return {
+            "capabilities": sorted(self.capabilities),
+            "identities": sorted(self.identities),
+            "resources": sorted(self.resources),
+            "destinations": sorted(self.destinations),
+            "iam_roles": sorted(self.iam_roles),
+            "permissions": sorted(self.permissions),
+            "oauth_scopes": sorted(self.oauth_scopes),
+            "mcp_servers": sorted(self.mcp_servers),
+        }
+
+
+@dataclass(slots=True)
+class MCPToolContract:
+    server: str
+    allowed_tools: set[str] = field(default_factory=set)
+    denied_tools: set[str] = field(default_factory=set)
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "server": self.server,
+            "allow": sorted(self.allowed_tools),
+            "deny": sorted(self.denied_tools),
+        }
+
+
+@dataclass(slots=True)
+class AuthorityContract:
+    allow: AuthorityScope = field(default_factory=AuthorityScope)
+    deny: AuthorityScope = field(default_factory=AuthorityScope)
+    require_approval_for: set[str] = field(default_factory=set)
+    mcp_tools: list[MCPToolContract] = field(default_factory=list)
+    location: SourceLocation | None = None
+    schema_version: int = 1
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": self.schema_version,
+            "allow": self.allow.as_dict(),
+            "deny": self.deny.as_dict(),
+            "require_approval_for": sorted(self.require_approval_for),
+            "mcp_tools": [
+                item.as_dict()
+                for item in sorted(self.mcp_tools, key=lambda item: item.server)
+            ],
+            "location": (
+                {
+                    "path": str(self.location.path),
+                    "line": self.location.line,
+                    "column": self.location.column,
+                }
+                if self.location
+                else None
+            ),
+        }
+
+
+@dataclass(slots=True)
 class AgentPolicy:
     required_capabilities: set[str] = field(default_factory=set)
     denied_capabilities: set[str] = field(default_factory=set)
@@ -181,6 +250,7 @@ class AgentPolicy:
     require_approval_for: set[str] = field(default_factory=set)
     max_privileged_capabilities: int | None = None
     provenance: list[EvidenceFact] = field(default_factory=list)
+    authority: AuthorityContract | None = None
 
 
 

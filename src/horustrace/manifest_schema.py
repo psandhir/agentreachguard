@@ -10,10 +10,30 @@ RESOURCE = dict.fromkeys(('kind', 'selector', 'path', 'resource', 'classificatio
 DATA = dict.fromkeys(('name', 'source', 'classification', 'capability', 'selector', 'path', 'resource'), str)
 INPUT = dict.fromkeys(('name', 'source', 'trust', 'kind'), str)
 NETWORK = dict.fromkeys(('target', 'destination', 'host', 'direction'), str) | {'restricted': bool}
+AUTHORITY_SCOPE = dict.fromkeys(
+    (
+        'capabilities',
+        'identities',
+        'resources',
+        'destinations',
+        'iam_roles',
+        'permissions',
+        'oauth_scopes',
+        'mcp_servers',
+    ),
+    STRINGS,
+)
+MCP_TOOL_CONTRACT = {'server': str, 'allow': STRINGS, 'deny': STRINGS}
+AUTHORITY_CONTRACT = {
+    'allow': AUTHORITY_SCOPE,
+    'deny': AUTHORITY_SCOPE,
+    'require_approval_for': STRINGS,
+    'mcp_tools': [MCP_TOOL_CONTRACT],
+}
 POLICY = dict.fromkeys(
     ('required', 'required_capabilities', 'deny', 'denied_capabilities', 'allowed_resources',
      'resources', 'allowed_destinations', 'destinations', 'require_approval_for'), STRINGS
-) | {'max_privileged_capabilities': int}
+) | {'max_privileged_capabilities': int, 'authority': AUTHORITY_CONTRACT}
 TOOL = dict.fromkeys(('name', 'kind', 'identity'), str) | dict.fromkeys(
     ('capabilities', 'capability', 'destinations', 'destination'), STRINGS
 ) | dict.fromkeys(('approval', 'human_approval', 'guardrails'), bool) | {'resources': [(str, RESOURCE)]}

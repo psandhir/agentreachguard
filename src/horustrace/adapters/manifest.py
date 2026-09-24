@@ -8,11 +8,14 @@ from horustrace.heuristics import infer_capabilities
 from horustrace.models import (
     Agent,
     AgentPolicy,
+    AuthorityContract,
+    AuthorityScope,
     DataSource,
     Graph,
     Identity,
     InputSource,
     MCPServer,
+    MCPToolContract,
     NetworkDestination,
     ResourceScope,
     SourceLocation,
@@ -94,6 +97,44 @@ def _identity(raw: dict, path: Path) -> Identity:
         credential_source=str(raw.get("credential_source")) if raw.get("credential_source") else None,
         location=SourceLocation(path=path),
         metadata={k: v for k, v in raw.items() if k not in {"roles", "permissions", "oauth_scopes", "scopes"}},
+    )
+
+
+def _authority_scope(raw: object) -> AuthorityScope:
+    if not isinstance(raw, dict):
+        return AuthorityScope()
+    return AuthorityScope(
+        capabilities=set(_strings(raw.get("capabilities"))),
+        identities=set(_strings(raw.get("identities"))),
+        resources=set(_strings(raw.get("resources"))),
+        destinations=set(_strings(raw.get("destinations"))),
+        iam_roles=set(_strings(raw.get("iam_roles"))),
+        permissions=set(_strings(raw.get("permissions"))),
+        oauth_scopes=set(_strings(raw.get("oauth_scopes"))),
+        mcp_servers=set(_strings(raw.get("mcp_servers"))),
+    )
+
+
+def _authority_contract(raw: object, path: Path) -> AuthorityContract | None:
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        return None
+    mcp_tools = [
+        MCPToolContract(
+            server=str(item.get("server")),
+            allowed_tools=set(_strings(item.get("allow"))),
+            denied_tools=set(_strings(item.get("deny"))),
+        )
+        for item in raw.get("mcp_tools", []) or []
+        if isinstance(item, dict)
+    ]
+    return AuthorityContract(
+        allow=_authority_scope(raw.get("allow")),
+        deny=_authority_scope(raw.get("deny")),
+        require_approval_for=set(_strings(raw.get("require_approval_for"))),
+        mcp_tools=sorted(mcp_tools, key=lambda item: item.server),
+        location=SourceLocation(path=path),
     )
 
 
@@ -256,6 +297,7 @@ def scan_manifest(path: Path) -> Graph:
                 max_privileged_capabilities=int(policy_raw["max_privileged_capabilities"])
                 if isinstance(policy_raw.get("max_privileged_capabilities"), int)
                 else None,
+                authority=_authority_contract(policy_raw.get("authority"), path),
             )
         graph.agents.append(agent)
 
