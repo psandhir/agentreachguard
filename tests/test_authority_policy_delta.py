@@ -2,6 +2,7 @@ from pathlib import Path
 
 from horustrace.authority_delta import compare_effective_authority
 from horustrace.authority_policy_delta import compare_authority_contracts
+from horustrace.change_analysis import compare_scans, render_console, render_markdown
 from horustrace.models import (
     Agent,
     AgentPolicy,
@@ -237,3 +238,51 @@ def test_result_identity_is_checkout_path_independent(tmp_path: Path) -> None:
         first_delta["introduced_violations"][0]["result_id"]
         == second_delta["introduced_violations"][0]["result_id"]
     )
+
+
+
+def test_security_delta_renders_introduced_contract_violation(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-report"
+    head_root = tmp_path / "head-report"
+    contract = AuthorityContract(
+        allow=AuthorityScope(capabilities={"data.read"}),
+    )
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=contract,
+    )
+    head = _graph(
+        head_root,
+        capabilities={"external.write"},
+        contract=contract,
+    )
+
+    report = compare_scans(
+        base,
+        [],
+        base_root,
+        head,
+        [],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    assert report["summary"]["base_policy_violations"] == 0
+    assert report["summary"]["head_policy_violations"] == 1
+    assert report["summary"]["introduced_policy_violations"] == 1
+    assert report["summary"]["resolved_policy_violations"] == 0
+
+    console = render_console(report)
+    assert "Introduced Authority Contract violations" in console
+    assert "clause=allow.capabilities" in console
+    assert "reason=capabilities_outside_allowlist" in console
+
+    markdown = render_markdown(report)
+    assert "Introduced Authority Contract violations | 1" in markdown
+    assert "### Introduced Authority Contract violations" in markdown
+    assert "clause `allow.capabilities`" in markdown
+    assert "reason `capabilities_outside_allowlist`" in markdown
