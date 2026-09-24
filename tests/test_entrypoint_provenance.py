@@ -100,3 +100,79 @@ def test_inbound_provenance_does_not_upgrade_runtime_reachability(tmp_path: Path
         item.agent_reachability is AgentReachability.UNKNOWN
         for item in runtime_flows
     )
+
+
+def test_mcp_server_branch_is_not_starved_by_many_cli_roots(tmp_path: Path) -> None:
+    core = tmp_path / "core"
+    cli = tmp_path / "cli"
+    server = tmp_path / "arcade_mcp_server"
+    core.mkdir()
+    cli.mkdir()
+    server.mkdir()
+
+    (core / "auth_tokens.py").write_text(
+        """import httpx
+
+def get_valid_access_token():
+    config = httpx.get("https://coordinator.example/auth/config")
+    return refresh_access_token(config)
+
+def refresh_access_token(config):
+    return httpx.post(
+        "https://coordinator.example/oauth/token",
+        data={"client_id": config},
+    )
+""",
+        encoding="utf-8",
+    )
+    cli_functions = [
+        "from core.auth_tokens import get_valid_access_token",
+        "",
+    ]
+    for index in range(40):
+        cli_functions.extend(
+            [
+                f"def command_{index}():",
+                "    return get_valid_access_token()",
+                "",
+            ]
+        )
+    (cli / "commands.py").write_text("\n".join(cli_functions), encoding="utf-8")
+    (server / "server.py").write_text(
+        """from core.auth_tokens import get_valid_access_token
+
+class MCPServer:
+    def __init__(self):
+        self._init_arcade_client()
+
+    def _init_arcade_client(self):
+        return self._load_config_values()
+
+    def _load_config_values(self):
+        return get_valid_access_token()
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    flow = next(
+        item
+        for item in graph.flow_paths
+        if item.execution_context is FlowExecutionContext.RUNTIME
+        and item.source_kind == "external_http_response"
+        and item.sink_kind == "external_send"
+    )
+
+    assert flow.metadata["inbound_provenance_truncated"] is True
+    assert "mcp_server_lifecycle" in flow.metadata["inbound_entrypoint_kinds"]
+    mcp_entrypoint = next(
+        item
+        for item in flow.metadata["inbound_entrypoints"]
+        if item["kind"] == "mcp_server_lifecycle"
+    )
+    assert mcp_entrypoint["inbound_call_chain"] == [
+        "arcade_mcp_server.server.MCPServer.__init__",
+        "arcade_mcp_server.server.MCPServer._init_arcade_client",
+        "arcade_mcp_server.server.MCPServer._load_config_values",
+        "core.auth_tokens.get_valid_access_token",
+    ]
