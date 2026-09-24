@@ -8,6 +8,7 @@ from typing import Any
 
 from horustrace.authority_delta import compare_effective_authority
 from horustrace.authority_policy_delta import compare_authority_contracts
+from horustrace.authority_resolution import compare_authority_resolution
 from horustrace.config import load_config
 from horustrace.git_snapshot import GitSnapshot, materialize_git_ref
 from horustrace.models import Finding, Graph, Severity
@@ -240,6 +241,7 @@ def compare_scans(
         authority_delta,
     )
     security_review = build_security_review(authority_delta, authority_policy_delta)
+    authority_resolution = compare_authority_resolution(base_graph, head_graph)
 
     introduced_by_severity = Counter(item["severity"] for item in introduced)
     high_or_critical = sum(
@@ -319,6 +321,13 @@ def compare_scans(
             "authority_contract_strengthenings": authority_policy_delta["summary"][
                 "contract_strengthenings"
             ],
+            "base_unresolved_authority_relationships": authority_resolution["base"][
+                "unresolved_relationships"
+            ],
+            "head_unresolved_authority_relationships": authority_resolution["head"][
+                "unresolved_relationships"
+            ],
+            "authority_resolution_regressed": authority_resolution["regressed"],
         },
         "findings": {
             "introduced": introduced,
@@ -336,6 +345,7 @@ def compare_scans(
         "effective_authority_delta": authority_delta,
         "authority_policy_delta": authority_policy_delta,
         "security_review": security_review,
+        "authority_resolution": authority_resolution,
         "context_summary": {
             "introduced_findings": _context_counts(introduced),
             "worsened_findings": _context_counts(
