@@ -21,17 +21,29 @@ def _relative_path(value: str, root: Path) -> str:
         return path.name
 
 
+def _relative_locations(value: Any, root: Path) -> Any:
+    if isinstance(value, list):
+        return [_relative_locations(item, root) for item in value]
+    if isinstance(value, tuple):
+        return [_relative_locations(item, root) for item in value]
+    if not isinstance(value, dict):
+        return value
+
+    result = {
+        key: _relative_locations(item, root)
+        for key, item in value.items()
+    }
+    path = result.get("path")
+    if (
+        isinstance(path, str)
+        and ("line" in result or "column" in result)
+    ):
+        result["path"] = _relative_path(path, root)
+    return result
+
+
 def _relative_result(record: dict[str, Any], root: Path) -> dict[str, Any]:
-    result = dict(record)
-    for key in ("relationship_location", "contract_location"):
-        raw = result.get(key)
-        if not isinstance(raw, dict):
-            continue
-        location = dict(raw)
-        path = location.get("path")
-        if isinstance(path, str):
-            location["path"] = _relative_path(path, root)
-        result[key] = location
+    result = _relative_locations(record, root)
     relationship_location = result.get("relationship_location") or {}
     path = relationship_location.get("path")
     result["source_context"] = (
