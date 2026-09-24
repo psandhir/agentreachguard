@@ -306,8 +306,12 @@ def load_deployment_evidence(path: Path) -> DeploymentEvidenceBundle:
     assert provider is not None
     source = _string(document.get("source"), "source", required=False) or path.name
 
-    workloads_raw = document.get("workloads") or []
-    bindings_raw = document.get("iam_bindings") or []
+    workloads_raw = document.get("workloads")
+    bindings_raw = document.get("iam_bindings")
+    if workloads_raw is None:
+        workloads_raw = []
+    if bindings_raw is None:
+        bindings_raw = []
     if not isinstance(workloads_raw, list):
         raise DeploymentEvidenceError("workloads must be a list")
     if not isinstance(bindings_raw, list):
