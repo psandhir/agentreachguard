@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Make OWASP Agentic reporting source-context aware with runtime-first status,
+  per-category runtime/total counts, source-context breakdowns, affected-agent
+  summaries, and frozen-corpus aggregation of affected/runtime-affected repositories.
 - Add first-class OWASP Top 10 for Agentic Applications 2026 reporting with conservative
   rule mappings, a new `horustrace owasp` command, JSON/SARIF coverage summaries,
   console finding labels, ASI06 persistent-memory coverage, and explicit
