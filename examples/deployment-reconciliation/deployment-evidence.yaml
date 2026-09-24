@@ -1,0 +1,18 @@
+schema_version: 1
+provider: gcp
+source: example-aligned
+workloads:
+  - workload_id: projects/prod/locations/europe-west1/services/support
+    kind: cloud_run
+    name: support
+    identity: support@prod.iam.gserviceaccount.com
+    agent: support
+    project: prod
+    region: europe-west1
+iam_bindings:
+  - principal: support@prod.iam.gserviceaccount.com
+    role: roles/viewer
+    scope:
+      kind: project
+      name: prod
+    permissions: [tickets.read]

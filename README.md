@@ -16,10 +16,10 @@ security layers:
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.6.0**. Findings, effective-authority relationships and Authority Contract assessments are deterministic within supported constructs. HorusTrace does not prove runtime exploitability or complete live cloud authority.
+> Status: **v0.8.0**. Findings, effective-authority relationships, Authority Contract assessments and deployed-authority reconciliation are deterministic within supported evidence. HorusTrace does not prove runtime exploitability or silently infer complete live cloud authority.
 
-Release notes: [`docs/releases/v0.6.0.md`](docs/releases/v0.6.0.md)  
-Frozen-90 validation baseline: [`docs/research/frozen-90-v0.6.0-baseline.md`](docs/research/frozen-90-v0.6.0-baseline.md)
+Release notes: [`docs/releases/v0.8.0.md`](docs/releases/v0.8.0.md)  
+Frozen-90 static validation baseline: [`docs/research/frozen-90-v0.6.0-baseline.md`](docs/research/frozen-90-v0.6.0-baseline.md)
 
 ## Security model
 
@@ -56,6 +56,49 @@ horustrace diff BASE..HEAD --repo . --fail-on-policy-violation
 ```
 
 The first-party GitHub Action exposes the same opt-in `fail-on-policy-violation` behavior. Policy results include precise manifest clause provenance and a structured explanation chain back to the effective-authority and source evidence that informed the assessment.
+
+## Deployed authority and least privilege
+
+v0.8 adds a local-first deployment evidence layer that connects static agent authority
+to the identity and IAM authority supplied for the deployed workload.
+
+```bash
+horustrace reconcile ./agent-app \
+  --deployment-evidence ./evidence/prod.yaml \
+  --format json
+```
+
+The reconciliation answers three separate questions without collapsing unknown evidence:
+
+- **Required/source-observed authority** — supported roles and permissions associated
+  with the agent's effective-authority relationships.
+- **Deployed authority** — roles and permissions granted to the explicitly bound
+  workload identity in the supplied deployment/IAM snapshot.
+- **Policy authority** — what the repository Authority Contract allows or denies.
+
+Where the required baseline is sufficiently resolved, HorusTrace reports aligned,
+excess, missing or mixed authority. If intended authority is incomplete, deployed
+permissions remain visible but are not mislabeled as excess merely because source
+evidence is missing.
+
+Deployment drift can be evaluated against a prior evidence snapshot:
+
+```bash
+horustrace reconcile ./agent-app \
+  --deployment-evidence ./evidence/head.yaml \
+  --baseline-deployment-evidence ./evidence/base.yaml \
+  --fail-on-excess-authority \
+  --fail-on-deployed-policy-violation \
+  --fail-on-deployment-regression
+```
+
+The first-party GitHub Action exposes the same `reconcile` mode and gates. Conditional
+IAM grants retain unresolved applicability unless the evidence proves otherwise.
+All deployed-authority reports retain `runtime_effectiveness: not_verified`.
+
+See [`docs/deployment-evidence.md`](docs/deployment-evidence.md) for the normalized
+evidence contract and [`examples/deployment-reconciliation`](examples/deployment-reconciliation)
+for aligned and expanded examples.
 
 ## Current framework/input coverage
 

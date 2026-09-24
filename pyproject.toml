@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "horustrace"
-version = "0.6.0"
-description = "Policy-as-code security analysis for AI agents"
+version = "0.8.0"
+description = "Effective-authority, policy and deployed least-privilege analysis for AI agents"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }

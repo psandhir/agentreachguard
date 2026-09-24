@@ -1,0 +1,28 @@
+version: 1
+identities:
+  - name: support@prod.iam.gserviceaccount.com
+    provider: gcp
+    roles: [roles/viewer]
+    permissions: [tickets.read]
+    credential_source: workload_identity
+
+agents:
+  - name: support
+    identities: [support@prod.iam.gserviceaccount.com]
+    tools:
+      - name: tickets
+        kind: function
+        capabilities: [data.read]
+        identity: support@prod.iam.gserviceaccount.com
+        approval: true
+        resources:
+          - kind: ticket
+            selector: support/*
+            access: [data.read]
+        destinations: [https://support.example.test]
+    policy:
+      authority:
+        allow:
+          identities: [support@prod.iam.gserviceaccount.com]
+          iam_roles: [roles/viewer]
+          permissions: [tickets.read]
