@@ -32,7 +32,7 @@ class PythonFrameworkAdapter:
                 "adapter name must be a lowercase kebab-case identifier"
             )
         if not callable(self.detector) or not callable(self.scanner):
-            raise ValueError("adapter detector and scanner must be callable")
+            raise TypeError("adapter detector and scanner must be callable")
 
     def as_dict(self) -> dict[str, Any]:
         self.validate()
