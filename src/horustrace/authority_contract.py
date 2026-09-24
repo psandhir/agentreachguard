@@ -8,8 +8,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
 
 from horustrace.effective_authority import (
     EffectiveAuthorityRelationship,
@@ -391,9 +392,7 @@ def _mcp_tool_results(
                     observed=observed_allowed & policy.denied_tools,
                 )
             )
-        elif scope_kind == "explicit_allowlist":
-            pass
-        elif policy.denied_tools <= observed_denied:
+        elif scope_kind == "explicit_allowlist" or policy.denied_tools <= observed_denied:
             pass
         else:
             results.append(
