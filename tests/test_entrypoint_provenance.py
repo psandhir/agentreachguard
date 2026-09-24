@@ -153,3 +153,25 @@ class MCPServer:
         item["function"] == "mcp_server.server.MCPServer.__init__"
         for item in flow.metadata["inbound_entrypoints"]
     )
+
+
+
+def test_proven_non_agent_flows_skip_reverse_provenance(tmp_path: Path) -> None:
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    (scripts / "maintenance.py").write_text(
+        """import httpx
+
+def sync():
+    response = httpx.get("https://source.example/data")
+    return httpx.post("https://sink.example/data", data=response)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    flow = next(iter(graph.flow_paths))
+
+    assert flow.agent_reachability is AgentReachability.PROVEN_NON_AGENT
+    assert "inbound_entrypoints" not in flow.metadata
+    assert "inbound_entrypoint_candidates" not in flow.metadata
