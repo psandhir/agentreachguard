@@ -132,7 +132,7 @@ def resolve_imported_mcp_placeholders(graph: Graph, root: Path) -> None:
     graph.unbound_mcp_servers = [
         server for server in graph.unbound_mcp_servers if id(server) not in used
     ]
-    graph.unbound_mcp_servers.extend(unresolved)
+    graph.unresolved_mcp_references.extend(unresolved)
 
 
 
@@ -268,7 +268,7 @@ def resolve_fast_agent_mcp_references(graph: Graph) -> None:
         for server in graph.unbound_mcp_servers
         if id(server) not in used
     ]
-    graph.unbound_mcp_servers.extend(unresolved)
+    graph.unresolved_mcp_references.extend(unresolved)
 
 def _authority_scope(server: MCPServer) -> str:
     if server.allowed_tools:
