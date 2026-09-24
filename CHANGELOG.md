@@ -2,13 +2,16 @@
 
 ## Unreleased
 
-- Add MCP unresolved-reference taxonomy v1 with evidence-backed binding reasons, separate agent-reference tracking, and protection against unresolved imported placeholders being treated as bound authority.
-- Add Explainability v2 with precise Authority Contract clause provenance and structured policy → effective-authority → identity/control/resource/destination/source evidence chains in policy results and diffs.
-- Add a change-aware Authority Contract policy delta and opt-in `--fail-on-policy-violation` / GitHub Action gate that fails on newly introduced contract violations or contract weakening while reporting strengthening, resolved violations and unresolved policy state separately.
-- Upgrade Authority Delta to schema v2 with additive trust-boundary classifications and before/after crossings in JSON, console, and Markdown diff output while preserving v1 delta fields.
-- Add Trust Boundary Classification v1 for mutation, network, identity, approval/control and MCP scope, including evidence-backed before/after boundary crossings without numeric risk scoring.
-- Evaluate Effective Authority Relationship v1 against Authority Contract v1 with explicit compliant/violation/unresolved outcomes, stable violation IDs, approval semantics and MCP tool-scope enforcement.
+## 0.6.0 - 2026-09-24
+
+- Validate v0.6 against the exact frozen 90-repository corpus with 90/90 scans, 0 errors/timeouts and **zero delta across every compared v0.5 release metric**, including 2,076 agents, 3,413 tools, 633 MCP servers, 140 flows, 6/133/1 reachability, 25 attack paths, 117 bound / 516 concrete unbound MCP declarations and 1,105 findings.
 - Add Authority Contract v1 under `policy.authority`, with normalized allow/deny authority dimensions, approval requirements and per-server MCP tool scope while preserving existing manifest-policy semantics.
+- Evaluate Effective Authority Relationship v1 against Authority Contract v1 with explicit compliant/violation/unresolved outcomes, stable result IDs, approval semantics and MCP tool-scope enforcement; unknown remains neither pass nor failure.
+- Add Trust Boundary Classification v1 for mutation, network, identity, approval/control and MCP scope, including evidence-backed before/after crossings without numeric risk scoring.
+- Upgrade Authority Delta to schema v2 with additive trust-boundary classifications and crossings in JSON, console and Markdown while preserving v1 delta fields.
+- Add a change-aware Authority Contract policy delta and opt-in `--fail-on-policy-violation` / GitHub Action gate that fails on newly introduced contract violations or contract weakening while reporting strengthening, resolved violations and unresolved policy state separately.
+- Add Explainability v2 with precise Authority Contract clause provenance and structured policy → effective-authority → identity/control/resource/destination/source evidence chains in policy results and diffs.
+- Add MCP unresolved-reference taxonomy v1 with evidence-backed binding reasons, separate agent-reference tracking and protection against unresolved imported placeholders being treated as bound authority; the frozen corpus exposes 15 previously hidden unresolved agent references without changing the historical 516 concrete-unbound baseline.
 
 ## 0.5.0 - 2026-09-24
 
