@@ -31,6 +31,7 @@ from horustrace.reporters.console import render as render_console
 from horustrace.reporters.sarif import render as render_sarif
 from horustrace.rule_registry import iter_rule_metadata
 from horustrace.scanner import ScannerError, scan
+from horustrace.security_graph import build_agent_security_graph
 from horustrace.source_context import SOURCE_CONTEXTS
 from horustrace.suppressions import SuppressionError, write_baseline
 
@@ -124,6 +125,18 @@ def _parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("--output", type=Path)
     graph_parser.add_argument("--config", type=Path)
     graph_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
+    security_graph_parser = sub.add_parser(
+        "security-graph",
+        help="Export the versioned Agent Security Graph",
+    )
+    security_graph_parser.add_argument("path", nargs="?", default=".")
+    security_graph_parser.add_argument("--output", type=Path)
+    security_graph_parser.add_argument("--config", type=Path)
+    security_graph_parser.add_argument(
         "--authority-source",
         type=Path,
         help="Checked-out Terraform repository containing declared IAM bindings.",
@@ -323,7 +336,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
 
-    if args.command in {"graph", "aibom", "authority", "owasp"}:
+    if args.command in {"graph", "security-graph", "aibom", "authority", "owasp"}:
         try:
             root = target if target.is_dir() else target.parent
             config = load_config(root, args.config)
@@ -358,6 +371,9 @@ def main(argv: list[str] | None = None) -> int:
                     disabled_rules=disabled_rules,
                 )
             )
+        elif args.command == "security-graph":
+            document = build_agent_security_graph(graph, root).as_dict()
+            output = json.dumps(document, indent=2)
         else:
             if graph.adg is None:
                 print("horustrace: Agent Dependency Graph was not generated", file=sys.stderr)
