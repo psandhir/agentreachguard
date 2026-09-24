@@ -8,6 +8,7 @@ from pathlib import Path
 
 from horustrace import __version__
 from horustrace.adapters.manifest import ManifestError
+from horustrace.adapters.registry import adapter_catalogue
 from horustrace.aibom import build_aibom
 from horustrace.benchmark import BenchmarkError
 from horustrace.benchmark import render_console as render_benchmark_console
@@ -108,6 +109,16 @@ def _parser() -> argparse.ArgumentParser:
     rules_parser = sub.add_parser("rules", help="List the built-in security rule catalogue")
     rules_parser.add_argument("--format", default="console", metavar="FORMAT")
     rules_parser.add_argument("--output", type=Path)
+    adapters_parser = sub.add_parser(
+        "adapters",
+        help="List built-in framework adapters and their contract version",
+    )
+    adapters_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    adapters_parser.add_argument("--output", type=Path)
     owasp_parser = sub.add_parser(
         "owasp",
         help="Summarize OWASP Agentic Top 10 detector coverage",
@@ -223,6 +234,16 @@ def _rule_catalogue_json() -> str:
     )
 
 
+def _adapter_catalogue_console() -> str:
+    lines = ["HorusTrace Adapter Catalogue", "=" * 32, ""]
+    for item in adapter_catalogue():
+        lines.append(
+            f"{item['name']}  contract=v{item['contract_version']}  "
+            f"language={item['language']}  execution={item['execution_model']}"
+        )
+    return "\n".join(lines).rstrip()
+
+
 def _rule_catalogue_console() -> str:
     lines = ["HorusTrace Rule Catalogue", "=" * 30, ""]
     for rule in iter_rule_metadata():
@@ -249,6 +270,21 @@ def _parse_revision_range(value: str) -> tuple[str, str]:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "adapters":
+        report = {
+            "schema_version": 1,
+            "adapters": adapter_catalogue(),
+        }
+        output = (
+            json.dumps(report, indent=2)
+            if args.format == "json"
+            else _adapter_catalogue_console()
+        )
+        if args.output:
+            args.output.write_text(output + "\n", encoding="utf-8")
+        else:
+            print(output)
+        return 0
     if args.command == "rules":
         if args.format not in {"console", "json"}:
             print(
