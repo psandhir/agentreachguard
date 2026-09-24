@@ -3,6 +3,7 @@ from pathlib import Path
 from horustrace.adg import build_adg
 from horustrace.models import Agent, Graph, MCPServer, NetworkDestination, SourceLocation, Tool
 from horustrace.rules.builtin import evaluate
+from horustrace.semantics import annotate_risk_semantics
 
 
 def _finding(findings, rule_id: str):
@@ -143,8 +144,12 @@ def test_net002_not_emitted_for_fixed_destination_relationship(tmp_path: Path) -
             )
         ]
     )
+    annotate_risk_semantics(graph)
     graph.adg = build_adg(graph, tmp_path)
 
+    assert graph.agents[0].tools[0].metadata["network_semantics"] == (
+        "fixed_provider_network"
+    )
     assert not any(item.rule_id == "NET002" for item in evaluate(graph))
 
 
