@@ -28,6 +28,7 @@ from horustrace.authority_source import (
 from horustrace.config import ScanConfig
 from horustrace.config import apply as apply_config
 from horustrace.coverage import add_diagnostic, diagnose_dynamic_constructs, diagnose_python
+from horustrace.entrypoint_provenance import annotate_flow_entrypoints
 from horustrace.flow import analyze_repository_flows
 from horustrace.heuristics import PRIVILEGED_CAPABILITIES
 from horustrace.limits import (
@@ -1086,6 +1087,11 @@ def scan(
         analysis_root,
         main_guard_entrypoints,
         project_script_entrypoints,
+    )
+    annotate_flow_entrypoints(
+        analysis_root,
+        approved_python_paths,
+        graph.flow_paths,
     )
     notebook_tempdir.cleanup()
 
