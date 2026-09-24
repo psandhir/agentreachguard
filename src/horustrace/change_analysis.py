@@ -899,6 +899,40 @@ def render_markdown(report: dict[str, Any]) -> str:
         ]
     )
 
+    review = report.get("security_review", {"items": []})
+    if review.get("items"):
+        lines.extend(["", "## Security impact review"])
+        for item in review["items"]:
+            if item["kind"] == "policy_weakening":
+                weakening = item["policy_weakening"]
+                lines.append(
+                    f"- **{item.get('agent') or '<unknown>'}**: Authority Contract "
+                    f"weakened — clause `{weakening.get('clause')}`, "
+                    f"change `{weakening.get('change')}`."
+                )
+                continue
+            target = item.get("target") or {}
+            lines.append(
+                f"- **{item.get('agent') or '<unknown>'} → "
+                f"{target.get('kind') or 'target'}:{target.get('name') or '<unknown>'}**"
+            )
+            reasons = item.get("expansion_reasons") or []
+            if reasons:
+                formatted_reasons = ", ".join(f"`{reason}`" for reason in reasons)
+                lines.append(f"  - Authority expansion: {formatted_reasons}")
+            for crossing in item.get("trust_boundary_crossings") or []:
+                lines.append(
+                    f"  - Trust boundary: **{crossing.get('direction')} "
+                    f"{crossing.get('family')}** — `{crossing.get('before')}` → "
+                    f"`{crossing.get('after')}`"
+                )
+            for violation in item.get("policy_violations") or []:
+                lines.append(
+                    f"  - Authority Contract: **VIOLATION** — clause "
+                    f"`{violation.get('clause')}`, reason `{violation.get('reason')}`"
+                )
+            lines.append("  - Runtime effectiveness: `not_verified`")
+
     _render_markdown_policy_delta(lines, report)
 
     runtime_introduced, nonruntime_introduced = _split_context(
