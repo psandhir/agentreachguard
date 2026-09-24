@@ -102,43 +102,12 @@ def test_inbound_provenance_does_not_upgrade_runtime_reachability(tmp_path: Path
     )
 
 
-def test_mcp_server_branch_is_not_starved_by_many_cli_roots(tmp_path: Path) -> None:
-    core = tmp_path / "core"
-    cli = tmp_path / "cli"
-    server = tmp_path / "arcade_mcp_server"
-    core.mkdir()
-    cli.mkdir()
-    server.mkdir()
 
-    (core / "auth_tokens.py").write_text(
-        """import httpx
+def test_entrypoint_budget_preserves_distinct_runtime_kinds(tmp_path: Path) -> None:
+    _shared_auth_project(tmp_path)
 
-def get_valid_access_token():
-    config = httpx.get("https://coordinator.example/auth/config")
-    return refresh_access_token(config)
-
-def refresh_access_token(config):
-    return httpx.post(
-        "https://coordinator.example/oauth/token",
-        data={"client_id": config},
-    )
-""",
-        encoding="utf-8",
-    )
-    cli_functions = [
-        "from core.auth_tokens import get_valid_access_token",
-        "",
-    ]
-    for index in range(40):
-        cli_functions.extend(
-            [
-                f"def command_{index}():",
-                "    return get_valid_access_token()",
-                "",
-            ]
-        )
-    (cli / "commands.py").write_text("\n".join(cli_functions), encoding="utf-8")
-    (server / "server.py").write_text(
+    server = tmp_path / "mcp_server" / "server.py"
+    server.write_text(
         """from core.auth_tokens import get_valid_access_token
 
 class MCPServer:
@@ -154,6 +123,17 @@ class MCPServer:
         encoding="utf-8",
     )
 
+    tests = tmp_path / "tests"
+    tests.mkdir()
+    functions = "\n\n".join(
+        f"def test_entry_{index}():\n    return get_valid_access_token()"
+        for index in range(48)
+    )
+    (tests / "test_many_entrypoints.py").write_text(
+        "from core.auth_tokens import get_valid_access_token\n\n" + functions + "\n",
+        encoding="utf-8",
+    )
+
     graph, _ = scan(tmp_path)
     flow = next(
         item
@@ -163,16 +143,35 @@ class MCPServer:
         and item.sink_kind == "external_send"
     )
 
+    assert flow.agent_reachability is AgentReachability.UNKNOWN
+    assert flow.metadata["inbound_entrypoint_candidates"] > 32
+    assert len(flow.metadata["inbound_entrypoints"]) == 32
     assert flow.metadata["inbound_provenance_truncated"] is True
+    assert "test" in flow.metadata["inbound_entrypoint_kinds"]
     assert "mcp_server_lifecycle" in flow.metadata["inbound_entrypoint_kinds"]
-    mcp_entrypoint = next(
-        item
+    assert any(
+        item["function"] == "mcp_server.server.MCPServer.__init__"
         for item in flow.metadata["inbound_entrypoints"]
-        if item["kind"] == "mcp_server_lifecycle"
     )
-    assert mcp_entrypoint["inbound_call_chain"] == [
-        "arcade_mcp_server.server.MCPServer.__init__",
-        "arcade_mcp_server.server.MCPServer._init_arcade_client",
-        "arcade_mcp_server.server.MCPServer._load_config_values",
-        "core.auth_tokens.get_valid_access_token",
-    ]
+
+
+
+def test_proven_non_agent_flows_skip_reverse_provenance(tmp_path: Path) -> None:
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    (scripts / "maintenance.py").write_text(
+        """import httpx
+
+def sync():
+    response = httpx.get("https://source.example/data")
+    return httpx.post("https://sink.example/data", data=response)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+    flow = next(iter(graph.flow_paths))
+
+    assert flow.agent_reachability is AgentReachability.PROVEN_NON_AGENT
+    assert "inbound_entrypoints" not in flow.metadata
+    assert "inbound_entrypoint_candidates" not in flow.metadata
