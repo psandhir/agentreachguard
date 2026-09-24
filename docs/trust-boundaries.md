@@ -131,3 +131,44 @@ Authority Delta
 ```
 
 without collapsing these separate concepts into a single opaque risk score.
+
+
+## Authority Delta v2 integration
+
+Authority Delta v2 preserves the existing v1 relationship-delta fields and adds
+trust-boundary context.
+
+Added relationships include their head-side `trust_boundaries` classification.
+Removed relationships include their base-side classification. Changed relationships
+include both before/after classifications plus a deterministic
+`trust_boundary_crossings` list.
+
+Example:
+
+```json
+{
+  "relationship_id": "authority-v1:...",
+  "expansion_reasons": ["capabilities_added", "approval_weakened"],
+  "trust_boundary_crossings": [
+    {
+      "family": "mutation",
+      "before": "no_mutation",
+      "after": "external_side_effect",
+      "direction": "expanded"
+    },
+    {
+      "family": "control",
+      "before": "mandatory_approval",
+      "after": "explicitly_no_approval",
+      "direction": "weakened"
+    }
+  ]
+}
+```
+
+The v2 summary separately counts supported expanded and weakened boundary crossings by
+family. This keeps the original authority-expansion signal available for backwards
+compatibility while adding a more precise explanation of what changed.
+
+Console and Markdown diff output surface trust-boundary crossings in their own section,
+rather than treating narrowing or strengthened controls as authority expansions.
