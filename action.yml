@@ -13,6 +13,10 @@ inputs:
     description: Minimum severity that fails the action
     required: false
     default: high
+  fail-on-policy-violation:
+    description: Fail diff mode when the PR introduces a new Authority Contract violation
+    required: false
+    default: "false"
   strict:
     description: Fail on incomplete analysis or expired suppressions (true or false)
     required: false
@@ -120,6 +124,7 @@ runs:
         DIFF_REPO_ROOT: ${{ steps.prepare.outputs.repo_root }}
         DIFF_REVISION_RANGE: ${{ steps.prepare.outputs.revision_range }}
         DIFF_FAIL_ON: ${{ inputs.fail-on }}
+        DIFF_FAIL_ON_POLICY_VIOLATION: ${{ inputs.fail-on-policy-violation }}
         DIFF_STRICT: ${{ inputs.strict }}
         DIFF_SUPPRESSIONS: ${{ inputs.suppressions }}
         DIFF_AUTHORITY_SOURCE: ${{ inputs.authority-source }}
@@ -138,6 +143,10 @@ runs:
           true|false) ;;
           *) echo "github-summary must be true or false" >&2; exit 1 ;;
         esac
+        case "$DIFF_FAIL_ON_POLICY_VIOLATION" in
+          true|false) ;;
+          *) echo "fail-on-policy-violation must be true or false" >&2; exit 1 ;;
+        esac
 
         report="$RUNNER_TEMP/horustrace-security-delta-${GITHUB_RUN_ID:-run}-${GITHUB_JOB:-job}.md"
         diff_args=(
@@ -152,6 +161,9 @@ runs:
           false) ;;
           *) echo "strict must be true or false" >&2; exit 1 ;;
         esac
+        if [[ "$DIFF_FAIL_ON_POLICY_VIOLATION" == "true" ]]; then
+          diff_args+=(--fail-on-policy-violation)
+        fi
 
         set +e
         horustrace "${diff_args[@]}"

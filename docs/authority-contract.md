@@ -141,3 +141,45 @@ effective tool scope can be reconstructed.
 
 For deny-only MCP clauses, HorusTrace reports unresolved when the server catalogue is
 unknown and cannot prove whether the denied tool is reachable.
+
+
+## Change-aware policy gate
+
+HorusTrace can compare Authority Contract results independently at two Git revisions:
+
+```bash
+horustrace diff origin/main..HEAD --fail-on-policy-violation
+```
+
+The policy delta keeps four categories separate:
+
+- introduced violations;
+- resolved violations;
+- introduced unresolved assessments;
+- resolved unresolved assessments.
+
+The gate fails only when `introduced_violations` is non-empty. A violation already
+present in the base revision is historical policy debt and does not fail a pull request
+unless the change introduces a distinct relationship/clause/reason violation.
+
+Violation identity deliberately excludes observed and expected authority values. This
+keeps potentially sensitive principals, tokens, destinations, or policy evidence out of
+fingerprint inputs and gives the gate a stable structural identity.
+
+Unresolved assessments remain non-failing. They are rendered separately because missing
+static evidence is not proof of compliance and is not proof of a violation.
+
+The security-delta report includes base/head violation counts, introduced/resolved
+violations, introduced unresolved assessments, the stable authority relationship ID,
+contract clause and reason, expected/observed evidence, source context, and trust-boundary
+crossings when the effective relationship changed.
+
+In GitHub Actions (v0.6+), enable the same behavior with:
+
+```yaml
+with:
+  mode: diff
+  fail-on-policy-violation: "true"
+```
+
+The input defaults to `"false"`, preserving existing Action behavior.

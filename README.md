@@ -481,13 +481,27 @@ The diff reports:
 - existing findings whose security semantics changed, including severity escalations;
 - added, removed and semantically changed Agent Dependency Graph nodes;
 - added and removed authority edges such as invocation, delegation, identity, data and network relationships;
-- semantic **effective-authority expansions**, including added capabilities, IAM roles or permissions, OAuth scopes, identities, resources or destinations, weakened approval controls, and widened MCP tool scope.
+- semantic **effective-authority expansions**, including added capabilities, IAM roles or permissions, OAuth scopes, identities, resources or destinations, weakened approval controls, and widened MCP tool scope;
+- Authority Contract deltas: base/head violation counts, newly introduced or resolved policy violations, and newly introduced unresolved contract assessments.
 
 Use it as a PR gate:
 
 ```bash
 horustrace diff origin/main..HEAD --strict --fail-on high
 ```
+
+To gate specifically on **new Authority Contract violations** without requiring historical
+policy debt to be cleared first:
+
+```bash
+horustrace diff origin/main..HEAD \
+  --fail-on none \
+  --fail-on-policy-violation
+```
+
+The policy gate compares stable relationship + clause + reason identities between the
+base and head revisions. Historical unchanged violations do not fail the gate. Resolved
+violations are reported, and unresolved-only assessments remain visible but non-failing.
 
 For a GitHub-friendly security summary, render Markdown:
 
@@ -506,12 +520,14 @@ runtime/unknown changes separately from non-runtime test, example, tutorial, CLI
 support changes so a PR does not make test harness authority look like deployed agent
 authority.
 
-Exit code `2` is returned only for a newly introduced finding at or above the
-threshold, or an existing finding that worsened to that threshold. Historical
-unchanged findings do not fail the diff gate. Source-context grouping does **not**
-weaken this gate: `--fail-on` still evaluates all introduced and worsened findings.
-Exit code `1` is reserved for analysis/configuration errors and, with `--strict`,
-incomplete analysis on either revision.
+Exit code `2` is returned for a newly introduced finding at or above the configured
+severity threshold, an existing finding that worsened to that threshold, or—when
+`--fail-on-policy-violation` is enabled—a newly introduced Authority Contract
+violation. Historical unchanged findings and historical unchanged policy violations do
+not fail the diff gate. Unresolved contract assessments do not become violations.
+Source-context grouping does **not** weaken either gate. Exit code `1` is reserved for
+analysis/configuration errors and, with `--strict`, incomplete analysis on either
+revision.
 
 Diff analysis resolves each revision to an immutable commit and materializes regular
 files from `git archive` into isolated temporary directories. It does not import
@@ -574,6 +590,17 @@ does not require a moving base-branch name. It writes the context-aware Markdown
 security delta to the job log and, by default, to the GitHub Step Summary. The same
 `--fail-on` and `--strict` exit semantics used by `horustrace diff` determine the
 Action result.
+
+In v0.6+, diff mode also supports an opt-in Authority Contract gate:
+
+```yaml
+- uses: psandhir/horustrace@v0.6.0
+  with:
+    mode: diff
+    fail-on: none
+    fail-on-policy-violation: "true"
+    strict: "true"
+```
 
 The workflow must check out the target repository before invoking HorusTrace. The
 Action installs HorusTrace from its own Action revision and statically materializes
