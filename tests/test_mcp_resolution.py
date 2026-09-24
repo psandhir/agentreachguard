@@ -36,6 +36,8 @@ def test_unbound_declaration_has_static_reason(tmp_path: Path) -> None:
         "server_declarations": 1,
         "agent_references": 0,
         "by_reason": {"declaration_not_agent_bound": 1},
+        "declaration_by_reason": {"declaration_not_agent_bound": 1},
+        "agent_reference_by_reason": {},
         "by_resolution_class": {"resolvable_static": 1},
     }
     reference = report["references"][0]
