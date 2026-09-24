@@ -66,6 +66,7 @@ class DeployedAuthorityRelationship:
     workload_id: str
     identity: str
     roles: tuple[str, ...]
+    conditional_roles: tuple[str, ...]
     permissions: tuple[str, ...]
     conditional_permissions: tuple[str, ...]
     scopes: tuple[dict[str, str], ...]
@@ -85,6 +86,7 @@ class DeployedAuthorityRelationship:
             "workload_id": self.workload_id,
             "identity": self.identity,
             "roles": list(self.roles),
+            "conditional_roles": list(self.conditional_roles),
             "permissions": list(self.permissions),
             "conditional_permissions": list(self.conditional_permissions),
             "scopes": list(self.scopes),
@@ -115,6 +117,7 @@ def _authority_relationship(
 ) -> DeployedAuthorityRelationship:
     bindings = _matching_bindings(identity_relationship, bundle)
     roles: set[str] = set()
+    conditional_roles: set[str] = set()
     permissions: set[str] = set()
     conditional_permissions: set[str] = set()
     scopes: set[tuple[str, str]] = set()
@@ -127,7 +130,6 @@ def _authority_relationship(
         unresolved.add("iam_bindings")
 
     for binding in bindings:
-        roles.add(binding.role)
         scopes.add((binding.scope_kind, binding.scope_name))
         if binding.inherited:
             inherited.add(
@@ -142,9 +144,11 @@ def _authority_relationship(
             unresolved.add("permissions")
 
         if binding.condition is not None:
+            conditional_roles.add(binding.role)
             conditional_permissions.update(expanded)
             unresolved.add("iam_condition_applicability")
         else:
+            roles.add(binding.role)
             permissions.update(expanded)
 
         binding_docs.append(
@@ -178,6 +182,7 @@ def _authority_relationship(
         workload_id=identity_relationship.workload_id,
         identity=identity_relationship.identity,
         roles=tuple(sorted(roles)),
+        conditional_roles=tuple(sorted(conditional_roles)),
         permissions=tuple(sorted(permissions)),
         conditional_permissions=tuple(sorted(conditional_permissions)),
         scopes=tuple(
@@ -225,6 +230,9 @@ def deployed_authority_report(
                 item.resolution != "fully_resolved" for item in relationships
             ),
             "roles": sum(len(item.roles) for item in relationships),
+            "conditional_roles": sum(
+                len(item.conditional_roles) for item in relationships
+            ),
             "permissions": sum(len(item.permissions) for item in relationships),
             "conditional_permissions": sum(
                 len(item.conditional_permissions) for item in relationships
