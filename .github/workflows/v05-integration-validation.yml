@@ -1,0 +1,121 @@
+name: v0.5 Integration Validation
+
+on:
+  push:
+    branches: [research/v05-integration-validation]
+    paths:
+      - ".github/workflows/v05-integration-validation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v05-integration-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frozen:
+    name: Frozen cohort ${{ matrix.cohort }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        cohort: [a, b, c]
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install HorusTrace
+        run: python -m pip install -e .
+
+      - name: Run frozen cohort
+        env:
+          HORUSTRACE_SCANNER_REF: ${{ github.sha }}
+        run: |
+          python scripts/frozen_corpus_rescan.py \
+            --cohort "${{ matrix.cohort }}" \
+            --manifest "benchmarks/public-corpus/cohort-${{ matrix.cohort }}-v1.json" \
+            --output-prefix "frozen-90-v05-${{ matrix.cohort }}"
+
+      - name: Upload cohort results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frozen-90-v05-${{ matrix.cohort }}
+          path: |
+            frozen-90-v05-${{ matrix.cohort }}.json
+            frozen-90-v05-${{ matrix.cohort }}.md
+          if-no-files-found: warn
+
+  arcade:
+    name: ArcadeAI provenance validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out HorusTrace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install HorusTrace
+        run: python -m pip install -e .
+
+      - name: Check out pinned ArcadeAI corpus revision
+        run: |
+          git clone --filter=blob:none https://github.com/ArcadeAI/arcade-mcp.git arcade-mcp
+          git -C arcade-mcp checkout 6e4d67c95422ecdc23b6e045ca9c4837b0838d55
+
+      - name: Capture v0.5 ArcadeAI evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from horustrace.scanner import scan
+          from horustrace.security_graph import build_agent_security_graph
+
+          root = Path("arcade-mcp")
+          graph, findings = scan(root)
+          unknown = [
+              flow.as_dict()
+              for flow in graph.flow_paths
+              if flow.agent_reachability.value == "unknown"
+          ]
+          payload = {
+              "summary": {
+                  "agents": len(graph.agents),
+                  "tools": len(graph.all_tools()),
+                  "mcp_servers": len(graph.all_mcp_servers()),
+                  "flows": len(graph.flow_paths),
+                  "unknown_flows": len(unknown),
+                  "findings": len(findings),
+              },
+              "unknown_flows": unknown,
+          }
+          Path("arcade-v05-provenance.json").write_text(
+              json.dumps(payload, indent=2),
+              encoding="utf-8",
+          )
+          Path("arcade-v05-asg.json").write_text(
+              json.dumps(build_agent_security_graph(graph, root).as_dict(), indent=2),
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Upload ArcadeAI evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: arcade-v05-evidence
+          path: |
+            arcade-v05-provenance.json
+            arcade-v05-asg.json
