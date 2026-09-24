@@ -1,5 +1,16 @@
 {
-  "version": 1,
+  "schema_version": 1,
+  "corpus": "horustrace-fast-agent-post74-validation",
+  "frozen_at": "2026-09-24",
+  "baseline_scanner": "pr-74",
+  "selection": {
+    "total": 1,
+    "application_repositories": 0,
+    "framework_stress_repositories": 1,
+    "criteria": [
+      "pinned FastAgent framework-stress repository from frozen cohort A"
+    ]
+  },
   "repositories": [
     {
       "tier": "framework-stress",
