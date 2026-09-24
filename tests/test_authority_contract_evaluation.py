@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from horustrace.authority_contract import authority_contract_report
-from horustrace.scanner import scan
 from horustrace.models import (
     Agent,
     AgentPolicy,
@@ -16,6 +15,7 @@ from horustrace.models import (
     SourceLocation,
     Tool,
 )
+from horustrace.scanner import scan
 
 
 def _contract(**kwargs) -> AuthorityContract:
