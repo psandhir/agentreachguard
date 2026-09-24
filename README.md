@@ -147,6 +147,21 @@ This is detector-level coverage, not a claim that an OWASP category is fully mit
 or absent at runtime. Normal JSON and SARIF scan output also includes the enriched
 `owasp_agentic` summary, and console findings show their mapped ASI identifiers.
 
+Export the versioned **Agent Security Graph (ASG)**, which co-locates the
+framework-neutral dependency topology with effective-authority relationships,
+static data-flow evidence, attack paths, and coverage/resolution state:
+
+```bash
+horustrace security-graph .
+horustrace security-graph . --output agent-security-graph.json
+```
+
+ASG v1 is additive: the existing `horustrace graph` command continues to emit the
+Agent Dependency Graph (ADG) schema. ASG paths are repository-relative and its
+canonical digest is stable across checkout locations, so the document can become a
+portable input to future authority-delta, attestation, and runtime-correlation
+features. ASG remains static evidence; it does not claim runtime effectiveness.
+
 Inspect effective agent authority reconstructed from static evidence:
 
 ```bash
