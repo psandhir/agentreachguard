@@ -1,3 +1,4 @@
+from dataclasses import replace
 from pathlib import Path
 
 from horustrace.effective_authority import effective_authority_relationships
@@ -91,19 +92,13 @@ def test_relationship_classifies_evidence_backed_boundaries(tmp_path: Path) -> N
         },
     )
 
-    # effective-authority reads normalized semantic keys from tool metadata
-    relationship = relationship.__class__(
-        **{
-            **{
-                field: getattr(relationship, field)
-                for field in relationship.__dataclass_fields__
-            },
-            "semantics": {
-                "mutation": "persistent_internal_write",
-                "network": "arbitrary_egress",
-                "sensitive_write_domain": None,
-            },
-        }
+    relationship = replace(
+        relationship,
+        semantics={
+            "mutation": "persistent_internal_write",
+            "network": "arbitrary_egress",
+            "sensitive_write_domain": None,
+        },
     )
 
     classified = classify_relationship(relationship)
@@ -276,31 +271,21 @@ def test_supported_tool_boundary_crossings_are_named_without_risk_score(
     )
 
     # Force normalized semantics that the scanner would attach before effective authority.
-    before = before.__class__(
-        **{
-            **{
-                field: getattr(before, field)
-                for field in before.__dataclass_fields__
-            },
-            "semantics": {
-                "mutation": "local_session_state_write",
-                "network": None,
-                "sensitive_write_domain": None,
-            },
-        }
+    before = replace(
+        before,
+        semantics={
+            "mutation": "local_session_state_write",
+            "network": None,
+            "sensitive_write_domain": None,
+        },
     )
-    after = after.__class__(
-        **{
-            **{
-                field: getattr(after, field)
-                for field in after.__dataclass_fields__
-            },
-            "semantics": {
-                "mutation": "external_side_effect",
-                "network": "arbitrary_egress",
-                "sensitive_write_domain": None,
-            },
-        }
+    after = replace(
+        after,
+        semantics={
+            "mutation": "external_side_effect",
+            "network": "arbitrary_egress",
+            "sensitive_write_domain": None,
+        },
     )
 
     crossings = classify_boundary_crossings(before, after)
