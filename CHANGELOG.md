@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Parse FastAgent `fast-agent.yaml` / `fast-agent.yml` MCP server definitions,
+  normalize static URL/stdio targets and header auth evidence, and bind explicit
+  `servers=[...]` agent references to the nearest enclosing config scope while
+  preserving ambiguous duplicate-name cases as unresolved.
 - Bind static FastAgent `servers=[...]` references to uniquely discovered MCP
   server definitions, project per-agent MCP tool filters, preserve duplicate-name
   ambiguity, and expose reason-level telemetry for unbound MCP references and

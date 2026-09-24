@@ -168,9 +168,14 @@ backward compatibility; the generic relationship model is exposed separately as
 `effective_authority`.
 
 FastAgent agents that declare static `servers=[...]` references are reconciled to
-repository-discovered MCP server definitions only when the server name is unique.
-Per-agent FastAgent `tools={server: [...]}` filters are projected onto the bound
-relationship. Duplicate server names remain unbound and are reported as ambiguous.
+repository-discovered MCP server definitions. HorusTrace parses local
+`fast-agent.yaml` / `fast-agent.yml` `mcp.servers` definitions, including static
+`target` URL or stdio command shorthand and header-based authentication evidence.
+When the same server name exists in multiple configurations, the nearest enclosing
+FastAgent configuration to the agent source file is preferred; otherwise binding
+requires repository-wide uniqueness. Per-agent FastAgent
+`tools={server: [...]}` filters are projected onto the bound relationship.
+Ambiguous server names remain unbound.
 
 Coverage resolution also exposes reason breakdowns for unbound MCP servers and
 unknown flow reachability so research runs can distinguish missing evidence from

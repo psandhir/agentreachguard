@@ -4,7 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from urllib.parse import urlparse
 
-from horustrace.models import Graph, Identity, MCPServer
+from horustrace.models import Agent, Graph, Identity, MCPServer
 
 
 def _module_name(path: Path, root: Path) -> str:
@@ -68,13 +68,32 @@ def resolve_imported_mcp_placeholders(graph: Graph, root: Path) -> None:
 
 
 
-def resolve_fast_agent_mcp_references(graph: Graph) -> None:
-    """Bind FastAgent servers=[...] references when the MCP server name is unique.
+def _fast_agent_scoped_matches(
+    agent: Agent,
+    matches: list[MCPServer],
+) -> list[MCPServer]:
+    if agent.location is None:
+        return []
+    agent_path = agent.location.path.resolve()
+    scoped: list[tuple[int, MCPServer]] = []
+    for server in matches:
+        scope = server.metadata.get("config_scope")
+        if not isinstance(scope, str) or not scope:
+            continue
+        scope_path = Path(scope)
+        try:
+            agent_path.relative_to(scope_path)
+        except ValueError:
+            continue
+        scoped.append((len(scope_path.parts), server))
+    if not scoped:
+        return []
+    max_depth = max(depth for depth, _ in scoped)
+    return [server for depth, server in scoped if depth == max_depth]
 
-    The binding is repository-static and intentionally name-scoped only after
-    FastAgent has explicitly declared the server reference. Ambiguous duplicate
-    server names remain unresolved.
-    """
+
+def resolve_fast_agent_mcp_references(graph: Graph) -> None:
+    """Bind FastAgent servers=[...] using nearest config scope or unique fallback."""
     concrete_by_name: dict[str, list[MCPServer]] = {}
     for server in graph.unbound_mcp_servers:
         if server.metadata.get("placeholder"):
@@ -97,15 +116,17 @@ def resolve_fast_agent_mcp_references(graph: Graph) -> None:
             if not isinstance(ref, str) or not ref:
                 continue
             matches = concrete_by_name.get(ref, [])
-            if len(matches) != 1:
-                for server in matches:
+            scoped = _fast_agent_scoped_matches(agent, matches)
+            selected = scoped if scoped else matches
+            if len(selected) != 1:
+                for server in selected or matches:
                     server.metadata.setdefault(
                         "context_binding",
                         "ambiguous_fast_agent_reference",
                     )
                 continue
 
-            source = matches[0]
+            source = selected[0]
             resolved = deepcopy(source)
             configured_filter = tool_filters.get(ref)
             if isinstance(configured_filter, list) and all(

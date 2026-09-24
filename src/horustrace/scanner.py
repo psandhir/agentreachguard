@@ -10,6 +10,10 @@ from pathlib import Path
 import yaml
 
 from horustrace.adapters.adk_config import scan_adk_config, scan_adk_env
+from horustrace.adapters.fast_agent_config import (
+    FAST_AGENT_CONFIG_FILENAMES,
+    scan_fast_agent_config,
+)
 from horustrace.adapters.iac_identity import scan_terraform
 from horustrace.adapters.manifest import MANIFEST_FILENAMES, scan_manifest
 from horustrace.adapters.mcp_config import MCP_FILENAMES, scan_mcp_config
@@ -850,7 +854,12 @@ def scan(
         if not supported:
             graph.coverage.files_skipped += 1
             continue
-        security_config = candidate.name in MANIFEST_FILENAMES | MCP_FILENAMES | SUPPRESSION_FILENAMES
+        security_config = candidate.name in (
+            MANIFEST_FILENAMES
+            | MCP_FILENAMES
+            | SUPPRESSION_FILENAMES
+            | FAST_AGENT_CONFIG_FILENAMES
+        )
         seen_real_paths.add(real_candidate)
         try:
             size_limit = (
@@ -972,6 +981,8 @@ def scan(
             _merge(graph, scan_terraform(candidate), candidate)
         elif candidate.name in MCP_FILENAMES:
             _merge(graph, scan_mcp_config(candidate), candidate)
+        elif candidate.name in FAST_AGENT_CONFIG_FILENAMES:
+            _merge(graph, scan_fast_agent_config(candidate), candidate)
         elif candidate.name in MANIFEST_FILENAMES:
             _merge(graph, scan_manifest(candidate), candidate)
         elif candidate.suffix.lower() in {".yaml", ".yml"}:
