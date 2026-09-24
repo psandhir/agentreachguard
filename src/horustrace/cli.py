@@ -463,7 +463,6 @@ def main(argv: list[str] | None = None) -> int:
                 )
         elif args.command == "owasp":
             disabled_rules = graph.configuration_audit.get("disabled_rules", [])
-        authority_resolution = authority_resolution_summary(graph)
             report = build_owasp_agentic_summary(
                 findings,
                 disabled_rules=disabled_rules,
@@ -530,6 +529,7 @@ def main(argv: list[str] | None = None) -> int:
             authority_source=args.authority_source,
         )
         disabled_rules = graph.configuration_audit.get("disabled_rules", [])
+        authority_resolution = authority_resolution_summary(graph)
         source_context_counts_before = {
             context: sum(
                 finding.source_context == context for finding in findings
