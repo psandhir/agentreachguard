@@ -212,14 +212,14 @@ def _evidence_gaps(server: MCPServer, reason: str) -> tuple[str, ...]:
 
 def unresolved_mcp_references(graph: Graph) -> list[UnresolvedMCPReference]:
     """Return deterministic reason records for every unresolved MCP observation."""
-    concrete = [
-        server
-        for server in graph.unbound_mcp_servers
-        if not server.metadata.get("reference_only")
+    concrete = list(graph.unbound_mcp_servers)
+    observations = [
+        *graph.unbound_mcp_servers,
+        *graph.unresolved_mcp_references,
     ]
     result: list[UnresolvedMCPReference] = []
 
-    for server in graph.unbound_mcp_servers:
+    for server in observations:
         reference_only = bool(server.metadata.get("reference_only"))
         same_name = [
             candidate
