@@ -27,12 +27,12 @@ from horustrace.limits import ScanLimitError
 from horustrace.mcp_effective import effective_mcp_authority_report
 from horustrace.models import Severity
 from horustrace.owasp import build_owasp_agentic_summary, render_owasp_agentic_console
-from horustrace.provenance import control_observations
 from horustrace.policy_proposal import (
     build_authority_policy_proposal,
     render_authority_policy_json,
     render_authority_policy_yaml,
 )
+from horustrace.provenance import control_observations
 from horustrace.reporters.console import render as render_console
 from horustrace.reporters.sarif import render as render_sarif
 from horustrace.rule_registry import iter_rule_metadata
