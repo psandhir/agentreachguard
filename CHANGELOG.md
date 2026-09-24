@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+_No unreleased changes yet._
+
+## 0.5.0
+
+- Add the versioned Agent Security Graph (ASG) v1, combining framework-neutral
+  topology, effective-authority relationships, static flow evidence, attack paths,
+  and analysis-resolution state in one deterministic portable document.
+- Add `horustrace security-graph` with repository-relative paths and a canonical
+  digest stable across checkout locations.
+- Add bounded inbound entrypoint provenance for static flows, including class methods,
+  CLI roots and MCP-server lifecycle paths, while preserving unknown reachability
+  when the evidence remains shared or ambiguous.
+- Add semantic Authority Delta v1 to `horustrace diff`, reporting effective-authority
+  expansion from new capabilities, identities, IAM roles/permissions, OAuth scopes,
+  weakened approvals, widened MCP tool scope, new resources and new destinations.
+- Add framework Adapter Contract v1 plus `horustrace adapters` introspection and
+  contributor guidance, while retaining the static/no-target-execution trust boundary.
+- Distinguish executable/process control from subprocess payload and configuration
+  data, eliminating false secret-to-process execution flows without weakening
+  command-control detection.
+- Improve non-agent execution-context proof and residual-flow telemetry; the frozen
+  public study now preserves ambiguity rather than forcing unsupported reachability.
 - Parse FastAgent `fast-agent.yaml` / `fast-agent.yml` MCP server definitions,
   normalize static URL/stdio targets and header auth evidence, and bind explicit
   `servers=[...]` agent references to the nearest enclosing config scope while
