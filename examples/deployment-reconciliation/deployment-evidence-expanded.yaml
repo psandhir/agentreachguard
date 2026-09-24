@@ -1,0 +1,27 @@
+schema_version: 1
+provider: gcp
+source: example-expanded
+workloads:
+  - workload_id: projects/prod/locations/europe-west1/services/support
+    kind: cloud_run
+    name: support
+    identity: support@prod.iam.gserviceaccount.com
+    agent: support
+    project: prod
+    region: europe-west1
+iam_bindings:
+  - principal: support@prod.iam.gserviceaccount.com
+    role: roles/viewer
+    scope:
+      kind: project
+      name: prod
+    permissions: [tickets.read]
+  - principal: support@prod.iam.gserviceaccount.com
+    role: roles/storage.objectAdmin
+    scope:
+      kind: project
+      name: prod
+    inherited_from:
+      kind: folder
+      name: "12345"
+    permissions: [storage.objects.delete]

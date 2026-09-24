@@ -23,6 +23,11 @@ from horustrace.change_analysis import build_git_diff
 from horustrace.change_analysis import render_console as render_diff_console
 from horustrace.change_analysis import render_markdown as render_diff_markdown
 from horustrace.config import ConfigError, load_config
+from horustrace.deployment_evidence import DeploymentEvidenceError, load_deployment_evidence
+from horustrace.deployment_report import (
+    build_deployment_security_report,
+    render_deployment_security_console,
+)
 from horustrace.effective_authority import (
     effective_authority_report,
     render_effective_authority_console,
@@ -238,6 +243,49 @@ def _parser() -> argparse.ArgumentParser:
         "--authority-source",
         type=Path,
         help="Checked-out Terraform repository containing declared IAM bindings.",
+    )
+    reconcile_parser = sub.add_parser(
+        "reconcile",
+        help="Reconcile source authority with deployed cloud IAM evidence",
+    )
+    reconcile_parser.add_argument("path", nargs="?", default=".")
+    reconcile_parser.add_argument(
+        "--deployment-evidence",
+        type=Path,
+        required=True,
+        help="Normalized v1 JSON/YAML deployment and IAM evidence snapshot.",
+    )
+    reconcile_parser.add_argument(
+        "--baseline-deployment-evidence",
+        type=Path,
+        help="Optional prior deployment evidence snapshot for drift analysis.",
+    )
+    reconcile_parser.add_argument(
+        "--format",
+        choices=["console", "json"],
+        default="console",
+    )
+    reconcile_parser.add_argument("--output", type=Path)
+    reconcile_parser.add_argument("--config", type=Path)
+    reconcile_parser.add_argument(
+        "--authority-source",
+        type=Path,
+        help="Optional checked-out Terraform repository containing declared IAM bindings.",
+    )
+    reconcile_parser.add_argument(
+        "--fail-on-excess-authority",
+        action="store_true",
+        help="Return exit code 2 when supported excess deployed authority is found.",
+    )
+    reconcile_parser.add_argument(
+        "--fail-on-deployed-policy-violation",
+        action="store_true",
+        help="Return exit code 2 when deployed authority violates an Authority Contract.",
+    )
+    reconcile_parser.add_argument(
+        "--fail-on-deployment-regression",
+        action="store_true",
+        help="Return exit code 2 when deployment drift introduces excess or unresolved authority.",
     )
     aibom_parser = sub.add_parser("aibom", help="Generate an Agent Bill of Materials")
     aibom_parser.add_argument("path", nargs="?", default=".")
@@ -469,6 +517,70 @@ def main(argv: list[str] | None = None) -> int:
     if not target.exists():
         print(f"horustrace: target does not exist: {target}", file=sys.stderr)
         return 1
+
+    if args.command == "reconcile":
+        try:
+            root = target if target.is_dir() else target.parent
+            config = load_config(root, args.config)
+            graph, _ = scan(
+                target,
+                config=config,
+                authority_source=args.authority_source,
+            )
+            deployment_evidence = load_deployment_evidence(args.deployment_evidence)
+            baseline_evidence = (
+                load_deployment_evidence(args.baseline_deployment_evidence)
+                if args.baseline_deployment_evidence
+                else None
+            )
+            if args.fail_on_deployment_regression and baseline_evidence is None:
+                raise DeploymentEvidenceError(
+                    "--fail-on-deployment-regression requires "
+                    "--baseline-deployment-evidence"
+                )
+            report = build_deployment_security_report(
+                graph,
+                deployment_evidence,
+                baseline=baseline_evidence,
+            )
+        except (
+            ConfigError,
+            ManifestError,
+            ScannerError,
+            SuppressionError,
+            ScanLimitError,
+            DeploymentEvidenceError,
+        ) as exc:
+            print(f"horustrace: {exc}", file=sys.stderr)
+            return 1
+
+        output = (
+            json.dumps(report, indent=2)
+            if args.format == "json"
+            else render_deployment_security_console(report, target)
+        )
+        if args.output:
+            args.output.write_text(output + "\n", encoding="utf-8")
+        else:
+            print(output)
+
+        summary = report["summary"]
+        if (
+            args.fail_on_excess_authority
+            and summary["excess_authority_agents"]
+        ):
+            return 2
+        if (
+            args.fail_on_deployed_policy_violation
+            and summary["deployed_policy_violations"]
+        ):
+            return 2
+        if (
+            args.fail_on_deployment_regression
+            and summary["deployment_regressed_agents"]
+        ):
+            return 2
+        return 0
 
     if args.command in {"graph", "security-graph", "aibom", "authority", "policy", "query", "owasp"}:
         try:

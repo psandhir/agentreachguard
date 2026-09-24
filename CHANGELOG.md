@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+## 0.8.0 - 2026-09-24
+
+- Add Deployment Evidence v1, a local-first JSON/YAML contract for workload identity, IAM binding, inheritance, conditions and role-permission evidence without cloud API calls or target-agent execution.
+- Resolve explicit agent-to-workload deployment relationships and canonical GCP service-account identities without fuzzy name matching.
+- Reconstruct deployed GCP authority from supplied IAM evidence, including inherited project/folder/organization grants, custom-role permissions, and explicit unresolved state for conditional bindings or unknown role expansion.
+- Add agent-level required-vs-deployed Authority Reconciliation with aligned, excess-authority, missing-authority, mixed and unresolved outcomes; missing intended-authority evidence never becomes a false excess-authority conclusion.
+- Add semantic deployment Authority Delta for introduced/resolved excess roles and permissions, unresolved-authority regressions and permission-derived trust-boundary crossings.
+- Evaluate deployed identities, IAM roles and permissions against repository Authority Contracts while retaining conditional policy conflicts as unresolved.
+- Add `horustrace reconcile` with JSON/console reporting and opt-in CI gates for excess authority, deployed-policy violations and deployment regressions.
+- Add first-party GitHub Action `reconcile` mode and controlled aligned/expanded deployment fixtures.
+- Preserve `runtime_effectiveness: not_verified` across all deployed-authority outputs. v0.8 reasons from supplied deployment/IAM evidence; it does not prove that a permission was exercised.
+
+## 0.7.0 - 2026-09-24
+
+- Add `horustrace policy` to bootstrap deterministic reviewable Authority Contract proposals from supported observed authority without converting unknowns into wildcard allow rules.
+- Add a correlated security-impact review joining Authority Delta, trust-boundary crossings and Authority Contract violations for pull-request review.
+- Add effective-authority resolution metrics and opt-in CI budgets/regression gates so historical uncertainty can remain while new changes are prevented from increasing it.
+- Add `horustrace query` for conservative authority investigation across capabilities, destinations, identities, targets, resolution state and explicit delegated reachability.
+- Extend the frozen-90 validation harness with authority-resolution and policy-bootstrap adoption metrics.
+
 ## 0.6.0 - 2026-09-24
 
 - Validate v0.6 against the exact frozen 90-repository corpus with 90/90 scans, 0 errors/timeouts and **zero delta across every compared v0.5 release metric**, including 2,076 agents, 3,413 tools, 633 MCP servers, 140 flows, 6/133/1 reachability, 25 attack paths, 117 bound / 516 concrete unbound MCP declarations and 1,105 findings.

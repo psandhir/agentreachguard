@@ -33,6 +33,12 @@ jobs:
       - run: python -m pip install -e .
       - run: horustrace scan examples/secure-agent --strict --fail-on high
       - run: horustrace scan examples/google-adk-secure --strict --fail-on high
+      - run: >-
+          horustrace reconcile examples/deployment-reconciliation
+          --deployment-evidence examples/deployment-reconciliation/deployment-evidence.yaml
+          --format json
+          --fail-on-excess-authority
+          --fail-on-deployed-policy-violation
 
   package:
     runs-on: ubuntu-latest
@@ -43,7 +49,34 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install build
       - run: python -m build
-      - run: python -m venv wheel-venv && wheel-venv/bin/pip install dist/*.whl && wheel-venv/bin/horustrace --help && wheel-venv/bin/horustrace rules --format json && wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high && wheel-venv/bin/python -c "import horustrace"
+      - run: >-
+          python -m venv wheel-venv &&
+          wheel-venv/bin/pip install dist/*.whl &&
+          wheel-venv/bin/horustrace --help &&
+          wheel-venv/bin/horustrace --version | grep -q 'horustrace 0.8.0' &&
+          wheel-venv/bin/horustrace rules --format json &&
+          wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high &&
+          wheel-venv/bin/horustrace reconcile examples/deployment-reconciliation
+          --deployment-evidence examples/deployment-reconciliation/deployment-evidence.yaml
+          --format json --fail-on-excess-authority --fail-on-deployed-policy-violation &&
+          wheel-venv/bin/python -c "import horustrace"
+
+  action-reconcile:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Run HorusTrace deployed authority reconciliation
+        uses: ./
+        with:
+          mode: reconcile
+          path: examples/deployment-reconciliation
+          deployment-evidence: examples/deployment-reconciliation/deployment-evidence.yaml
+          format: json
+          fail-on-excess-authority: "true"
+          fail-on-deployed-policy-violation: "true"
 
   action-pr-diff:
     if: github.event_name == 'pull_request'

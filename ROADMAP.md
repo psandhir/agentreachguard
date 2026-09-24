@@ -84,14 +84,50 @@ In development on `v0.4-dev`:
 Runtime execution, live authorization enforcement, SAT/SMT policy solving, automated
 prompt mutation, and complete cloud authorization resolution remain outside v0.4.
 
-## Later — Live cloud authority enrichment
+## v0.7 — Authority adoption and investigation
 
-- Resolve deployed/runtime service-account identities.
-- Query effective IAM through Cloud Asset Inventory / IAM Policy Analyzer.
-- Expand predefined and custom roles into permissions.
-- Model inherited organization/folder/project grants.
-- Enrich ADG authority edges with live cloud evidence while keeping authenticated
-  cloud analysis optional.
+Completed for v0.7:
+
+- Bootstrap reviewable Authority Contracts from supported observed authority.
+- Correlate authority expansion, trust-boundary crossings and policy violations into a
+  reviewer-oriented security-impact model.
+- Add change-aware authority-resolution CI budgets and regression gates.
+- Add conservative effective-authority investigation queries with explicit delegated
+  reachability.
+- Extend frozen-corpus validation with authority-resolution and policy-bootstrap
+  adoption metrics.
+
+## v0.8 — Deployed authority and least-privilege reconciliation
+
+Completed for v0.8:
+
+- Add a versioned local Deployment Evidence contract for workload identity, IAM
+  bindings, inheritance, IAM conditions and role-permission evidence.
+- Resolve explicit agent-to-deployment relationships and GCP service-account identity
+  without fuzzy name matching.
+- Reconstruct deployed GCP authority from supplied evidence, including inherited
+  grants and custom-role permissions.
+- Reconcile required/source-observed authority against deployed authority and classify
+  aligned, excess, missing, mixed and unresolved state without treating unknown
+  intended authority as least-privilege evidence.
+- Compare deployment snapshots for semantic authority drift, introduced excess
+  authority and uncertainty regressions.
+- Evaluate deployed identity/IAM evidence against repository Authority Contracts.
+- Add `horustrace reconcile` and first-party GitHub Action gates for excess authority,
+  deployed-policy violations and deployment regressions.
+
+v0.8 remains local-first and evidence-driven. It does not authenticate to a cloud
+provider, execute target applications, test credentials or claim that observed
+permissions were exercised. Direct authenticated Cloud Asset Inventory / IAM Policy
+Analyzer enrichment remains a later optional capability.
+
+## Later — Authenticated cloud enrichment
+
+- Optionally acquire deployment/IAM evidence through authenticated provider APIs.
+- Correlate Cloud Asset Inventory / IAM Policy Analyzer evidence with the existing
+  Deployment Evidence contract rather than bypassing it.
+- Add additional cloud providers with independent evidence adapters and tests.
+- Preserve offline operation as the default trust boundary.
 
 ## v0.5 — Change-aware security analysis
 
