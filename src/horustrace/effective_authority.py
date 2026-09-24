@@ -233,7 +233,10 @@ def _tool_relationship(
         destinations=destinations,
         semantics={
             "mutation": tool.metadata.get("mutation_semantics"),
-            "network": tool.metadata.get("network_semantics"),
+            "network": (
+                tool.metadata.get("network_semantics")
+                or tool.metadata.get("network_scope")
+            ),
             "sensitive_write_domain": tool.metadata.get("sensitive_write_domain"),
         },
         dimensions=dimensions,
