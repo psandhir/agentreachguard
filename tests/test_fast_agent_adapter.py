@@ -295,6 +295,9 @@ async def main():
     assert graph.coverage.resolution["mcp"]["unresolved_references"] == 3
     assert graph.coverage.resolution["mcp"]["unresolved_agent_references"] == 1
     assert graph.coverage.resolution["mcp"]["unbound_by_reason"] == {
+        "declaration_not_agent_bound": 2,
+    }
+    assert graph.coverage.resolution["mcp"]["unresolved_by_reason"] == {
         "ambiguous_multiple_candidates": 1,
         "declaration_not_agent_bound": 2,
     }
