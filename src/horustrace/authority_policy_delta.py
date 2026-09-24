@@ -6,6 +6,7 @@ from typing import Any
 
 from horustrace.authority_contract import authority_contract_report
 from horustrace.models import Graph
+from horustrace.source_context import classify_source_context
 
 AUTHORITY_POLICY_DELTA_SCHEMA_VERSION = 1
 
@@ -31,6 +32,13 @@ def _relative_result(record: dict[str, Any], root: Path) -> dict[str, Any]:
         if isinstance(path, str):
             location["path"] = _relative_path(path, root)
         result[key] = location
+    relationship_location = result.get("relationship_location") or {}
+    path = relationship_location.get("path")
+    result["source_context"] = (
+        classify_source_context(Path(path))
+        if isinstance(path, str) and path
+        else "unknown"
+    )
     return result
 
 
@@ -46,9 +54,12 @@ def _result_index(
 
 def _authority_context(
     authority_delta: dict[str, Any],
+    *,
+    side: str,
 ) -> dict[str, dict[str, Any]]:
     context: dict[str, dict[str, Any]] = {}
-    for item in authority_delta.get("added", []):
+    edge_key = "added" if side == "after" else "removed"
+    for item in authority_delta.get(edge_key, []):
         relationship_id = item.get("relationship_id")
         if relationship_id:
             context[relationship_id] = {
@@ -60,7 +71,7 @@ def _authority_context(
         if relationship_id:
             trust_boundaries = item.get("trust_boundaries") or {}
             context[relationship_id] = {
-                "trust_boundaries": trust_boundaries.get("after"),
+                "trust_boundaries": trust_boundaries.get(side),
                 "trust_boundary_crossings": list(
                     item.get("trust_boundary_crossings") or []
                 ),
@@ -104,21 +115,22 @@ def compare_authority_contracts(
     introduced_unresolved_ids = sorted(set(head_unresolved) - set(base_unresolved))
     resolved_unresolved_ids = sorted(set(base_unresolved) - set(head_unresolved))
 
-    authority_context = _authority_context(authority_delta)
+    head_authority_context = _authority_context(authority_delta, side="after")
+    base_authority_context = _authority_context(authority_delta, side="before")
     introduced_violations = [
-        _with_authority_context(head_violations[item], authority_context)
+        _with_authority_context(head_violations[item], head_authority_context)
         for item in introduced_violation_ids
     ]
     resolved_violations = [
-        base_violations[item]
+        _with_authority_context(base_violations[item], base_authority_context)
         for item in resolved_violation_ids
     ]
     introduced_unresolved = [
-        _with_authority_context(head_unresolved[item], authority_context)
+        _with_authority_context(head_unresolved[item], head_authority_context)
         for item in introduced_unresolved_ids
     ]
     resolved_unresolved = [
-        base_unresolved[item]
+        _with_authority_context(base_unresolved[item], base_authority_context)
         for item in resolved_unresolved_ids
     ]
 
