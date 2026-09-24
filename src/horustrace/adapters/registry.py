@@ -1,4 +1,5 @@
 """Framework adapter registry for Python agent source files."""
+# ruff: noqa: I001
 from __future__ import annotations
 
 from pathlib import Path
