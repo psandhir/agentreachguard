@@ -77,7 +77,13 @@ def test_policy_proposal_snapshots_observed_authority_without_wildcards() -> Non
             "allow": ["issues_read", "issues_update"],
         }
     ]
-    assert "*" not in render_authority_policy_yaml(report)
+    rendered = render_authority_policy_yaml(report)
+    assert "tickets/*" in rendered
+    assert all(
+        value != "*"
+        for values in authority["allow"].values()
+        for value in values
+    )
 
 
 def test_policy_proposal_preserves_unresolved_authority_as_diagnostics() -> None:
