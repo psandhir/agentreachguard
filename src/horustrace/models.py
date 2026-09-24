@@ -491,6 +491,7 @@ class Graph:
     agents: list[Agent] = field(default_factory=list)
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
+    unresolved_mcp_references: list[MCPServer] = field(default_factory=list)
     identities: list[Identity] = field(default_factory=list)
     flow_paths: list[FlowPath] = field(default_factory=list)
     adg: Any | None = None
