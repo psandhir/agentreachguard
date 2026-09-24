@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Bind static FastAgent `servers=[...]` references to uniquely discovered MCP
+  server definitions, project per-agent MCP tool filters, preserve duplicate-name
+  ambiguity, and expose reason-level telemetry for unbound MCP references and
+  unknown flow reachability.
 - Make AGT040, AGT032, NET002 and CAP005 consume effective-authority
   relationships where available, attach stable `authority_relationship_id` values to
   linked findings, carry inherited agent tool-control evidence into authority
