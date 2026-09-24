@@ -212,7 +212,7 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help=(
             "Return exit code 2 when the head revision introduces a new "
-            "Authority Contract violation."
+            "Authority Contract violation or weakens the contract."
         ),
     )
     return parser
@@ -352,9 +352,9 @@ def main(argv: list[str] | None = None) -> int:
             or report["head"]["analysis_incomplete"]
         ):
             return 1
-        if (
-            args.fail_on_policy_violation
-            and report["authority_policy_delta"]["introduced_violations"]
+        if args.fail_on_policy_violation and (
+            report["authority_policy_delta"]["introduced_violations"]
+            or report["authority_policy_delta"]["contract_weakenings"]
         ):
             return 2
         if args.fail_on != "none":

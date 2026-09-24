@@ -9,6 +9,7 @@ from horustrace.models import (
     AuthorityContract,
     AuthorityScope,
     Graph,
+    MCPToolContract,
     SourceLocation,
     Tool,
 )
@@ -345,3 +346,330 @@ def test_policy_delta_normalizes_nested_explanation_locations(
         == "horustrace.manifest.yaml"
     )
     assert violation["explanation"]["authority"]["location"]["path"] == "agent.py"
+
+
+def test_contract_delta_detects_scope_weakening_and_tightening(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-contract"
+    head_root = tmp_path / "head-contract"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            deny=AuthorityScope(capabilities={"process.execute"}),
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.*"}),
+            deny=AuthorityScope(capabilities={"process.*"}),
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    weakenings = delta["contract_weakenings"]
+    strengthenings = delta["contract_strengthenings"]
+    assert [(item["clause"], item["change"]) for item in weakenings] == [
+        ("allow.capabilities", "allowlist_widened"),
+    ]
+    assert [(item["clause"], item["change"]) for item in strengthenings] == [
+        ("deny.capabilities", "deny_constraint_added"),
+    ]
+
+
+def test_contract_delta_detects_deny_and_approval_removal(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-controls"
+    head_root = tmp_path / "head-controls"
+    base = _graph(
+        base_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(
+            deny=AuthorityScope(capabilities={"process.execute"}),
+            require_approval_for={"process.execute"},
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    # Removing the complete restrictive contract is represented once rather than
+    # as a cascade of per-clause removals.
+    assert delta["summary"]["contract_weakenings"] == 1
+    weakening = delta["contract_weakenings"][0]
+    assert weakening["clause"] == "authority"
+    assert weakening["change"] == "contract_removed"
+    assert weakening["before"] == ["contract_present"]
+    assert weakening["after"] == []
+
+
+def test_contract_delta_detects_mcp_scope_weakening(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-mcp"
+    head_root = tmp_path / "head-mcp"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools={"issues_read"},
+                    denied_tools={"repo_delete"},
+                )
+            ]
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools={"issues_read", "repo_write"},
+                    denied_tools=set(),
+                )
+            ]
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert {
+        (item["clause"], item["change"])
+        for item in delta["contract_weakenings"]
+    } == {
+        ("mcp_tools.github.allow", "mcp_allowlist_widened"),
+        ("mcp_tools.github.deny", "mcp_deny_removed"),
+    }
+
+
+def test_contract_delta_detects_allowlist_removal_without_false_narrowing(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-allow"
+    head_root = tmp_path / "head-allow"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.*"}),
+            deny=AuthorityScope(capabilities={"process.execute"}),
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(),
+            deny=AuthorityScope(capabilities={"process.execute"}),
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert delta["summary"]["contract_weakenings"] == 1
+    assert delta["contract_weakenings"][0]["change"] == "constraint_removed"
+
+
+def test_contract_delta_pattern_narrowing_is_strengthening_not_weakening(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-pattern"
+    head_root = tmp_path / "head-pattern"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.*"}),
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert delta["contract_weakenings"] == []
+    assert delta["summary"]["contract_strengthenings"] == 1
+    assert delta["contract_strengthenings"][0]["change"] == "allowlist_narrowed"
+
+
+def test_contract_removal_fails_only_when_agent_still_exists(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-agent"
+    head_root = tmp_path / "head-agent"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            deny=AuthorityScope(capabilities={"process.execute"}),
+        ),
+    )
+    head = Graph()
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert delta["contract_weakenings"] == []
+    assert delta["summary"]["contract_changes"] == 0
+
+
+def test_contract_change_ids_are_checkout_path_independent(
+    tmp_path: Path,
+) -> None:
+    def delta_for(root: Path) -> dict:
+        base_root = root / "base"
+        head_root = root / "head"
+        base = _graph(
+            base_root,
+            capabilities={"data.read"},
+            contract=AuthorityContract(
+                deny=AuthorityScope(capabilities={"process.execute"}),
+            ),
+        )
+        head = _graph(
+            head_root,
+            capabilities={"data.read"},
+            contract=AuthorityContract(),
+        )
+        return _compare(base, base_root, head, head_root)
+
+    first = delta_for(tmp_path / "one")
+    second = delta_for(tmp_path / "two")
+
+    assert (
+        first["contract_weakenings"][0]["change_id"]
+        == second["contract_weakenings"][0]["change_id"]
+    )
+
+
+def test_security_delta_renders_contract_weakening(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-render-weakening"
+    head_root = tmp_path / "head-render-weakening"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            deny=AuthorityScope(capabilities={"process.execute"}),
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(),
+    )
+
+    report = compare_scans(
+        base,
+        [],
+        base_root,
+        head,
+        [],
+        head_root,
+        base_ref="base",
+        head_ref="head",
+    )
+
+    assert report["summary"]["authority_contract_weakenings"] == 1
+    console = render_console(report)
+    assert "Authority Contract weakenings" in console
+    assert "change=contract_removed" in console
+
+    markdown = render_markdown(report)
+    assert "Authority Contract weakenings | 1" in markdown
+    assert "### Authority Contract weakenings" in markdown
+    assert "change `contract_removed`" in markdown
+
+
+def test_contract_delta_detects_clause_removal_while_contract_remains(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-clause"
+    head_root = tmp_path / "head-clause"
+    base = _graph(
+        base_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            deny=AuthorityScope(capabilities={"process.execute"}),
+            require_approval_for={"process.execute"},
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"process.execute"},
+        approval=False,
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert {
+        (item["clause"], item["change"])
+        for item in delta["contract_weakenings"]
+    } == {
+        ("deny.capabilities", "deny_constraint_removed"),
+        ("require_approval_for", "approval_requirement_removed"),
+    }
+
+
+def test_contract_delta_detects_mcp_allowlist_removal(
+    tmp_path: Path,
+) -> None:
+    base_root = tmp_path / "base-mcp-remove"
+    head_root = tmp_path / "head-mcp-remove"
+    base = _graph(
+        base_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools={"issues_read"},
+                )
+            ],
+        ),
+    )
+    head = _graph(
+        head_root,
+        capabilities={"data.read"},
+        contract=AuthorityContract(
+            allow=AuthorityScope(capabilities={"data.read"}),
+            mcp_tools=[
+                MCPToolContract(
+                    server="github",
+                    allowed_tools=set(),
+                )
+            ],
+        ),
+    )
+
+    delta = _compare(base, base_root, head, head_root)
+
+    assert delta["summary"]["contract_weakenings"] == 1
+    assert delta["contract_weakenings"][0]["change"] == "mcp_allowlist_removed"
