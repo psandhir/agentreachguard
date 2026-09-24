@@ -26,16 +26,18 @@ def _stable_result_id(
     status: str,
     relationship_id: str,
     clause: str,
-    observed: Iterable[str],
-    expected: Iterable[str],
+    reason: str,
 ) -> str:
+    # Result identifiers intentionally exclude observed/expected authority values.
+    # Those values can include credentials, principals, tokens, or other sensitive
+    # policy evidence and should never become hash inputs merely to fingerprint a
+    # finding. Relationship + clause + reason is sufficient for stable identity.
     payload = json.dumps(
         {
             "status": status,
             "relationship_id": relationship_id,
             "clause": clause,
-            "observed": sorted(set(observed)),
-            "expected": sorted(set(expected)),
+            "reason": reason,
         },
         sort_keys=True,
         separators=(",", ":"),
@@ -107,8 +109,7 @@ def _result(
             status,
             relationship.relationship_id,
             clause,
-            observed_values,
-            expected_values,
+            reason,
         ),
         status=status,
         authority_relationship_id=relationship.relationship_id,
