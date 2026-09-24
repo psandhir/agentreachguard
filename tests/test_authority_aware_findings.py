@@ -189,7 +189,7 @@ def test_net002_not_emitted_for_fixed_managed_service_semantics(tmp_path: Path) 
                         kind="function",
                         capabilities={"network.external"},
                         location=location,
-                        metadata={"network_semantics": "fixed_managed_service"},
+                        metadata={"network_scope": "fixed_managed_service"},
                     )
                 ],
                 location=location,
