@@ -476,6 +476,7 @@ def evaluate(graph: Graph) -> list[Finding]:
                 item
                 for item in outbound_authorities
                 if item.dimensions.get("destinations") != "resolved"
+                and item.semantics.get("network") != "fixed_managed_service"
             ]
             authority_destination_gap = bool(unresolved_destination_authorities)
             legacy_destination_gap = (
