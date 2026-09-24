@@ -123,12 +123,21 @@ def _relative(path: Path | None, root: Path) -> str | None:
 
 def scan_target(target: Path) -> dict:
     from horustrace import __version__
+    from horustrace.authority_contract import authority_contract_report
     from horustrace.config import load_config
+    from horustrace.effective_authority import effective_authority_relationships
+    from horustrace.mcp_resolution import unresolved_mcp_summary
     from horustrace.owasp import build_owasp_agentic_summary
     from horustrace.scanner import scan
+    from horustrace.trust_boundaries import trust_boundary_report
 
     config = load_config(target)
     graph, findings = scan(target, config=config)
+    authority_contract = authority_contract_report(graph)
+    trust_boundaries = trust_boundary_report(
+        effective_authority_relationships(graph)
+    )
+    mcp_resolution = unresolved_mcp_summary(graph)
     adg = graph.adg.as_dict() if graph.adg else {"nodes": [], "edges": [], "summary": {}}
     node_kinds = {node["id"]: node["kind"] for node in adg.get("nodes", [])}
     mcp_nodes = {node_id for node_id, kind in node_kinds.items() if kind == "mcp_server"}
@@ -240,6 +249,34 @@ def scan_target(target: Path) -> dict:
             }
         )
 
+    contract_results = [
+        *authority_contract.get("violations", []),
+        *authority_contract.get("unresolved", []),
+    ]
+    explanation_complete = sum(
+        bool(item.get("explanation"))
+        and bool((item.get("explanation") or {}).get("policy"))
+        and bool((item.get("explanation") or {}).get("authority"))
+        for item in contract_results
+    )
+    boundary_class_counts: dict[str, collections.Counter[str]] = {
+        "mutation": collections.Counter(),
+        "network": collections.Counter(),
+        "identity": collections.Counter(),
+        "control": collections.Counter(),
+        "mcp_scope": collections.Counter(),
+    }
+    for relationship in trust_boundaries.get("relationships", []):
+        dimensions = relationship.get("dimensions") or {}
+        for family in boundary_class_counts:
+            classification = (dimensions.get(family) or {}).get("class")
+            if classification:
+                boundary_class_counts[family][str(classification)] += 1
+
+    mcp_resolution_summary = mcp_resolution.get("summary") or {}
+    contract_summary = authority_contract.get("summary") or {}
+    trust_summary = trust_boundaries.get("summary") or {}
+
     return {
         "scanner_version": __version__,
         "coverage_incomplete": graph.coverage.incomplete,
@@ -281,6 +318,18 @@ def scan_target(target: Path) -> dict:
         "adg_edge_kinds": (adg.get("summary") or {}).get("edge_kinds", {}),
         "bound_mcp_references": sum(len(agent.mcp_servers) for agent in graph.agents),
         "unbound_mcp_references": len(graph.unbound_mcp_servers),
+        "unresolved_mcp_references": int(
+            mcp_resolution_summary.get("unresolved_references", 0) or 0
+        ),
+        "unresolved_mcp_agent_references": int(
+            mcp_resolution_summary.get("agent_references", 0) or 0
+        ),
+        "mcp_unresolved_by_reason": dict(
+            mcp_resolution_summary.get("by_reason", {}) or {}
+        ),
+        "mcp_unresolved_by_resolution_class": dict(
+            mcp_resolution_summary.get("by_resolution_class", {}) or {}
+        ),
         "mcp_unbound_by_reason": dict(
             ((graph.coverage.resolution or {}).get("mcp", {}) or {}).get(
                 "unbound_by_reason",
@@ -288,6 +337,41 @@ def scan_target(target: Path) -> dict:
             )
             or {}
         ),
+        "authority_contract_agents": int(
+            contract_summary.get("agents_with_contract", 0) or 0
+        ),
+        "authority_contract_relationships": int(
+            contract_summary.get("relationships_evaluated", 0) or 0
+        ),
+        "authority_contract_violations": int(
+            contract_summary.get("violations", 0) or 0
+        ),
+        "authority_contract_unresolved": int(
+            contract_summary.get("unresolved", 0) or 0
+        ),
+        "authority_explanations_complete": explanation_complete,
+        "trust_boundary_relationships": int(
+            trust_summary.get("relationships", 0) or 0
+        ),
+        "trust_boundary_unknown_mutation": int(
+            trust_summary.get("unknown_mutation", 0) or 0
+        ),
+        "trust_boundary_unknown_network": int(
+            trust_summary.get("unknown_network", 0) or 0
+        ),
+        "trust_boundary_unknown_identity": int(
+            trust_summary.get("unknown_identity", 0) or 0
+        ),
+        "trust_boundary_unknown_control": int(
+            trust_summary.get("unknown_control", 0) or 0
+        ),
+        "trust_boundary_unknown_mcp_scope": int(
+            trust_summary.get("unknown_mcp_scope", 0) or 0
+        ),
+        "trust_boundary_classes": {
+            family: dict(counter)
+            for family, counter in boundary_class_counts.items()
+        },
         "mcp_agent_invokes": mcp_agent_invokes,
         "mcp_identity_edges": mcp_identity_edges,
         "approval_control_nodes": len(approval_nodes),
@@ -451,6 +535,13 @@ def build_summary(results: list[dict]) -> dict:
         "proven_non_agent_flows", "unknown_agent_reachability_flows",
         "agent_attribution_gaps", "attack_paths", "static_dataflow_attack_paths",
         "adg_nodes", "adg_edges", "bound_mcp_references", "unbound_mcp_references",
+        "unresolved_mcp_references", "unresolved_mcp_agent_references",
+        "authority_contract_agents", "authority_contract_relationships",
+        "authority_contract_violations", "authority_contract_unresolved",
+        "authority_explanations_complete", "trust_boundary_relationships",
+        "trust_boundary_unknown_mutation", "trust_boundary_unknown_network",
+        "trust_boundary_unknown_identity", "trust_boundary_unknown_control",
+        "trust_boundary_unknown_mcp_scope",
         "mcp_agent_invokes", "mcp_identity_edges", "approval_control_nodes",
         "approval_guarded_edges", "approved_tools", "guarded_tools", "findings",
     ]
@@ -491,6 +582,33 @@ def build_summary(results: list[dict]) -> dict:
             scanned,
             "mcp_unbound_by_reason",
         ),
+        "mcp_unresolved_by_reason": _merge_counter(
+            scanned,
+            "mcp_unresolved_by_reason",
+        ),
+        "mcp_unresolved_by_resolution_class": _merge_counter(
+            scanned,
+            "mcp_unresolved_by_resolution_class",
+        ),
+        "trust_boundary_classes": {
+            family: _merge_counter(
+                [
+                    {"values": (item.get("trust_boundary_classes") or {}).get(
+                        family,
+                        {},
+                    )}
+                    for item in scanned
+                ],
+                "values",
+            )
+            for family in (
+                "mutation",
+                "network",
+                "identity",
+                "control",
+                "mcp_scope",
+            )
+        },
         "unknown_flow_repositories": [
             {
                 "repo": item["repo"],
@@ -529,7 +647,26 @@ def render_markdown(report: dict) -> str:
             f"attribution-gaps={totals['agent_attribution_gaps']}"
         ),
         f"- Static-dataflow attack paths: {totals['static_dataflow_attack_paths']}",
-        f"- MCP references: {totals['bound_mcp_references']} bound / {totals['unbound_mcp_references']} unbound",
+        f"- MCP declarations: {totals['bound_mcp_references']} bound / {totals['unbound_mcp_references']} concrete unbound",
+        (
+            f"- MCP unresolved observations: {totals['unresolved_mcp_references']} total; "
+            f"agent references={totals['unresolved_mcp_agent_references']}"
+        ),
+        (
+            f"- Trust-boundary relationships: {totals['trust_boundary_relationships']}; "
+            f"unknown mutation/network/identity/control/MCP="
+            f"{totals['trust_boundary_unknown_mutation']}/"
+            f"{totals['trust_boundary_unknown_network']}/"
+            f"{totals['trust_boundary_unknown_identity']}/"
+            f"{totals['trust_boundary_unknown_control']}/"
+            f"{totals['trust_boundary_unknown_mcp_scope']}"
+        ),
+        (
+            f"- Authority Contracts: agents={totals['authority_contract_agents']}; "
+            f"violations={totals['authority_contract_violations']}; "
+            f"unresolved={totals['authority_contract_unresolved']}; "
+            f"explained={totals['authority_explanations_complete']}"
+        ),
         f"- ADG agent→MCP invokes: {totals['mcp_agent_invokes']}",
         f"- Approval-control nodes: {totals['approval_control_nodes']}",
         f"- Findings: {totals['findings']} total; runtime={runtime}; non-runtime={nonruntime}",
@@ -604,11 +741,36 @@ def render_markdown(report: dict) -> str:
     else:
         lines.append("- none")
 
-    lines += ["", "## Unbound MCP by reason", ""]
+    lines += ["", "## Concrete unbound MCP declarations by reason", ""]
     for key, value in sorted(summary["mcp_unbound_by_reason"].items()):
         lines.append(f"- {key}: {value}")
     if not summary["mcp_unbound_by_reason"]:
         lines.append("- none")
+
+    lines += ["", "## All unresolved MCP observations by reason", ""]
+    for key, value in sorted(summary["mcp_unresolved_by_reason"].items()):
+        lines.append(f"- {key}: {value}")
+    if not summary["mcp_unresolved_by_reason"]:
+        lines.append("- none")
+
+    lines += ["", "## MCP unresolved resolution classes", ""]
+    for key, value in sorted(
+        summary["mcp_unresolved_by_resolution_class"].items()
+    ):
+        lines.append(f"- {key}: {value}")
+    if not summary["mcp_unresolved_by_resolution_class"]:
+        lines.append("- none")
+
+    lines += ["", "## Trust-boundary classifications", ""]
+    for family, values in sorted(summary["trust_boundary_classes"].items()):
+        lines.append(f"### {family}")
+        lines.append("")
+        if values:
+            for key, value in sorted(values.items()):
+                lines.append(f"- {key}: {value}")
+        else:
+            lines.append("- none")
+        lines.append("")
 
     lines += ["", "## OWASP Agentic Top 10", ""]
     for category in summary["owasp_agentic"]["categories"]:
@@ -680,7 +842,7 @@ def main() -> int:
             )
 
     report = {
-        "schema_version": 3,
+        "schema_version": 4,
         "cohort": args.cohort.lower(),
         "corpus": manifest["corpus"],
         "manifest_frozen_at": manifest["frozen_at"],
