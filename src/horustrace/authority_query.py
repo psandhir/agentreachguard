@@ -98,9 +98,7 @@ def _relationship_matches(
     )
     if identity is not None and not _matches(identity_name, identity):
         return False
-    if resolution is not None and relationship.resolution != resolution:
-        return False
-    return True
+    return resolution is None or relationship.resolution == resolution
 
 
 def query_effective_authority(
