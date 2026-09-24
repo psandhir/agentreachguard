@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from horustrace.models import AgentReachability, FlowExecutionContext
+from horustrace.entrypoint_provenance import annotate_flow_entrypoints
+from horustrace.models import AgentReachability, FlowExecutionContext, FlowPath
 from horustrace.scanner import scan
 
 
@@ -176,3 +177,31 @@ class MCPServer:
         "arcade_mcp_server.server.MCPServer._load_config_values",
         "core.auth_tokens.get_valid_access_token",
     ]
+
+
+def test_proven_flows_skip_repository_wide_inbound_indexing(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    flow = FlowPath(
+        flow_id="flow-v1:proven",
+        source_kind="user_input",
+        sink_kind="external_send",
+        source_label="input",
+        sink_label="requests.post",
+        steps=[],
+        agent_reachability=AgentReachability.PROVEN_NON_AGENT,
+        execution_context=FlowExecutionContext.CLI,
+    )
+
+    def fail_if_called(*_args, **_kwargs):
+        raise AssertionError("proven flows must not trigger reverse-call indexing")
+
+    monkeypatch.setattr(
+        "horustrace.entrypoint_provenance._collect_callables",
+        fail_if_called,
+    )
+
+    annotate_flow_entrypoints(tmp_path, [], [flow])
+
+    assert "inbound_entrypoints" not in flow.metadata
