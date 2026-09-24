@@ -23,10 +23,7 @@ from horustrace.effective_authority import (
 )
 from horustrace.git_snapshot import GitSnapshotError
 from horustrace.limits import ScanLimitError
-from horustrace.mcp_effective import (
-    effective_mcp_authority_report,
-    render_effective_mcp_authority_console,
-)
+from horustrace.mcp_effective import effective_mcp_authority_report
 from horustrace.models import Severity
 from horustrace.owasp import build_owasp_agentic_summary, render_owasp_agentic_console
 from horustrace.provenance import control_observations
