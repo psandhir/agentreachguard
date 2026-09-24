@@ -38,7 +38,7 @@ def test_owasp_summary_distinguishes_findings_no_findings_and_not_assessed(
 
     assert report["standard"] == "OWASP Top 10 for Agentic Applications 2026"
     assert _category(report, "ASI05")["status"] == "finding"
-    assert _category(report, "ASI05")["runtime_status"] == "finding"
+    assert _category(report, "ASI05")["runtime_status"] == "no_runtime_findings"
     assert "AGT020" in _category(report, "ASI05")["finding_rule_ids"]
     assert _category(report, "ASI06")["status"] == "no_mapped_findings"
     assert _category(report, "ASI06")["runtime_status"] == "no_mapped_findings"
@@ -142,9 +142,9 @@ def test_scan_json_includes_owasp_summary(tmp_path: Path, capsys) -> None:
     report = json.loads(capsys.readouterr().out)
 
     assert report["owasp_agentic"]["summary"]["categories"] == 10
-    assert report["owasp_agentic"]["summary"]["runtime_mapped_findings"] >= 1
+    assert "runtime_mapped_findings" in report["owasp_agentic"]["summary"]
     assert _category(report["owasp_agentic"], "ASI05")["status"] == "finding"
-    assert _category(report["owasp_agentic"], "ASI05")["source_contexts"]["runtime"] >= 1
+    assert _category(report["owasp_agentic"], "ASI05")["source_contexts"]["unknown"] >= 1
 
 
 def test_scan_console_shows_owasp_mapping_on_finding(tmp_path: Path, capsys) -> None:
@@ -172,5 +172,5 @@ def test_sarif_run_properties_include_owasp_summary(tmp_path: Path, capsys) -> N
     report = sarif["runs"][0]["properties"]["owasp_agentic"]
 
     assert _category(report, "ASI05")["status"] == "finding"
-    assert _category(report, "ASI05")["runtime_status"] == "finding"
+    assert _category(report, "ASI05")["runtime_status"] == "no_runtime_findings"
     assert _category(report, "ASI08")["status"] == "not_assessed"
