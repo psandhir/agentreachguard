@@ -161,3 +161,68 @@ async def main():
         server.metadata.get("context_binding")
         for server in graph.unbound_mcp_servers
     } == {"ambiguous_fast_agent_reference"}
+
+
+def test_fast_agent_http_oauth_is_enabled_by_default(tmp_path: Path) -> None:
+    (tmp_path / "fast-agent.yaml").write_text(
+        """
+mcp:
+  servers:
+    remote:
+      target: "https://huggingface.co/mcp?login"
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("App")
+
+@fast.agent(name="worker", servers=["remote"])
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    server = graph.agents[0].mcp_servers[0]
+
+    assert server.authenticated is True
+    assert "oauth" in server.metadata["auth_keys"]
+    assert server.metadata["credential_source"] == "oauth:keyring"
+    assert not any(item.rule_id == "AGT030" for item in findings)
+
+
+def test_fast_agent_http_oauth_can_be_explicitly_disabled(tmp_path: Path) -> None:
+    (tmp_path / "fast-agent.yaml").write_text(
+        """
+mcp:
+  servers:
+    remote:
+      target: "https://mcp.example.test/mcp"
+      auth:
+        oauth: false
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "agent.py").write_text(
+        """
+from fast_agent import FastAgent
+
+fast = FastAgent("App")
+
+@fast.agent(name="worker", servers=["remote"])
+async def main():
+    pass
+""",
+        encoding="utf-8",
+    )
+
+    graph, findings = scan(tmp_path)
+    server = graph.agents[0].mcp_servers[0]
+
+    assert server.authenticated is False
+    assert "oauth" not in server.metadata["auth_keys"]
+    assert any(item.rule_id == "AGT030" for item in findings)
