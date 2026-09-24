@@ -214,6 +214,31 @@ def scan_target(target: Path) -> dict:
         flow.agent_reachability.value for flow in graph.flow_paths
     )
     flow_resolution = (graph.coverage.resolution or {}).get("flows", {})
+    flow_details = []
+    for flow in graph.flow_paths:
+        flow_details.append(
+            {
+                "flow_id": flow.flow_id,
+                "source_kind": flow.source_kind,
+                "sink_kind": flow.sink_kind,
+                "source_label": flow.source_label,
+                "sink_label": flow.sink_label,
+                "agent": flow.agent,
+                "execution_context": flow.execution_context.value,
+                "agent_reachability": flow.agent_reachability.value,
+                "agent_reachability_basis": flow.metadata.get("agent_reachability_basis"),
+                "agent_binding": flow.metadata.get("agent_binding"),
+                "call_chain": list(flow.metadata.get("call_chain") or []),
+                "source_path": _relative(
+                    flow.steps[0].location.path,
+                    target,
+                ) if flow.steps and flow.steps[0].location else None,
+                "sink_path": _relative(
+                    flow.steps[-1].location.path,
+                    target,
+                ) if flow.steps and flow.steps[-1].location else None,
+            }
+        )
 
     return {
         "scanner_version": __version__,
@@ -246,6 +271,7 @@ def scan_target(target: Path) -> dict:
             flow_resolution.get("unknown_reachability_by_basis", {}) or {}
         ),
         "flow_pairs": dict(flow_pairs),
+        "flow_details": flow_details,
         "attack_paths": len(graph.attack_paths),
         "static_dataflow_attack_paths": attack_basis.get("static_dataflow", 0),
         "attack_path_basis": dict(attack_basis),
@@ -465,6 +491,19 @@ def build_summary(results: list[dict]) -> dict:
             scanned,
             "mcp_unbound_by_reason",
         ),
+        "unknown_flow_repositories": [
+            {
+                "repo": item["repo"],
+                "unknown": int(item.get("unknown_agent_reachability_flows", 0) or 0),
+                "flows": [
+                    flow
+                    for flow in item.get("flow_details", [])
+                    if flow.get("agent_reachability") == "unknown"
+                ],
+            }
+            for item in scanned
+            if int(item.get("unknown_agent_reachability_flows", 0) or 0) > 0
+        ],
         "owasp_agentic": _aggregate_owasp(scanned),
     }
 
@@ -540,6 +579,29 @@ def render_markdown(report: dict) -> str:
     ):
         lines.append(f"- {key}: {value}")
     if not summary["flow_unknown_reachability_by_basis"]:
+        lines.append("- none")
+
+    lines += ["", "## Residual unknown-flow adjudication", ""]
+    unknown_repos = summary.get("unknown_flow_repositories", [])
+    if unknown_repos:
+        for item in unknown_repos:
+            lines.append(f"### {item['repo']} ({item['unknown']} unknown)")
+            lines.append("")
+            for flow in item["flows"]:
+                chain = " -> ".join(flow.get("call_chain") or []) or "n/a"
+                binding = flow.get("agent_binding") or {}
+                binding_basis = binding.get("basis") or "none"
+                lines.append(
+                    f"- {flow['source_kind']} -> {flow['sink_kind']} | "
+                    f"context={flow['execution_context']} | "
+                    f"basis={flow.get('agent_reachability_basis') or 'none'} | "
+                    f"binding={binding_basis} | "
+                    f"source={flow.get('source_path') or 'n/a'} | "
+                    f"sink={flow.get('sink_path') or 'n/a'} | "
+                    f"chain={chain}"
+                )
+            lines.append("")
+    else:
         lines.append("- none")
 
     lines += ["", "## Unbound MCP by reason", ""]
