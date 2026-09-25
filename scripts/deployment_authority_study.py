@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Run the frozen HorusTrace v0.8 deployment-authority validation study.
 
 The harness fetches public targets at exact commit SHAs and never imports, installs,
@@ -247,8 +246,7 @@ def _run(command: list[str], *, timeout: int) -> subprocess.CompletedProcess[str
         command,
         env=env,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         timeout=timeout,
         check=False,
     )
@@ -524,13 +522,19 @@ def aggregate(results: list[dict[str, Any]]) -> dict[str, Any]:
 
 def render_markdown(report: dict[str, Any]) -> str:
     summary = report["summary"]
+    safety_line = (
+        "Targets are pinned to exact Git commit SHAs. Target applications are not "
+        "installed, imported, or executed."
+    )
+    authority_line = (
+        "Terraform is repository-declared authority evidence; runtime effectiveness "
+        "remains not_verified."
+    )
     lines = [
         "# HorusTrace v0.8 deployment-authority study",
         "",
-        "Targets are pinned to exact Git commit SHAs. Target applications are not "
-        "installed, imported, or executed.",
-        "Terraform is repository-declared authority evidence; runtime effectiveness "
-        "remains not_verified.",
+        safety_line,
+        authority_line,
         "",
         "## Summary",
         "",
