@@ -19,7 +19,7 @@ from horustrace.effective_authority import (
     EffectiveAuthorityRelationship,
     effective_authority_relationships,
 )
-from horustrace.models import Graph
+from horustrace.models import Agent, Graph
 
 AUTHORITY_RECONCILIATION_SCHEMA_VERSION = 1
 
@@ -155,6 +155,47 @@ def _required_authority(
         permissions_complete,
     )
 
+def _deployment_required_authority(
+    agent: Agent,
+) -> tuple[set[str], set[str], set[str], bool, bool, list[dict[str, Any]]]:
+    raw = agent.metadata.get("deployment_required_authority")
+    if not isinstance(raw, dict):
+        return set(), set(), set(), False, False, []
+
+    roles = {
+        str(value)
+        for value in raw.get("roles") or []
+        if value
+    }
+    permissions = {
+        str(value)
+        for value in raw.get("permissions") or []
+        if value
+    }
+    unresolved: set[str] = set()
+    roles_complete = raw.get("roles_complete") is True
+    permissions_complete = raw.get("permissions_complete") is True
+
+    if roles and not roles_complete:
+        unresolved.add("required_roles_incomplete")
+    if permissions and not permissions_complete:
+        unresolved.add("required_permissions_incomplete")
+
+    evidence = [
+        dict(item)
+        for item in raw.get("evidence") or []
+        if isinstance(item, dict)
+    ]
+    return (
+        roles,
+        permissions,
+        unresolved,
+        roles_complete,
+        permissions_complete,
+        evidence,
+    )
+
+
 def _deployed_authority(
     relationships: list[DeployedAuthorityRelationship],
 ) -> tuple[set[str], set[str], set[str], set[str], set[str]]:
@@ -214,6 +255,7 @@ class AgentAuthorityReconciliation:
     status: str
     effective_authority_relationship_ids: tuple[str, ...]
     deployed_authority_relationship_ids: tuple[str, ...]
+    required_authority_evidence: tuple[dict[str, Any], ...]
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -246,6 +288,7 @@ class AgentAuthorityReconciliation:
                 "deployed_authority_relationship_ids": list(
                     self.deployed_authority_relationship_ids
                 ),
+                "required_authority": list(self.required_authority_evidence),
             },
             "runtime_effectiveness": "not_verified",
         }
@@ -265,7 +308,8 @@ def authority_reconciliations(
         deployed_by_agent.setdefault(item.agent, []).append(item)
 
     result: list[AgentAuthorityReconciliation] = []
-    for agent in sorted({item.name for item in graph.agents}):
+    agents_by_name = {item.name: item for item in graph.agents}
+    for agent in sorted(agents_by_name):
         effective_items = effective_by_agent.get(agent, [])
         deployed_items = deployed_by_agent.get(agent, [])
         (
@@ -275,6 +319,33 @@ def authority_reconciliations(
             required_roles_complete,
             required_permissions_complete,
         ) = _required_authority(effective_items)
+        (
+            deployment_roles,
+            deployment_permissions,
+            deployment_unresolved,
+            deployment_roles_complete,
+            deployment_permissions_complete,
+            deployment_required_evidence,
+        ) = _deployment_required_authority(agents_by_name[agent])
+        if deployment_roles:
+            required_roles.update(deployment_roles)
+            required_unresolved.discard("required_roles")
+            required_roles_complete = (
+                required_roles_complete or deployment_roles_complete
+            )
+            if not required_roles_complete:
+                required_unresolved.add("required_roles_incomplete")
+        if deployment_permissions:
+            required_permissions.update(deployment_permissions)
+            required_unresolved.discard("required_permissions")
+            required_permissions_complete = (
+                required_permissions_complete
+                or deployment_permissions_complete
+            )
+            if not required_permissions_complete:
+                required_unresolved.add("required_permissions_incomplete")
+        required_unresolved.update(deployment_unresolved)
+
         (
             deployed_roles,
             conditional_roles,
@@ -335,6 +406,7 @@ def authority_reconciliations(
                 deployed_authority_relationship_ids=tuple(
                     sorted(item.relationship_id for item in deployed_items)
                 ),
+                required_authority_evidence=tuple(deployment_required_evidence),
             )
         )
     return result
