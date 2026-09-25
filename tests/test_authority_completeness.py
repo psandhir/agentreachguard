@@ -214,3 +214,47 @@ def call_service(url: str):
     certificate = report["certificates"][0]
     assert certificate["complete"] is False
     assert "generic_authenticated_google_api_surface" in certificate["blockers"]
+
+
+
+def test_endpoint_marker_requires_discovery_engine_hostname(
+    tmp_path: Path,
+) -> None:
+    app = tmp_path / "app"
+    _write_source(
+        app,
+        """
+VALUE = "https://discoveryengine.googleapis.com/v1/projects/demo"
+""",
+    )
+    graph = Graph(agents=[Agent(name="root_agent")])
+
+    report = authority_completeness_report(graph, _bundle(), app)
+
+    certificate = report["certificates"][0]
+    assert certificate["complete"] is False
+    assert "discoveryengine_usage_present" in certificate["blockers"]
+    assert any(
+        item["kind"] == "endpoint"
+        and item["marker"].startswith("https://discoveryengine.googleapis.com/")
+        for item in certificate["family_markers"]
+    )
+
+
+def test_endpoint_text_in_unrelated_url_path_is_not_a_marker(
+    tmp_path: Path,
+) -> None:
+    app = tmp_path / "app"
+    _write_source(
+        app,
+        """
+VALUE = "https://example.com/docs/discoveryengine.googleapis.com/reference"
+""",
+    )
+    graph = Graph(agents=[Agent(name="root_agent")])
+
+    report = authority_completeness_report(graph, _bundle(), app)
+
+    certificate = report["certificates"][0]
+    assert certificate["complete"] is True
+    assert certificate["family_markers"] == []
