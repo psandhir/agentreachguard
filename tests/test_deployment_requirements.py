@@ -5,7 +5,9 @@ from horustrace.deployment_evidence import (
     DeploymentEvidenceBundle,
     DeploymentWorkloadEvidence,
 )
-from horustrace.deployment_requirements import enrich_cross_layer_required_authority
+from horustrace.deployment_requirements import (
+    enrich_cross_layer_required_authority,
+)
 from horustrace.models import Agent, Graph
 
 
