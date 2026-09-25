@@ -22,6 +22,19 @@ def test_real_world_agent_security_protocol_is_valid() -> None:
     assert report["valid"] is True
     assert report["study"] == "real-world-agent-security-2026"
     assert report["scanner_sha"] == "418db4e29798a7d25df686dd7bccfd9fefa225bd"
-    assert report["candidates"]["total"] == 0
+    assert report["candidates"]["total"] == 365
+    assert report["candidates"]["pending"] == 365
+    assert report["candidates"]["included"] == 0
+    assert report["candidates"]["excluded"] == 0
+    assert report["candidates"]["prior_study_checks_pending"] == 365
+    assert report["candidates"]["framework_counts"] == {
+        "fastagent": 30,
+        "google-adk": 75,
+        "langgraph": 65,
+        "mcp-custom": 65,
+        "openai-agents": 65,
+        "pydantic-ai": 65,
+    }
+    assert report["candidates"]["frozen"] is False
     assert report["cohort"]["frozen"] is False
     assert report["cohort"]["cases"] == 0
