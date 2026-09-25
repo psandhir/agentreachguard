@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "openai-agents",
+  "part": 1,
+  "query": "openai agents sdk",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "openai/openai-cs-agents-demo",
+      "sha": "bd7bfca0f5abf50529370814c3e7c88542011925",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 25299,
+      "query": "openai agents sdk",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "strands-agents/harness-sdk",
+      "sha": "15da9dca2cd6f870684fdc27a2498bebbd00b62d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 216891,
+      "query": "openai agents sdk",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "qx-labs/agents-deep-research",
+      "sha": "5e7f4b2321b20bf04c72a405688ab9980887c603",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 184,
+      "query": "openai agents sdk",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "openai/openai-voice-agent-sdk-sample",
+      "sha": "6cead90cee279646642a244b54554a596ebb88c3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 149,
+      "query": "openai agents sdk",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "shahidali54/OpenAI-Agents-SDK",
+      "sha": "8f77467d51359d078c86fdf05147ca535e5bb770",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 8522,
+      "query": "openai agents sdk",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "AgentOps-AI/agentops",
+      "sha": "f8e907b92dabe47232978023fdcb01e2a7d4b752",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 177625,
+      "query": "openai agents sdk",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "strands-agents/samples",
+      "sha": "11dd549c26c964a707de8189b7974a39603f2605",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 140138,
+      "query": "openai agents sdk",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "chatwoot/ai-agents",
+      "sha": "568b0443f8e685bfda868bcae0a74f6a7ea9d741",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3844,
+      "query": "openai agents sdk",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "panaversity/learn-agentic-ai",
+      "sha": "dd7426f65b2452062fdb6d27661c018eaf751baa",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 213387,
+      "query": "openai agents sdk",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "e2b-dev/awesome-ai-sdks",
+      "sha": "7c55394afb3e27d755c89bb29f1c35a55888fcd4",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 7415,
+      "query": "openai agents sdk",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "DannyMac180/meta-agent",
+      "sha": "f246305960a0fb13cc4abea29ef440fd0ff215b8",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 25233,
+      "query": "openai agents sdk",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "vercel/ai",
+      "sha": "94d5d6d3e607f5cdaf112ca8674a86f1da03f8b7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 401010,
+      "query": "openai agents sdk",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "PacktPublishing/Building-Agents-with-OpenAI-Agents-SDK",
+      "sha": "f49a98d003a911201c471970ef896c190344b083",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 75,
+      "query": "openai agents sdk",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "jgravelle/OpenAI-AgentsSDK-GUI",
+      "sha": "38731274627cf6808c50bc84dd69fe5721454c1b",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 217,
+      "query": "openai agents sdk",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
