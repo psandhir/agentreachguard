@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 from horustrace.authority_reconciliation import authority_reconciliation_report
