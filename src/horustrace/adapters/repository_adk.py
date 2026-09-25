@@ -1090,6 +1090,50 @@ def _merge_agent(existing: Agent, incoming: Agent) -> None:
         if replace_placeholder:
             existing.tools[index] = tool
             by_name[tool.name] = (index, tool)
+            continue
+
+        if tool.metadata.get("repository_resolved") is True:
+            existing_tool.capabilities.update(tool.capabilities)
+            if existing_tool.identity is None and tool.identity is not None:
+                existing_tool.identity = tool.identity
+
+            for destination in tool.destinations:
+                if destination not in existing_tool.destinations:
+                    existing_tool.destinations.append(destination)
+            for resource in tool.resources:
+                if resource not in existing_tool.resources:
+                    existing_tool.resources.append(resource)
+
+            existing_tool.metadata["repository_resolved"] = True
+            if tool.metadata.get("network_scope"):
+                existing_tool.metadata["network_scope"] = tool.metadata[
+                    "network_scope"
+                ]
+
+            required_roles = set(
+                existing_tool.metadata.get("required_roles") or []
+            )
+            required_roles.update(tool.metadata.get("required_roles") or [])
+            if required_roles:
+                existing_tool.metadata["required_authority_provider"] = (
+                    tool.metadata.get("required_authority_provider")
+                    or existing_tool.metadata.get("required_authority_provider")
+                )
+                existing_tool.metadata["required_roles"] = sorted(required_roles)
+                existing_tool.metadata["required_roles_complete"] = (
+                    existing_tool.metadata.get("required_roles_complete") is True
+                    or tool.metadata.get("required_roles_complete") is True
+                )
+
+            evidence = list(
+                existing_tool.metadata.get("required_role_evidence") or []
+            )
+            for item in tool.metadata.get("required_role_evidence") or []:
+                if item not in evidence:
+                    evidence.append(item)
+            if evidence:
+                existing_tool.metadata["required_role_evidence"] = evidence
+
     known_servers = {server.name for server in existing.mcp_servers}
     for server in incoming.mcp_servers:
         if server.name not in known_servers:
