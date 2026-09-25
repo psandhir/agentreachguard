@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "pydantic-ai",
+  "part": 2,
+  "query": "pydantic-ai",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "pydantic/pydantic-ai",
+      "sha": "d0ea063717d88ef48c854d282bbb51c12a53065f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 269413,
+      "query": "pydantic-ai",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "pydantic/pydantic-ai-harness",
+      "sha": "a7bbe89fd855138916d4f64060479f4ddb0ef9b0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39774,
+      "query": "pydantic-ai",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/PydanticAI-Research-Agent",
+      "sha": "6462e3be4aa8bfd1a6224fe390b9422e6ae47f38",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 301,
+      "query": "pydantic-ai",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "daveebbelaar/pydantic-ai-tutorial",
+      "sha": "248f383ae4add2dcfc25e31b696320a494767844",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9,
+      "query": "pydantic-ai",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "DougTrajano/pydantic-ai-skills",
+      "sha": "fe1919688dac105d57eae384de1ebfc52b9448f9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 10767,
+      "query": "pydantic-ai",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-backend",
+      "sha": "8ac7b678b633aa51c054a884ce27d31b130b8110",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9770,
+      "query": "pydantic-ai",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "Maillol/aiohttp-pydantic",
+      "sha": "f3f70a10431b756f5c025663b7a05b0c6463a3b4",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 248,
+      "query": "pydantic-ai",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "abdallah-ali-abdallah/pydantic-ai-agents-tutorial",
+      "sha": "8c794e9bcc0f3c9ab80f3e2d4fa547ba3d9ee78a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 190,
+      "query": "pydantic-ai",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "pydantic/pydantic-ai-gateway",
+      "sha": "feab1b532f589cb97843908d2da07e1321598cd7",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 1318,
+      "query": "pydantic-ai",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/awesome-pydantic-ai",
+      "sha": "0284037c0d88cd234a901882d54b75b18c12cfe8",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 60,
+      "query": "pydantic-ai",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "FaustoS88/Pydantic-AI-Pinescript-Expert",
+      "sha": "03cbd93c486435df08d70185fbab9aa61fff5fbb",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 563,
+      "query": "pydantic-ai",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-todo",
+      "sha": "0717216e71bd47a9da60ab46ab1108bbff3b79db",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1020,
+      "query": "pydantic-ai",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/pydantic-ai-github-agent",
+      "sha": "43586396a10620cf4ebea542890275c9c6a0d8eb",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 10,
+      "query": "pydantic-ai",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "hassancs91/AI-Tools-Pydantic-Instructor",
+      "sha": "dc39fb9c6fbc445953adcd472203e488637b649e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2,
+      "query": "pydantic-ai",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/subagents-pydantic-ai",
+      "sha": "bb8c400732ad515a1e2bfc554ee2dcf7500b2ef9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2263,
+      "query": "pydantic-ai",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
