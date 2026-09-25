@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-002",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+        "classification": "aligned",
+        "required": {
+          "capabilities": [
+            "agent.delegate",
+            "data.read",
+            "data.write",
+            "model.invoke"
+          ],
+          "roles": [
+            "roles/datastore.user",
+            "roles/aiplatform.user",
+            "roles/storage.objectViewer"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/datastore.user",
+            "roles/aiplatform.user",
+            "roles/storage.objectViewer"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/datastore.user",
+            "roles/aiplatform.user",
+            "roles/storage.objectViewer"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "customer_support_mas/agents/root/agent.py",
+        "rationale": "The root coordinator delegates to specialists whose tools use Firestore, invokes Vertex AI, and the managed Agent Engine identity reads staged artifacts. At role granularity the reviewed runtime grants are consistent with those needs."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "terraform/modules/core/iam.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}
