@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:Metafiziks/gcp-search-agent@01f1ca76eceae91bafd553c96ba483c250cc4d70",
+  "workloads": [
+    {
+      "workload_id": "repository-template://Metafiziks/gcp-search-agent/cloud_run/search_agent",
+      "kind": "cloud_run",
+      "name": "search_agent",
+      "identity": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "search_agent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/discoveryengine.viewer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.objectViewer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/bigquery.dataEditor",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/bigquery.jobUser",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Metafiziks/gcp-search-agent",
+        "commit": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
