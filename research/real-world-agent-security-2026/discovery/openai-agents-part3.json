@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "openai-agents",
+  "part": 3,
+  "query": "openai multi agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "openai/openai-agents-python",
+      "sha": "588826c5be27cad21a3067463e21972ffea38561",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 64686,
+      "query": "openai multi agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "openai/openai-agents-js",
+      "sha": "fdaf0a66ca6e9d89498909ad7cf64745630e8afb",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 19934,
+      "query": "openai multi agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "zhayujie/CowAgent",
+      "sha": "c8063cd2cc78dc2d74845a89e3bb1273c6dc0f16",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 17270,
+      "query": "openai multi agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "open-multi-agent/open-multi-agent",
+      "sha": "ab349e7ad03900455016b798c78464edf98cc94d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 15755,
+      "query": "openai multi agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "aden-hive/hive",
+      "sha": "6193aea7eb064f7536dfedcbe9ff08ad954ac53b",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 25340,
+      "query": "openai multi agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "openai/swarm",
+      "sha": "6af0b4caf37dca4526dfd98e9fbd8ce36e7eeb22",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 537,
+      "query": "openai multi agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "Azure-Samples/agent-openai-java-banking-assistant",
+      "sha": "deb8fa669ec1a88caf5b1c9d5558a9f6330867b3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 6779,
+      "query": "openai multi agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "NirDiamant/GenAI_Agents",
+      "sha": "078d6d544e15c0e758c2533b422fd13ed2d15593",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 265348,
+      "query": "openai multi agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "alibaba/open-code-review",
+      "sha": "486022daaf14f7142275eddb9b3cacc3cc5dadfa",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 54938,
+      "query": "openai multi agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "the-ai-merge/multimodal-agents-course",
+      "sha": "8dc13da4d11303f94360482d05b990450880bdca",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 105046,
+      "query": "openai multi agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "nlpodyssey/openai-agents-go",
+      "sha": "dacc419bf0b163198fe3fb0b09cdaa22bcf5fc55",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 913,
+      "query": "openai multi agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+      "sha": "c06021c1773359ec7192706c3259b52948e00b20",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1656,
+      "query": "openai multi agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "PawanOsman/OpenCursor",
+      "sha": "b4528f95ca5ab4cddf22bef3e19431fad00feb01",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 4258,
+      "query": "openai multi agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Azure-Samples/contoso-creative-writer",
+      "sha": "cf6387c349f100f8fd7ba6a48ba86f3b3952ccf8",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 73053,
+      "query": "openai multi agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "wanxingai/LightAgent",
+      "sha": "827c6b5bbb616fe5d0f879eaead1b229228522d6",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2385,
+      "query": "openai multi agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
