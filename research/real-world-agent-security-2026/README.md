@@ -81,3 +81,23 @@ The batch confirmed that the intentionally broad discovery process captures seve
 It also confirmed that framework repositories can still contribute a case when a clearly bounded, substantive application example exists. For example, `Unfold-Security/pydantic-collab` is represented by its concrete multi-agent data-analysis pipeline example rather than by library internals.
 
 A second LambChat repository was re-stratified from FastAgent to LangGraph and excluded as substantially identical to the previously screened LambChat variant. The original discovery stratum remains preserved in the discovery snapshot.
+
+
+## Screening batch 2
+
+The second scaled screening batch reviewed 24 additional repositories.
+
+Cumulative state after this batch:
+
+- reviewed: 60
+- included: 34
+- excluded: 26
+- pending: 305
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+Batch 2 retained two genuine FastAgent applications after earlier discovery false positives had reduced that stratum: a Klavis Skybridge example and the AI Writers Workshop multi-agent/MCP integration.
+
+It also retained `aws-samples/sample-agentic-platform` as the first especially strong Tier C candidate because the same pinned repository contains Pydantic AI application examples together with Terraform, Kubernetes/EKS and AWS deployment/identity context. Tier C eligibility is still provisional until dedicated deployment-source review.
+
+As in earlier batches, documentation registries, SDK/library repositories, translated guides, MCP servers without an agent loop, and close project variants were excluded rather than counted merely because framework keywords were present.
