@@ -33,7 +33,29 @@ def _write_case(tmp_path: Path, *, sha: str = SHA) -> Path:
         "schema_version": 1,
         "case_id": "natural-001",
         "reviewed": True,
-        "expected": {
+        "security_ground_truth": {
+            "runtime_effectiveness": "not_verified",
+            "agents": [
+                {
+                    "agent": "support",
+                    "identity": "support@prod.iam.gserviceaccount.com",
+                    "classification": "aligned",
+                    "required": {
+                        "capabilities": ["tickets.read"],
+                        "roles": ["roles/viewer"],
+                        "permissions": ["tickets.read"],
+                    },
+                    "deployed": {
+                        "roles": ["roles/viewer"],
+                        "permissions": ["tickets.read"],
+                    },
+                    "excess": {"roles": [], "permissions": []},
+                    "missing": {"roles": [], "permissions": []},
+                    "unresolved": [],
+                }
+            ],
+        },
+        "expected_horustrace": {
             "runtime_effectiveness": "not_verified",
             "agents": [
                 {
@@ -133,7 +155,8 @@ def test_ground_truth_contract_loads_reviewed_case(tmp_path: Path) -> None:
     case = study.load_cohort(path)[0]
     truth = study.validate_case_inputs(case)
     assert truth["reviewed"] is True
-    assert truth["expected"]["agents"][0]["status"] == "aligned"
+    assert truth["security_ground_truth"]["agents"][0]["classification"] == "aligned"
+    assert truth["expected_horustrace"]["agents"][0]["status"] == "aligned"
 
 
 def test_reconcile_command_includes_declared_authority_source() -> None:
@@ -155,32 +178,49 @@ def test_reconcile_command_includes_declared_authority_source() -> None:
     ]
 
 
-def _reviewed_truth(status: str = "aligned") -> dict:
+def _reviewed_truth(
+    expected_status: str = "aligned",
+    security_classification: str = "aligned",
+) -> dict:
+    common = {
+        "agent": "support",
+        "identity": "support@prod.iam.gserviceaccount.com",
+        "required": {
+            "roles": ["roles/viewer"],
+            "permissions": ["tickets.read"],
+        },
+        "deployed": {
+            "roles": ["roles/viewer"],
+            "permissions": ["tickets.read"],
+        },
+        "excess": {"roles": [], "permissions": []},
+        "missing": {"roles": [], "permissions": []},
+        "unresolved": [],
+    }
     return {
-        "expected": {
+        "security_ground_truth": {
             "agents": [
                 {
-                    "agent": "support",
-                    "identity": "support@prod.iam.gserviceaccount.com",
-                    "status": status,
+                    **common,
+                    "classification": security_classification,
                     "required": {
-                        "roles": ["roles/viewer"],
-                        "permissions": ["tickets.read"],
+                        **common["required"],
+                        "capabilities": ["tickets.read"],
                     },
-                    "deployed": {
-                        "roles": ["roles/viewer"],
-                        "permissions": ["tickets.read"],
-                    },
-                    "conditional_roles": [],
-                    "conditional_permissions": [],
-                    "excess": {"roles": [], "permissions": []},
-                    "missing": {"roles": [], "permissions": []},
-                    "unresolved": [],
                 }
             ]
-        }
+        },
+        "expected_horustrace": {
+            "agents": [
+                {
+                    **common,
+                    "status": expected_status,
+                    "conditional_roles": [],
+                    "conditional_permissions": [],
+                }
+            ]
+        },
     }
-
 
 def _aligned_report() -> dict:
     return {
@@ -227,7 +267,46 @@ def test_evaluate_report_matches_reviewed_authority() -> None:
 def test_evaluate_report_records_classification_mismatch() -> None:
     evaluation = study.evaluate_report(
         _aligned_report(),
-        _reviewed_truth("excess_authority"),
+        _reviewed_truth(expected_status="excess_authority"),
     )
     assert evaluation["passed"] is False
     assert any("status" in failure for failure in evaluation["failures"])
+
+
+def test_security_ground_truth_is_independent_from_expected_output() -> None:
+    evaluation = study.evaluate_report(
+        _aligned_report(),
+        _reviewed_truth(
+            expected_status="aligned",
+            security_classification="excess_authority",
+        ),
+    )
+    assert evaluation["passed"] is True
+    assert evaluation["agents"][0]["security_classification"] == "excess_authority"
+
+    report = study.aggregate(
+        [
+            {
+                "passed": True,
+                "evaluation": evaluation,
+            }
+        ]
+    )
+    assert report["expected_output_confusion_matrix"]["aligned"]["aligned"] == 1
+    assert (
+        report["security_classification_confusion_matrix"]["excess_authority"]["aligned"]
+        == 1
+    )
+    assert report["summary"]["security_classification_matches"] == 0
+    assert report["summary"]["security_classification_mismatches"] == 1
+
+
+def test_ground_truth_requires_independent_security_section(tmp_path: Path) -> None:
+    path = _write_case(tmp_path)
+    case = study.load_cohort(path)[0]
+    truth = yaml.safe_load(case.ground_truth.read_text(encoding="utf-8"))
+    truth.pop("security_ground_truth")
+    case.ground_truth.write_text(yaml.safe_dump(truth), encoding="utf-8")
+
+    with pytest.raises(study.StudyError, match="security_ground_truth"):
+        study.validate_case_inputs(case)
