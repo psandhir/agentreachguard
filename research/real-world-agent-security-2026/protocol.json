@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "protocol",
+  "created_at": "2026-09-25",
+  "scanner_freeze": {
+    "repository": "psandhir/horustrace",
+    "sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
+    "source_version": "0.8.0",
+    "feature_freeze": true
+  },
+  "selection": {
+    "target_unique_repositories": 180,
+    "minimum_candidate_pool": 300,
+    "horustrace_results_may_influence_selection": false,
+    "previously_studied_cases_allowed": true,
+    "report_previously_unseen_separately": true,
+    "framework_strata": [
+      {
+        "id": "google-adk",
+        "target": 30,
+        "min": 25,
+        "max": 40
+      },
+      {
+        "id": "openai-agents",
+        "target": 30,
+        "min": 25,
+        "max": 40
+      },
+      {
+        "id": "pydantic-ai",
+        "target": 30,
+        "min": 25,
+        "max": 40
+      },
+      {
+        "id": "langgraph",
+        "target": 30,
+        "min": 25,
+        "max": 40
+      },
+      {
+        "id": "fastagent",
+        "target": 20,
+        "min": 12,
+        "max": 30
+      },
+      {
+        "id": "mcp-custom",
+        "target": 40,
+        "min": 30,
+        "max": 50
+      }
+    ],
+    "reallocation": "Shortfalls are reported; remaining slots may be reallocated only before execution and without exceeding another stratum maximum."
+  },
+  "tiers": {
+    "tier_a": {
+      "name": "broad-structural",
+      "target": 180,
+      "dual_review": false
+    },
+    "tier_b": {
+      "name": "deep-authority-attack-path",
+      "target": 60,
+      "dual_review": true,
+      "max_single_framework_fraction": 0.4
+    },
+    "tier_c": {
+      "name": "deployment-iam",
+      "target": 25,
+      "dual_review": true,
+      "provider_selection_neutral": true
+    }
+  },
+  "research_questions": [
+    "entity_discovery",
+    "effective_authority",
+    "security_findings",
+    "attack_paths",
+    "conservative_uncertainty",
+    "deployment_authority",
+    "generalization"
+  ],
+  "primary_thresholds": {
+    "agent_root_precision": 0.95,
+    "agent_root_recall": 0.9,
+    "authority_edge_precision": 0.9,
+    "authority_edge_recall": 0.85,
+    "effective_authority_precision": 0.9,
+    "effective_authority_recall": 0.8,
+    "attack_path_precision": 0.8,
+    "unsupported_certainty_rate_max": 0.05,
+    "deployment_identity_precision": 0.95,
+    "deployment_identity_recall": 0.9
+  },
+  "execution_rules": {
+    "target_execution": false,
+    "target_import": false,
+    "target_install": false,
+    "target_credentials": false,
+    "live_cloud_calls": false,
+    "exact_sha_required": true,
+    "runtime_effectiveness": "not_verified",
+    "preserve_original_baseline": true
+  },
+  "allowed_prebaseline_production_changes": [
+    "horustrace_security_fix",
+    "nondeterminism_fix",
+    "scanner_crash_fix",
+    "study_harness_fix",
+    "repository_fetch_reproducibility_fix"
+  ],
+  "headline_rules": {
+    "report_per_framework": true,
+    "report_previously_unseen": true,
+    "separate_execution_failures": true,
+    "counts_are_not_accuracy_metrics": true,
+    "preserve_original_ground_truth": true
+  }
+}

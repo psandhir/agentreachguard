@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery_not_started",
+  "protocol_sha": null,
+  "horustrace_results_used_for_selection": false,
+  "candidate_pool_frozen": false,
+  "minimum_pool_size": 300,
+  "candidates": []
+}
