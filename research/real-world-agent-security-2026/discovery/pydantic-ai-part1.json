@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "pydantic-ai",
+  "part": 1,
+  "query": "pydantic ai agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "pydantic/pydantic-ai",
+      "sha": "d0ea063717d88ef48c854d282bbb51c12a53065f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 269413,
+      "query": "pydantic ai agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "pydantic/pydantic-ai-harness",
+      "sha": "a7bbe89fd855138916d4f64060479f4ddb0ef9b0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39774,
+      "query": "pydantic ai agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/PydanticAI-Research-Agent",
+      "sha": "6462e3be4aa8bfd1a6224fe390b9422e6ae47f38",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 301,
+      "query": "pydantic ai agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-deepagents",
+      "sha": "32b57ba6df24c744537b9b9080394ead6fc02c10",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39353,
+      "query": "pydantic ai agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "daveebbelaar/pydantic-ai-tutorial",
+      "sha": "248f383ae4add2dcfc25e31b696320a494767844",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9,
+      "query": "pydantic ai agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "sha": "80b74090515a594cc8421fb2d82e98f4e256c29f",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 603016,
+      "query": "pydantic ai agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 526956,
+      "query": "pydantic ai agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "abdallah-ali-abdallah/pydantic-ai-agents-tutorial",
+      "sha": "8c794e9bcc0f3c9ab80f3e2d4fa547ba3d9ee78a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 190,
+      "query": "pydantic ai agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "DougTrajano/pydantic-ai-skills",
+      "sha": "fe1919688dac105d57eae384de1ebfc52b9448f9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 10767,
+      "query": "pydantic ai agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/pydantic-ai-github-agent",
+      "sha": "43586396a10620cf4ebea542890275c9c6a0d8eb",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 10,
+      "query": "pydantic ai agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "astronomer/airflow-ai-sdk",
+      "sha": "89f13456a9521f326d51daa4a8a18f7a1a2f87f7",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 389,
+      "query": "pydantic ai agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-backend",
+      "sha": "8ac7b678b633aa51c054a884ce27d31b130b8110",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9770,
+      "query": "pydantic ai agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/MongoDB-RAG-Agent",
+      "sha": "b048eeab220e43b2b8f8c97508e4d6d2c134a468",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3138,
+      "query": "pydantic ai agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "pydantic/logfire",
+      "sha": "bf25d648345ed4152dbfdd11c66dc40142dc9c8f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 99291,
+      "query": "pydantic ai agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/subagents-pydantic-ai",
+      "sha": "bb8c400732ad515a1e2bfc554ee2dcf7500b2ef9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2263,
+      "query": "pydantic ai agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
