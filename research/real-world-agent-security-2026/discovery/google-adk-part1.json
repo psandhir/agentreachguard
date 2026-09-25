@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "google-adk",
+  "part": 1,
+  "query": "google adk agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "google/agents-cli",
+      "sha": "e556c95e94d8440e2edf605a13c513bd01d8e602",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 12295,
+      "query": "google adk agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "AhsanAyaz/ai-agents-google-adk",
+      "sha": "d9543491ed0605b4e91b6ff0e7617db7ed708087",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 430,
+      "query": "google adk agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "Sri-Krishna-V/awesome-adk-agents",
+      "sha": "dfa5d40d94885391c12df92f4f37716bfe7bf608",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 13555,
+      "query": "google adk agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "kweinmeister/agentic-trading",
+      "sha": "9e4046b1144e44785ccaa7ce35a4491f86d79e80",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1229,
+      "query": "google adk agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "AashiDutt/Google-Agent-Development-Kit-Demo",
+      "sha": "add7a987d62e72e313a4a82730195bb3ce53410c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 447,
+      "query": "google adk agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "theailifestyle/google-adk-demos",
+      "sha": "d77adfb1c3194736ac3445c1e25d13421f5967b7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1060,
+      "query": "google adk agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "mongodb-developer/MongoDB-ADK-Agents",
+      "sha": "aafaefdb16230ed1c24ca6ae5605360befafaab2",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 45280,
+      "query": "google adk agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "vishal-bulbule/Master-Agentic-AI-with-Google-ADK",
+      "sha": "671ac2ceac72eaa59126f6db083a1a4bd6c64c7c",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 19538,
+      "query": "google adk agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "arjunprabhulal/google-adk-masterclass",
+      "sha": "d52895fdcd16d2be2bc11363a08bb14c3455bb3d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3356,
+      "query": "google adk agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "raphaelmansuy/adk_training",
+      "sha": "5a5b22aa95bc676db41e2b265d730bb85e9d7bf5",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 255783,
+      "query": "google adk agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "arjunprabhulal/adk-vertex-ai-rag-engine",
+      "sha": "ef9d0344d4d716b1455ffeaf68bedfbb2429a9ed",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 98383,
+      "query": "google adk agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "LinkedInLearning/hands-on-ai-building-agents-with-google-s-agent-development-toolkit-adk-2743271",
+      "sha": "c4013a51f5a7d855eae2bd239f9fd5c0605607ee",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 111,
+      "query": "google adk agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "ngesa254/labsdotgde",
+      "sha": "676074d6a67de39cd9813b84d720346e8e754e2a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 103122,
+      "query": "google adk agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "brightertiger/google-adk-demo",
+      "sha": "b2fe46c7f43781451db9f5192ecda88a281bbbae",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 310,
+      "query": "google adk agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "tsubasakong/awesome-google-adk",
+      "sha": "c50b3f99a3dc181f1149a8ed8bfc37a92f6987e7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 51,
+      "query": "google adk agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
