@@ -350,7 +350,19 @@ def _analyze_required_gcp_roles(
     for node, called in zip(calls, called_names):
         leaf = (_name(node.func) or "").lower()
 
-        if bigquery_client:
+        bigquery_receiver = (
+            called.rsplit(".", 1)[0]
+            if "." in called
+            else ""
+        )
+        bigquery_operation = bigquery_client or (
+            has_bigquery
+            and any(
+                marker in bigquery_receiver
+                for marker in ("bq", "bigquery")
+            )
+        )
+        if bigquery_operation:
             if leaf == "query":
                 add("roles/bigquery.jobUser", "bigquery.query", node)
                 add("roles/bigquery.dataViewer", "bigquery.query", node)
@@ -368,7 +380,9 @@ def _analyze_required_gcp_roles(
                 add("roles/bigquery.jobUser", f"bigquery.{leaf}", node)
                 add("roles/bigquery.dataEditor", f"bigquery.{leaf}", node)
 
-        if discovery_client and leaf in {"search", "rank", "recommend", "answer"}:
+        # The operation itself is high-signal when the function imports the
+        # Discovery Engine SDK. The client may be lazy-constructed by a helper.
+        if has_discovery and leaf in {"search", "rank", "recommend", "answer"}:
             add(
                 "roles/discoveryengine.viewer",
                 f"discoveryengine.{leaf}",
@@ -512,8 +526,21 @@ def _module_name(root: Path, path: Path) -> str:
     return ".".join(parts)
 
 
-def _relative(current: str, level: int, module: str | None) -> str:
-    parts = current.split(".")[:-1]
+def _relative(
+    current: str,
+    level: int,
+    module: str | None,
+    *,
+    current_is_package: bool = False,
+) -> str:
+    if level == 0:
+        return module or ""
+
+    parts = (
+        current.split(".")
+        if current_is_package
+        else current.split(".")[:-1]
+    )
     if level > 1:
         parts = parts[: -(level - 1)]
     if module:
@@ -561,7 +588,12 @@ def _build(root: Path, path: Path) -> ModuleInfo | None:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             info.functions[node.name] = node
         elif isinstance(node, ast.ImportFrom):
-            module = _relative(info.module, node.level, node.module)
+            module = _relative(
+                info.module,
+                node.level,
+                node.module,
+                current_is_package=path.name == "__init__.py",
+            )
             for alias in node.names:
                 if alias.name != "*":
                     info.imports[alias.asname or alias.name] = (module, alias.name)
