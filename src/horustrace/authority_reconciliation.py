@@ -23,6 +23,52 @@ from horustrace.models import Graph
 
 AUTHORITY_RECONCILIATION_SCHEMA_VERSION = 1
 
+_GCP_ROLE_SUPERSETS: dict[str, set[str]] = {
+    "roles/bigquery.dataViewer": {
+        "roles/bigquery.dataEditor",
+        "roles/bigquery.dataOwner",
+        "roles/bigquery.admin",
+    },
+    "roles/bigquery.dataEditor": {
+        "roles/bigquery.dataOwner",
+        "roles/bigquery.admin",
+    },
+    "roles/bigquery.jobUser": {
+        "roles/bigquery.user",
+        "roles/bigquery.admin",
+    },
+    "roles/discoveryengine.viewer": {
+        "roles/discoveryengine.editor",
+        "roles/discoveryengine.admin",
+    },
+    "roles/secretmanager.secretAccessor": {
+        "roles/secretmanager.admin",
+    },
+    "roles/cloudtasks.enqueuer": {
+        "roles/cloudtasks.admin",
+    },
+    "roles/datastore.user": {
+        "roles/datastore.owner",
+    },
+    "roles/cloudsql.client": {
+        "roles/cloudsql.editor",
+        "roles/cloudsql.admin",
+    },
+}
+
+
+def _role_satisfied(
+    required: str,
+    deployed: set[str],
+    *,
+    provider: str,
+) -> bool:
+    if required in deployed:
+        return True
+    if provider != "gcp":
+        return False
+    return bool(_GCP_ROLE_SUPERSETS.get(required, set()) & deployed)
+
 
 def _stable_id(agent: str) -> str:
     digest = hashlib.sha256(agent.encode("utf-8")).hexdigest()[:20]
@@ -31,34 +77,83 @@ def _stable_id(agent: str) -> str:
 
 def _required_authority(
     relationships: list[EffectiveAuthorityRelationship],
-) -> tuple[set[str], set[str], set[str]]:
+) -> tuple[set[str], set[str], set[str], bool, bool]:
     roles: set[str] = set()
     permissions: set[str] = set()
     unresolved: set[str] = set()
+    roles_complete = False
+    permissions_complete = False
+
     if not relationships:
         unresolved.update({"required_roles", "required_permissions"})
-        return roles, permissions, unresolved
-
-    identity_relationships = [item for item in relationships if item.identity is not None]
-    if not identity_relationships:
-        unresolved.update({"required_roles", "required_permissions"})
-        return roles, permissions, unresolved
-
-    for relationship in identity_relationships:
-        identity = relationship.identity or {}
-        roles.update(str(value) for value in identity.get("roles") or [] if value)
-        permissions.update(
-            str(value) for value in identity.get("permissions") or [] if value
+        return (
+            roles,
+            permissions,
+            unresolved,
+            roles_complete,
+            permissions_complete,
         )
-        if relationship.dimensions.get("identity") == "unknown":
-            unresolved.add("required_identity")
+
+    for relationship in relationships:
+        identity = relationship.identity
+        if identity is not None:
+            identity_roles = {
+                str(value)
+                for value in identity.get("roles") or []
+                if value
+            }
+            identity_permissions = {
+                str(value)
+                for value in identity.get("permissions") or []
+                if value
+            }
+            roles.update(identity_roles)
+            permissions.update(identity_permissions)
+            # Existing explicit identity authority remains an authoritative
+            # required baseline for the dimensions it actually declares.
+            roles_complete = roles_complete or bool(identity_roles)
+            permissions_complete = (
+                permissions_complete or bool(identity_permissions)
+            )
+            if relationship.dimensions.get("identity") == "unknown":
+                unresolved.add("required_identity")
+
+        required = relationship.semantics.get("required_authority")
+        if not isinstance(required, dict):
+            continue
+        roles.update(
+            str(value)
+            for value in required.get("roles") or []
+            if value
+        )
+        permissions.update(
+            str(value)
+            for value in required.get("permissions") or []
+            if value
+        )
+        roles_complete = roles_complete or required.get("roles_complete") is True
+        permissions_complete = (
+            permissions_complete
+            or required.get("permissions_complete") is True
+        )
 
     if not roles:
         unresolved.add("required_roles")
+    elif not roles_complete:
+        unresolved.add("required_roles_incomplete")
+
     if not permissions:
         unresolved.add("required_permissions")
-    return roles, permissions, unresolved
+    elif not permissions_complete:
+        unresolved.add("required_permissions_incomplete")
 
+    return (
+        roles,
+        permissions,
+        unresolved,
+        roles_complete,
+        permissions_complete,
+    )
 
 def _deployed_authority(
     relationships: list[DeployedAuthorityRelationship],
@@ -173,9 +268,13 @@ def authority_reconciliations(
     for agent in sorted({item.name for item in graph.agents}):
         effective_items = effective_by_agent.get(agent, [])
         deployed_items = deployed_by_agent.get(agent, [])
-        required_roles, required_permissions, required_unresolved = _required_authority(
-            effective_items
-        )
+        (
+            required_roles,
+            required_permissions,
+            required_unresolved,
+            required_roles_complete,
+            required_permissions_complete,
+        ) = _required_authority(effective_items)
         (
             deployed_roles,
             conditional_roles,
@@ -187,24 +286,24 @@ def authority_reconciliations(
 
         excess_roles = (
             deployed_roles - required_roles
-            if "required_roles" not in required_unresolved
+            if required_roles_complete
             else set()
         )
-        missing_roles = (
-            required_roles - deployed_roles
-            if "required_roles" not in required_unresolved
-            else set()
-        )
+        missing_roles = {
+            role
+            for role in required_roles
+            if not _role_satisfied(
+                role,
+                deployed_roles,
+                provider=bundle.provider,
+            )
+        }
         excess_permissions = (
             deployed_permissions - required_permissions
-            if "required_permissions" not in required_unresolved
+            if required_permissions_complete
             else set()
         )
-        missing_permissions = (
-            required_permissions - deployed_permissions
-            if "required_permissions" not in required_unresolved
-            else set()
-        )
+        missing_permissions = required_permissions - deployed_permissions
         if conditional_roles or conditional_permissions:
             unresolved.add("conditional_authority")
 
