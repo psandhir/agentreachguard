@@ -242,6 +242,32 @@ def _source_surface(root: Path) -> _SourceSurface:
         ):
             blockers.append("generic_authenticated_google_api_surface")
 
+        calls = [
+            node
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Call)
+        ]
+        called_names = {
+            _call_name(node.func).lower()
+            for node in calls
+        }
+        has_adc = bool(
+            {"google.auth.default", "auth.default"} & called_names
+        )
+        has_generic_http = any(
+            called.startswith(
+                (
+                    "requests.",
+                    "httpx.",
+                    "aiohttp.",
+                    "urllib.",
+                )
+            )
+            for called in called_names
+        )
+        if has_adc and has_generic_http:
+            blockers.append("generic_authenticated_google_api_surface")
+
         for node in ast.walk(tree):
             marker = _discovery_marker(node, path=path, root=base)
             if marker is not None and marker not in markers:
@@ -259,8 +285,6 @@ def _source_surface(root: Path) -> _SourceSurface:
             ):
                 blockers.append("dynamic_execution_surface")
             if called.endswith("authorizedsession"):
-                blockers.append("generic_authenticated_google_api_surface")
-            if called in {"google.auth.default", "auth.default"}:
                 blockers.append("generic_authenticated_google_api_surface")
 
     return _SourceSurface(
