@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-009",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "model.invoke",
+            "process.execute",
+            "filesystem.read",
+            "filesystem.write"
+          ],
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer",
+            "roles/secretmanager.secretAccessor",
+            "roles/datastore.user"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/storage.admin",
+            "roles/secretmanager.secretAccessor",
+            "roles/datastore.user"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer",
+            "roles/secretmanager.secretAccessor",
+            "roles/datastore.user"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "app/agent.py",
+        "rationale": "The data-science agent uses a local code executor and Vertex model. The reviewed agent source does not establish runtime GCS administration, Secret Manager access or Datastore access for the application identity."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "deployment/terraform/single-project/variables.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for ${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}
