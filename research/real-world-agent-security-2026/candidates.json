@@ -33,15 +33,31 @@
     {
       "repo": "Kjdragan/google-adk-tutorial",
       "sha": "b3c1ade1b1d4ceb3ac63742bcb9687f15478689d",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "google-adk",
       "discovery": {
         "method": "github_code_search",
         "query": "from google.adk.agents import Agent",
         "evidence_path": "01_agent.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned discovery artifact is tutorial documentation with illustrative ADK snippets; no substantive application path was identified in the screened evidence.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "tutorial_documentation_without_substantive_application_path"
     },
     {
       "repo": "proflead/how-to-build-ai-agent",
@@ -78,14 +94,31 @@
     {
       "repo": "firebase-studio/templates",
       "sha": "d7a65bce3668c44d20780ad5a197bedf906c20c2",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "google-adk",
       "discovery": {
         "method": "github_code_search",
         "query": "from google.adk.agents import Agent",
         "evidence_path": "adk/AGENTS.md"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "adk/multi_tool_agent/agent.py",
+        "rationale": "Official Firebase Studio ADK starter contains a concrete multi-tool ADK application at adk/multi_tool_agent/agent.py with a root agent and two explicit tools.",
+        "license_status": "Apache-2.0",
+        "tier_b": {
+          "eligible": false,
+          "signals": [
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -125,27 +158,68 @@
     {
       "repo": "AbiramiSukumaran/adk-renovation-single-agent",
       "sha": "f1b779be5d1d49093b46102a8440d26830efa07d",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "google-adk",
       "discovery": {
         "method": "github_code_search",
         "query": "from google.adk.agents import Agent",
         "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Pinned ADK application defines a real root agent with a tool that generates a PDF and uploads it to Google Cloud Storage, exposing repository-evidenced external write authority.",
+        "license_status": "Apache-2.0",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "external_write_or_network",
+            "sensitive_resource_access",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": [
+            "deployment_oriented_source_without_reviewed_iam_evidence"
+          ]
+        }
       }
     },
     {
       "repo": "salomonerobert/adk-design-agent",
       "sha": "b3aba77570f3891f836ac031257fe25872fc4000",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "google-adk",
       "discovery": {
         "method": "github_code_search",
         "query": "from google.adk.agents import Agent",
         "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Pinned source defines an ADK social-media root agent with image-generation/editing tools, artifact access, a sub-agent loop, and a before-model callback.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "multiple_agents",
+            "explicit_delegation_or_composition",
+            "tool_composition",
+            "sensitive_resource_access"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -1079,15 +1153,31 @@
     {
       "repo": "agentic-control-plane/agentgovbench",
       "sha": "e0ce93ae175376d7847c69a64d0c36bdfa6ca717",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "openai-agents",
       "discovery": {
         "method": "github_code_search",
         "query": "openai-agents Agent Runner function_tool",
         "evidence_path": "runners/openai_agents_native.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned runner models OpenAI Agents SDK governance behavior for a benchmark but does not instantiate or execute an OpenAI Agents SDK application; it is benchmark simulation infrastructure.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "benchmark_simulation_not_agentic_application"
     },
     {
       "repo": "DunaSpice/JetsonMind",
@@ -1124,40 +1214,95 @@
     {
       "repo": "undertherain/PaperX",
       "sha": "25af7bd2ec41a7b0c3b4033eb7328c1874e1aefd",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "openai-agents",
       "discovery": {
         "method": "github_code_search",
         "query": "openai-agents Agent Runner function_tool",
         "evidence_path": "redelivery_agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "redelivery_agent.py",
+        "rationale": "Pinned OpenAI Agents application exposes redelivery booking via subprocess automation and outbound voice-agent calls, creating meaningful process, network, and external-write authority.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "process_execution",
+            "external_write_or_network",
+            "sensitive_resource_access",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
       "repo": "CelestoAI/agentor",
       "sha": "56f4ab6901d6230d18e6f36b3bcf7e0065ab352f",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "openai-agents",
       "discovery": {
         "method": "github_code_search",
         "query": "openai-agents Agent Runner function_tool",
         "evidence_path": "src/agentor/engine/tools.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Discovery hit is native engine/tool-library code. The repository provides an agent framework and SDK examples, but the screened evidence does not identify a single substantive OpenAI Agents application path appropriate for this cohort.",
+        "license_status": "Apache-2.0",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "wuyoscar/Internal-Safety-Collapse",
       "sha": "ac75b759fe755ea41048990c38b8543ac53ecc39",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "openai-agents",
       "discovery": {
         "method": "github_code_search",
         "query": "openai-agents Agent Runner function_tool",
         "evidence_path": "experiment/tvd_agent/agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "experiment/tvd_agent/agent.py",
+        "rationale": "Pinned experimental application uses the OpenAI Agents SDK with an unrestricted local shell tool inside an adversarial workflow benchmark, providing a concrete agent root and high-value process-execution authority.",
+        "license_status": "github_license_noassertion",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "process_execution",
+            "tool_composition",
+            "sensitive_resource_access"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -1962,28 +2107,60 @@
     {
       "repo": "vstorm-co/pydantic-ai-shields",
       "sha": "254a118e89685aba1b34e10fe1fe084c888ab0c5",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "pydantic-ai",
       "discovery": {
         "method": "github_code_search",
         "query": "pydantic_ai Agent tool",
         "evidence_path": "AGENTS.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Repository is a Pydantic AI guardrail capability library; the discovery evidence and screened matches are package internals, tests, and illustrative snippets rather than a substantive application.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "vstorm-co/subagents-pydantic-ai",
       "sha": "bb8c400732ad515a1e2bfc554ee2dcf7500b2ef9",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "pydantic-ai",
       "discovery": {
         "method": "github_code_search",
         "query": "pydantic_ai Agent tool",
         "evidence_path": "AGENTS.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Repository implements a reusable Pydantic AI subagent/delegation library. Screened evidence is framework code/documentation rather than one bounded substantive application case.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "PrefectHQ/marvin",
@@ -2017,27 +2194,67 @@
     {
       "repo": "Unfold-Security/pydantic-collab",
       "sha": "b35097cb7cb5f39cc3d098f51d819c1cfe3a0266",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "pydantic-ai",
       "discovery": {
         "method": "github_code_search",
         "query": "pydantic_ai Agent tool",
         "evidence_path": "AGENTS.md"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "examples/12_data_analysis_pipeline.py",
+        "rationale": "Although the repository is a collaboration library, it contains a clearly bounded substantive data-analysis application example with multiple coordinated agents, handoffs, file operations, statistics and Python-script execution.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "multiple_agents",
+            "explicit_delegation_or_composition",
+            "filesystem_write",
+            "process_execution",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
       "repo": "djaboxx/template-ai-chat-stack",
       "sha": "d8f54cc067f387b4f6f1cb685266adca4111aadc",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "pydantic-ai",
       "discovery": {
         "method": "github_code_search",
         "query": "pydantic_ai Agent tool",
         "evidence_path": "agent.md"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "ai_service.py",
+        "rationale": "Pinned template contains an implemented Pydantic AI code agent service with GitHub issue, branch, file-push and pull-request tools; it is more than a design document despite the repository being marked as a GitHub template.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "external_write_or_network",
+            "sensitive_resource_access",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -2842,15 +3059,31 @@
     {
       "repo": "trucnguyen22/Chatbot_withsearchtool-langgraph",
       "sha": "7589aa0199bc2d2adfaafaf5ceecf8b4b8214995",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "langgraph",
       "discovery": {
         "method": "github_code_search",
         "query": "langgraph.graph StateGraph ToolNode",
         "evidence_path": "main.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned source is a minimal LangGraph tutorial-style search chatbot with one Tavily search tool and no additional authority/delegation complexity.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "trivial_single_tool_example_with_insufficient_security_surface"
     },
     {
       "repo": "oskarkyle/FireGPT",
@@ -2887,41 +3120,92 @@
     {
       "repo": "kaarthik108/snowChat",
       "sha": "d0c2520e5a785f3a0fe496630a510015ef04c342",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "langgraph",
       "discovery": {
         "method": "github_code_search",
         "query": "langgraph.graph StateGraph ToolNode",
         "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Pinned LangGraph application is a Snowflake-oriented assistant that binds database-schema retrieval and internet-search tools across multiple model providers.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "sensitive_resource_access",
+            "external_write_or_network",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
       "repo": "langchain-ai/langgraph-swarm-py",
       "sha": "5442a15cdd0ed210589148900c9960c24c489d04",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "langgraph",
       "discovery": {
         "method": "github_code_search",
         "query": "langgraph.graph StateGraph ToolNode",
         "evidence_path": "README.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Repository is the LangGraph Swarm library. The discovery evidence is README quickstart/library documentation rather than a bounded substantive application case.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "hinthornw/trustcall",
       "sha": "8c7312b591542cf9349ce00d2811e890ea6eef91",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "langgraph",
       "discovery": {
         "method": "github_code_search",
         "query": "langgraph.graph StateGraph ToolNode",
         "evidence_path": "README.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Repository is a structured-output/tool-calling library built on LangGraph; screened evidence is library usage documentation, not a substantive agent application.",
+        "license_status": "MIT",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "ptonlix/gohumanloop",
@@ -3759,54 +4043,123 @@
     {
       "repo": "BMN-zyb/LambChat",
       "sha": "9fe7ff5e953ec9f7e330391659b83eadfe493797",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
-      "framework_stratum": "fastagent",
+      "previously_studied_check": "checked",
+      "framework_stratum": "langgraph",
       "discovery": {
         "method": "github_code_search",
         "query": "fast_agent FastAgent mcp",
         "evidence_path": "src/agents/fast_agent/graph.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned source is substantially identical to the already screened Yanyutin753/LambChat application and likewise implements a project-local FastAgent class on LangGraph rather than the evalstate FastAgent framework.",
+        "license_status": "github_license_noassertion",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        },
+        "restratification": {
+          "from": "fastagent",
+          "to": "langgraph",
+          "reason": "project-local FastAgent class implemented on LangGraph; duplicate of an already screened LambChat variant"
+        }
+      },
+      "exclusion_reason": "duplicate_or_substantially_identical_repository"
     },
     {
       "repo": "evalstate/fast-agent",
       "sha": "07c460ee395843b91e2bf71a5136f0b6b2886852",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "fastagent",
       "discovery": {
         "method": "github_code_search",
         "query": "fast_agent FastAgent mcp",
         "evidence_path": "src/fast_agent/mcp/__init__.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Repository is the FastAgent framework implementation itself; the discovery artifact is package API plumbing rather than a bounded application/example selected for the cohort.",
+        "license_status": "Apache-2.0",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "framework_or_library_repository_without_defensible_application_path"
     },
     {
       "repo": "tariqwest/homebrew-allbrew",
       "sha": "0e2f3c4f24c911334667a1def6a1d1c5d49639c6",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "fastagent",
       "discovery": {
         "method": "github_code_search",
         "query": "fast_agent FastAgent mcp",
         "evidence_path": "Formula/fast-agent.rb"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned artifact is a Homebrew formula packaging fast-agent-mcp and contains no agent application.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "packaging_repository_not_agentic_application"
     },
     {
       "repo": "strato-space/call",
       "sha": "99126a79f55c4813f03c63df184256fe176dc44b",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "fastagent",
       "discovery": {
         "method": "github_code_search",
         "query": "fast_agent FastAgent mcp",
         "evidence_path": "docs/fast_agent_mcp_timeout_issues.md"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "FastAgent references in the pinned revision are comparison, timeout, and integration-plan documents; screened evidence did not identify an active FastAgent application implementation.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "documentation_or_planned_integration_without_active_application_path"
     },
     {
       "repo": "Klavis-AI/klavis",
@@ -4153,40 +4506,95 @@
     {
       "repo": "tanoybhattacharya/cli_Project",
       "sha": "ddf83fa3b29d9bba1e8f2743453b6fd2a1bca42b",
-      "decision": "pending",
+      "decision": "exclude",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "mcp-custom",
       "discovery": {
         "method": "github_code_search",
         "query": "mcp ClientSession StdioServerParameters call_tool",
         "evidence_path": "mcp_client.py"
-      }
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": null,
+        "rationale": "Pinned file is an MCP client/test utility that lists and invokes server tools directly; no model/agent reasoning loop is present in the screened application evidence.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      },
+      "exclusion_reason": "mcp_client_utility_not_agentic_application"
     },
     {
       "repo": "lilgreml1n/gemini-cli-mcp",
       "sha": "0c2cad211f00e1c316b172cbde9ef9b82daf3da3",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "mcp-custom",
       "discovery": {
         "method": "github_code_search",
         "query": "mcp ClientSession StdioServerParameters call_tool",
         "evidence_path": "main_mcp.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "main_mcp.py",
+        "rationale": "Pinned Gemini CLI application dynamically connects to multiple Docker-hosted MCP servers, discovers tools, presents them to the model, and dispatches model-selected tool calls.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "mcp_usage",
+            "multiple_trust_boundaries",
+            "external_write_or_network",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
       "repo": "xavi0007/agentic_chatbot",
       "sha": "0c5e20d45b75164b76b6041c643396d14db039a5",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "mcp-custom",
       "discovery": {
         "method": "github_code_search",
         "query": "mcp ClientSession StdioServerParameters call_tool",
         "evidence_path": "mcp.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "mcp.py",
+        "rationale": "Pinned application implements a Claude-driven agent loop with dynamic MCP tool discovery and invocation over stdio.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "mcp_usage",
+            "external_write_or_network",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -4228,14 +4636,34 @@
     {
       "repo": "Amlan66/SSEEnabledMCPAgent",
       "sha": "11531239e71b123f25b3c6103ee36a9d614d0032",
-      "decision": "pending",
+      "decision": "include",
       "previously_studied": false,
-      "previously_studied_check": "pending",
+      "previously_studied_check": "checked",
       "framework_stratum": "mcp-custom",
       "discovery": {
         "method": "github_code_search",
         "query": "mcp ClientSession StdioServerParameters call_tool",
         "evidence_path": "session.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-25",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Repository contains a concrete agent entry point and loop using MultiMCP to discover and route tools across both stdio and SSE transports, including remote/server trust boundaries.",
+        "license_status": "no_github_license_detected",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "mcp_usage",
+            "multiple_trust_boundaries",
+            "external_write_or_network",
+            "tool_composition"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
       }
     },
     {
@@ -5007,10 +5435,10 @@
     }
   ],
   "screening_progress": {
-    "reviewed": 12,
-    "included": 10,
-    "excluded": 2,
-    "pending": 353,
-    "note": "Balanced pilot tranche: two discovery candidates reviewed from each original stratum. One false FastAgent-framework match was re-stratified to LangGraph."
+    "reviewed": 36,
+    "included": 21,
+    "excluded": 15,
+    "pending": 329,
+    "note": "Pilot plus scaled batch 1 complete. Batch 1 reviewed 24 candidates: 11 included, 13 excluded. One additional false FastAgent match was re-stratified to LangGraph and excluded as a duplicate LambChat variant."
   }
 }

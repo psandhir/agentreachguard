@@ -61,3 +61,23 @@ The pilot validates several important screening rules before scaling review to a
 - previous HorusTrace exposure is checked before a candidate is considered reviewed.
 
 The candidate pool remains unfrozen. No cohort selection or HorusTrace execution has occurred.
+
+
+## Screening batch 1
+
+The first scaled screening batch reviewed 24 additional repositories using the same source-only rubric as the pilot.
+
+Cumulative state after this batch:
+
+- reviewed: 36
+- included: 21
+- excluded: 15
+- pending: 329
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+The batch confirmed that the intentionally broad discovery process captures several classes of non-cohort material: framework/library internals, tutorial-only repositories, packaging formulas, benchmark simulations, MCP client utilities without an agent loop, and planned/documented integrations that are not implemented at the pinned revision.
+
+It also confirmed that framework repositories can still contribute a case when a clearly bounded, substantive application example exists. For example, `Unfold-Security/pydantic-collab` is represented by its concrete multi-agent data-analysis pipeline example rather than by library internals.
+
+A second LambChat repository was re-stratified from FastAgent to LangGraph and excluded as substantially identical to the previously screened LambChat variant. The original discovery stratum remains preserved in the discovery snapshot.
