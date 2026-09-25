@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "langgraph",
+  "part": 3,
+  "query": "langgraph mcp",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "braincrew-lab/langgraph-mcp-agents",
+      "sha": "d4694e9db841343a2bd4dd3a30175a02b63d9144",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 2495,
+      "query": "langgraph mcp",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "esxr/langgraph-mcp",
+      "sha": "16944242d980bafe56876f78224982efd2c1c074",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 10164,
+      "query": "langgraph mcp",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langchain-mcp-adapters",
+      "sha": "52a4535f3eb4b98f386836e4d9b8c4cadf99afca",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 1430,
+      "query": "langgraph mcp",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "NicholasGoh/fastapi-mcp-langgraph-template",
+      "sha": "2bd004a51e5d741e8eaf5bb01716b6a673684a53",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 7280,
+      "query": "langgraph mcp",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "doobidoo/mcp-memory-service",
+      "sha": "9f14434399847ffccd3f97f5c78f2ba85c2028fc",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 65328,
+      "query": "langgraph mcp",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "theailanguage/mcp_client",
+      "sha": "0649914d20c8273c08a7b1e54e208103b156c405",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 101,
+      "query": "langgraph mcp",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "piyushagni5/langgraph-ai",
+      "sha": "7ed556f75776eb905c1b1dcb0c45c0cb56b53690",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 4528,
+      "query": "langgraph mcp",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "lgesuellip/langgraph-whatsapp-agent",
+      "sha": "69b9bdd341e0c379b5452b8d3d46879c25e660fc",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3142,
+      "query": "langgraph mcp",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "braincrew-lab/langgraph-dynamic-mcp-agents",
+      "sha": "8f08e45b864458c899ec3717e8843fc55b7b2973",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 2520,
+      "query": "langgraph mcp",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "braincrew-lab/langgraph-react-mcp-chat",
+      "sha": "01cc1e13dbf921d75d1ccf0f1ad8a0f11655a036",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1290,
+      "query": "langgraph mcp",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "laxmimerit/LangGraph-and-Ollama",
+      "sha": "d0ec774d107c20a61e1c76cb7055a13067aee282",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 18171,
+      "query": "langgraph mcp",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "webup/langgraph-up-react",
+      "sha": "4fb0c19aa7e84940740f481cf1af43ca75a513a6",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 16249,
+      "query": "langgraph mcp",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "johnson7788/LangGraphA2A",
+      "sha": "ae74f4ad8991313a2d02ec1fb28a8c899b36df10",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 75434,
+      "query": "langgraph mcp",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Hi1talib1World/langgraph-mcp-coding-assistant-project",
+      "sha": "36bf46409b38ef4c17e07fca1ef8df81da2669b2",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1065,
+      "query": "langgraph mcp",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "prsdm/langgraph-mcp",
+      "sha": "15b9af1c707dc6c84f43f8f60dc5e60044bf435e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 14,
+      "query": "langgraph mcp",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
