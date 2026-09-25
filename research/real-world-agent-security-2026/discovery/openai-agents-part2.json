@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "openai-agents",
+  "part": 2,
+  "query": "openai agents python",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "openai/openai-agents-python",
+      "sha": "588826c5be27cad21a3067463e21972ffea38561",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 64686,
+      "query": "openai agents python",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "e2b-dev/awesome-ai-agents",
+      "sha": "9596ab1e69fbbb6c95291141c8dab5c181083216",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 117929,
+      "query": "openai agents python",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "NirDiamant/GenAI_Agents",
+      "sha": "078d6d544e15c0e758c2533b422fd13ed2d15593",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 265348,
+      "query": "openai agents python",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "Upsonic/Upsonic",
+      "sha": "101f0313b0ddb96cd4078354879b2ff57005db29",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 15387,
+      "query": "openai agents python",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 526956,
+      "query": "openai agents python",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "daveebbelaar/ai-cookbook",
+      "sha": "84748d7a076c2ef3ab751435e80bf419b1c9ca61",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 11487,
+      "query": "openai agents python",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "Significant-Gravitas/AutoGPT",
+      "sha": "5e84f064d3779acc49c86c51e2167ba8f660c93d",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 668104,
+      "query": "openai agents python",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "sha": "80b74090515a594cc8421fb2d82e98f4e256c29f",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 603016,
+      "query": "openai agents python",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "AgoraIO/openai-realtime-python",
+      "sha": "1749ecd638a181fef24e334ecc4110bbac1f479d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 367,
+      "query": "openai agents python",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "aden-hive/hive",
+      "sha": "6193aea7eb064f7536dfedcbe9ff08ad954ac53b",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 25340,
+      "query": "openai agents python",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "AgentOps-AI/agentops",
+      "sha": "f8e907b92dabe47232978023fdcb01e2a7d4b752",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 177625,
+      "query": "openai agents python",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "kreneskyp/ix",
+      "sha": "d5868fc1d56d5616306e15b1a10a06256cc6e4d2",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 6822,
+      "query": "openai agents python",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "cft0808/edict",
+      "sha": "14a207557719c046af0f993a7bff1cc5a5015b33",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 65203,
+      "query": "openai agents python",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "emcie-co/parlant",
+      "sha": "ea737442b8ae65854a842542e544fbe7e6144bad",
+      "default_branch": "develop",
+      "archived": false,
+      "size_kb": 88753,
+      "query": "openai agents python",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "AndersonBY/vector-vein",
+      "sha": "8177b3a45342afd6085f35e9b20fc6914371e138",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 114280,
+      "query": "openai agents python",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
