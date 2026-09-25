@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:mahieddine-ichir/hello-google-agents@66c811e7a682a9d4c1896f9e125c6666b93e806c",
+  "workloads": [
+    {
+      "workload_id": "repository-template://mahieddine-ichir/hello-google-agents/cloud_run/adhesion_router",
+      "kind": "cloud_run",
+      "name": "adhesion_router",
+      "identity": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "adhesion_router",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/datastore.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.objectViewer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtrace.agent",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/logging.logWriter",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "mahieddine-ichir/hello-google-agents",
+        "commit": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
