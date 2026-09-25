@@ -151,3 +151,70 @@ def test_conditional_permissions_remain_unresolved_not_excess() -> None:
     assert "conditional_authority" in agent["unresolved"]
     assert agent["excess"]["roles"] == []
     assert agent["excess"]["permissions"] == []
+
+
+
+def test_partial_required_role_evidence_can_prove_missing_authority() -> None:
+    tool = Tool(
+        name="connect_database",
+        kind="function",
+        capabilities={"data.read"},
+        metadata={
+            "required_authority_provider": "gcp",
+            "required_roles": ["roles/cloudsql.client"],
+            "required_roles_complete": False,
+        },
+    )
+    graph = Graph(agents=[Agent(name="support", tools=[tool])])
+    bundle = _bundle(
+        IAMBindingEvidence(
+            principal=IDENTITY,
+            role="roles/storage.objectViewer",
+            scope_kind="project",
+            scope_name="prod",
+        )
+    )
+
+    agent = authority_reconciliation_report(graph, bundle)["agents"][0]
+
+    assert agent["status"] == "missing_authority"
+    assert agent["missing"]["roles"] == ["roles/cloudsql.client"]
+    assert agent["excess"]["roles"] == []
+    assert "required_roles_incomplete" in agent["unresolved"]
+
+
+def test_partial_required_roles_do_not_create_false_excess() -> None:
+    tool = Tool(
+        name="read_data",
+        kind="function",
+        capabilities={"data.read"},
+        metadata={
+            "required_authority_provider": "gcp",
+            "required_roles": ["roles/bigquery.dataViewer"],
+            "required_roles_complete": False,
+        },
+    )
+    graph = Graph(agents=[Agent(name="support", tools=[tool])])
+    bundle = _bundle(
+        IAMBindingEvidence(
+            principal=IDENTITY,
+            role="roles/bigquery.dataEditor",
+            scope_kind="project",
+            scope_name="prod",
+        ),
+        IAMBindingEvidence(
+            principal=IDENTITY,
+            role="roles/storage.objectAdmin",
+            scope_kind="project",
+            scope_name="prod",
+        ),
+    )
+
+    agent = authority_reconciliation_report(graph, bundle)["agents"][0]
+
+    # Data Editor satisfies the positive Data Viewer requirement, while the
+    # incomplete baseline cannot prove Storage Object Admin is excess.
+    assert agent["missing"]["roles"] == []
+    assert agent["excess"]["roles"] == []
+    assert agent["status"] == "unresolved"
+    assert "required_roles_incomplete" in agent["unresolved"]
