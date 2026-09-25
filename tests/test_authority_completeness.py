@@ -165,3 +165,52 @@ def test_candidate_excess_role_is_not_enforced_by_reconciliation(
     reconciliation = report["reconciliation"]["agents"][0]
     assert reconciliation["excess"]["roles"] == []
     assert reconciliation["status"] == "unresolved"
+
+
+
+def test_adc_project_lookup_alone_does_not_block_family_absence(
+    tmp_path: Path,
+) -> None:
+    app = tmp_path / "app"
+    _write_source(
+        app,
+        """
+import google.auth
+
+_, project_id = google.auth.default()
+""",
+    )
+    graph = Graph(agents=[Agent(name="root_agent")])
+
+    report = authority_completeness_report(graph, _bundle(), app)
+
+    certificate = report["certificates"][0]
+    assert certificate["complete"] is True
+    assert certificate["candidate_excess_roles_not_enforced"] == [
+        "roles/discoveryengine.editor"
+    ]
+
+
+def test_adc_plus_generic_http_blocks_family_absence(
+    tmp_path: Path,
+) -> None:
+    app = tmp_path / "app"
+    _write_source(
+        app,
+        """
+import google.auth
+import requests
+
+credentials, project_id = google.auth.default()
+
+def call_service(url: str):
+    return requests.get(url)
+""",
+    )
+    graph = Graph(agents=[Agent(name="root_agent")])
+
+    report = authority_completeness_report(graph, _bundle(), app)
+
+    certificate = report["certificates"][0]
+    assert certificate["complete"] is False
+    assert "generic_authenticated_google_api_surface" in certificate["blockers"]
