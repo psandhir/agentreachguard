@@ -124,3 +124,105 @@ root_agent = Agent(
         "roles/bigquery.jobUser",
     }
     assert tool.metadata["required_roles_complete"] is False
+
+
+
+def test_required_roles_follow_asyncio_to_thread_callback(
+    tmp_path: Path,
+) -> None:
+    _write(
+        tmp_path,
+        "agent.py",
+        """
+import asyncio
+from google.adk import Agent
+from google.cloud import discoveryengine_v1 as discoveryengine
+
+
+def _rank_sync(query: str):
+    client = discoveryengine.RankServiceClient()
+    return client.rank(
+        discoveryengine.RankRequest(
+            ranking_config="projects/p/locations/global/rankingConfigs/default",
+            query=query,
+        )
+    )
+
+
+async def search(query: str):
+    return await asyncio.to_thread(_rank_sync, query)
+
+
+root_agent = Agent(
+    name="searcher",
+    model="gemini-flash-latest",
+    tools=[search],
+)
+""",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "searcher")
+    tool = next(item for item in agent.tools if item.name == "search")
+
+    assert tool.metadata["required_roles"] == [
+        "roles/discoveryengine.viewer"
+    ]
+
+
+def test_required_roles_follow_explicit_agenttool_delegation(
+    tmp_path: Path,
+) -> None:
+    _write(
+        tmp_path,
+        "child.py",
+        """
+from google.adk import Agent
+from google.cloud import bigquery
+
+
+def run_query(question: str):
+    client = bigquery.Client()
+    return client.query("SELECT 1").result()
+
+
+child_agent = Agent(
+    name="database_agent",
+    model="gemini-flash-latest",
+    tools=[run_query],
+)
+""",
+    )
+    _write(
+        tmp_path,
+        "agent.py",
+        """
+from google.adk import Agent
+from google.adk.tools.agent_tool import AgentTool
+from child import child_agent
+
+
+async def call_database(question: str, tool_context):
+    delegate = AgentTool(agent=child_agent)
+    return await delegate.run_async(
+        args={"request": question},
+        tool_context=tool_context,
+    )
+
+
+root_agent = Agent(
+    name="coordinator",
+    model="gemini-flash-latest",
+    tools=[call_database],
+)
+""",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "coordinator")
+    tool = next(item for item in agent.tools if item.name == "call_database")
+
+    assert set(tool.metadata["required_roles"]) == {
+        "roles/bigquery.dataViewer",
+        "roles/bigquery.jobUser",
+    }
