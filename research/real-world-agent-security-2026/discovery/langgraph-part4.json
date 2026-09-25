@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "langgraph",
+  "part": 4,
+  "query": "langgraph production agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "wassim249/fastapi-langgraph-agent-production-ready-template",
+      "sha": "f7faab38fa5332669627139b27c4f2dc4178649e",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 560,
+      "query": "langgraph production agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "NirDiamant/agents-towards-production",
+      "sha": "172848240c64457a4a8991949ee5bcbfe6b08f2d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 157653,
+      "query": "langgraph production agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "FareedKhan-dev/production-grade-agentic-system",
+      "sha": "20def050e099d12c079f501aa6e85b48fe8783bc",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 187,
+      "query": "langgraph production agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "emarco177/langgraph-course",
+      "sha": "03f7369e16381cf6caea3f305303a320b182f60b",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1312,
+      "query": "langgraph production agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "FareedKhan-dev/all-agentic-architectures",
+      "sha": "cf9d620a8cc55d59589399c30f305e6dfaa428ec",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3304,
+      "query": "langgraph production agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "Nicolepcx/ai-agents-the-definitive-guide",
+      "sha": "a1ff481c87cc3784c9c920c8e315b3341f57e563",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1865,
+      "query": "langgraph production agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "agentailor/fullstack-langgraph-nextjs-agent",
+      "sha": "40414f81fb8df752cfc9f41dc2eb2bc34a70b050",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 5879,
+      "query": "langgraph production agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "benman1/generative_ai_with_langchain",
+      "sha": "87e17fd2057946d51f062764eb508b68692332a4",
+      "default_branch": "second_edition",
+      "archived": false,
+      "size_kb": 12906,
+      "query": "langgraph production agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "agentscope-ai/agentscope-runtime",
+      "sha": "22072fd7075ce0c6f43cb39509d6a14b0e60ddb5",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 98809,
+      "query": "langgraph production agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "esurovtsev/langgraph-advanced",
+      "sha": "d39a866850e48b38a3826d046d94bcd7b2441d3e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 711,
+      "query": "langgraph production agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "laxmimerit/Agentic-RAG-with-LangGraph-and-Ollama",
+      "sha": "5ba79c143dc29928e600cedd1b4c84222f7d0098",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 15458,
+      "query": "langgraph production agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "ThalesGroup/fred",
+      "sha": "0e067d389929795fe6a2c6759529152913cef416",
+      "default_branch": "swift",
+      "archived": false,
+      "size_kb": 74675,
+      "query": "langgraph production agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "girijesh-ai/ai-interview-codex",
+      "sha": "9d46d6c32772afcb72bb726fd2783c8d838a691e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2092,
+      "query": "langgraph production agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Prompthon-IO/agent-systems-handbook",
+      "sha": "4759cd0cb4edc578741cd6be75d83e2c6831e260",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 5456,
+      "query": "langgraph production agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "zeroemployeeorg/sovereign-agent-lab",
+      "sha": "9627bfda8e3f4f850f9ca07806aca08b6e39eef4",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 264,
+      "query": "langgraph production agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
