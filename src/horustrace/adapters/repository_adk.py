@@ -145,6 +145,137 @@ def _function_imports(
     return imports
 
 
+
+def _required_role_function_ref(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    node: ast.AST,
+) -> tuple[ModuleInfo, ast.FunctionDef | ast.AsyncFunctionDef] | None:
+    if isinstance(node, ast.Name):
+        if node.id in info.functions:
+            return info, info.functions[node.id]
+        imported = _imported_symbol(modules, info, node.id)
+        if imported and imported[1] in imported[0].functions:
+            target, symbol = imported
+            return target, target.functions[symbol]
+    if isinstance(node, ast.Attribute):
+        return _attribute_function(modules, info, node)
+    return None
+
+
+def _required_role_agent_ref(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    node: ast.AST,
+) -> tuple[ModuleInfo, str, ast.Call] | None:
+    if isinstance(node, ast.Name):
+        local = info.calls.get(node.id)
+        if local is not None and (_name(local.func) or "") in AGENT_TYPES:
+            return info, node.id, local
+        imported = _imported_symbol(modules, info, node.id)
+        if imported:
+            target, symbol = imported
+            call = target.calls.get(symbol)
+            if call is not None and (_name(call.func) or "") in AGENT_TYPES:
+                return target, symbol, call
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        imported = _imported_symbol(modules, info, node.value.id)
+        if imported:
+            target, remote = imported
+            nested = (
+                _find_module(modules, f"{target.module}.{remote}")
+                if remote
+                else target
+            )
+            candidate = nested or target
+            call = candidate.calls.get(node.attr)
+            if call is not None and (_name(call.func) or "") in AGENT_TYPES:
+                return candidate, node.attr, call
+    return None
+
+
+def _required_role_tool_exprs(node: ast.AST | None) -> list[ast.AST]:
+    if node is None:
+        return []
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        result: list[ast.AST] = []
+        for item in node.elts:
+            result.extend(_required_role_tool_exprs(item))
+        return result
+    if isinstance(node, ast.IfExp):
+        return [
+            *_required_role_tool_exprs(node.body),
+            *_required_role_tool_exprs(node.orelse),
+        ]
+    return [node]
+
+
+def _analyze_required_gcp_roles_for_agent(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    alias: str,
+    call: ast.Call,
+    visited: set[tuple[str, str]],
+) -> tuple[set[str], list[dict[str, object]]]:
+    key = (info.module, f"@agent:{alias}")
+    if key in visited:
+        return set(), []
+    visited.add(key)
+
+    roles: set[str] = set()
+    evidence: list[dict[str, object]] = []
+
+    def merge(
+        nested: tuple[set[str], list[dict[str, object]]] | None,
+    ) -> None:
+        if not nested:
+            return
+        nested_roles, nested_evidence = nested
+        roles.update(nested_roles)
+        for item in nested_evidence:
+            if item not in evidence:
+                evidence.append(item)
+
+    for item in _required_role_tool_exprs(_kw(call, "tools")):
+        resolved = _required_role_function_ref(modules, info, item)
+        if resolved:
+            target, func = resolved
+            merge(
+                _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    func,
+                    visited,
+                )
+            )
+
+    # Agent callbacks execute as part of the agent invocation lifecycle and can
+    # carry provider operations that are required even when not exposed as tools.
+    for callback_name in (
+        "before_agent_callback",
+        "after_agent_callback",
+        "before_model_callback",
+        "after_model_callback",
+        "before_tool_callback",
+        "after_tool_callback",
+    ):
+        callback = _kw(call, callback_name)
+        if callback is None:
+            continue
+        resolved = _required_role_function_ref(modules, info, callback)
+        if resolved:
+            target, func = resolved
+            merge(
+                _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    func,
+                    visited,
+                )
+            )
+
+    return roles, evidence
+
 def _analyze_required_gcp_roles(
     modules: dict[str, ModuleInfo],
     info: ModuleInfo,
@@ -270,6 +401,60 @@ def _analyze_required_gcp_roles(
 
         local_name = _name(node.func)
         nested: tuple[set[str], list[dict[str, object]]] | None = None
+
+        # Explicit bounded higher-order execution. This does not assume that an
+        # arbitrary callable argument executes; it only follows well-known APIs
+        # whose contract is to invoke the supplied function.
+        callback_index: int | None = None
+        if called in {"asyncio.to_thread", "to_thread"}:
+            callback_index = 0
+        elif called.endswith(".run_in_executor"):
+            callback_index = 1
+        if callback_index is not None and len(node.args) > callback_index:
+            resolved_callback = _required_role_function_ref(
+                modules,
+                info,
+                node.args[callback_index],
+            )
+            if resolved_callback:
+                target, callback_func = resolved_callback
+                nested_roles, nested_evidence = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    callback_func,
+                    visited,
+                )
+                roles.update(nested_roles)
+                for item in nested_evidence:
+                    if item not in evidence:
+                        evidence.append(item)
+
+        # An AgentTool explicitly transfers execution to the named agent. Follow
+        # that static target and collect only positive provider-role evidence
+        # from its tools/callbacks.
+        if leaf == "agenttool":
+            agent_node = _kw(node, "agent")
+            if agent_node is not None:
+                resolved_agent = _required_role_agent_ref(
+                    modules,
+                    info,
+                    agent_node,
+                )
+                if resolved_agent:
+                    target_info, target_alias, target_call = resolved_agent
+                    nested_roles, nested_evidence = (
+                        _analyze_required_gcp_roles_for_agent(
+                            modules,
+                            target_info,
+                            target_alias,
+                            target_call,
+                            visited,
+                        )
+                    )
+                    roles.update(nested_roles)
+                    for item in nested_evidence:
+                        if item not in evidence:
+                            evidence.append(item)
         if local_name in info.functions and local_name != func.name:
             nested = _analyze_required_gcp_roles(
                 modules,
