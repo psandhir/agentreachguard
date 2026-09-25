@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from horustrace.authority_completeness import authority_completeness_report
 from horustrace.authority_reconciliation import authority_reconciliation_report
 from horustrace.deployed_authority import deployed_authority_report
 from horustrace.deployed_identity import deployed_identity_report
@@ -20,10 +21,16 @@ def build_deployment_security_report(
     bundle: DeploymentEvidenceBundle,
     *,
     baseline: DeploymentEvidenceBundle | None = None,
+    source_root: Path | None = None,
 ) -> dict[str, Any]:
     identity = deployed_identity_report(graph, bundle)
     deployed = deployed_authority_report(graph, bundle)
     reconciliation = authority_reconciliation_report(graph, bundle)
+    completeness = (
+        authority_completeness_report(graph, bundle, source_root)
+        if source_root is not None
+        else None
+    )
     policy = deployed_policy_report(graph, bundle)
     delta = (
         deployment_authority_delta(graph, baseline, bundle)
@@ -63,6 +70,7 @@ def build_deployment_security_report(
         "deployed_identity": identity,
         "deployed_authority": deployed,
         "reconciliation": reconciliation,
+        "authority_completeness": completeness,
         "deployed_policy": policy,
         "deployment_delta": delta,
     }
@@ -90,6 +98,30 @@ def render_deployment_security_console(
         "Runtime effectiveness:          NOT VERIFIED",
         "",
     ]
+
+    completeness = report.get("authority_completeness")
+    if isinstance(completeness, dict):
+        completeness_summary = completeness.get("summary") or {}
+        lines.extend(
+            [
+                "Authority completeness (measurement only)",
+                "-" * 41,
+                (
+                    "Complete family certificates:    "
+                    f"{completeness_summary.get('complete', 0)}"
+                ),
+                (
+                    "Incomplete family certificates:  "
+                    f"{completeness_summary.get('incomplete', 0)}"
+                ),
+                (
+                    "Candidate excess roles:           "
+                    f"{completeness_summary.get('candidate_excess_roles_not_enforced', 0)} "
+                    "(NOT ENFORCED)"
+                ),
+                "",
+            ]
+        )
 
     policy_by_agent = {
         item["agent"]: item
