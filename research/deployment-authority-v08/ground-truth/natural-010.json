@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-010",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "review_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "expense.review",
+            "model.invoke",
+            "human.approval"
+          ],
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/storage.admin"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "review_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "app/agent.py",
+        "rationale": "The literal review_agent performs model-based expense review inside an approval workflow. No reviewed runtime source operation requires project-level Storage Admin."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "deployment/terraform/single-project/variables.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for ${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}
