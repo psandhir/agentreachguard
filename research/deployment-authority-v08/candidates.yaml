@@ -1,0 +1,233 @@
+schema_version: 1
+study: deployment-authority-v08
+screened_at: "2026-09-25"
+selection_stage: candidate-screening
+horustrace_results_used_for_selection: false
+
+# These are observed default-branch revisions used during screening.
+# They are not frozen cohort SHAs until the ground-truth/freeze phase lands.
+eligible_for_adjudication:
+  - candidate_id: candidate-01
+    repository: lastingyeh/adk-insurance-recommendation-agent
+    observed_sha: 90e9b624759248b168a0df93f5ddca35966d1027
+    framework: google-adk
+    application_path: app
+    application_evidence: app/agent.py
+    infrastructure_path: deployment/terraform
+    iam_evidence: deployment/terraform/modules/agent_infrastructure/iam.tf
+    identity_basis: google_service_account.app_sa
+    deployment_shape: cloud-run
+    notes: Rich application and Terraform evidence with explicit application service account and project/resource IAM.
+
+  - candidate_id: candidate-02
+    repository: Metafiziks/gcp-search-agent
+    observed_sha: 01f1ca76eceae91bafd553c96ba483c250cc4d70
+    framework: google-adk
+    application_path: src/agent
+    application_evidence: src/agent/agent.py
+    infrastructure_path: terraform
+    iam_evidence: terraform/iam.tf
+    identity_basis: google_service_account.agent
+    deployment_shape: cloud-run
+    notes: Explicit Cloud Run runtime service account with Vertex AI Search and AI Platform roles.
+
+  - candidate_id: candidate-03
+    repository: dhanyashree9513-byte/adk-multiagent-production-template
+    observed_sha: aaddf141aa6f93555fce81cf606667747efe0140
+    framework: google-adk
+    application_path: customer_support_mas
+    application_evidence: customer_support_mas/agents/root/agent.py
+    infrastructure_path: terraform
+    iam_evidence: terraform/modules/core/iam.tf
+    identity_basis: reviewed Terraform service-account locals and managed Vertex AI identities
+    deployment_shape: agent-engine-plus-cloud-run
+    notes: Multi-agent production topology with explicit IAM and several workload identities; likely valuable for identity disambiguation.
+
+  - candidate_id: candidate-04
+    repository: arjunprabhulal/adk-advanced
+    observed_sha: 893da057599708b77f1d95d1dd73d9b45e2ddfbd
+    framework: google-adk
+    application_path: 4_adk_deploy_cloudrun/adk_agent_cloudrun_demo
+    application_evidence: 4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/app/agent.py
+    infrastructure_path: 4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/deployment/terraform
+    iam_evidence: 4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/deployment/terraform/iam.tf
+    identity_basis: application service account declared by deployment Terraform
+    deployment_shape: cloud-run
+    notes: Reference-style ADK deployment with a bounded subdirectory pairing application and Terraform.
+
+  - candidate_id: candidate-05
+    repository: Prostecki/med-voice
+    observed_sha: c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d
+    framework: google-adk
+    application_path: backend
+    application_evidence: backend/app/agents/med_voice_agent/agent.py
+    infrastructure_path: infra/terraform
+    iam_evidence: infra/terraform/iam.tf
+    identity_basis: google_service_account.backend_sa
+    deployment_shape: cloud-run
+    notes: Multi-agent voice workflow with explicit runtime service account and datastore authority.
+
+  - candidate_id: candidate-06
+    repository: KristionB/sql-adk-agent
+    observed_sha: bf8c3c702a6906cc4735b4ab3ae94548c9e0f574
+    framework: google-adk
+    application_path: sql_agent
+    application_evidence: sql_agent/agent.py
+    infrastructure_path: terraform
+    iam_evidence: terraform/main.tf
+    identity_basis: managed Reasoning Engine service account plus Compute Engine deployment identity
+    deployment_shape: vertex-ai-reasoning-engine
+    notes: Multi-agent data/BigQuery application with managed-service IAM, useful for non-Cloud-Run identity reconstruction.
+
+  - candidate_id: candidate-07
+    repository: esoltys/ambient-expense-agent
+    observed_sha: 9d22d27f6650967a14d4c2e2ce85fd6591ebb297
+    framework: google-adk
+    application_path: expense_agent
+    application_evidence: expense_agent/agent.py
+    infrastructure_path: deployment/terraform/single-project
+    iam_evidence: deployment/terraform/single-project/iam.tf
+    identity_basis: google_service_account.app_sa and Vertex AI service identity
+    deployment_shape: agent-starter-pack
+    notes: Workflow-style ADK application with explicit app and managed service identities.
+
+  - candidate_id: candidate-08
+    repository: mahieddine-ichir/hello-google-agents
+    observed_sha: 66c811e7a682a9d4c1896f9e125c6666b93e806c
+    framework: google-adk
+    application_path: router-agent
+    application_evidence: router-agent/agent.py
+    infrastructure_path: terraform
+    iam_evidence: terraform/iam.tf
+    identity_basis: google_service_account.agent_sa
+    deployment_shape: cloud-run-plus-reasoning-engine
+    notes: Router agent delegates to deployed specialist reasoning engines and has explicit Cloud Run runtime IAM.
+
+  - candidate_id: candidate-09
+    repository: young-monk/shopright-ecommerce
+    observed_sha: 8ac94f1324d8363abd3b4cd663b46c8ab7e80296
+    framework: google-adk
+    application_path: ai
+    application_evidence: ai/chatbot/main.py
+    infrastructure_path: infra/terraform
+    iam_evidence: infra/terraform/main.tf
+    identity_basis: google_service_account.chatbot_sa
+    deployment_shape: cloud-run-multi-service
+    notes: E-commerce ADK application with chatbot and analytics agents plus explicit workload service account.
+
+  - candidate_id: candidate-10
+    repository: LaurentVeyssier/Ask-your-data-genie
+    observed_sha: 5323dd78abf04b137d093d0bfce70cdab586982b
+    framework: google-adk
+    application_path: app
+    application_evidence: app/agent.py
+    infrastructure_path: deployment/terraform/single-project
+    iam_evidence: deployment/terraform/single-project/iam.tf
+    identity_basis: google_service_account.app_sa
+    deployment_shape: agent-starter-pack
+    notes: Data-analysis agent with explicit runtime service account. Infrastructure scaffold is correlated with candidate-07 and must be considered during final freeze.
+
+deferred_or_screened_out:
+  - repository: timini/adk-minimal-deployment
+    observed_sha: a6425c823aa254a7d4e1e5ccb237f1eaa02dbb66
+    reason: ADK application and Terraform exist, but the observed Terraform creates APIs and staging storage without enough runtime IAM evidence for deployed-authority adjudication.
+
+  - repository: Sanjay-AI-ML/customer-ai-agent
+    observed_sha: 0d367acd6bef75e56ae12cbb9159c390b8c76648
+    reason: Strong Cloud Run IAM evidence, but the application is a custom GeminiAgent wrapper rather than a framework covered by the current scanner contract.
+
+  - repository: Nazareno95/terraform-gcp-event-driven-adk-agent
+    observed_sha: e94b53bafd90cf06a930c2bf794acbcddee6cdf1
+    reason: Strong Terraform IAM, but the observed agent/app.py is a Flask event processor with deterministic rules and BigQuery writes rather than a supported ADK agent definition.
+
+  - repository: JohnSite07/G_ADK_Project_1
+    observed_sha: 93fba3ed05a43831af4a5ff3a32ab423e3b7df6b
+    reason: ADK application and Cloud Run Terraform are present, but the observed service does not declare an explicit workload service account or runtime IAM authority sufficient for the study contract.
+
+  - repository: dantesstacksblog/gcp-ai-support-agent
+    observed_sha: e6e101529c8628045c691ba2bf23b8a4ff7e0479
+    reason: Excellent Terraform IAM and explicit Cloud Run service account, but the application is a custom SupportAgent rather than a currently supported agent framework.
+
+  - repository: bhardwaju/terraform-google-multi-tenant-agentic-ai
+    reason: Infrastructure-oriented Terraform module; discovery did not establish a paired supported agent application at the same revision.
+
+  - repository: Saoussen-CH/adk-multiagent-production-template
+    reason: Probable duplicate/template-correlated variant of the selected multi-agent production template; deferred to reduce cohort correlation.
+
+  - repository: kuldeepjain1920/expense-agent
+    observed_sha: 180726e8e2662d0dae9444165e9000734b6e086a
+    reason: Valid-looking app plus Terraform structure, but deployment scaffold is highly correlated with the selected Agent Starter Pack cases; reserve only.
+
+  - repository: geetika-geet/ambient-expense-agent
+    observed_sha: fc45a3d4aa30b029f18b0ea879b487e300f57fe7
+    reason: Valid-looking app plus Terraform structure, but deployment scaffold is highly correlated with candidate-07; reserve only.
+
+  - repository: NerdForData/Smart-Shop-AI
+    observed_sha: 608a5f78c5cca09584cc8f1d86cb5b43c2a988d7
+    reason: Agent and Terraform structure exists, but the discovery pass did not establish a currently supported agent framework plus runtime IAM pairing.
+
+  - repository: GreetEat/greeteat-paperclip
+    observed_sha: 1833a40274338362895c39809b0bda972cb59059
+    reason: Rich GCP Terraform and runtime IAM, but no current supported agent-framework definition was established.
+
+  - repository: goelshubham86/enterprise-ai-platform
+    observed_sha: 707745309e0dc08a5d3ba508e06bf00e3d3e7c4e
+    reason: Terraform is present, but the discovery pass did not establish the required supported agent application and runtime identity pairing.
+
+  - repository: Faizullah9181/codestash
+    observed_sha: 82feb536b366d6a79aa801719dab5e4d35d4cbd1
+    reason: Framework generator supports many SDKs, but discovery did not establish a single stable deployed GCP agent/IAM case suitable for ground truth.
+
+  - repository: okahu-demos/adk-travel-agent
+    observed_sha: 74a09d074fafd0fdd5f1a1a507a960bc4f2ac417
+    reason: Supported ADK application found; no paired Terraform runtime IAM evidence surfaced in the screening pass.
+
+  - repository: axmostech/devfest-2025-adk-secure-deploy
+    observed_sha: 69ffc533aa3ba51218d270db7a701ec71c9411ba
+    reason: Supported ADK application found; no paired Terraform runtime IAM evidence surfaced in the screening pass.
+
+  - repository: cwest/adk-mcp-polyglot-tools
+    observed_sha: 4301b28fb8ac9b1e2e666e55b028e604ad4dd196
+    reason: Supported ADK/MCP application found; no paired Terraform runtime IAM evidence surfaced in the screening pass.
+
+  - repository: chongdashu/adk-deploy-agents-samples
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: ocfagb/cloud-run-adk-agents
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: simaraconceicao/demo-multi-agent-google-adk
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: paullopez-ai/prior-auth-ambient-agent
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: credantus/agentic-rag-gcp
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: multicloud-ai-architect/cloud-governance-agent
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: DavidFerj/agentic-delivery-reference
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: pnikhil/agentic-sre-incident-copilot
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: sundar-paul/astra
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: AasthaPJoshi/ThirdLine-of-Defense
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: heypriyam/agentic-ai-financial-intelligence-platform
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: box1401/stock-rag-agentic
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: leonli/agentl
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+  - repository: othmane-zizi-pro/novamart-assistant-agent
+    reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
