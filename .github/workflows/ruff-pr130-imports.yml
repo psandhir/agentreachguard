@@ -1,0 +1,26 @@
+name: Ruff PR130 Import Diff
+
+on:
+  push:
+    branches:
+      - research/ruff-pr130-imports
+    paths:
+      - ".github/workflows/ruff-pr130-imports.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e '.[dev]'
+      - name: Show Ruff auto-fix diff
+        shell: bash
+        run: |
+          ruff check --fix tests/test_deployment_requirements.py || true
+          git diff -- tests/test_deployment_requirements.py
