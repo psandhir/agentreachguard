@@ -9,6 +9,7 @@ from horustrace.adapters.google_adk import (
     AGENT_TYPES,
     BUILTIN_TOOL_CAPABILITIES,
     RETRIEVAL_TOOLS,
+    BUILTIN_TOOL_REQUIRED_ROLES,
     _mcp_from_toolset,
     _tool_from_call,
 )
@@ -121,6 +122,190 @@ def _destination(
             ),
         },
     )
+
+
+def _function_imports(
+    info: "ModuleInfo",
+    func: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> set[str]:
+    imports = {
+        f"{module}.{remote}".strip(".").lower()
+        for module, remote in info.imports.values()
+    }
+    for node in ast.walk(func):
+        if isinstance(node, ast.Import):
+            imports.update(alias.name.lower() for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            module = (node.module or "").lower()
+            imports.update(
+                f"{module}.{alias.name}".strip(".")
+                for alias in node.names
+                if alias.name != "*"
+            )
+    return imports
+
+
+def _analyze_required_gcp_roles(
+    modules: dict[str, "ModuleInfo"],
+    info: "ModuleInfo",
+    func: ast.FunctionDef | ast.AsyncFunctionDef,
+    visited: set[tuple[str, str]] | None = None,
+) -> tuple[set[str], list[dict[str, object]]]:
+    """Return positive, source-backed GCP role requirements.
+
+    These are minimum role hints, not a complete least-privilege baseline.
+    Reconciliation may use them to prove missing authority, but not excess
+    authority unless another source marks the required-role set complete.
+    """
+    visited = set() if visited is None else set(visited)
+    key = (info.module, func.name)
+    if key in visited:
+        return set(), []
+    visited.add(key)
+
+    roles: set[str] = set()
+    evidence: list[dict[str, object]] = []
+    imports = _function_imports(info, func)
+    calls = [node for node in ast.walk(func) if isinstance(node, ast.Call)]
+    called_names = [
+        (_dotted(node.func) or _name(node.func) or "").lower()
+        for node in calls
+    ]
+
+    has_bigquery = any("google.cloud.bigquery" in value for value in imports)
+    has_discovery = any(
+        "google.cloud.discoveryengine" in value for value in imports
+    )
+    has_secretmanager = any(
+        "google.cloud.secretmanager" in value for value in imports
+    )
+    has_cloudtasks = any("google.cloud.tasks" in value for value in imports)
+    has_firestore = any("google.cloud.firestore" in value for value in imports)
+    has_datastore = any("google.cloud.datastore" in value for value in imports)
+
+    bigquery_client = has_bigquery and any(
+        value.endswith("bigquery.client") for value in called_names
+    )
+    discovery_client = has_discovery and any(
+        value.endswith(("searchserviceclient", "rankserviceclient"))
+        for value in called_names
+    )
+    secret_client = has_secretmanager and any(
+        value.endswith("secretmanagerserviceclient") for value in called_names
+    )
+    tasks_client = has_cloudtasks and any(
+        value.endswith("cloudtasksclient") for value in called_names
+    )
+    firestore_client = has_firestore and any(
+        value.endswith("firestore.client") for value in called_names
+    )
+    datastore_client = has_datastore and any(
+        value.endswith("datastore.client") for value in called_names
+    )
+
+    def add(role: str, operation: str, node: ast.AST) -> None:
+        roles.add(role)
+        item: dict[str, object] = {
+            "provider": "gcp",
+            "role": role,
+            "operation": operation,
+            "source_module": info.module,
+            "source_function": func.name,
+            "line": getattr(node, "lineno", 1),
+        }
+        if item not in evidence:
+            evidence.append(item)
+
+    for node, called in zip(calls, called_names):
+        leaf = (_name(node.func) or "").lower()
+
+        if bigquery_client:
+            if leaf == "query":
+                add("roles/bigquery.jobUser", "bigquery.query", node)
+                add("roles/bigquery.dataViewer", "bigquery.query", node)
+            elif leaf in {
+                "insert_rows",
+                "insert_rows_json",
+                "insert_rows_from_dataframe",
+            }:
+                add("roles/bigquery.dataEditor", f"bigquery.{leaf}", node)
+            elif leaf in {
+                "load_table_from_file",
+                "load_table_from_json",
+                "load_table_from_dataframe",
+            }:
+                add("roles/bigquery.jobUser", f"bigquery.{leaf}", node)
+                add("roles/bigquery.dataEditor", f"bigquery.{leaf}", node)
+
+        if discovery_client and leaf in {"search", "rank", "recommend", "answer"}:
+            add(
+                "roles/discoveryengine.viewer",
+                f"discoveryengine.{leaf}",
+                node,
+            )
+
+        if secret_client and leaf == "access_secret_version":
+            add(
+                "roles/secretmanager.secretAccessor",
+                "secretmanager.access_secret_version",
+                node,
+            )
+
+        if tasks_client and leaf == "create_task":
+            add("roles/cloudtasks.enqueuer", "cloudtasks.create_task", node)
+
+        if (firestore_client or datastore_client) and leaf in {
+            "get",
+            "stream",
+            "set",
+            "update",
+            "delete",
+            "add",
+            "create",
+            "put",
+            "put_multi",
+            "get_multi",
+        }:
+            add("roles/datastore.user", f"datastore.{leaf}", node)
+
+        local_name = _name(node.func)
+        nested: tuple[set[str], list[dict[str, object]]] | None = None
+        if local_name in info.functions and local_name != func.name:
+            nested = _analyze_required_gcp_roles(
+                modules,
+                info,
+                info.functions[local_name],
+                visited,
+            )
+        elif isinstance(node.func, ast.Name):
+            imported = _imported_symbol(modules, info, node.func.id)
+            if imported and imported[1] in imported[0].functions:
+                target, symbol = imported
+                nested = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    target.functions[symbol],
+                    visited,
+                )
+        elif isinstance(node.func, ast.Attribute):
+            imported_attr = _attribute_function(modules, info, node.func)
+            if imported_attr:
+                target, imported_func = imported_attr
+                nested = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    imported_func,
+                    visited,
+                )
+
+        if nested:
+            nested_roles, nested_evidence = nested
+            roles.update(nested_roles)
+            for item in nested_evidence:
+                if item not in evidence:
+                    evidence.append(item)
+
+    return roles, evidence
 
 
 @dataclass
@@ -505,6 +690,11 @@ def _function_tool(
     func: ast.FunctionDef | ast.AsyncFunctionDef,
 ) -> tuple[Tool, Identity | None]:
     caps, destinations, scopes = _analyze_function(modules, info, func)
+    required_roles, required_role_evidence = _analyze_required_gcp_roles(
+        modules,
+        info,
+        func,
+    )
     identity = None
     identity_name = None
     if scopes:
@@ -533,6 +723,11 @@ def _function_tool(
     }
     if network_scope:
         metadata["network_scope"] = network_scope
+    if required_roles:
+        metadata["required_authority_provider"] = "gcp"
+        metadata["required_roles"] = sorted(required_roles)
+        metadata["required_roles_complete"] = False
+        metadata["required_role_evidence"] = required_role_evidence
     return (
         Tool(
             name=func.name,
@@ -711,6 +906,13 @@ def _resolve_tools(
                         "framework": "google-adk",
                         "adk_builtin": item.id,
                         "repository_resolved": True,
+                        "required_authority_provider": (
+                            "gcp" if BUILTIN_TOOL_REQUIRED_ROLES.get(item.id) else None
+                        ),
+                        "required_roles": sorted(
+                            BUILTIN_TOOL_REQUIRED_ROLES.get(item.id, set())
+                        ),
+                        "required_roles_complete": False,
                     },
                 )
                 if item.id in RETRIEVAL_TOOLS:
@@ -775,6 +977,15 @@ def _resolve_tools(
                         "framework": "google-adk",
                         "adk_builtin": tool_name,
                         "repository_resolved": True,
+                        "required_authority_provider": (
+                            "gcp"
+                            if BUILTIN_TOOL_REQUIRED_ROLES.get(tool_name)
+                            else None
+                        ),
+                        "required_roles": sorted(
+                            BUILTIN_TOOL_REQUIRED_ROLES.get(tool_name, set())
+                        ),
+                        "required_roles_complete": False,
                     },
                 )
                 if tool_name in RETRIEVAL_TOOLS:
