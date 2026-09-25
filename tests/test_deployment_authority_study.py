@@ -310,3 +310,14 @@ def test_ground_truth_requires_independent_security_section(tmp_path: Path) -> N
 
     with pytest.raises(study.StudyError, match="security_ground_truth"):
         study.validate_case_inputs(case)
+
+
+def test_case_validation_uses_full_deployment_evidence_contract(tmp_path: Path) -> None:
+    path = _write_case(tmp_path)
+    case = study.load_cohort(path)[0]
+    evidence = yaml.safe_load(case.deployment_evidence.read_text(encoding="utf-8"))
+    evidence["unsupported_field"] = "must fail closed"
+    case.deployment_evidence.write_text(yaml.safe_dump(evidence), encoding="utf-8")
+
+    with pytest.raises(study.StudyError, match="invalid Deployment Evidence v1"):
+        study.validate_case_inputs(case)
