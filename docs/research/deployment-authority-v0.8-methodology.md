@@ -54,20 +54,36 @@ All conclusions retain `runtime_effectiveness: not_verified`.
 
 ## Ground-truth protocol
 
-Ground truth is written and marked `reviewed: true` before the study runner is allowed to execute a case. Each expected agent records:
+Ground truth is written and marked `reviewed: true` before the study runner is allowed to execute a case. It contains **two deliberately separate reference layers**.
 
-- exact agent name;
-- expected workload identity;
-- expected reconciliation status;
-- required roles and permissions;
-- deployed unconditional roles and permissions;
-- conditional roles and permissions;
-- excess roles and permissions;
-- missing roles and permissions;
-- unresolved dimensions;
-- application and infrastructure evidence paths with reviewer rationale.
+### Independent security ground truth
 
-Ambiguous dynamic expressions, unresolved conditions, unknown custom roles, or insufficient source authority are recorded as unresolved rather than guessed.
+`security_ground_truth` is the human-adjudicated least-privilege reference. It is derived from the pinned application and infrastructure source, without using HorusTrace output. Each agent records:
+
+- exact agent name and workload identity;
+- source-observed required capabilities;
+- required roles and permissions where they can be defended from public evidence;
+- repository-declared deployed roles and permissions;
+- excess and missing authority;
+- a security classification of aligned, excess, missing, mixed, or unresolved;
+- unresolved questions where the evidence is insufficient.
+
+This is the reference used to answer whether HorusTrace identifies the security state correctly.
+
+### Expected HorusTrace behavior
+
+`expected_horustrace` records what the current v0.8 semantics should emit from the same evidence. It is a regression/oracle layer for the implementation, not the independent security judgment.
+
+This separation is necessary because v0.8 only treats IAM roles/permissions as required authority when an application-side identity relationship contains that authority. A human reviewer may be able to establish that an agent needs a GCP permission from its API usage even when HorusTrace correctly reports the required-IAM dimension as unresolved.
+
+The report therefore contains two confusion matrices:
+
+1. expected HorusTrace output vs observed output, which tests implementation correctness;
+2. independent security classification vs observed output, which measures security-analysis coverage.
+
+A case can pass the first comparison and fail the second. Such a result is a product limitation, not a harness failure.
+
+Ambiguous dynamic expressions, unresolved conditions, unknown custom roles, insufficient source authority, or uncertain minimum-role mappings are recorded as unresolved rather than guessed.
 
 ## Reproducibility and safety
 
@@ -90,7 +106,8 @@ The final report records:
 - agent identity match/mismatch evidence;
 - expected versus observed required/deployed/excess/missing role and permission sets;
 - conditional and unresolved authority agreement;
-- reconciliation classification confusion matrix across `aligned`, `excess_authority`, `missing_authority`, `mixed`, and `unresolved`;
+- expected-output confusion matrix across `aligned`, `excess_authority`, `missing_authority`, `mixed`, and `unresolved`;
+- independent security-classification confusion matrix using the same status vocabulary;
 - mutation detection results;
 - unresolved-evidence categories and product limitations discovered during adjudication.
 
