@@ -65,6 +65,19 @@ BUILTIN_TOOL_CAPABILITIES: dict[str, set[str]] = {
     "TransferToAgentTool": {"agent.delegate"},
 }
 
+
+# Positive, source-backed minimum role hints for managed ADK tools.
+# These are deliberately incomplete and must not be used as a complete
+# least-privilege baseline for excess-authority decisions.
+BUILTIN_TOOL_REQUIRED_ROLES: dict[str, set[str]] = {
+    "BigQueryToolset": {
+        "roles/bigquery.jobUser",
+        "roles/bigquery.dataViewer",
+    },
+    "DiscoveryEngineSearchTool": {"roles/discoveryengine.viewer"},
+    "VertexAiSearchTool": {"roles/discoveryengine.viewer"},
+}
+
 RETRIEVAL_TOOLS = {
     "GoogleSearchTool", "google_search", "UrlContextTool", "url_context", "load_web_page",
     "DiscoveryEngineSearchTool", "VertexAiSearchTool", "VertexAiRagRetrieval",
@@ -584,6 +597,23 @@ def _tool_from_call(
             metadata["write_mode"] = write_mode
             if write_mode and write_mode.lower().endswith("blocked"):
                 caps.discard("data.write")
+
+        required_roles = set(BUILTIN_TOOL_REQUIRED_ROLES.get(name, set()))
+        if name == "BigQueryToolset" and "data.write" in caps:
+            required_roles.add("roles/bigquery.dataEditor")
+        if required_roles:
+            metadata["required_authority_provider"] = "gcp"
+            metadata["required_roles"] = sorted(required_roles)
+            metadata["required_roles_complete"] = False
+            metadata["required_role_evidence"] = [
+                {
+                    "provider": "gcp",
+                    "role": role,
+                    "operation": f"adk_builtin:{name}",
+                    "line": getattr(call, "lineno", 1),
+                }
+                for role in sorted(required_roles)
+            ]
         if name in {"GoogleApiToolset", "GmailToolset", "CalendarToolset", "DocsToolset", "SheetsToolset", "SlidesToolset", "YoutubeToolset"}:
             metadata["additional_scopes"] = _list_strings(_kw(call, "additional_scopes"))
             metadata["service_account"] = _kw(call, "service_account") is not None
