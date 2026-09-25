@@ -317,10 +317,6 @@ def _analyze_required_gcp_roles(
     bigquery_client = has_bigquery and any(
         value.endswith("bigquery.client") for value in called_names
     )
-    discovery_client = has_discovery and any(
-        value.endswith(("searchserviceclient", "rankserviceclient"))
-        for value in called_names
-    )
     secret_client = has_secretmanager and any(
         value.endswith("secretmanagerserviceclient") for value in called_names
     )
