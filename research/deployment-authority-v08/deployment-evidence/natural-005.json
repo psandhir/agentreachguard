@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:KristionB/sql-adk-agent@bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+  "workloads": [
+    {
+      "workload_id": "repository-template://KristionB/sql-adk-agent/reasoning_engine/db_ds_multiagent",
+      "kind": "reasoning_engine",
+      "name": "db_ds_multiagent",
+      "identity": "service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "agent": "db_ds_multiagent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "KristionB/sql-adk-agent",
+        "commit": "bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "role": "roles/discoveryengine.admin",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "KristionB/sql-adk-agent",
+        "commit": "bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "KristionB/sql-adk-agent",
+        "commit": "bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
