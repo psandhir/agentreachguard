@@ -256,6 +256,58 @@ def validate_candidates(
         if exposure_check == "pending":
             exposure_pending += 1
 
+        screening = candidate.get("screening")
+        if decision == "pending":
+            if screening is not None:
+                raise StudyProtocolError(
+                    f"{where}.screening: pending candidate must not have completed screening"
+                )
+        else:
+            if not isinstance(screening, dict):
+                raise StudyProtocolError(
+                    f"{where}.screening: reviewed candidate requires screening object"
+                )
+            if screening.get("source_only") is not True:
+                raise StudyProtocolError(
+                    f"{where}.screening.source_only must be true"
+                )
+            _require_nonempty_string(
+                screening.get("reviewed_at"),
+                f"{where}.screening.reviewed_at",
+            )
+            _require_nonempty_string(
+                screening.get("rationale"),
+                f"{where}.screening.rationale",
+            )
+            _require_nonempty_string(
+                screening.get("license_status"),
+                f"{where}.screening.license_status",
+            )
+            tier_b = screening.get("tier_b")
+            tier_c = screening.get("tier_c")
+            for tier_name, tier_value in (("tier_b", tier_b), ("tier_c", tier_c)):
+                if not isinstance(tier_value, dict):
+                    raise StudyProtocolError(
+                        f"{where}.screening.{tier_name}: expected object"
+                    )
+                _require_bool(
+                    tier_value.get("eligible"),
+                    f"{where}.screening.{tier_name}.eligible",
+                )
+                _require_list(
+                    tier_value.get("signals"),
+                    f"{where}.screening.{tier_name}.signals",
+                )
+            if decision == "include":
+                _require_nonempty_string(
+                    screening.get("application_path"),
+                    f"{where}.screening.application_path",
+                )
+            if exposure_check != "checked":
+                raise StudyProtocolError(
+                    f"{where}: reviewed candidate requires previously_studied_check=checked"
+                )
+
     if len(repos) != len(set(repos)):
         raise StudyProtocolError(f"{path}: candidate repositories must be unique")
 
@@ -279,6 +331,7 @@ def validate_candidates(
         "included": included,
         "excluded": excluded,
         "prior_study_checks_pending": exposure_pending,
+        "reviewed": len(candidates) - pending,
         "framework_counts": dict(sorted(frameworks.items())),
         "frozen": frozen,
     }
