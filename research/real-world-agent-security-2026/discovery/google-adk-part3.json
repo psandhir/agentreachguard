@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "google-adk",
+  "part": 3,
+  "query": "adk multi agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "johnson7788/MultiAgentPPT",
+      "sha": "ce8185cee83092290bdb913a528c6e3a72ee879e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 23877,
+      "query": "adk multi agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "modu-ai/moai-adk",
+      "sha": "2213871afb7d655f411c46a34fd38bb8153278fc",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 381995,
+      "query": "adk multi agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "autopus-ai/autopus-adk",
+      "sha": "4480c8d2f6c00c205ee838cd4bd20933bfff3597",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 20342,
+      "query": "adk multi agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "BrainDAO/adk-ts",
+      "sha": "f93632d7f28e97bf4c499dc26b1961281b716f74",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 21039,
+      "query": "adk multi agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "sokart/adk-walkthrough",
+      "sha": "b31059e2c39727661596013a8e853059d350f2e7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39,
+      "query": "adk multi agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "vishal-bulbule/Master-Agentic-AI-with-Google-ADK",
+      "sha": "671ac2ceac72eaa59126f6db083a1a4bd6c64c7c",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 19538,
+      "query": "adk multi agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "GoogleCloudPlatform/race-condition",
+      "sha": "26efc1b4674344d6303ee4226ec3204c08733fec",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 25103,
+      "query": "adk multi agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "chongdashu/adk-mcp-a2a-crash-course",
+      "sha": "10eedc2b6f363b5152229145331c19ed53e840ee",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 827,
+      "query": "adk multi agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "lavinigam-gcp/build-with-adk",
+      "sha": "e3f55ff1c348a686cd665211dd43815ca5feffe0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 351633,
+      "query": "adk multi agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "thomas-chong/google-adk-visual-agent-builder-demo",
+      "sha": "ab022b3a2fe2191add9e2b58e700a2d54edcd224",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 576,
+      "query": "adk multi agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "Roji-val/A2A_ADK_MCP",
+      "sha": "d32c623cd17c22f07b5614e3b2891b750ec8598e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 753,
+      "query": "adk multi agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "madhurprash/A2A-Multi-Agents-AgentCore",
+      "sha": "abae02b01f57fb1f8855a2e4a31a489019ae47c5",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 5880,
+      "query": "adk multi agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "seehiong/adk-web-multi-agent",
+      "sha": "144ce2d3edb427c9addaef1fdc8f3372f04c8d45",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 32,
+      "query": "adk multi agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "ricardosmh/adk-apigee-multiagent-demo",
+      "sha": "0bc7ae95963151c7f000c02b3ef35db7fd9d095a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 46735,
+      "query": "adk multi agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "meken/gcp-adk-intro-agent",
+      "sha": "ea8b7e48ca1888d0c1a4d527592ca3179dcebd00",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 6,
+      "query": "adk multi agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
