@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "pydantic-ai",
+  "part": 3,
+  "query": "pydantic ai multi agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "vstorm-co/pydantic-deepagents",
+      "sha": "32b57ba6df24c744537b9b9080394ead6fc02c10",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39353,
+      "query": "pydantic ai multi agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-backend",
+      "sha": "8ac7b678b633aa51c054a884ce27d31b130b8110",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9770,
+      "query": "pydantic ai multi agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-todo",
+      "sha": "0717216e71bd47a9da60ab46ab1108bbff3b79db",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1020,
+      "query": "pydantic ai multi agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/subagents-pydantic-ai",
+      "sha": "bb8c400732ad515a1e2bfc554ee2dcf7500b2ef9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2263,
+      "query": "pydantic ai multi agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "cgoncalves94/multi-agent-pydanticAI",
+      "sha": "f6da0f8c5374acf34fcd358c2919991930713f97",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 288,
+      "query": "pydantic ai multi agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "achimstruve/pydanticAI-Multi-Agent-System",
+      "sha": "f5ad96dac26753c23298fb84572ca57276610b13",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 35,
+      "query": "pydantic ai multi agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "Unfold-Security/pydantic-collab",
+      "sha": "b35097cb7cb5f39cc3d098f51d819c1cfe3a0266",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1219,
+      "query": "pydantic ai multi agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "Fuenfgeld/pydantic-ai-skills",
+      "sha": "0a11b6bc9206298fb6a4c6871aa7f1fdeb07f30f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 363,
+      "query": "pydantic ai multi agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "pilottai/pilottai",
+      "sha": "43b2b9d2df3fb853dd08c0fa2522f20c682c41b9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3682,
+      "query": "pydantic ai multi agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "ML4SCI/DeepLense-AI-Scientist",
+      "sha": "dbea8485f8bf64250e2aec82dd8999d354085996",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 371,
+      "query": "pydantic ai multi agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "kushalsamani/social-media-ai-agent",
+      "sha": "1f3dc901f0be86a7aa572a7b6914dd103666ed12",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 262,
+      "query": "pydantic ai multi agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "aws-samples/sample-pydantic-ai-streaming-rag-multiagent",
+      "sha": "5990649c68e41faacf6e10a5a318a9f4c3f884b6",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 917,
+      "query": "pydantic ai multi agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "BjornMelin/dev-pro-agents",
+      "sha": "7cdf17694c3e8ac48e565979c44d109e97426e68",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 625,
+      "query": "pydantic ai multi agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Milimo-Quantum/novel-forge",
+      "sha": "d4ad1eb64cf307f1bdc737d232cf271882a3050c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 476,
+      "query": "pydantic ai multi agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "janaador0827-commits/simulacra-forge",
+      "sha": "ac700298669b082710217cd97215108a017f22c0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2307,
+      "query": "pydantic ai multi agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
