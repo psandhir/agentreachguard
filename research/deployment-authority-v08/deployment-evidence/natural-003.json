@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:arjunprabhulal/adk-advanced@893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+  "workloads": [
+    {
+      "workload_id": "repository-template://arjunprabhulal/adk-advanced/cloud_run/root_agent",
+      "kind": "cloud_run",
+      "name": "root_agent",
+      "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "root_agent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/discoveryengine.editor",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/logging.logWriter",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtrace.agent",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.admin",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/serviceusage.serviceUsageConsumer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "arjunprabhulal/adk-advanced",
+        "commit": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
