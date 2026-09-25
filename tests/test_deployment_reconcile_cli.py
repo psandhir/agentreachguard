@@ -213,3 +213,119 @@ def test_deployment_regression_gate_requires_baseline(
     ) == 1
 
     assert "requires --baseline-deployment-evidence" in capsys.readouterr().err
+
+
+
+def test_reconcile_cli_joins_cloud_sql_source_and_terraform_evidence(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    app = tmp_path / "chatbot"
+    infra = tmp_path / "infra"
+    evidence = tmp_path / "deployment-cloudsql.json"
+    app.mkdir()
+    infra.mkdir()
+
+    (app / "agent.py").write_text(
+        """
+from google.adk.agents import LlmAgent
+import asyncpg
+
+DATABASE_URL = "postgresql://user:pass@/db"
+
+async def startup():
+    return await asyncpg.create_pool(DATABASE_URL)
+
+root_agent = LlmAgent(
+    name="shopright_assistant",
+    model="gemini-flash-latest",
+)
+""",
+        encoding="utf-8",
+    )
+    (infra / "main.tf").write_text(
+        """
+resource "google_service_account" "chatbot_sa" {
+  account_id = "shopright-chatbot"
+}
+
+resource "google_cloud_run_v2_service" "chatbot" {
+  name = "chatbot-service"
+
+  template {
+    service_account = google_service_account.chatbot_sa.email
+
+    volumes {
+      name = "cloudsql"
+      cloud_sql_instance {
+        instances = ["prod-project:europe-west1:shopright"]
+      }
+    }
+
+    containers {
+      env {
+        name  = "DATABASE_URL"
+        value = "postgresql://user:pass@/db?host=/cloudsql/prod-project:europe-west1:shopright"
+      }
+      volume_mounts {
+        name       = "cloudsql"
+        mount_path = "/cloudsql"
+      }
+    }
+  }
+}
+""",
+        encoding="utf-8",
+    )
+    evidence.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "provider": "gcp",
+                "source": "test",
+                "workloads": [
+                    {
+                        "workload_id": "cloud-run://chatbot",
+                        "kind": "cloud_run",
+                        "name": "chatbot-service",
+                        "identity": (
+                            "shopright-chatbot@prod-project.iam.gserviceaccount.com"
+                        ),
+                        "agent": "shopright_assistant",
+                        "project": "prod-project",
+                    }
+                ],
+                "iam_bindings": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert main(
+        [
+            "reconcile",
+            str(app),
+            "--deployment-evidence",
+            str(evidence),
+            "--authority-source",
+            str(infra),
+            "--format",
+            "json",
+        ]
+    ) == 0
+
+    report = json.loads(capsys.readouterr().out)
+    agent = next(
+        item
+        for item in report["reconciliation"]["agents"]
+        if item["agent"] == "shopright_assistant"
+    )
+    assert agent["status"] == "missing_authority"
+    assert agent["required"]["roles"] == ["roles/cloudsql.client"]
+    assert agent["missing"]["roles"] == ["roles/cloudsql.client"]
+    assert (
+        report["coverage"]["resolution"]["deployment_requirements"][
+            "matched_agents"
+        ]
+        == 1
+    )
