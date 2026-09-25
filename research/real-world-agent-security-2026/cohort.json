@@ -8,5 +8,6 @@
   "target_unique_repositories": 180,
   "cases": [],
   "tier_b_case_ids": [],
-  "tier_c_case_ids": []
+  "tier_c_case_ids": [],
+  "ground_truth_locked": false
 }
