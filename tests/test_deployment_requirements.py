@@ -10,7 +10,6 @@ from horustrace.deployment_requirements import (
 )
 from horustrace.models import Agent, Graph
 
-
 IDENTITY = "shopright-chatbot@prod-project.iam.gserviceaccount.com"
 
 
