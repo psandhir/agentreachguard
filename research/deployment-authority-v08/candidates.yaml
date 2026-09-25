@@ -231,3 +231,30 @@ deferred_or_screened_out:
 
   - repository: othmane-zizi-pro/novamart-assistant-agent
     reason: Discovery candidate; dual application plus Terraform IAM evidence was not established in the bounded screening pass.
+
+
+freeze_decision:
+  frozen_at: "2026-09-25"
+  horustrace_results_used: false
+  replacements:
+    - removed: lastingyeh/adk-insurance-recommendation-agent
+      reason: >
+        The application constructs the ADK Agent through a factory and assigns
+        root_agent = create_agent(...). The current Google ADK static adapter
+        only materializes direct Agent/Workflow constructor assignments, so this
+        case would confound deployment-authority evaluation with agent-discovery coverage.
+    - added: kuldeepjain1920/expense-agent
+      observed_sha: 180726e8e2662d0dae9444165e9000734b6e086a
+      reason: >
+        Reserve candidate with a literal Agent declaration, explicit workflow,
+        repository-declared application service account, and bounded GCP IAM roles.
+  correlated_families:
+    - family: google-agent-starter-pack-style
+      cases:
+        - esoltys/ambient-expense-agent
+        - LaurentVeyssier/Ask-your-data-genie
+        - kuldeepjain1920/expense-agent
+      note: >
+        These cases share related deployment scaffolding. They are retained because
+        application-side authority differs materially, but final results must not
+        present them as statistically independent observations.

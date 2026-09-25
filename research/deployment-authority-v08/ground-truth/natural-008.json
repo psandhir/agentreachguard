@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-008",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "shopright_assistant",
+        "identity": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "missing_authority",
+        "required": {
+          "capabilities": [
+            "product.search",
+            "bigquery.write",
+            "cloudsql.connect",
+            "model.invoke",
+            "trace.write"
+          ],
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/bigquery.dataEditor",
+            "roles/cloudtrace.agent",
+            "roles/cloudsql.client"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/bigquery.dataEditor",
+            "roles/cloudtrace.agent"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [
+            "roles/cloudsql.client"
+          ],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "shopright_assistant",
+        "identity": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/bigquery.dataEditor",
+            "roles/cloudtrace.agent"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "ai/chatbot/main.py",
+        "rationale": "The chatbot opens a PostgreSQL connection through the mounted Cloud SQL Unix socket and writes BigQuery analytics. The dedicated chatbot service account is granted Vertex, BigQuery and Trace roles but no repository-declared cloudsql.client role."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "infra/terraform/main.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for shopright-chatbot@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

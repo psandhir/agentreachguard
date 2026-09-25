@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-005",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "db_ds_multiagent",
+        "identity": "service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+        "classification": "mixed",
+        "required": {
+          "capabilities": [
+            "bigquery.read",
+            "bigquery.query",
+            "model.invoke",
+            "agent.delegate"
+          ],
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/bigquery.dataViewer",
+            "roles/bigquery.jobUser"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/discoveryengine.admin",
+            "roles/aiplatform.user"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/discoveryengine.admin"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [
+            "roles/bigquery.dataViewer",
+            "roles/bigquery.jobUser"
+          ],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "db_ds_multiagent",
+        "identity": "service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/discoveryengine.admin",
+            "roles/aiplatform.user"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "sql_agent/agent.py",
+        "rationale": "The top-level data agent explicitly routes to BigQuery-backed analysis and invokes Vertex AI. The reviewed Reasoning Engine IAM grants include Discovery Engine admin but no repository-declared BigQuery viewer/job authority, producing both excess and missing role-level authority."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "terraform/main.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for service-${var.google_cloud_project_number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:kuldeepjain1920/expense-agent@180726e8e2662d0dae9444165e9000734b6e086a",
+  "workloads": [
+    {
+      "workload_id": "repository-template://kuldeepjain1920/expense-agent/cloud_run/review_agent",
+      "kind": "cloud_run",
+      "name": "review_agent",
+      "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "review_agent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/logging.logWriter",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtrace.agent",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.admin",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/serviceusage.serviceUsageConsumer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "kuldeepjain1920/expense-agent",
+        "commit": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}

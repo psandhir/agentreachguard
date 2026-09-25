@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-001",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "search_agent",
+        "identity": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "managed-search.read",
+            "model.invoke",
+            "telemetry.write"
+          ],
+          "roles": [
+            "roles/discoveryengine.viewer",
+            "roles/aiplatform.user",
+            "roles/bigquery.dataEditor",
+            "roles/bigquery.jobUser"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/discoveryengine.viewer",
+            "roles/aiplatform.user",
+            "roles/storage.objectViewer",
+            "roles/bigquery.dataEditor",
+            "roles/bigquery.jobUser"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/storage.objectViewer"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "search_agent",
+        "identity": "${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/discoveryengine.viewer",
+            "roles/aiplatform.user",
+            "roles/storage.objectViewer",
+            "roles/bigquery.dataEditor",
+            "roles/bigquery.jobUser"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "src/agent/agent.py",
+        "rationale": "The runtime agent directly searches Discovery Engine, uses Vertex ranking/model APIs, and writes BigQuery telemetry. The reviewed agent source does not directly read GCS objects; storage.objectViewer is therefore adjudicated as excess for this runtime identity."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "terraform/iam.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for ${var.env_name}-agent@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

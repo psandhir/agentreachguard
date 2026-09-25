@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-007",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "adhesion_router",
+        "identity": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "agent.delegate",
+            "model.invoke"
+          ],
+          "roles": [
+            "roles/aiplatform.user"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/datastore.user",
+            "roles/storage.objectViewer",
+            "roles/cloudtrace.agent",
+            "roles/logging.logWriter"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/datastore.user",
+            "roles/storage.objectViewer",
+            "roles/cloudtrace.agent",
+            "roles/logging.logWriter"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "adhesion_router",
+        "identity": "agent-node-sa@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/datastore.user",
+            "roles/storage.objectViewer",
+            "roles/cloudtrace.agent",
+            "roles/logging.logWriter"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "router-agent/agent.py",
+        "rationale": "The router uses InMemorySessionService and delegates document/fraud/adhesion work to existing Reasoning Engines. The reviewed router source does not itself read GCS objects or Firestore; Cloud Run stdout logging also does not establish application-level logWriter necessity."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "terraform/iam.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for agent-node-sa@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

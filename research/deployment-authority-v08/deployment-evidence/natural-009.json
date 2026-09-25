@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:LaurentVeyssier/Ask-your-data-genie@5323dd78abf04b137d093d0bfce70cdab586982b",
+  "workloads": [
+    {
+      "workload_id": "repository-template://LaurentVeyssier/Ask-your-data-genie/cloud_run/root_agent",
+      "kind": "cloud_run",
+      "name": "root_agent",
+      "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "root_agent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/logging.logWriter",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtrace.agent",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.admin",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/serviceusage.serviceUsageConsumer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/secretmanager.secretAccessor",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/datastore.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "LaurentVeyssier/Ask-your-data-genie",
+        "commit": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}

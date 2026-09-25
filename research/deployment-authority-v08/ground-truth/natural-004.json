@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-004",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "med_voice_root",
+        "identity": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "patient.read",
+            "report.read",
+            "appointment.write",
+            "callback.enqueue",
+            "model.invoke"
+          ],
+          "roles": [
+            "roles/datastore.user",
+            "roles/storage.objectAdmin",
+            "roles/cloudtasks.enqueuer",
+            "roles/aiplatform.user",
+            "roles/secretmanager.secretAccessor",
+            "roles/logging.logWriter"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/datastore.user",
+            "roles/storage.objectAdmin",
+            "roles/cloudtasks.enqueuer",
+            "roles/aiplatform.user",
+            "roles/secretmanager.secretAccessor",
+            "roles/iam.serviceAccountTokenCreator",
+            "roles/logging.logWriter",
+            "roles/iam.serviceAccountUser"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/iam.serviceAccountTokenCreator",
+            "roles/iam.serviceAccountUser"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "med_voice_root",
+        "identity": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/datastore.user",
+            "roles/storage.objectAdmin",
+            "roles/cloudtasks.enqueuer",
+            "roles/aiplatform.user",
+            "roles/secretmanager.secretAccessor",
+            "roles/iam.serviceAccountTokenCreator",
+            "roles/logging.logWriter",
+            "roles/iam.serviceAccountUser"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "backend/app/agents/med_voice_agent/agent.py",
+        "rationale": "The agent tools require patient/report storage, scheduling/callback operations and model access. No runtime source evidence reviewed for the agent requires minting service-account tokens or acting as another service account."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "infra/terraform/iam.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

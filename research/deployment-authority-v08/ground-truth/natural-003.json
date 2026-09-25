@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-003",
+  "reviewed": true,
+  "security_ground_truth": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "classification": "excess_authority",
+        "required": {
+          "capabilities": [
+            "model.invoke",
+            "local.weather.lookup",
+            "local.time.lookup"
+          ],
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/discoveryengine.editor",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "excess": {
+          "roles": [
+            "roles/discoveryengine.editor",
+            "roles/storage.admin"
+          ],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permission_level_role_expansion"
+        ]
+      }
+    ]
+  },
+  "expected_horustrace": {
+    "runtime_effectiveness": "not_verified",
+    "agents": [
+      {
+        "agent": "root_agent",
+        "identity": "${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com",
+        "status": "unresolved",
+        "required": {
+          "roles": [],
+          "permissions": []
+        },
+        "deployed": {
+          "roles": [
+            "roles/aiplatform.user",
+            "roles/discoveryengine.editor",
+            "roles/logging.logWriter",
+            "roles/cloudtrace.agent",
+            "roles/storage.admin",
+            "roles/serviceusage.serviceUsageConsumer"
+          ],
+          "permissions": []
+        },
+        "conditional_roles": [],
+        "conditional_permissions": [],
+        "excess": {
+          "roles": [],
+          "permissions": []
+        },
+        "missing": {
+          "roles": [],
+          "permissions": []
+        },
+        "unresolved": [
+          "permissions",
+          "required_permissions",
+          "required_roles"
+        ]
+      }
+    ]
+  },
+  "evidence": {
+    "application": [
+      {
+        "path": "4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/app/agent.py",
+        "rationale": "The reviewed agent exposes only local weather/time functions plus model invocation. No Discovery Engine or GCS object administration appears in the runtime agent source, while the app service account receives editor/admin roles for both."
+      }
+    ],
+    "infrastructure": [
+      {
+        "path": "4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/deployment/terraform/variables.tf",
+        "rationale": "Repository-declared runtime identity and IAM role evidence for ${var.project_name}-app@${var.project_id}.iam.gserviceaccount.com."
+      }
+    ]
+  },
+  "adjudication": {
+    "basis": "manual source review before HorusTrace cohort execution",
+    "permission_catalogue_expanded": false,
+    "role_level_classification": true,
+    "live_cloud_state_verified": false
+  }
+}

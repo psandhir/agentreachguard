@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:young-monk/shopright-ecommerce@8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+  "workloads": [
+    {
+      "workload_id": "repository-template://young-monk/shopright-ecommerce/cloud_run/shopright_assistant",
+      "kind": "cloud_run",
+      "name": "shopright_assistant",
+      "identity": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "shopright_assistant",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "young-monk/shopright-ecommerce",
+        "commit": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "young-monk/shopright-ecommerce",
+        "commit": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/bigquery.dataEditor",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "young-monk/shopright-ecommerce",
+        "commit": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "shopright-chatbot@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtrace.agent",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "young-monk/shopright-ecommerce",
+        "commit": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
