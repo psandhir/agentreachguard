@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "google-adk",
+  "part": 2,
+  "query": "google agent development kit",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "AashiDutt/Google-Agent-Development-Kit-Demo",
+      "sha": "add7a987d62e72e313a4a82730195bb3ce53410c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 447,
+      "query": "google agent development kit",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "AhsanAyaz/ai-agents-google-adk",
+      "sha": "d9543491ed0605b4e91b6ff0e7617db7ed708087",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 430,
+      "query": "google agent development kit",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "ngesa254/labsdotgde",
+      "sha": "676074d6a67de39cd9813b84d720346e8e754e2a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 103122,
+      "query": "google agent development kit",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "Sri-Krishna-V/awesome-adk-agents",
+      "sha": "dfa5d40d94885391c12df92f4f37716bfe7bf608",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 13555,
+      "query": "google agent development kit",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "theailifestyle/google-adk-demos",
+      "sha": "d77adfb1c3194736ac3445c1e25d13421f5967b7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1060,
+      "query": "google agent development kit",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "arjunprabhulal/google-adk-masterclass",
+      "sha": "d52895fdcd16d2be2bc11363a08bb14c3455bb3d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3356,
+      "query": "google agent development kit",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "omerbsezer/Fast-LLM-Agent-MCP",
+      "sha": "328199e073368b18abfbb5e82b0ecd234466a009",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 102807,
+      "query": "google agent development kit",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "tsubasakong/awesome-google-adk",
+      "sha": "c50b3f99a3dc181f1149a8ed8bfc37a92f6987e7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 51,
+      "query": "google agent development kit",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "vishal-bulbule/Master-Agentic-AI-with-Google-ADK",
+      "sha": "671ac2ceac72eaa59126f6db083a1a4bd6c64c7c",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 19538,
+      "query": "google agent development kit",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "ruby-verma/transit-agent",
+      "sha": "f8e97171e53a79ca94403a62aed82618ed3996c0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 35,
+      "query": "google agent development kit",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "Roji-val/A2A_ADK_MCP",
+      "sha": "d32c623cd17c22f07b5614e3b2891b750ec8598e",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 753,
+      "query": "google agent development kit",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "nisalrenuja/bwai-adk-basic-demo",
+      "sha": "778ee39da561ff7e1a749331c14a4ff670627d0f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 73,
+      "query": "google agent development kit",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "ericabelson/agentic-gee-assistant",
+      "sha": "8fb7cd12cc37ab555504c092a1400547e5ec2492",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 48,
+      "query": "google agent development kit",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Astrodevil/ADK-Agent-Examples",
+      "sha": "e9c24623ae82ef7e9a409c7ee767f5f8faa8b56c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 102,
+      "query": "google agent development kit",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "danishi/slack-bot-adk-python-cloudrun",
+      "sha": "bf0b75993d9c64ab2748ba509564a8e8f80932ec",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 497,
+      "query": "google agent development kit",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
