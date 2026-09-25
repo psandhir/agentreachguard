@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "protocol_only",
+  "scanner_freeze_sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
+  "cohort_frozen": false,
+  "horustrace_results_used_for_selection": false,
+  "target_unique_repositories": 180,
+  "cases": [],
+  "tier_b_case_ids": [],
+  "tier_c_case_ids": []
+}
