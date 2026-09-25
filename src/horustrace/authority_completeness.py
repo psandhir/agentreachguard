@@ -15,6 +15,7 @@ import ast
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from horustrace.deployed_authority import deployed_authority_relationships
 from horustrace.deployment_evidence import DeploymentEvidenceBundle
@@ -37,6 +38,11 @@ _RUNTIME_EXCLUDED_DIRS = {
 }
 
 _DISCOVERY_ROLE_PREFIX = "roles/discoveryengine."
+_DISCOVERY_API_HOSTS = {
+    "discoveryengine.googleapis.com",
+    "eu-discoveryengine.googleapis.com",
+    "us-discoveryengine.googleapis.com",
+}
 _DISCOVERY_MARKERS = {
     "discoveryengine",
     "DiscoveryEngineSearchTool",
@@ -192,12 +198,13 @@ def _discovery_marker(
             marker = value
             kind = "symbol"
     elif isinstance(node, ast.Constant) and isinstance(node.value, str):
-        value = node.value
-        if (
-            "discoveryengine.googleapis.com" in value.lower()
-            or "discoveryengine" in value.lower()
-            and "googleapis.com" in value.lower()
-        ):
+        value = node.value.strip()
+        candidate = value if "://" in value else f"//{value}"
+        try:
+            hostname = (urlsplit(candidate).hostname or "").rstrip(".").lower()
+        except ValueError:
+            hostname = ""
+        if hostname in _DISCOVERY_API_HOSTS:
             marker = value
             kind = "endpoint"
 
