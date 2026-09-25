@@ -155,6 +155,73 @@ def _safe_study_path(root: Path, value: str, where: str) -> Path:
     return resolved
 
 
+def _validate_authority_dimensions(
+    item: dict[str, Any],
+    where: str,
+    *,
+    include_capabilities: bool,
+) -> None:
+    for section in ("required", "deployed", "excess", "missing"):
+        section_value = item.get(section)
+        if not isinstance(section_value, dict):
+            raise StudyError(f"{where}.{section}: expected a mapping")
+        dimensions = ["roles", "permissions"]
+        if section == "required" and include_capabilities:
+            dimensions.append("capabilities")
+        for dimension in dimensions:
+            _string_list(
+                section_value.get(dimension),
+                f"{where}.{section}.{dimension}",
+            )
+
+
+def _validate_agent_set(
+    section: dict[str, Any],
+    *,
+    path: Path,
+    label: str,
+    status_key: str,
+    include_capabilities: bool,
+    expected_output: bool,
+) -> list[dict[str, Any]]:
+    if section.get("runtime_effectiveness") != "not_verified":
+        raise StudyError(
+            f"{path}: {label}.runtime_effectiveness must be not_verified"
+        )
+    agents = section.get("agents")
+    if not isinstance(agents, list) or not agents:
+        raise StudyError(f"{path}: {label}.agents must be a non-empty list")
+
+    seen_agents: set[str] = set()
+    for index, raw in enumerate(agents):
+        where = f"{path}: {label}.agents[{index}]"
+        if not isinstance(raw, dict):
+            raise StudyError(f"{where}: expected a mapping")
+        agent = _require_string(raw, "agent", where)
+        if agent in seen_agents:
+            raise StudyError(f"{where}.agent: duplicate {agent}")
+        seen_agents.add(agent)
+        _require_string(raw, "identity", where)
+        status = _require_string(raw, status_key, where)
+        if status not in STATUSES:
+            raise StudyError(
+                f"{where}.{status_key}: expected one of {list(STATUSES)}"
+            )
+        _validate_authority_dimensions(
+            raw,
+            where,
+            include_capabilities=include_capabilities,
+        )
+        _string_list(raw.get("unresolved"), f"{where}.unresolved")
+        if expected_output:
+            _string_list(raw.get("conditional_roles"), f"{where}.conditional_roles")
+            _string_list(
+                raw.get("conditional_permissions"),
+                f"{where}.conditional_permissions",
+            )
+    return agents
+
+
 def validate_ground_truth(path: Path, case_id: str) -> dict[str, Any]:
     document = _load_yaml(path)
     if document.get("schema_version") != SCHEMA_VERSION:
@@ -164,40 +231,37 @@ def validate_ground_truth(path: Path, case_id: str) -> dict[str, Any]:
     if document.get("reviewed") is not True:
         raise StudyError(f"{path}: reviewed must be true before a case can run")
 
-    expected = document.get("expected")
-    if not isinstance(expected, dict):
-        raise StudyError(f"{path}: expected must be a mapping")
-    if expected.get("runtime_effectiveness") != "not_verified":
-        raise StudyError(f"{path}: runtime_effectiveness must be not_verified")
-    agents = expected.get("agents")
-    if not isinstance(agents, list) or not agents:
-        raise StudyError(f"{path}: expected.agents must be a non-empty list")
+    security = document.get("security_ground_truth")
+    if not isinstance(security, dict):
+        raise StudyError(f"{path}: security_ground_truth must be a mapping")
+    security_agents = _validate_agent_set(
+        security,
+        path=path,
+        label="security_ground_truth",
+        status_key="classification",
+        include_capabilities=True,
+        expected_output=False,
+    )
 
-    seen_agents: set[str] = set()
-    for index, item in enumerate(agents):
-        where = f"{path}: expected.agents[{index}]"
-        if not isinstance(item, dict):
-            raise StudyError(f"{where}: expected a mapping")
-        agent = _require_string(item, "agent", where)
-        if agent in seen_agents:
-            raise StudyError(f"{where}.agent: duplicate {agent}")
-        seen_agents.add(agent)
-        _require_string(item, "identity", where)
-        status = _require_string(item, "status", where)
-        if status not in STATUSES:
-            raise StudyError(f"{where}.status: expected one of {list(STATUSES)}")
-        for section in ("required", "deployed", "excess", "missing"):
-            section_value = item.get(section)
-            if not isinstance(section_value, dict):
-                raise StudyError(f"{where}.{section}: expected a mapping")
-            for dimension in ("roles", "permissions"):
-                _string_list(
-                    section_value.get(dimension),
-                    f"{where}.{section}.{dimension}",
-                )
-        _string_list(item.get("conditional_roles"), f"{where}.conditional_roles")
-        _string_list(item.get("conditional_permissions"), f"{where}.conditional_permissions")
-        _string_list(item.get("unresolved"), f"{where}.unresolved")
+    expected = document.get("expected_horustrace")
+    if not isinstance(expected, dict):
+        raise StudyError(f"{path}: expected_horustrace must be a mapping")
+    expected_agents = _validate_agent_set(
+        expected,
+        path=path,
+        label="expected_horustrace",
+        status_key="status",
+        include_capabilities=False,
+        expected_output=True,
+    )
+
+    security_names = {item["agent"] for item in security_agents}
+    expected_names = {item["agent"] for item in expected_agents}
+    if security_names != expected_names:
+        raise StudyError(
+            f"{path}: security_ground_truth and expected_horustrace "
+            "must cover the same agent names"
+        )
 
     evidence = document.get("evidence")
     if not isinstance(evidence, dict):
@@ -216,7 +280,6 @@ def validate_ground_truth(path: Path, case_id: str) -> dict[str, Any]:
                 f"{path}: evidence.{category}[{index}]",
             )
     return document
-
 
 def _string_list(value: Any, where: str) -> list[str]:
     if not isinstance(value, list) or any(
@@ -337,7 +400,7 @@ def evaluate_report(report: dict[str, Any], truth: dict[str, Any]) -> dict[str, 
             identity_by_agent.setdefault(agent, set()).add(identity)
 
     comparisons: list[dict[str, Any]] = []
-    for expected in truth["expected"]["agents"]:
+    for expected in truth["expected_horustrace"]["agents"]:
         agent = expected["agent"]
         observed = observed_agents.get(agent)
         agent_failures: list[str] = []
@@ -408,6 +471,16 @@ def evaluate_report(report: dict[str, Any], truth: dict[str, Any]) -> dict[str, 
                 "passed": not agent_failures,
                 "failures": agent_failures,
             }
+        )
+
+    security_by_agent = {
+        item["agent"]: item
+        for item in truth["security_ground_truth"]["agents"]
+    }
+    for comparison in comparisons:
+        security = security_by_agent.get(comparison["agent"])
+        comparison["security_classification"] = (
+            security.get("classification") if isinstance(security, dict) else None
         )
 
     return {"passed": not failures, "failures": failures, "agents": comparisons}
@@ -489,22 +562,43 @@ def run_case(
     }
 
 
-def aggregate(results: list[dict[str, Any]]) -> dict[str, Any]:
-    confusion = {
+def _empty_confusion_matrix() -> dict[str, dict[str, int]]:
+    return {
         expected: {observed: 0 for observed in STATUSES}
         for expected in STATUSES
     }
-    unclassified = 0
+
+
+def aggregate(results: list[dict[str, Any]]) -> dict[str, Any]:
+    expected_confusion = _empty_confusion_matrix()
+    security_confusion = _empty_confusion_matrix()
+    unclassified_expected = 0
+    unclassified_security = 0
     agents = 0
+    security_matches = 0
+    security_mismatches = 0
+
     for result in results:
         for comparison in result.get("evaluation", {}).get("agents", []):
             agents += 1
             expected = comparison.get("expected_status")
+            security = comparison.get("security_classification")
             observed = comparison.get("observed_status")
-            if expected in confusion and observed in confusion[expected]:
-                confusion[expected][observed] += 1
+
+            if expected in expected_confusion and observed in expected_confusion[expected]:
+                expected_confusion[expected][observed] += 1
             else:
-                unclassified += 1
+                unclassified_expected += 1
+
+            if security in security_confusion and observed in security_confusion[security]:
+                security_confusion[security][observed] += 1
+                if security == observed:
+                    security_matches += 1
+                else:
+                    security_mismatches += 1
+            else:
+                unclassified_security += 1
+
     return {
         "schema_version": SCHEMA_VERSION,
         "study": "deployment-authority-v08",
@@ -513,12 +607,15 @@ def aggregate(results: list[dict[str, Any]]) -> dict[str, Any]:
             "passed": sum(bool(item.get("passed")) for item in results),
             "failed": sum(not bool(item.get("passed")) for item in results),
             "agents_adjudicated": agents,
-            "unclassified_agent_results": unclassified,
+            "unclassified_expected_output_results": unclassified_expected,
+            "unclassified_security_results": unclassified_security,
+            "security_classification_matches": security_matches,
+            "security_classification_mismatches": security_mismatches,
         },
-        "classification_confusion_matrix": confusion,
+        "expected_output_confusion_matrix": expected_confusion,
+        "security_classification_confusion_matrix": security_confusion,
         "cases": results,
     }
-
 
 def render_markdown(report: dict[str, Any]) -> str:
     summary = report["summary"]
@@ -544,7 +641,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"| Passed | {summary['passed']} |",
         f"| Failed | {summary['failed']} |",
         f"| Agents adjudicated | {summary['agents_adjudicated']} |",
-        f"| Unclassified agent results | {summary['unclassified_agent_results']} |",
+        f"| Unclassified expected-output results | {summary['unclassified_expected_output_results']} |",
+        f"| Unclassified security results | {summary['unclassified_security_results']} |",
+        f"| Security classification matches | {summary['security_classification_matches']} |",
+        f"| Security classification mismatches | {summary['security_classification_mismatches']} |",
         "",
         "## Cases",
         "",
@@ -556,23 +656,27 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"| {item['case_id']} | {item['kind']} | {item['framework']} | "
             f"{'PASS' if item['passed'] else 'FAIL'} |"
         )
-    lines.extend(["", "## Classification confusion matrix", ""])
-    matrix = report["classification_confusion_matrix"]
-    header = "| Expected \\ Observed | " + " | ".join(STATUSES) + " |"
-    lines.extend(
-        [
-            header,
-            "| --- | " + " | ".join("---:" for _ in STATUSES) + " |",
-        ]
-    )
-    for expected in STATUSES:
-        lines.append(
-            f"| {expected} | "
-            + " | ".join(
-                str(matrix[expected][observed]) for observed in STATUSES
-            )
-            + " |"
+    for title, key in (
+        ("Expected HorusTrace output confusion matrix", "expected_output_confusion_matrix"),
+        ("Independent security classification confusion matrix", "security_classification_confusion_matrix"),
+    ):
+        lines.extend(["", f"## {title}", ""])
+        matrix = report[key]
+        header = "| Reference \\ Observed | " + " | ".join(STATUSES) + " |"
+        lines.extend(
+            [
+                header,
+                "| --- | " + " | ".join("---:" for _ in STATUSES) + " |",
+            ]
         )
+        for reference in STATUSES:
+            lines.append(
+                f"| {reference} | "
+                + " | ".join(
+                    str(matrix[reference][observed]) for observed in STATUSES
+                )
+                + " |"
+            )
     return "\n".join(lines) + "\n"
 
 
