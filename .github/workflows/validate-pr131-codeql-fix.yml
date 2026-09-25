@@ -1,0 +1,60 @@
+name: Validate PR131 CodeQL Fix
+
+on:
+  push:
+    branches:
+      - research/validate-pr131-codeql-fix
+    paths:
+      - ".github/workflows/validate-pr131-codeql-fix.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e .
+      - name: Execute frozen cohort at PR131 current head
+        shell: bash
+        run: |
+          set +e
+          python scripts/deployment_authority_study.py             --output-json pr131-codeql-fix-results.json             --output-markdown pr131-codeql-fix-results.md
+          code=$?
+          echo "Study exit code: $code"
+          if [[ -f pr131-codeql-fix-results.json ]]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path("pr131-codeql-fix-results.json").read_text())
+          print(json.dumps(report["summary"], indent=2))
+          for case in report["cases"]:
+              completeness=(case.get("report") or {}).get("authority_completeness") or {}
+              for cert in completeness.get("certificates") or []:
+                  candidate=cert.get("candidate_excess_roles_not_enforced") or []
+                  if candidate or case["case_id"] in {"natural-001","natural-003","natural-005","natural-008"}:
+                      print(
+                          case["case_id"],
+                          "complete=", cert.get("complete"),
+                          "candidate=", candidate,
+                          "blockers=", cert.get("blockers"),
+                      )
+          PY
+          fi
+          if [[ "$code" == "2" ]]; then exit 2; fi
+          exit 0
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pr131-codeql-fix-validation
+          path: |
+            pr131-codeql-fix-results.json
+            pr131-codeql-fix-results.md
+          if-no-files-found: warn
+          retention-days: 30
