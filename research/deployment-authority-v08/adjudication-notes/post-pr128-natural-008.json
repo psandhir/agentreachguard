@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "case_id": "natural-008",
+  "kind": "post_hoc_adjudication_note",
+  "frozen_ground_truth_modified": false,
+  "finding": {
+    "role": "roles/discoveryengine.viewer",
+    "disposition": "valid_additional_missing_required_role",
+    "basis": [
+      "Pinned ai/chatbot/main.py imports and exposes rag.search_products as the chatbot tool path.",
+      "Pinned ai/chatbot/rag.py lazily creates google.cloud.discoveryengine_v1.RankServiceClient and invokes rank(...).",
+      "Frozen Deployment Evidence v1 grants the chatbot service account aiplatform.user, bigquery.dataEditor and cloudtrace.agent, but no Discovery Engine role."
+    ],
+    "effect_on_frozen_truth": "Do not rewrite the pre-run ground-truth file. Treat the original natural-008 manual adjudication as incomplete: it correctly identified missing roles/cloudsql.client but omitted the additional Discovery Engine requirement."
+  }
+}
