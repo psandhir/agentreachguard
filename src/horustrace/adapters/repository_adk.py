@@ -8,6 +8,7 @@ from pathlib import Path
 from horustrace.adapters.google_adk import (
     AGENT_TYPES,
     BUILTIN_TOOL_CAPABILITIES,
+    BUILTIN_TOOL_REQUIRED_ROLES,
     RETRIEVAL_TOOLS,
     _mcp_from_toolset,
     _tool_from_call,
@@ -123,6 +124,385 @@ def _destination(
     )
 
 
+def _function_imports(
+    info: ModuleInfo,
+    func: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> set[str]:
+    imports = {
+        f"{module}.{remote}".strip(".").lower()
+        for module, remote in info.imports.values()
+    }
+    for node in ast.walk(func):
+        if isinstance(node, ast.Import):
+            imports.update(alias.name.lower() for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            module = (node.module or "").lower()
+            imports.update(
+                f"{module}.{alias.name}".strip(".")
+                for alias in node.names
+                if alias.name != "*"
+            )
+    return imports
+
+
+
+def _required_role_function_ref(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    node: ast.AST,
+) -> tuple[ModuleInfo, ast.FunctionDef | ast.AsyncFunctionDef] | None:
+    if isinstance(node, ast.Name):
+        if node.id in info.functions:
+            return info, info.functions[node.id]
+        imported = _imported_symbol(modules, info, node.id)
+        if imported and imported[1] in imported[0].functions:
+            target, symbol = imported
+            return target, target.functions[symbol]
+    if isinstance(node, ast.Attribute):
+        return _attribute_function(modules, info, node)
+    return None
+
+
+def _required_role_agent_ref(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    node: ast.AST,
+) -> tuple[ModuleInfo, str, ast.Call] | None:
+    if isinstance(node, ast.Name):
+        local = info.calls.get(node.id)
+        if local is not None and (_name(local.func) or "") in AGENT_TYPES:
+            return info, node.id, local
+        imported = _imported_symbol(modules, info, node.id)
+        if imported:
+            target, symbol = imported
+            call = target.calls.get(symbol)
+            if call is not None and (_name(call.func) or "") in AGENT_TYPES:
+                return target, symbol, call
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        imported = _imported_symbol(modules, info, node.value.id)
+        if imported:
+            target, remote = imported
+            nested = (
+                _find_module(modules, f"{target.module}.{remote}")
+                if remote
+                else target
+            )
+            candidate = nested or target
+            call = candidate.calls.get(node.attr)
+            if call is not None and (_name(call.func) or "") in AGENT_TYPES:
+                return candidate, node.attr, call
+    return None
+
+
+def _required_role_tool_exprs(node: ast.AST | None) -> list[ast.AST]:
+    if node is None:
+        return []
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        result: list[ast.AST] = []
+        for item in node.elts:
+            result.extend(_required_role_tool_exprs(item))
+        return result
+    if isinstance(node, ast.IfExp):
+        return [
+            *_required_role_tool_exprs(node.body),
+            *_required_role_tool_exprs(node.orelse),
+        ]
+    return [node]
+
+
+def _analyze_required_gcp_roles_for_agent(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    alias: str,
+    call: ast.Call,
+    visited: set[tuple[str, str]],
+) -> tuple[set[str], list[dict[str, object]]]:
+    key = (info.module, f"@agent:{alias}")
+    if key in visited:
+        return set(), []
+    visited.add(key)
+
+    roles: set[str] = set()
+    evidence: list[dict[str, object]] = []
+
+    def merge(
+        nested: tuple[set[str], list[dict[str, object]]] | None,
+    ) -> None:
+        if not nested:
+            return
+        nested_roles, nested_evidence = nested
+        roles.update(nested_roles)
+        for item in nested_evidence:
+            if item not in evidence:
+                evidence.append(item)
+
+    for item in _required_role_tool_exprs(_kw(call, "tools")):
+        resolved = _required_role_function_ref(modules, info, item)
+        if resolved:
+            target, func = resolved
+            merge(
+                _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    func,
+                    visited,
+                )
+            )
+
+    # Agent callbacks execute as part of the agent invocation lifecycle and can
+    # carry provider operations that are required even when not exposed as tools.
+    for callback_name in (
+        "before_agent_callback",
+        "after_agent_callback",
+        "before_model_callback",
+        "after_model_callback",
+        "before_tool_callback",
+        "after_tool_callback",
+    ):
+        callback = _kw(call, callback_name)
+        if callback is None:
+            continue
+        resolved = _required_role_function_ref(modules, info, callback)
+        if resolved:
+            target, func = resolved
+            merge(
+                _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    func,
+                    visited,
+                )
+            )
+
+    return roles, evidence
+
+def _analyze_required_gcp_roles(
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
+    func: ast.FunctionDef | ast.AsyncFunctionDef,
+    visited: set[tuple[str, str]] | None = None,
+) -> tuple[set[str], list[dict[str, object]]]:
+    """Return positive, source-backed GCP role requirements.
+
+    These are minimum role hints, not a complete least-privilege baseline.
+    Reconciliation may use them to prove missing authority, but not excess
+    authority unless another source marks the required-role set complete.
+    """
+    visited = set() if visited is None else set(visited)
+    key = (info.module, func.name)
+    if key in visited:
+        return set(), []
+    visited.add(key)
+
+    roles: set[str] = set()
+    evidence: list[dict[str, object]] = []
+    imports = _function_imports(info, func)
+    calls = [node for node in ast.walk(func) if isinstance(node, ast.Call)]
+    called_names = [
+        (_dotted(node.func) or _name(node.func) or "").lower()
+        for node in calls
+    ]
+
+    has_bigquery = any("google.cloud.bigquery" in value for value in imports)
+    has_discovery = any(
+        "google.cloud.discoveryengine" in value for value in imports
+    )
+    has_secretmanager = any(
+        "google.cloud.secretmanager" in value for value in imports
+    )
+    has_cloudtasks = any("google.cloud.tasks" in value for value in imports)
+    has_firestore = any("google.cloud.firestore" in value for value in imports)
+    has_datastore = any("google.cloud.datastore" in value for value in imports)
+
+    bigquery_client = has_bigquery and any(
+        value.endswith("bigquery.client") for value in called_names
+    )
+    secret_client = has_secretmanager and any(
+        value.endswith("secretmanagerserviceclient") for value in called_names
+    )
+    tasks_client = has_cloudtasks and any(
+        value.endswith("cloudtasksclient") for value in called_names
+    )
+    firestore_client = has_firestore and any(
+        value.endswith("firestore.client") for value in called_names
+    )
+    datastore_client = has_datastore and any(
+        value.endswith("datastore.client") for value in called_names
+    )
+
+    def add(role: str, operation: str, node: ast.AST) -> None:
+        roles.add(role)
+        item: dict[str, object] = {
+            "provider": "gcp",
+            "role": role,
+            "operation": operation,
+            "source_module": info.module,
+            "source_function": func.name,
+            "line": getattr(node, "lineno", 1),
+        }
+        if item not in evidence:
+            evidence.append(item)
+
+    for node, called in zip(calls, called_names):
+        leaf = (_name(node.func) or "").lower()
+
+        bigquery_receiver = (
+            called.rsplit(".", 1)[0]
+            if "." in called
+            else ""
+        )
+        bigquery_operation = bigquery_client or (
+            has_bigquery
+            and any(
+                marker in bigquery_receiver
+                for marker in ("bq", "bigquery")
+            )
+        )
+        if bigquery_operation:
+            if leaf == "query":
+                add("roles/bigquery.jobUser", "bigquery.query", node)
+                add("roles/bigquery.dataViewer", "bigquery.query", node)
+            elif leaf in {
+                "insert_rows",
+                "insert_rows_json",
+                "insert_rows_from_dataframe",
+            }:
+                add("roles/bigquery.dataEditor", f"bigquery.{leaf}", node)
+            elif leaf in {
+                "load_table_from_file",
+                "load_table_from_json",
+                "load_table_from_dataframe",
+            }:
+                add("roles/bigquery.jobUser", f"bigquery.{leaf}", node)
+                add("roles/bigquery.dataEditor", f"bigquery.{leaf}", node)
+
+        # The operation itself is high-signal when the function imports the
+        # Discovery Engine SDK. The client may be lazy-constructed by a helper.
+        if has_discovery and leaf in {"search", "rank", "recommend", "answer"}:
+            add(
+                "roles/discoveryengine.viewer",
+                f"discoveryengine.{leaf}",
+                node,
+            )
+
+        if secret_client and leaf == "access_secret_version":
+            add(
+                "roles/secretmanager.secretAccessor",
+                "secretmanager.access_secret_version",
+                node,
+            )
+
+        if tasks_client and leaf == "create_task":
+            add("roles/cloudtasks.enqueuer", "cloudtasks.create_task", node)
+
+        if (firestore_client or datastore_client) and leaf in {
+            "get",
+            "stream",
+            "set",
+            "update",
+            "delete",
+            "add",
+            "create",
+            "put",
+            "put_multi",
+            "get_multi",
+        }:
+            add("roles/datastore.user", f"datastore.{leaf}", node)
+
+        local_name = _name(node.func)
+        nested: tuple[set[str], list[dict[str, object]]] | None = None
+
+        # Explicit bounded higher-order execution. This does not assume that an
+        # arbitrary callable argument executes; it only follows well-known APIs
+        # whose contract is to invoke the supplied function.
+        callback_index: int | None = None
+        if called in {"asyncio.to_thread", "to_thread"}:
+            callback_index = 0
+        elif called.endswith(".run_in_executor"):
+            callback_index = 1
+        if callback_index is not None and len(node.args) > callback_index:
+            resolved_callback = _required_role_function_ref(
+                modules,
+                info,
+                node.args[callback_index],
+            )
+            if resolved_callback:
+                target, callback_func = resolved_callback
+                nested_roles, nested_evidence = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    callback_func,
+                    visited,
+                )
+                roles.update(nested_roles)
+                for item in nested_evidence:
+                    if item not in evidence:
+                        evidence.append(item)
+
+        # An AgentTool explicitly transfers execution to the named agent. Follow
+        # that static target and collect only positive provider-role evidence
+        # from its tools/callbacks.
+        if leaf == "agenttool":
+            agent_node = _kw(node, "agent")
+            if agent_node is not None:
+                resolved_agent = _required_role_agent_ref(
+                    modules,
+                    info,
+                    agent_node,
+                )
+                if resolved_agent:
+                    target_info, target_alias, target_call = resolved_agent
+                    nested_roles, nested_evidence = (
+                        _analyze_required_gcp_roles_for_agent(
+                            modules,
+                            target_info,
+                            target_alias,
+                            target_call,
+                            visited,
+                        )
+                    )
+                    roles.update(nested_roles)
+                    for item in nested_evidence:
+                        if item not in evidence:
+                            evidence.append(item)
+        if local_name in info.functions and local_name != func.name:
+            nested = _analyze_required_gcp_roles(
+                modules,
+                info,
+                info.functions[local_name],
+                visited,
+            )
+        elif isinstance(node.func, ast.Name):
+            imported = _imported_symbol(modules, info, node.func.id)
+            if imported and imported[1] in imported[0].functions:
+                target, symbol = imported
+                nested = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    target.functions[symbol],
+                    visited,
+                )
+        elif isinstance(node.func, ast.Attribute):
+            imported_attr = _attribute_function(modules, info, node.func)
+            if imported_attr:
+                target, imported_func = imported_attr
+                nested = _analyze_required_gcp_roles(
+                    modules,
+                    target,
+                    imported_func,
+                    visited,
+                )
+
+        if nested:
+            nested_roles, nested_evidence = nested
+            roles.update(nested_roles)
+            for item in nested_evidence:
+                if item not in evidence:
+                    evidence.append(item)
+
+    return roles, evidence
+
+
 @dataclass
 class ModuleInfo:
     path: Path
@@ -142,8 +522,21 @@ def _module_name(root: Path, path: Path) -> str:
     return ".".join(parts)
 
 
-def _relative(current: str, level: int, module: str | None) -> str:
-    parts = current.split(".")[:-1]
+def _relative(
+    current: str,
+    level: int,
+    module: str | None,
+    *,
+    current_is_package: bool = False,
+) -> str:
+    if level == 0:
+        return module or ""
+
+    parts = (
+        current.split(".")
+        if current_is_package
+        else current.split(".")[:-1]
+    )
     if level > 1:
         parts = parts[: -(level - 1)]
     if module:
@@ -191,7 +584,12 @@ def _build(root: Path, path: Path) -> ModuleInfo | None:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             info.functions[node.name] = node
         elif isinstance(node, ast.ImportFrom):
-            module = _relative(info.module, node.level, node.module)
+            module = _relative(
+                info.module,
+                node.level,
+                node.module,
+                current_is_package=path.name == "__init__.py",
+            )
             for alias in node.names:
                 if alias.name != "*":
                     info.imports[alias.asname or alias.name] = (module, alias.name)
@@ -505,6 +903,11 @@ def _function_tool(
     func: ast.FunctionDef | ast.AsyncFunctionDef,
 ) -> tuple[Tool, Identity | None]:
     caps, destinations, scopes = _analyze_function(modules, info, func)
+    required_roles, required_role_evidence = _analyze_required_gcp_roles(
+        modules,
+        info,
+        func,
+    )
     identity = None
     identity_name = None
     if scopes:
@@ -533,6 +936,11 @@ def _function_tool(
     }
     if network_scope:
         metadata["network_scope"] = network_scope
+    if required_roles:
+        metadata["required_authority_provider"] = "gcp"
+        metadata["required_roles"] = sorted(required_roles)
+        metadata["required_roles_complete"] = False
+        metadata["required_role_evidence"] = required_role_evidence
     return (
         Tool(
             name=func.name,
@@ -711,6 +1119,13 @@ def _resolve_tools(
                         "framework": "google-adk",
                         "adk_builtin": item.id,
                         "repository_resolved": True,
+                        "required_authority_provider": (
+                            "gcp" if BUILTIN_TOOL_REQUIRED_ROLES.get(item.id) else None
+                        ),
+                        "required_roles": sorted(
+                            BUILTIN_TOOL_REQUIRED_ROLES.get(item.id, set())
+                        ),
+                        "required_roles_complete": False,
                     },
                 )
                 if item.id in RETRIEVAL_TOOLS:
@@ -775,6 +1190,15 @@ def _resolve_tools(
                         "framework": "google-adk",
                         "adk_builtin": tool_name,
                         "repository_resolved": True,
+                        "required_authority_provider": (
+                            "gcp"
+                            if BUILTIN_TOOL_REQUIRED_ROLES.get(tool_name)
+                            else None
+                        ),
+                        "required_roles": sorted(
+                            BUILTIN_TOOL_REQUIRED_ROLES.get(tool_name, set())
+                        ),
+                        "required_roles_complete": False,
                     },
                 )
                 if tool_name in RETRIEVAL_TOOLS:
@@ -879,6 +1303,39 @@ def _merge_agent(existing: Agent, incoming: Agent) -> None:
         if replace_placeholder:
             existing.tools[index] = tool
             by_name[tool.name] = (index, tool)
+            continue
+
+        if tool.metadata.get("repository_resolved") is True:
+            # Repository resolution can prove additional authority requirements
+            # for a tool already normalized by the first-pass adapter. Keep this
+            # enrichment authority-only: changing capabilities/destinations here
+            # would also change risk/path semantics outside reconciliation.
+            existing_tool.metadata["repository_resolved"] = True
+
+            required_roles = set(
+                existing_tool.metadata.get("required_roles") or []
+            )
+            required_roles.update(tool.metadata.get("required_roles") or [])
+            if required_roles:
+                existing_tool.metadata["required_authority_provider"] = (
+                    tool.metadata.get("required_authority_provider")
+                    or existing_tool.metadata.get("required_authority_provider")
+                )
+                existing_tool.metadata["required_roles"] = sorted(required_roles)
+                existing_tool.metadata["required_roles_complete"] = (
+                    existing_tool.metadata.get("required_roles_complete") is True
+                    or tool.metadata.get("required_roles_complete") is True
+                )
+
+            evidence = list(
+                existing_tool.metadata.get("required_role_evidence") or []
+            )
+            for item in tool.metadata.get("required_role_evidence") or []:
+                if item not in evidence:
+                    evidence.append(item)
+            if evidence:
+                existing_tool.metadata["required_role_evidence"] = evidence
+
     known_servers = {server.name for server in existing.mcp_servers}
     for server in incoming.mcp_servers:
         if server.name not in known_servers:
