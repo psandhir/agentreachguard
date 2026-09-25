@@ -435,3 +435,31 @@ root_agent = Agent(name="publisher", model="gemini-flash-latest", tools=[publish
         for d in tool.destinations
     )
     assert any(f.rule_id == "NET001" for f in findings)
+
+
+def test_adk_v2_workflow_root_is_first_class(tmp_path: Path) -> None:
+    write(tmp_path, '''
+from google.adk.agents import LlmAgent
+from google.adk.workflow import Workflow, START, Edge
+
+risk_reviewer = LlmAgent(
+    name="risk_reviewer",
+    model="gemini-flash-latest",
+)
+
+root_agent = Workflow(
+    name="root_agent",
+    edges=[
+        Edge(from_node=START, to_node=risk_reviewer),
+    ],
+)
+''')
+    graph, _ = scan(tmp_path)
+
+    root = next(a for a in graph.agents if a.name == "root_agent")
+    reviewer = next(a for a in graph.agents if a.name == "risk_reviewer")
+
+    assert root.metadata["framework"] == "google-adk"
+    assert root.metadata["agent_type"] == "Workflow"
+    assert root.metadata["workflow"] == "Workflow"
+    assert reviewer.metadata["agent_type"] == "LlmAgent"

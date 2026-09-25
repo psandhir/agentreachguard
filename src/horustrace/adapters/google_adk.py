@@ -17,8 +17,8 @@ from horustrace.models import (
     Tool,
 )
 
-AGENT_TYPES = {"Agent", "LlmAgent", "SequentialAgent", "ParallelAgent", "LoopAgent", "RemoteA2aAgent"}
-WORKFLOW_TYPES = {"SequentialAgent", "ParallelAgent", "LoopAgent"}
+AGENT_TYPES = {"Agent", "LlmAgent", "SequentialAgent", "ParallelAgent", "LoopAgent", "Workflow", "RemoteA2aAgent"}
+WORKFLOW_TYPES = {"SequentialAgent", "ParallelAgent", "LoopAgent", "Workflow"}
 CODE_EXECUTORS = {
     "UnsafeLocalCodeExecutor": (False, "local"),
     "BuiltInCodeExecutor": (True, "provider-managed"),
