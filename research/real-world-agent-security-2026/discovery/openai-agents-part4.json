@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "openai-agents",
+  "part": 4,
+  "query": "openai agents mcp",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "transitive-bullshit/agentic",
+      "sha": "beffa8ecfaffcf2e2435b077d5b7cd2dc33298bb",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 17007,
+      "query": "openai agents mcp",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "NirDiamant/GenAI_Agents",
+      "sha": "078d6d544e15c0e758c2533b422fd13ed2d15593",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 265348,
+      "query": "openai agents mcp",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "the-ai-merge/multimodal-agents-course",
+      "sha": "8dc13da4d11303f94360482d05b990450880bdca",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 105046,
+      "query": "openai agents mcp",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "panaversity/learn-agentic-ai",
+      "sha": "dd7426f65b2452062fdb6d27661c018eaf751baa",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 213387,
+      "query": "openai agents mcp",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "lobehub/lobehub",
+      "sha": "381cca5e4471ac510d73a88c3126bdc2c641bea7",
+      "default_branch": "canary",
+      "archived": false,
+      "size_kb": 946364,
+      "query": "openai agents mcp",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "PawanOsman/OpenCursor",
+      "sha": "b4528f95ca5ab4cddf22bef3e19431fad00feb01",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 4258,
+      "query": "openai agents mcp",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "Azure-Samples/snippy",
+      "sha": "fc7a17ac23e35adb0067f05b9283b38c5d6e3e97",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 8907,
+      "query": "openai agents mcp",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "headroomlabs-ai/headroom",
+      "sha": "66f426171bab32692cf93d2b656a8e4be9004186",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 82615,
+      "query": "openai agents mcp",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "panaversity/learn-agentic-ai-from-low-code-to-code",
+      "sha": "f154ae57e430b79f682dc445350df31f95ae2d1c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 50773,
+      "query": "openai agents mcp",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "Upsonic/Upsonic",
+      "sha": "101f0313b0ddb96cd4078354879b2ff57005db29",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 15387,
+      "query": "openai agents mcp",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "lastmile-ai/openai-agents-mcp",
+      "sha": "8d73ef658dbe04a39b28680017183b80a66a77b0",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1735,
+      "query": "openai agents mcp",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "zilliztech/claude-context",
+      "sha": "6fc318b4e3ce58e2898b00a9c3538ead9e24dee5",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 7758,
+      "query": "openai agents mcp",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "zhayujie/CowAgent",
+      "sha": "c8063cd2cc78dc2d74845a89e3bb1273c6dc0f16",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 17270,
+      "query": "openai agents mcp",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "can1357/oh-my-pi",
+      "sha": "a4ca7cec8959a4eceb5c5728d5ff1891a654afa7",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 645568,
+      "query": "openai agents mcp",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "heizaheiza/Charles-mcp",
+      "sha": "eb5d0927739ab278cc8903e55e40160efee15c45",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 430,
+      "query": "openai agents mcp",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
