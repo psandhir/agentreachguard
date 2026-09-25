@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:Prostecki/med-voice@c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+  "workloads": [
+    {
+      "workload_id": "repository-template://Prostecki/med-voice/cloud_run/med_voice_root",
+      "kind": "cloud_run",
+      "name": "med_voice_root",
+      "identity": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "agent": "med_voice_root",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/datastore.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/storage.objectAdmin",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/cloudtasks.enqueuer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/secretmanager.secretAccessor",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/iam.serviceAccountTokenCreator",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/logging.logWriter",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "med-voice-backend-sa@${var.project_id}.iam.gserviceaccount.com",
+      "role": "roles/iam.serviceAccountUser",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "Prostecki/med-voice",
+        "commit": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
