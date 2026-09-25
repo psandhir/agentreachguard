@@ -44,4 +44,20 @@ Phase 2 begins with a 365-repository source-only discovery snapshot:
 
 Each row records the immutable commit SHA plus the GitHub code-search query and evidence path that caused discovery. Discovery is deliberately over-inclusive: a match is not an inclusion decision.
 
-All 365 rows remain `pending`. Screening must inspect source/metadata, record include/exclude decisions and reasons, identify the application path for qualifying cases, and cross-check `previously_studied` before the candidate pool may be frozen. HorusTrace must not be run during this phase.
+Candidate screening is now in progress. The first balanced pilot reviewed 12 repositories (two from each original discovery stratum): 10 included, 2 excluded, 353 pending. One discovery match was re-stratified from FastAgent to LangGraph after source review showed that "FastAgent" was a project-local class name rather than use of the evalstate FastAgent framework.
+
+Every completed screening record must be source-only and contain a rationale, license/provenance status, a defensible application path for included candidates, Tier B/Tier C eligibility signals, and a completed prior-study exposure check. HorusTrace must not be run during this phase.
+
+
+## Screening pilot findings
+
+The pilot validates several important screening rules before scaling review to all 365 candidates:
+
+- discovery framework labels are provisional and may be corrected from pinned source;
+- framework/library repositories are not automatically valid application cases;
+- benchmark/integration adapters are not treated as agentic applications merely because they invoke an agent framework;
+- a candidate may remain suitable for Tier A while not being sufficiently rich for Tier B or Tier C;
+- absence of a GitHub-detected license is recorded explicitly rather than silently ignored;
+- previous HorusTrace exposure is checked before a candidate is considered reviewed.
+
+The candidate pool remains unfrozen. No cohort selection or HorusTrace execution has occurred.
