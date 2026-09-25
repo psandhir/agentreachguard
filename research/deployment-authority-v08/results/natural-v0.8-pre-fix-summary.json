@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "study": "deployment-authority-v08",
+  "baseline": "natural-v0.8-pre-fix",
+  "execution": {
+    "date": "2026-09-25",
+    "workflow_run_id": 36147599276,
+    "workflow_artifact_id": 10870287649,
+    "execution_head_sha": "d48b7abe2346aca0e5c9019942ee487920098dcf",
+    "frozen_main_sha": "05a40553e9cca3f12ca0cc3131af252aabb75557",
+    "scanner_version": "0.8.0",
+    "runtime_effectiveness": "not_verified",
+    "note": "Execution head differs from frozen main only by the one-shot research workflow."
+  },
+  "results": {
+    "cases": 10,
+    "implementation_contract_passed": 9,
+    "implementation_contract_failed": 1,
+    "expected_unresolved_observed_unresolved": 9,
+    "expected_output_unclassified": 1,
+    "security_exact_matches": 0,
+    "security_mismatches": 9,
+    "security_unclassified": 1,
+    "expected_principal_identity_resolved": 9,
+    "expected_principal_deployed_roles_reconstructed": 9,
+    "expected_principal_required_roles_nonempty": 0
+  },
+  "security_ground_truth": {
+    "aligned": 1,
+    "excess_authority": 7,
+    "missing_authority": 1,
+    "mixed": 1
+  },
+  "cases": [
+    {
+      "id": "natural-001",
+      "repo": "Metafiziks/gcp-search-agent",
+      "agent": "search_agent",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/bigquery.dataEditor",
+        "roles/bigquery.jobUser",
+        "roles/discoveryengine.viewer",
+        "roles/storage.objectViewer"
+      ],
+      "note": "Human review identified storage.objectViewer as excess."
+    },
+    {
+      "id": "natural-002",
+      "repo": "dhanyashree9513-byte/adk-multiagent-production-template",
+      "agent": "root_agent",
+      "security": "aligned",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/datastore.user",
+        "roles/storage.objectViewer"
+      ],
+      "note": "Role-level human adjudication was aligned."
+    },
+    {
+      "id": "natural-003",
+      "repo": "arjunprabhulal/adk-advanced",
+      "agent": "root_agent",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/cloudtrace.agent",
+        "roles/discoveryengine.editor",
+        "roles/logging.logWriter",
+        "roles/serviceusage.serviceUsageConsumer",
+        "roles/storage.admin"
+      ],
+      "note": "Human review identified discoveryengine.editor and storage.admin as excess."
+    },
+    {
+      "id": "natural-004",
+      "repo": "Prostecki/med-voice",
+      "agent": "med_voice_root",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/cloudtasks.enqueuer",
+        "roles/datastore.user",
+        "roles/iam.serviceAccountTokenCreator",
+        "roles/iam.serviceAccountUser",
+        "roles/logging.logWriter",
+        "roles/secretmanager.secretAccessor",
+        "roles/storage.objectAdmin"
+      ],
+      "note": "Human review identified serviceAccountTokenCreator and serviceAccountUser as excess."
+    },
+    {
+      "id": "natural-005",
+      "repo": "KristionB/sql-adk-agent",
+      "agent": "db_ds_multiagent",
+      "security": "mixed",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/discoveryengine.admin"
+      ],
+      "note": "Human review identified discoveryengine.admin as excess and BigQuery viewer/job roles as missing."
+    },
+    {
+      "id": "natural-006",
+      "repo": "esoltys/ambient-expense-agent",
+      "agent": "root_agent",
+      "security": "excess_authority",
+      "observed": "missing_report_agent",
+      "identity": false,
+      "roles": [],
+      "note": "Scanner detected risk_reviewer but not the root google.adk.workflow.Workflow object; human review identified storage.admin as excess."
+    },
+    {
+      "id": "natural-007",
+      "repo": "mahieddine-ichir/hello-google-agents",
+      "agent": "adhesion_router",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/cloudtrace.agent",
+        "roles/datastore.user",
+        "roles/logging.logWriter",
+        "roles/storage.objectViewer"
+      ],
+      "note": "Human review identified datastore/storage/trace/logging roles as excess for the router."
+    },
+    {
+      "id": "natural-008",
+      "repo": "young-monk/shopright-ecommerce",
+      "agent": "shopright_assistant",
+      "security": "missing_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/bigquery.dataEditor",
+        "roles/cloudtrace.agent"
+      ],
+      "note": "Human review identified roles/cloudsql.client as missing."
+    },
+    {
+      "id": "natural-009",
+      "repo": "LaurentVeyssier/Ask-your-data-genie",
+      "agent": "root_agent",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/cloudtrace.agent",
+        "roles/datastore.user",
+        "roles/logging.logWriter",
+        "roles/secretmanager.secretAccessor",
+        "roles/serviceusage.serviceUsageConsumer",
+        "roles/storage.admin"
+      ],
+      "note": "Human review identified storage.admin, secretmanager.secretAccessor and datastore.user as excess."
+    },
+    {
+      "id": "natural-010",
+      "repo": "kuldeepjain1920/expense-agent",
+      "agent": "review_agent",
+      "security": "excess_authority",
+      "observed": "unresolved",
+      "identity": true,
+      "roles": [
+        "roles/aiplatform.user",
+        "roles/cloudtrace.agent",
+        "roles/logging.logWriter",
+        "roles/serviceusage.serviceUsageConsumer",
+        "roles/storage.admin"
+      ],
+      "note": "Human review identified storage.admin as excess."
+    }
+  ]
+}
