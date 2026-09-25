@@ -226,3 +226,121 @@ root_agent = Agent(
         "roles/bigquery.dataViewer",
         "roles/bigquery.jobUser",
     }
+
+
+
+def test_required_roles_follow_lazy_discovery_client_helper(
+    tmp_path: Path,
+) -> None:
+    _write(
+        tmp_path,
+        "agent.py",
+        """
+import asyncio
+from google.adk import Agent
+
+
+def _get_rank_client():
+    from google.cloud import discoveryengine_v1 as de
+    return de.RankServiceClient()
+
+
+def _rank_sync(query: str):
+    from google.cloud import discoveryengine_v1 as de
+    client = _get_rank_client()
+    return client.rank(
+        de.RankRequest(
+            ranking_config="projects/p/locations/global/rankingConfigs/default",
+            query=query,
+        )
+    )
+
+
+async def search(query: str):
+    return await asyncio.to_thread(_rank_sync, query)
+
+
+root_agent = Agent(
+    name="searcher",
+    model="gemini-flash-latest",
+    tools=[search],
+)
+""",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "searcher")
+    tool = next(item for item in agent.tools if item.name == "search")
+
+    assert tool.metadata["required_roles"] == [
+        "roles/discoveryengine.viewer"
+    ]
+
+
+def test_required_roles_follow_package_reexport_agenttool(
+    tmp_path: Path,
+) -> None:
+    _write(
+        tmp_path,
+        "sub_agents/bigquery/agent.py",
+        """
+from google.adk import Agent
+from google.cloud import bigquery
+
+
+def get_bq_client():
+    return bigquery.Client()
+
+
+def run_query(question: str):
+    bq_client = get_bq_client()
+    return bq_client.query("SELECT 1").result()
+
+
+database_agent = Agent(
+    name="database_agent",
+    model="gemini-flash-latest",
+    tools=[run_query],
+)
+""",
+    )
+    _write(
+        tmp_path,
+        "sub_agents/__init__.py",
+        """
+from .bigquery.agent import database_agent as db_agent
+""",
+    )
+    _write(
+        tmp_path,
+        "agent.py",
+        """
+from google.adk import Agent
+from google.adk.tools.agent_tool import AgentTool
+from sub_agents import db_agent
+
+
+async def call_db_agent(question: str, tool_context):
+    delegate = AgentTool(agent=db_agent)
+    return await delegate.run_async(
+        args={"request": question},
+        tool_context=tool_context,
+    )
+
+
+root_agent = Agent(
+    name="coordinator",
+    model="gemini-flash-latest",
+    tools=[call_db_agent],
+)
+""",
+    )
+
+    graph, _ = scan(tmp_path)
+    agent = next(item for item in graph.agents if item.name == "coordinator")
+    tool = next(item for item in agent.tools if item.name == "call_db_agent")
+
+    assert set(tool.metadata["required_roles"]) == {
+        "roles/bigquery.dataViewer",
+        "roles/bigquery.jobUser",
+    }
