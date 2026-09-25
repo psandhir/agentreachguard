@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "pydantic-ai",
+  "part": 4,
+  "query": "pydantic ai mcp",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "vstorm-co/pydantic-deepagents",
+      "sha": "32b57ba6df24c744537b9b9080394ead6fc02c10",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 39353,
+      "query": "pydantic ai mcp",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/pydantic-ai-backend",
+      "sha": "8ac7b678b633aa51c054a884ce27d31b130b8110",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 9770,
+      "query": "pydantic ai mcp",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "vstorm-co/subagents-pydantic-ai",
+      "sha": "bb8c400732ad515a1e2bfc554ee2dcf7500b2ef9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2263,
+      "query": "pydantic ai mcp",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "Finndersen/pydanticai_mcp_demo",
+      "sha": "2585dde5fffa1204052b38ea97343e3c89b5f392",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 74,
+      "query": "pydantic ai mcp",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "sitbon/magg",
+      "sha": "1fe88cc1ef8762b2bf6aba75def569391bf9d3a1",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1304,
+      "query": "pydantic ai mcp",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "TechNavii/pydantic-ai-mcp-agent",
+      "sha": "6f97a8b0794b8a85a8cae459a4ddb83421eacefc",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 107,
+      "query": "pydantic ai mcp",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "RobertoDure/mcp-latex-server",
+      "sha": "5f032e92584ac4476d31607f423a6ca1eb8ab629",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 32,
+      "query": "pydantic ai mcp",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "dylibso/mcpx-pydantic-ai",
+      "sha": "4258a39a4b2dc7bd1253524a91ff4c9b0065ea0d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 328,
+      "query": "pydantic ai mcp",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "phil65/agentpool",
+      "sha": "b6ddbea9cb66173c096942ac57397b636e0a2248",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 32966,
+      "query": "pydantic ai mcp",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "ggozad/haiku.skills",
+      "sha": "e55eade38bada6f9a368a3624cd6561b645853cb",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 3014,
+      "query": "pydantic ai mcp",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "coleam00/redis-iris-agent",
+      "sha": "cdf95c2c11a1b23c41b6291e1b2ea35e3d326fc4",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 122,
+      "query": "pydantic ai mcp",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "rectalogic/pydantic-mcp",
+      "sha": "5c2d283ca3a1ca69ce8bbfa0f89fc2265fdb1005",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 122,
+      "query": "pydantic ai mcp",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "gesh75/multivendor-ai-network-lab",
+      "sha": "5043ff82d229c177e6c24cd9d8445ada062adf56",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 49941,
+      "query": "pydantic ai mcp",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "awaithumans/awaithumans-human-in-the-loop-ai-agents",
+      "sha": "bc05b8e7121be50f59cadf18a86b9e626e79c6b3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 15960,
+      "query": "pydantic ai mcp",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "xynehq/jaf-py",
+      "sha": "383a1bdd7dd2484b8cfb35297edb49678590c08a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 7358,
+      "query": "pydantic ai mcp",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
