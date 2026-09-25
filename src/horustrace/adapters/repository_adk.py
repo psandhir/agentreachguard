@@ -8,8 +8,8 @@ from pathlib import Path
 from horustrace.adapters.google_adk import (
     AGENT_TYPES,
     BUILTIN_TOOL_CAPABILITIES,
-    RETRIEVAL_TOOLS,
     BUILTIN_TOOL_REQUIRED_ROLES,
+    RETRIEVAL_TOOLS,
     _mcp_from_toolset,
     _tool_from_call,
 )
@@ -125,7 +125,7 @@ def _destination(
 
 
 def _function_imports(
-    info: "ModuleInfo",
+    info: ModuleInfo,
     func: ast.FunctionDef | ast.AsyncFunctionDef,
 ) -> set[str]:
     imports = {
@@ -146,8 +146,8 @@ def _function_imports(
 
 
 def _analyze_required_gcp_roles(
-    modules: dict[str, "ModuleInfo"],
-    info: "ModuleInfo",
+    modules: dict[str, ModuleInfo],
+    info: ModuleInfo,
     func: ast.FunctionDef | ast.AsyncFunctionDef,
     visited: set[tuple[str, str]] | None = None,
 ) -> tuple[set[str], list[dict[str, object]]]:
