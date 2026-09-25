@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "study": "deployment-authority-v08",
+  "baseline": "post-pr128-main",
+  "execution": {
+    "date": "2026-09-25",
+    "merged_main_sha": "85da4262f60fc7c6e8085076f3acaa8e3b8fec7b",
+    "validation_branch_sha": "feb278186bc3c17167b6166b2596e2edb1bb2b3d",
+    "workflow_run_id": 36153783553,
+    "workflow_artifact_id": 10873300171,
+    "scanner_version": "0.8.0",
+    "runtime_effectiveness": "not_verified",
+    "note": "Validation branch differs from merged main only by the one-shot workflow."
+  },
+  "frozen_security_ground_truth": {
+    "aligned": 1,
+    "excess_authority": 7,
+    "missing_authority": 1,
+    "mixed": 1,
+    "required_roles": 37,
+    "missing_roles": 3,
+    "excess_roles": 15
+  },
+  "observed": {
+    "status_counts": {
+      "unresolved": 8,
+      "missing_authority": 2,
+      "aligned": 0,
+      "excess_authority": 0,
+      "mixed": 0
+    },
+    "cases_with_positive_required_role_evidence": 4,
+    "positive_required_roles_total": 5,
+    "frozen_required_role_matches": 4,
+    "frozen_missing_roles_detected": 2,
+    "frozen_excess_roles_detected": 0,
+    "old_v08_oracle_cases_unchanged": 6,
+    "old_v08_oracle_cases_changed": 4,
+    "exact_security_classification_matches": 1
+  },
+  "interpretation": {
+    "frozen_required_role_recall": "4/37",
+    "frozen_missing_role_recall": "2/3",
+    "frozen_excess_role_recall": "0/15",
+    "caveat": "The exact security-classification match on natural-008 is class-level only; the frozen truth listed cloudsql.client as missing, while post-PR128 HorusTrace proved discoveryengine.viewer missing. Post-hoc review confirms the pinned source invokes Discovery Engine Ranking, so this is recorded as an adjudication omission rather than rewriting frozen truth."
+  },
+  "cases": [
+    {
+      "case_id": "natural-001",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [
+        "roles/discoveryengine.viewer"
+      ],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-002",
+      "security_truth": "aligned",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-003",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-004",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [
+        "roles/cloudtasks.enqueuer"
+      ],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-005",
+      "security_truth": "mixed",
+      "observed_status": "missing_authority",
+      "required_roles": [
+        "roles/bigquery.dataViewer",
+        "roles/bigquery.jobUser"
+      ],
+      "missing_roles": [
+        "roles/bigquery.dataViewer",
+        "roles/bigquery.jobUser"
+      ],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-006",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-007",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-008",
+      "security_truth": "missing_authority",
+      "observed_status": "missing_authority",
+      "required_roles": [
+        "roles/discoveryengine.viewer"
+      ],
+      "missing_roles": [
+        "roles/discoveryengine.viewer"
+      ],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-009",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    },
+    {
+      "case_id": "natural-010",
+      "security_truth": "excess_authority",
+      "observed_status": "unresolved",
+      "required_roles": [],
+      "missing_roles": [],
+      "excess_roles": []
+    }
+  ]
+}
