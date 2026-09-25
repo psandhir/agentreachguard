@@ -1,6 +1,189 @@
-schema_version: 1
-study: deployment-authority-v08
-
-# The natural cohort is intentionally empty in the methodology/harness PR.
-# Candidate discovery and cohort freezing happen only after the evaluation contract lands.
-cases: []
+{
+  "schema_version": 1,
+  "study": "deployment-authority-v08",
+  "frozen_at": "2026-09-25",
+  "selection_basis": "candidate screening and manual source adjudication completed before HorusTrace execution",
+  "horustrace_results_used_for_selection": false,
+  "cases": [
+    {
+      "case_id": "natural-001",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "Metafiziks/gcp-search-agent",
+        "sha": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "path": "src/agent"
+      },
+      "infrastructure": {
+        "repo": "Metafiziks/gcp-search-agent",
+        "sha": "01f1ca76eceae91bafd553c96ba483c250cc4d70",
+        "path": "terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-001.json",
+      "ground_truth": "ground-truth/natural-001.json"
+    },
+    {
+      "case_id": "natural-002",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "sha": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "path": "customer_support_mas"
+      },
+      "infrastructure": {
+        "repo": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "sha": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "path": "terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-002.json",
+      "ground_truth": "ground-truth/natural-002.json"
+    },
+    {
+      "case_id": "natural-003",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "arjunprabhulal/adk-advanced",
+        "sha": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "path": "4_adk_deploy_cloudrun/adk_agent_cloudrun_demo"
+      },
+      "infrastructure": {
+        "repo": "arjunprabhulal/adk-advanced",
+        "sha": "893da057599708b77f1d95d1dd73d9b45e2ddfbd",
+        "path": "4_adk_deploy_cloudrun/adk_agent_cloudrun_demo/deployment/terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-003.json",
+      "ground_truth": "ground-truth/natural-003.json"
+    },
+    {
+      "case_id": "natural-004",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "Prostecki/med-voice",
+        "sha": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "path": "backend"
+      },
+      "infrastructure": {
+        "repo": "Prostecki/med-voice",
+        "sha": "c2b73cf886f91b49fbd348e1bc9f29d3b0cb479d",
+        "path": "infra/terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-004.json",
+      "ground_truth": "ground-truth/natural-004.json"
+    },
+    {
+      "case_id": "natural-005",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "KristionB/sql-adk-agent",
+        "sha": "bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+        "path": "sql_agent"
+      },
+      "infrastructure": {
+        "repo": "KristionB/sql-adk-agent",
+        "sha": "bf8c3c702a6906cc4735b4ab3ae94548c9e0f574",
+        "path": "terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-005.json",
+      "ground_truth": "ground-truth/natural-005.json"
+    },
+    {
+      "case_id": "natural-006",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "esoltys/ambient-expense-agent",
+        "sha": "9d22d27f6650967a14d4c2e2ce85fd6591ebb297",
+        "path": "expense_agent"
+      },
+      "infrastructure": {
+        "repo": "esoltys/ambient-expense-agent",
+        "sha": "9d22d27f6650967a14d4c2e2ce85fd6591ebb297",
+        "path": "deployment/terraform/single-project"
+      },
+      "deployment_evidence": "deployment-evidence/natural-006.json",
+      "ground_truth": "ground-truth/natural-006.json"
+    },
+    {
+      "case_id": "natural-007",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "mahieddine-ichir/hello-google-agents",
+        "sha": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "path": "router-agent"
+      },
+      "infrastructure": {
+        "repo": "mahieddine-ichir/hello-google-agents",
+        "sha": "66c811e7a682a9d4c1896f9e125c6666b93e806c",
+        "path": "terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-007.json",
+      "ground_truth": "ground-truth/natural-007.json"
+    },
+    {
+      "case_id": "natural-008",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "young-monk/shopright-ecommerce",
+        "sha": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "path": "ai/chatbot"
+      },
+      "infrastructure": {
+        "repo": "young-monk/shopright-ecommerce",
+        "sha": "8ac94f1324d8363abd3b4cd663b46c8ab7e80296",
+        "path": "infra/terraform"
+      },
+      "deployment_evidence": "deployment-evidence/natural-008.json",
+      "ground_truth": "ground-truth/natural-008.json"
+    },
+    {
+      "case_id": "natural-009",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "LaurentVeyssier/Ask-your-data-genie",
+        "sha": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "path": "app"
+      },
+      "infrastructure": {
+        "repo": "LaurentVeyssier/Ask-your-data-genie",
+        "sha": "5323dd78abf04b137d093d0bfce70cdab586982b",
+        "path": "deployment/terraform/single-project"
+      },
+      "deployment_evidence": "deployment-evidence/natural-009.json",
+      "ground_truth": "ground-truth/natural-009.json"
+    },
+    {
+      "case_id": "natural-010",
+      "kind": "natural",
+      "provider": "gcp",
+      "framework": "google-adk",
+      "application": {
+        "repo": "kuldeepjain1920/expense-agent",
+        "sha": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "path": "app"
+      },
+      "infrastructure": {
+        "repo": "kuldeepjain1920/expense-agent",
+        "sha": "180726e8e2662d0dae9444165e9000734b6e086a",
+        "path": "deployment/terraform/single-project"
+      },
+      "deployment_evidence": "deployment-evidence/natural-010.json",
+      "ground_truth": "ground-truth/natural-010.json"
+    }
+  ]
+}
