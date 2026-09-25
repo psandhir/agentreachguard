@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "source": "repository-declared:dhanyashree9513-byte/adk-multiagent-production-template@aaddf141aa6f93555fce81cf606667747efe0140",
+  "workloads": [
+    {
+      "workload_id": "repository-template://dhanyashree9513-byte/adk-multiagent-production-template/agent_engine/root_agent",
+      "kind": "agent_engine",
+      "name": "root_agent",
+      "identity": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "agent": "root_agent",
+      "project": "${var.project_id}",
+      "region": "repository-parameterized",
+      "metadata": {
+        "repository": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "commit": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "normalized_from_repository_template": true,
+        "runtime_effectiveness": "not_verified"
+      }
+    }
+  ],
+  "iam_bindings": [
+    {
+      "principal": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "role": "roles/datastore.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "commit": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "role": "roles/aiplatform.user",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "commit": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "repository_declared": true
+      }
+    },
+    {
+      "principal": "service-${data.google_project.project.number}@gcp-sa-aiplatform-re.iam.gserviceaccount.com",
+      "role": "roles/storage.objectViewer",
+      "scope": {
+        "kind": "project",
+        "name": "${var.project_id}"
+      },
+      "metadata": {
+        "repository": "dhanyashree9513-byte/adk-multiagent-production-template",
+        "commit": "aaddf141aa6f93555fce81cf606667747efe0140",
+        "repository_declared": true
+      }
+    }
+  ],
+  "metadata": {
+    "evidence_kind": "repository-declared-template",
+    "live_cloud_state_verified": false,
+    "note": "Terraform variables are preserved symbolically; this is not a live cloud export."
+  }
+}
