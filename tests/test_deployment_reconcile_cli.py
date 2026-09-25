@@ -323,9 +323,5 @@ resource "google_cloud_run_v2_service" "chatbot" {
     assert agent["status"] == "missing_authority"
     assert agent["required"]["roles"] == ["roles/cloudsql.client"]
     assert agent["missing"]["roles"] == ["roles/cloudsql.client"]
-    assert (
-        report["coverage"]["resolution"]["deployment_requirements"][
-            "matched_agents"
-        ]
-        == 1
-    )
+    evidence_items = agent["evidence"]["required_authority"]
+    assert evidence_items[0]["rule"] == "gcp.cloud_run.cloud_sql_socket"
