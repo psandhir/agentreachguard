@@ -1,0 +1,6 @@
+schema_version: 1
+study: deployment-authority-v08
+
+# The natural cohort is intentionally empty in the methodology/harness PR.
+# Candidate discovery and cohort freezing happen only after the evaluation contract lands.
+cases: []
