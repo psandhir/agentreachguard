@@ -553,6 +553,7 @@ def main(argv: list[str] | None = None) -> int:
                 graph,
                 deployment_evidence,
                 baseline=baseline_evidence,
+                source_root=target,
             )
         except (
             ConfigError,
