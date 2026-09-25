@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "langgraph",
+  "part": 1,
+  "query": "langgraph agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "langchain-ai/langgraph",
+      "sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 526956,
+      "query": "langgraph agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "google-gemini/gemini-fullstack-langgraph-quickstart",
+      "sha": "e34e569de465340e42f36cd3cab4fac0c3ce7036",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 391,
+      "query": "langgraph agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "mayooear/ai-pdf-chatbot-langchain",
+      "sha": "4b2647c41992a50b72ff6befb9a0bd71461e3dbe",
+      "default_branch": "main",
+      "archived": true,
+      "size_kb": 6807,
+      "query": "langgraph agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langgraphjs",
+      "sha": "2478e098ae1c2f7f353dfd8d6ff32ae7c20444a8",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 41109,
+      "query": "langgraph agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "wassim249/fastapi-langgraph-agent-production-ready-template",
+      "sha": "f7faab38fa5332669627139b27c4f2dc4178649e",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 560,
+      "query": "langgraph agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "LangChain-OpenTutorial/LangChain-OpenTutorial",
+      "sha": "151d715598bc2a5d3d751a6262a59878f54d2368",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 626332,
+      "query": "langgraph agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/react-agent",
+      "sha": "e5bda14b7a5efdeb6f9367a9e4379242ae484f01",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 4443,
+      "query": "langgraph agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "BrandPeng/Langchain1.0-Langgraph1.0-Learning",
+      "sha": "c20eeee8e7045a34f7c541c36501e0799b3521fd",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 925,
+      "query": "langgraph agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "krishnaik06/Agentic-LanggraphCrash-course",
+      "sha": "824f0d5e8c36d1d5ba74ae05fd62cbab8ef65b5f",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 245,
+      "query": "langgraph agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "braincrew-lab/langgraph-mcp-agents",
+      "sha": "d4694e9db841343a2bd4dd3a30175a02b63d9144",
+      "default_branch": "master",
+      "archived": false,
+      "size_kb": 2495,
+      "query": "langgraph agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "emarco177/langgraph-course",
+      "sha": "03f7369e16381cf6caea3f305303a320b182f60b",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1312,
+      "query": "langgraph agent",
+      "rank": 11,
+      "decision": "pending"
+    },
+    {
+      "repo": "JoshuaC215/agent-service-toolkit",
+      "sha": "21e2b6a2b78f2cc573514aeb9315a290d75d18fe",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3310,
+      "query": "langgraph agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "langchain-ai/langgraph-swarm-py",
+      "sha": "5442a15cdd0ed210589148900c9960c24c489d04",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 906,
+      "query": "langgraph agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "langgraph4j/langgraph4j",
+      "sha": "1c30771c7c7876e79ca3b089a04dcbbbba75924d",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 81770,
+      "query": "langgraph agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "GiovanniPasq/agentic-rag-for-dummies",
+      "sha": "2461e5251c6b9a6be71d13176ab43301f3c0a068",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 24788,
+      "query": "langgraph agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
