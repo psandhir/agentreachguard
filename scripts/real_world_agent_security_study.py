@@ -193,6 +193,8 @@ def validate_candidates(
     pending = 0
     included = 0
     excluded = 0
+    exposure_pending = 0
+    frameworks: Counter[str] = Counter()
     for index, candidate in enumerate(candidates):
         where = f"{path}: candidates[{index}]"
         if not isinstance(candidate, dict):
@@ -200,6 +202,33 @@ def validate_candidates(
         repo = _require_nonempty_string(candidate.get("repo"), f"{where}.repo")
         repos.append(repo.lower())
         _require_exact_sha(candidate.get("sha"), f"{where}.sha")
+
+        framework = _require_nonempty_string(
+            candidate.get("framework_stratum"),
+            f"{where}.framework_stratum",
+        )
+        if framework not in protocol["strata"]:
+            raise StudyProtocolError(
+                f"{where}.framework_stratum: unknown stratum {framework!r}"
+            )
+        frameworks[framework] += 1
+
+        discovery = candidate.get("discovery")
+        if not isinstance(discovery, dict):
+            raise StudyProtocolError(f"{where}.discovery: expected object")
+        _require_nonempty_string(
+            discovery.get("method"),
+            f"{where}.discovery.method",
+        )
+        _require_nonempty_string(
+            discovery.get("query"),
+            f"{where}.discovery.query",
+        )
+        _require_nonempty_string(
+            discovery.get("evidence_path"),
+            f"{where}.discovery.evidence_path",
+        )
+
         decision = candidate.get("decision")
         if decision not in {"pending", "include", "exclude"}:
             raise StudyProtocolError(
@@ -219,6 +248,13 @@ def validate_candidates(
             candidate.get("previously_studied"),
             f"{where}.previously_studied",
         )
+        exposure_check = candidate.get("previously_studied_check")
+        if exposure_check not in {"pending", "checked"}:
+            raise StudyProtocolError(
+                f"{where}.previously_studied_check: expected pending/checked"
+            )
+        if exposure_check == "pending":
+            exposure_pending += 1
 
     if len(repos) != len(set(repos)):
         raise StudyProtocolError(f"{path}: candidate repositories must be unique")
@@ -232,12 +268,18 @@ def validate_candidates(
             )
         if pending:
             raise StudyProtocolError(f"{path}: frozen pool cannot contain pending decisions")
+        if exposure_pending:
+            raise StudyProtocolError(
+                f"{path}: frozen pool cannot contain pending prior-study exposure checks"
+            )
 
     return {
         "total": len(candidates),
         "pending": pending,
         "included": included,
         "excluded": excluded,
+        "prior_study_checks_pending": exposure_pending,
+        "framework_counts": dict(sorted(frameworks.items())),
         "frozen": frozen,
     }
 
