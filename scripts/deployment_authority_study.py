@@ -20,6 +20,8 @@ from typing import Any
 
 import yaml
 
+from horustrace.deployment_evidence import DeploymentEvidenceError, load_deployment_evidence
+
 SCHEMA_VERSION = 1
 CLONE_TIMEOUT = 180
 ANALYSIS_TIMEOUT = 300
@@ -292,12 +294,13 @@ def _string_list(value: Any, where: str) -> list[str]:
 
 
 def validate_case_inputs(case: StudyCase) -> dict[str, Any]:
-    evidence = _load_yaml(case.deployment_evidence)
-    if evidence.get("schema_version") != 1:
+    try:
+        evidence = load_deployment_evidence(case.deployment_evidence)
+    except DeploymentEvidenceError as exc:
         raise StudyError(
-            f"{case.deployment_evidence}: expected Deployment Evidence schema_version 1"
-        )
-    if evidence.get("provider") != case.provider:
+            f"{case.deployment_evidence}: invalid Deployment Evidence v1: {exc}"
+        ) from exc
+    if evidence.provider != case.provider:
         raise StudyError(f"{case.deployment_evidence}: provider must match case provider")
     return validate_ground_truth(case.ground_truth, case.case_id)
 
