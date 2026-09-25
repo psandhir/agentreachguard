@@ -28,6 +28,7 @@ from horustrace.deployment_report import (
     build_deployment_security_report,
     render_deployment_security_console,
 )
+from horustrace.deployment_requirements import enrich_cross_layer_required_authority
 from horustrace.effective_authority import (
     effective_authority_report,
     render_effective_authority_console,
@@ -528,6 +529,16 @@ def main(argv: list[str] | None = None) -> int:
                 authority_source=args.authority_source,
             )
             deployment_evidence = load_deployment_evidence(args.deployment_evidence)
+            if args.authority_source is not None:
+                deployment_requirements = enrich_cross_layer_required_authority(
+                    graph,
+                    target,
+                    args.authority_source,
+                    deployment_evidence,
+                )
+                graph.coverage.resolution["deployment_requirements"] = (
+                    deployment_requirements.as_dict()
+                )
             baseline_evidence = (
                 load_deployment_evidence(args.baseline_deployment_evidence)
                 if args.baseline_deployment_evidence
