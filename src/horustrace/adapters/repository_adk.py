@@ -1093,22 +1093,11 @@ def _merge_agent(existing: Agent, incoming: Agent) -> None:
             continue
 
         if tool.metadata.get("repository_resolved") is True:
-            existing_tool.capabilities.update(tool.capabilities)
-            if existing_tool.identity is None and tool.identity is not None:
-                existing_tool.identity = tool.identity
-
-            for destination in tool.destinations:
-                if destination not in existing_tool.destinations:
-                    existing_tool.destinations.append(destination)
-            for resource in tool.resources:
-                if resource not in existing_tool.resources:
-                    existing_tool.resources.append(resource)
-
+            # Repository resolution can prove additional authority requirements
+            # for a tool already normalized by the first-pass adapter. Keep this
+            # enrichment authority-only: changing capabilities/destinations here
+            # would also change risk/path semantics outside reconciliation.
             existing_tool.metadata["repository_resolved"] = True
-            if tool.metadata.get("network_scope"):
-                existing_tool.metadata["network_scope"] = tool.metadata[
-                    "network_scope"
-                ]
 
             required_roles = set(
                 existing_tool.metadata.get("required_roles") or []
