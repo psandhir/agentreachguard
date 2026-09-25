@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "phase": "candidate_discovery",
+  "stratum": "langgraph",
+  "part": 2,
+  "query": "langgraph multi agent",
+  "horustrace_executed": false,
+  "candidates": [
+    {
+      "repo": "langchain-ai/langgraph-swarm-py",
+      "sha": "5442a15cdd0ed210589148900c9960c24c489d04",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 906,
+      "query": "langgraph multi agent",
+      "rank": 1,
+      "decision": "pending"
+    },
+    {
+      "repo": "vonzosten/awesome-LangGraph",
+      "sha": "68509d7485a280eea0e638ef86428dd9a61fbea1",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 389,
+      "query": "langgraph multi agent",
+      "rank": 2,
+      "decision": "pending"
+    },
+    {
+      "repo": "NirDiamant/GenAI_Agents",
+      "sha": "078d6d544e15c0e758c2533b422fd13ed2d15593",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 265348,
+      "query": "langgraph multi agent",
+      "rank": 3,
+      "decision": "pending"
+    },
+    {
+      "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+      "sha": "c06021c1773359ec7192706c3259b52948e00b20",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1656,
+      "query": "langgraph multi agent",
+      "rank": 4,
+      "decision": "pending"
+    },
+    {
+      "repo": "FareedKhan-dev/all-agentic-architectures",
+      "sha": "cf9d620a8cc55d59589399c30f305e6dfaa428ec",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3304,
+      "query": "langgraph multi agent",
+      "rank": 5,
+      "decision": "pending"
+    },
+    {
+      "repo": "liangdabiao/langgraph_multi-agent-rag-customer-support",
+      "sha": "a30f9646fb1df73b7b5547b86ce3035765034176",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 5611,
+      "query": "langgraph multi agent",
+      "rank": 6,
+      "decision": "pending"
+    },
+    {
+      "repo": "nicoladisabato/MultiAgenticRAG",
+      "sha": "05cc844d6cdf5451ba4d5e0d001faacd3651d1a8",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 12900,
+      "query": "langgraph multi agent",
+      "rank": 7,
+      "decision": "pending"
+    },
+    {
+      "repo": "kaymen99/langgraph-email-automation",
+      "sha": "9ea0f54cb30a493bbc25114cfc1769a25d45169a",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 329,
+      "query": "langgraph multi agent",
+      "rank": 8,
+      "decision": "pending"
+    },
+    {
+      "repo": "kyegomez/awesome-multi-agent-papers",
+      "sha": "3f270c55b406402c0495df055cda7e1f6e54d2d6",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 594,
+      "query": "langgraph multi agent",
+      "rank": 9,
+      "decision": "pending"
+    },
+    {
+      "repo": "souvikmajumder26/Multi-Agent-Medical-Assistant",
+      "sha": "dee00a4df4d7142186c30bf2893406a0074faa51",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 256280,
+      "query": "langgraph multi agent",
+      "rank": 10,
+      "decision": "pending"
+    },
+    {
+      "repo": "langtalks/swe-agent",
+      "sha": "5946af4f57cba03761015837ad5f87ef5c8d99e9",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 2111,
+      "query": "langgraph multi agent",
+      "rank": 12,
+      "decision": "pending"
+    },
+    {
+      "repo": "Onelevenvy/flock",
+      "sha": "2eac827aa803ae2ee8578e401a864e116cd994d3",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 13436,
+      "query": "langgraph multi agent",
+      "rank": 13,
+      "decision": "pending"
+    },
+    {
+      "repo": "Pan-Chera/Multi-Agent-CAD",
+      "sha": "8bf91d83a95f52626d0aa963c6575c79b653ab06",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 1266,
+      "query": "langgraph multi agent",
+      "rank": 14,
+      "decision": "pending"
+    },
+    {
+      "repo": "simonlin1212/TradingAgents-astock",
+      "sha": "b0594a4f2b8ff7c32807ebc9ec269007fffe895c",
+      "default_branch": "main",
+      "archived": false,
+      "size_kb": 3875,
+      "query": "langgraph multi agent",
+      "rank": 15,
+      "decision": "pending"
+    }
+  ]
+}
