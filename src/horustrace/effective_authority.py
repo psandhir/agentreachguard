@@ -238,6 +238,22 @@ def _tool_relationship(
                 or tool.metadata.get("network_scope")
             ),
             "sensitive_write_domain": tool.metadata.get("sensitive_write_domain"),
+            "required_authority": {
+                "provider": tool.metadata.get("required_authority_provider"),
+                "roles": list(tool.metadata.get("required_roles") or []),
+                "permissions": list(
+                    tool.metadata.get("required_permissions") or []
+                ),
+                "roles_complete": (
+                    tool.metadata.get("required_roles_complete") is True
+                ),
+                "permissions_complete": (
+                    tool.metadata.get("required_permissions_complete") is True
+                ),
+                "evidence": list(
+                    tool.metadata.get("required_role_evidence") or []
+                ),
+            },
         },
         dimensions=dimensions,
         unresolved=tuple(sorted(set(unresolved))),
