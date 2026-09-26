@@ -15,6 +15,7 @@ def test_framework_registry_has_stable_adapter_order() -> None:
         "openai-agents",
         "pydantic-ai",
         "fast-agent",
+        "model-tool-loop",
         "mcp-python",
     ]
 
