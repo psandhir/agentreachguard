@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,97 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "corporate_analyst_agent",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "get_10k_report_link",
+        "binding": "root_agent tools list"
+      },
+      {
+        "name": "download_sec_filing",
+        "binding": "root_agent tools list"
+      },
+      {
+        "name": "enrich_company",
+        "binding": "root_agent tools list"
+      },
+      {
+        "name": "enrich_linkedin_company",
+        "binding": "root_agent tools list"
+      },
+      {
+        "name": "render_markdown",
+        "binding": "root_agent tools list"
+      },
+      {
+        "name": "get_company_logo",
+        "binding": "root_agent tools list"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No sub-agent delegation or MCP binding is evidenced in the reviewed application file."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-011.FRAMEWORK",
       "subject": "VeerMuchandi/corporate_analyst",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.AGENT_ROOT",
+      "subject": "VeerMuchandi/corporate_analyst",
+      "predicate": "has_agent_root",
+      "object": "corporate_analyst_agent",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.TOOLS",
+      "subject": "VeerMuchandi/corporate_analyst",
+      "predicate": "has_direct_tool_bindings",
+      "object": [
+        "get_10k_report_link",
+        "download_sec_filing",
+        "enrich_company",
+        "enrich_linkedin_company",
+        "render_markdown",
+        "get_company_logo"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly binds the listed tool(s) or tool collections.",
+      "category": "tools",
       "tier": "A"
     }
   ],

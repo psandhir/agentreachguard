@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,40 +20,171 @@
     ],
     "agent_roots": [
       {
-        "path": "agent/main.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "WorkbenchAgent",
+        "kind": "google-adk:LlmAgent",
+        "path": "agent/main.py"
       }
     ],
-    "tools": [],
-    "mcp_servers": [],
+    "tools": [
+      {
+        "name": "upsert_ui_element",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "remove_ui_element",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "clear_canvas",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "apply_canvas_preset",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "setThemeColor",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "edit_component",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "analyze_component_props",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "create_new_component",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "run_build_check",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "process_feelings",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "create_collection",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "scan_repository_for_collection_items",
+        "binding": "WorkbenchAgent tools list"
+      },
+      {
+        "name": "create_mcp_server_collection",
+        "binding": "WorkbenchAgent tools list"
+      }
+    ],
+    "mcp_servers": [
+      {
+        "name": "VT Code MCP",
+        "binding": "code editing tool integration via mcp_vtcode"
+      }
+    ],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "Exact VT Code MCP transport/server identity and server-side tool mapping require follow-up review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-020.FRAMEWORK",
       "subject": "Ditto190/modme-ui-01",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent/main.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         },
         {
           "path": "agent/tools/README.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Original discovery evidence retained for provenance."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.AGENT_ROOT",
+      "subject": "Ditto190/modme-ui-01",
+      "predicate": "has_agent_root",
+      "object": "WorkbenchAgent",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent/main.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "agent/tools/README.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.TOOLS",
+      "subject": "Ditto190/modme-ui-01",
+      "predicate": "has_direct_tool_bindings",
+      "object": [
+        "upsert_ui_element",
+        "remove_ui_element",
+        "clear_canvas",
+        "apply_canvas_preset",
+        "setThemeColor",
+        "edit_component",
+        "analyze_component_props",
+        "create_new_component",
+        "run_build_check",
+        "process_feelings",
+        "create_collection",
+        "scan_repository_for_collection_items",
+        "create_mcp_server_collection"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent/main.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "agent/tools/README.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source directly binds the listed tool(s) or tool collections.",
+      "category": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.MCP",
+      "subject": "Ditto190/modme-ui-01",
+      "predicate": "has_mcp_binding",
+      "object": [
+        "VT Code MCP"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent/main.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "agent/tools/README.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source directly declares or integrates the listed MCP server/binding.",
+      "category": "mcp",
       "tier": "A"
     }
   ],

@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,160 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "memory_orchestrator",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
+      },
+      {
+        "name": "ingest_agent",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
+      },
+      {
+        "name": "consolidate_agent",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
+      },
+      {
+        "name": "query_agent",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "store_memory",
+        "binding": "agent tools list"
+      },
+      {
+        "name": "read_unconsolidated_memories",
+        "binding": "agent tools list"
+      },
+      {
+        "name": "store_consolidation",
+        "binding": "agent tools list"
+      },
+      {
+        "name": "read_all_memories",
+        "binding": "agent tools list"
+      },
+      {
+        "name": "read_consolidation_history",
+        "binding": "agent tools list"
+      },
+      {
+        "name": "get_memory_stats",
+        "binding": "agent tools list"
+      }
+    ],
     "mcp_servers": [],
-    "delegation_edges": [],
+    "delegation_edges": [
+      {
+        "from": "memory_orchestrator",
+        "to": "ingest_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "memory_orchestrator",
+        "to": "consolidate_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "memory_orchestrator",
+        "to": "query_agent",
+        "kind": "sub_agent"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No MCP server binding is evidenced in the reviewed application file."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-017.FRAMEWORK",
       "subject": "mxyhi/always-on-memory-agent",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.AGENT_ROOT",
+      "subject": "mxyhi/always-on-memory-agent",
+      "predicate": "has_agent_root",
+      "object": "memory_orchestrator",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.TOOLS",
+      "subject": "mxyhi/always-on-memory-agent",
+      "predicate": "has_direct_tool_bindings",
+      "object": [
+        "store_memory",
+        "read_unconsolidated_memories",
+        "store_consolidation",
+        "read_all_memories",
+        "read_consolidation_history",
+        "get_memory_stats"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly binds the listed tool(s) or tool collections.",
+      "category": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.DELEGATION",
+      "subject": "mxyhi/always-on-memory-agent",
+      "predicate": "has_delegation_edges",
+      "object": [
+        {
+          "from": "memory_orchestrator",
+          "to": "ingest_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "memory_orchestrator",
+          "to": "consolidate_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "memory_orchestrator",
+          "to": "query_agent",
+          "kind": "sub_agent"
+        }
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly declares the listed sub-agent/workflow relationships.",
+      "category": "delegation",
       "tier": "A"
     }
   ],
@@ -61,7 +185,7 @@
       "external_write_or_network",
       "tool_composition"
     ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "first_pass_structural_review_complete; authority/attack-path adjudication still pending"
   },
   "tier_c_draft": null
 }

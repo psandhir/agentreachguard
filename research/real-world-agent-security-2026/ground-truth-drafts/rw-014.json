@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,78 @@
     ],
     "agent_roots": [
       {
-        "path": "backend/app.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "live_agent",
+        "kind": "google-adk:LlmAgent dynamic",
+        "path": "backend/app.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "google_search_tool_instance",
+        "binding": "wrapped as search_agent_tool"
+      },
+      {
+        "name": "code_execution_tool_instance",
+        "binding": "wrapped as exec_agent_tool"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "Backend supports configuration-driven tool/sub-agent definitions, but the reviewed execution path currently instantiates no handoff sub-agents.",
+      "Vertex AI Search and custom tools are configuration-dependent and require per-config review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-014.FRAMEWORK",
       "subject": "mindful-ai-dude/Gemini-AgentsADK-GUI",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "backend/app.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-014.AGENT_ROOT",
+      "subject": "mindful-ai-dude/Gemini-AgentsADK-GUI",
+      "predicate": "has_agent_root",
+      "object": "live_agent",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "backend/app.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-014.TOOLS",
+      "subject": "mindful-ai-dude/Gemini-AgentsADK-GUI",
+      "predicate": "has_direct_tool_bindings",
+      "object": [
+        "google_search_tool_instance",
+        "code_execution_tool_instance"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "backend/app.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly binds the listed tool(s) or tool collections.",
+      "category": "tools",
       "tier": "A"
     }
   ],
