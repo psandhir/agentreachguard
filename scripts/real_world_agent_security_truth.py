@@ -270,11 +270,7 @@ def extract_python(path: str, text: str) -> tuple[list[Fact], list[Fact], list[F
             ctor = full.split(".")[-1]
             for variable in targets:
                 if ctor in AGENT_CTORS:
-                    declared = (
-                        literal_string(kw(value, "name"))
-                        or literal_string(value.args[0] if value.args else None)
-                        or variable
-                    )
+                    declared = literal_string(kw(value, "name")) or variable
                     aliases = tuple(sorted({variable, declared} - {declared}))
                     agents.append(
                         Fact(
