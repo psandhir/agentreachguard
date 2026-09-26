@@ -1,9 +1,26 @@
 {
-  "assertions": [],
+  "assertions": [
+    {
+      "assertion_id": "RW-072.A001",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "core/agents/base/react.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    }
+  ],
   "case_id": "rw-072",
   "schema_version": 1,
   "source_reference": {
-    "application_path": "agents/base/react.py",
+    "application_path": "core/agents/base/react.py",
     "automated_reference": true,
     "framework_stratum": "langgraph",
     "human_dual_review": false,
@@ -14,23 +31,29 @@
   },
   "study": "real-world-agent-security-2026",
   "tier_a": {
-    "agent_roots": [],
+    "agent_roots": [
+      {
+        "kind": "create_react_agent",
+        "line": 47,
+        "name": "graph",
+        "path": "core/agents/base/react.py",
+        "variable": "graph"
+      }
+    ],
     "delegation_edges": [],
     "frameworks": [
       "langgraph"
     ],
     "mcp_servers": [],
     "reference_completeness": {
-      "agent_entities": false,
-      "delegation_edges": false,
-      "mcp_servers": false,
-      "tools": false
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
     },
-    "source_files_reviewed": 0,
+    "source_files_reviewed": 2,
     "tools": [],
-    "unresolved": [
-      "application_path_missing:agents/base/react.py"
-    ]
+    "unresolved": []
   },
   "truth_lock": {
     "horustrace_output_seen": false,

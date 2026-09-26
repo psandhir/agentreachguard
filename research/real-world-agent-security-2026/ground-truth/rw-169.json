@@ -1,9 +1,42 @@
 {
-  "assertions": [],
+  "assertions": [
+    {
+      "assertion_id": "RW-169.A001",
+      "evidence": [
+        {
+          "line": 33,
+          "path": "src/agentc/core/backends/pydantic_ai/session_factory.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-169.A002",
+      "evidence": [
+        {
+          "line": 115,
+          "path": "src/agentc/entrypoints/run_console.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
   "case_id": "rw-169",
   "schema_version": 1,
   "source_reference": {
-    "application_path": "agent_c",
+    "application_path": "src/agentc",
     "automated_reference": true,
     "framework_stratum": "pydantic-ai",
     "human_dual_review": false,
@@ -14,7 +47,22 @@
   },
   "study": "real-world-agent-security-2026",
   "tier_a": {
-    "agent_roots": [],
+    "agent_roots": [
+      {
+        "kind": "create_agent",
+        "line": 33,
+        "name": "agent",
+        "path": "src/agentc/core/backends/pydantic_ai/session_factory.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "create_agent",
+        "line": 115,
+        "name": "agent",
+        "path": "src/agentc/entrypoints/run_console.py",
+        "variable": "agent"
+      }
+    ],
     "delegation_edges": [],
     "frameworks": [
       "pydantic-ai"
@@ -26,10 +74,10 @@
       "mcp_servers": false,
       "tools": false
     },
-    "source_files_reviewed": 0,
+    "source_files_reviewed": 43,
     "tools": [],
     "unresolved": [
-      "application_path_missing:agent_c"
+      "dynamic_source_constructs_detected"
     ]
   },
   "truth_lock": {

@@ -3,13 +3,13 @@
   "study": "real-world-agent-security-2026",
   "summary": {
     "cases": 180,
-    "fetch_failures": 2,
-    "assertions": 2088,
-    "explicit_agent_entities": 689,
+    "fetch_failures": 0,
+    "assertions": 2091,
+    "explicit_agent_entities": 692,
     "explicit_tools": 1115,
     "explicit_mcp_servers": 22,
     "explicit_delegation_edges": 85,
-    "agent_complete_cases": 71
+    "agent_complete_cases": 72
   },
   "cases": [
     {
@@ -724,13 +724,13 @@
     },
     {
       "case_id": "rw-072",
-      "fetch_error": "application_path_missing:agents/base/react.py",
-      "assertions": 0,
-      "agents": 0,
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
       "tools": 0,
       "mcp_servers": 0,
       "delegation_edges": 0,
-      "complete_agents": false
+      "complete_agents": true
     },
     {
       "case_id": "rw-073",
@@ -1694,9 +1694,9 @@
     },
     {
       "case_id": "rw-169",
-      "fetch_error": "application_path_missing:agent_c",
-      "assertions": 0,
-      "agents": 0,
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 2,
       "tools": 0,
       "mcp_servers": 0,
       "delegation_edges": 0,

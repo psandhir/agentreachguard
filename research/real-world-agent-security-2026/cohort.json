@@ -1741,13 +1741,13 @@
     "human_dual_review": false,
     "summary": {
       "cases": 180,
-      "fetch_failures": 2,
-      "assertions": 2088,
-      "explicit_agent_entities": 689,
+      "fetch_failures": 0,
+      "assertions": 2091,
+      "explicit_agent_entities": 692,
       "explicit_tools": 1115,
       "explicit_mcp_servers": 22,
       "explicit_delegation_edges": 85,
-      "agent_complete_cases": 71
+      "agent_complete_cases": 72
     },
     "limitations": [
       "automated source reference is not a substitute for independent human dual adjudication",
