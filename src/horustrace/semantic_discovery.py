@@ -74,14 +74,8 @@ def stable_binding_id(
     kind: SemanticBindingKind,
     basis: str,
 ) -> str:
-    payload = "\0".join(
-        [
-            "binding-v1",
-            source_id,
-            target_id,
-            kind.value,
-            basis.strip(),
-        ]
+    payload = (
+        f"binding-v1\0{source_id}\0{target_id}\0{kind.value}\0{basis.strip()}"
     )
     digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
     return f"semantic-v1:binding:{digest}"
