@@ -41,6 +41,21 @@ root_agent = Agent(
         encoding="utf-8",
     )
 
+    (tmp_path / "adk.yaml").write_text(
+        """
+name: agentGemini
+version: 1.0.0
+agent:
+  entry_point: agent.py
+  root_agent: root_agent
+model:
+  name: gemini-2.0-flash
+session:
+  service: InMemorySessionService
+""",
+        encoding="utf-8",
+    )
+
     graph, _ = scan(tmp_path)
 
     observed = [
