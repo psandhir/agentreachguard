@@ -1,0 +1,101 @@
+name: Real World Agent Security Post-Fix Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      scanner_sha:
+        description: Exact HorusTrace commit SHA to evaluate against the frozen 180-case cohort
+        required: true
+        type: string
+      enforce_v09_gates:
+        description: Fail the workflow unless every v0.9 release gate is met
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: real-world-agent-security-postfix-${{ inputs.scanner_sha }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Frozen 180 post-fix delta
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      SCANNER_SHA: ${{ inputs.scanner_sha }}
+      STUDY_ROOT: research/real-world-agent-security-2026
+
+    steps:
+      - name: Check out validation harness
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Validate locked study state and candidate SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SCANNER_SHA" =~ ^[0-9a-f]{40}$ ]]
+          python scripts/real_world_agent_security_study.py --validate-only
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("research/real-world-agent-security-2026")
+          cohort = json.loads((root / "cohort.json").read_text())
+          assert cohort["cohort_frozen"] is True
+          assert cohort["ground_truth_locked"] is True
+          assert len(cohort["cases"]) == 180
+          print("locked frozen-180 study state verified")
+          PY
+
+      - name: Install candidate HorusTrace SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=/tmp/horustrace-postfix-src
+          VENV=/tmp/horustrace-postfix-venv
+          git init -q "$SRC"
+          git -C "$SRC" remote add origin https://github.com/psandhir/horustrace.git
+          git -C "$SRC" fetch --quiet --depth=1 origin "$SCANNER_SHA"
+          git -C "$SRC" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$SRC" rev-parse HEAD)" = "$SCANNER_SHA"
+          python -m venv "$VENV"
+          "$VENV/bin/pip" install --disable-pip-version-check "$SRC"
+          "$VENV/bin/horustrace" --version
+
+      - name: Execute candidate against frozen cohort
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$STUDY_ROOT/results/postfix/$SCANNER_SHA"
+          mkdir -p "$OUT"
+          python scripts/real_world_agent_security_execute.py             --mode postfix             --scanner /tmp/horustrace-postfix-venv/bin/horustrace             --scanner-sha "$SCANNER_SHA"             --workers 8             --output-json "$OUT/result.json"             --output-markdown "$OUT/result.md"
+
+      - name: Compare with immutable baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$STUDY_ROOT/results/postfix/$SCANNER_SHA"
+          EXTRA=()
+          if [[ "${{ inputs.enforce_v09_gates }}" == "true" ]]; then
+            EXTRA+=(--enforce-v09-gates)
+          fi
+          python scripts/real_world_agent_security_compare.py             --baseline "$STUDY_ROOT/results/frozen-baseline.json"             --candidate "$OUT/result.json"             --output-json "$OUT/comparison.json"             --output-markdown "$OUT/comparison.md"             "${EXTRA[@]}"
+          cat "$OUT/comparison.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload post-fix validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-180-postfix-${{ inputs.scanner_sha }}
+          path: research/real-world-agent-security-2026/results/postfix/${{ inputs.scanner_sha }}/
+          if-no-files-found: error
+          retention-days: 30

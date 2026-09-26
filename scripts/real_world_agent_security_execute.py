@@ -1,8 +1,8 @@
-"""Execute and score the frozen HorusTrace real-world baseline.
+"""Execute and score HorusTrace against the frozen real-world study cohort.
 
 The cohort and independent source reference must already be locked. Targets are fetched
 at exact SHAs and are never installed, imported, or executed. The scanner binary is
-provided by the workflow from the preregistered frozen HorusTrace SHA.
+provided by the workflow. Baseline mode enforces the preregistered scanner SHA; postfix mode evaluates a candidate SHA.
 """
 from __future__ import annotations
 
@@ -523,7 +523,13 @@ def aggregate_dimension(cases: list[dict[str, Any]], key: str) -> dict[str, Any]
     }
 
 
-def aggregate(cases: list[dict[str, Any]], scanner_sha: str, cohort: dict[str, Any]) -> dict[str, Any]:
+def aggregate(
+    cases: list[dict[str, Any]],
+    scanner_sha: str,
+    cohort: dict[str, Any],
+    *,
+    execution_mode: str = "baseline",
+) -> dict[str, Any]:
     success = [case for case in cases if case.get("status") == "success"]
     failures = [case for case in cases if case.get("status") != "success"]
     dimensions = {
@@ -608,6 +614,8 @@ def aggregate(cases: list[dict[str, Any]], scanner_sha: str, cohort: dict[str, A
         "schema_version": 1,
         "study": STUDY,
         "scanner_sha": scanner_sha,
+        "baseline_scanner_sha": cohort.get("scanner_freeze_sha"),
+        "execution_mode": execution_mode,
         "cohort_cases": len(cases),
         "reference_method": cohort.get("ground_truth_reference") or {},
         "summary": {
@@ -751,6 +759,15 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--root", type=Path, default=Path("research/real-world-agent-security-2026"))
     p.add_argument("--scanner", default="horustrace")
     p.add_argument("--scanner-sha", required=True)
+    p.add_argument(
+        "--mode",
+        choices=["baseline", "postfix"],
+        default="baseline",
+        help=(
+            "baseline enforces the preregistered scanner SHA; postfix evaluates an "
+            "explicit candidate SHA against the unchanged frozen cohort."
+        ),
+    )
     p.add_argument("--workers", type=int, default=8)
     p.add_argument("--output-json", type=Path, required=True)
     p.add_argument("--output-markdown", type=Path, required=True)
@@ -764,8 +781,13 @@ def main() -> int:
         raise SystemExit("study error: cohort must be frozen")
     if cohort.get("ground_truth_locked") is not True:
         raise SystemExit("study error: ground truth must be locked before baseline execution")
-    if cohort.get("scanner_freeze_sha") != args.scanner_sha:
+    frozen_scanner_sha = cohort.get("scanner_freeze_sha")
+    if args.mode == "baseline" and frozen_scanner_sha != args.scanner_sha:
         raise SystemExit("study error: scanner SHA does not match preregistration")
+    if not re.fullmatch(r"[0-9a-f]{40}", args.scanner_sha):
+        raise SystemExit(
+            "study error: scanner SHA must be an exact lowercase 40-character SHA"
+        )
     cases = cohort.get("cases") or []
     tier_c_ids = set(cohort.get("tier_c_case_ids") or [])
     truths: dict[str, dict[str, Any]] = {}
@@ -799,7 +821,12 @@ def main() -> int:
 
     order = {case["case_id"]: index for index, case in enumerate(cases)}
     results.sort(key=lambda item: order.get(str(item.get("case_id")), 999999))
-    report = aggregate(results, args.scanner_sha, cohort)
+    report = aggregate(
+        results,
+        args.scanner_sha,
+        cohort,
+        execution_mode=args.mode,
+    )
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     args.output_markdown.parent.mkdir(parents=True, exist_ok=True)
     args.output_json.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
