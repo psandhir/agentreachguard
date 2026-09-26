@@ -41,7 +41,12 @@ def run(command: list[str], *, timeout: int) -> subprocess.CompletedProcess[str]
     )
 
 
-def fetch_case(workspace: Path, case: dict[str, Any]) -> tuple[Path | None, str | None]:
+def fetch_case(
+    workspace: Path,
+    case: dict[str, Any],
+    *,
+    tier_c: bool,
+) -> tuple[Path | None, str | None]:
     target = workspace / case["case_id"]
     target.mkdir(parents=True, exist_ok=True)
     for command in (
@@ -57,19 +62,20 @@ def fetch_case(workspace: Path, case: dict[str, Any]) -> tuple[Path | None, str 
             return None, f"fetch_failed:{detail}"
 
     application = Path(case["application_path"])
-    sparse = application if application.suffix == "" else application.parent
-    pattern = sparse.as_posix() if sparse.as_posix() not in {"", "."} else "/*"
-    init = run(
-        ["git", "-C", str(target), "sparse-checkout", "init", "--no-cone"],
-        timeout=60,
-    )
-    if init.returncode == 0:
-        selected = run(
-            ["git", "-C", str(target), "sparse-checkout", "set", "--no-cone", pattern],
+    if not tier_c:
+        sparse = application if application.suffix == "" else application.parent
+        pattern = sparse.as_posix() if sparse.as_posix() not in {"", "."} else "/*"
+        init = run(
+            ["git", "-C", str(target), "sparse-checkout", "init", "--no-cone"],
             timeout=60,
         )
-        if selected.returncode != 0:
-            run(["git", "-C", str(target), "sparse-checkout", "disable"], timeout=60)
+        if init.returncode == 0:
+            selected = run(
+                ["git", "-C", str(target), "sparse-checkout", "set", "--no-cone", pattern],
+                timeout=60,
+            )
+            if selected.returncode != 0:
+                run(["git", "-C", str(target), "sparse-checkout", "disable"], timeout=60)
     checkout = run(
         ["git", "-C", str(target), "checkout", "--quiet", "--detach", "FETCH_HEAD"],
         timeout=CLONE_TIMEOUT,
@@ -334,7 +340,7 @@ def scan_one(
     scanner: str,
     tier_c: bool,
 ) -> dict[str, Any]:
-    scope, fetch_error = fetch_case(workspace, case)
+    scope, fetch_error = fetch_case(workspace, case, tier_c=tier_c)
     if fetch_error or scope is None:
         return {
             "case_id": case["case_id"],
