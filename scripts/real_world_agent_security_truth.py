@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 STUDY = "real-world-agent-security-2026"
+# Baseline helper scripts are intentionally separate from source adjudication.
 LOCK_DATE = "2026-09-26"
 MAX_FILES = 100
 MAX_BYTES = 3_000_000
