@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-063",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
   "sha": "862d312c799727858e7d9b0ff27ca3d873733d04",
   "application_path": "graph.py",
   "framework_stratum": "langgraph",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,47 +21,58 @@
     ],
     "agent_roots": [
       {
-        "path": "graph.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "builder",
+        "kind": "langgraph:StateGraph",
+        "path": "graph.py"
       }
     ],
     "tools": [],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No direct tool binding was extracted automatically; imported or dynamic tools require manual review.",
+      "No direct delegation edge was extracted automatically; dynamic/imported delegation requires manual review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-063.FRAMEWORK",
       "subject": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "langgraph",
       "expected_state": "present",
       "evidence": [
         {
           "path": "graph.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-063.AGENT_ROOT",
+      "subject": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "builder"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "graph.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically; manual verification required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],
   "tier_b_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "sensitive_resource_access",
-      "external_write_or_network",
-      "tool_composition"
-    ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "manual authority/attack-path adjudication pending"
   },
   "tier_c_draft": null
 }

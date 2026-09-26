@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-069",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "FareedKhan-dev/Multi-Agent-AI-System",
   "sha": "c06021c1773359ec7192706c3259b52948e00b20",
   "application_path": "multi_agent.ipynb",
   "framework_stratum": "langgraph",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,53 +21,117 @@
     ],
     "agent_roots": [
       {
-        "path": "multi_agent.ipynb",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "invoice_information_subagent",
+        "kind": "langgraph:create_react_agent",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "name": "invoice_information_agent_with_handoff",
+        "kind": "langgraph:create_react_agent",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "name": "music_catalog_agent_with_handoff",
+        "kind": "langgraph:create_react_agent",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "name": "music_workflow",
+        "kind": "langgraph:StateGraph",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "name": "multi_agent_verify",
+        "kind": "langgraph:StateGraph",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "name": "multi_agent_final",
+        "kind": "langgraph:StateGraph",
+        "path": "multi_agent.ipynb"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "get_albums_by_artist",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_tracks_by_artist",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_songs_by_genre",
+        "binding": "tools list"
+      },
+      {
+        "name": "check_for_songs",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_invoices_by_customer_sorted_by_date",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_invoices_sorted_by_unit_price",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_employee_by_invoice_and_customer",
+        "binding": "tools list"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "MCP-related source is present but exact binding was not extracted automatically.",
+      "No direct delegation edge was extracted automatically; dynamic/imported delegation requires manual review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-069.FRAMEWORK",
       "subject": "FareedKhan-dev/Multi-Agent-AI-System",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "langgraph",
       "expected_state": "present",
       "evidence": [
         {
           "path": "multi_agent.ipynb",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
-        },
-        {
-          "path": "README.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.AGENT_ROOT",
+      "subject": "FareedKhan-dev/Multi-Agent-AI-System",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "invoice_information_subagent",
+        "invoice_information_agent_with_handoff",
+        "music_catalog_agent_with_handoff",
+        "music_workflow",
+        "multi_agent_verify",
+        "multi_agent_final"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "multi_agent.ipynb",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically; manual verification required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],
   "tier_b_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "multiple_agents",
-      "explicit_delegation_or_composition",
-      "approval_controls",
-      "sensitive_resource_access",
-      "tool_composition"
-    ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "manual authority/attack-path adjudication pending"
   },
   "tier_c_draft": null
 }
