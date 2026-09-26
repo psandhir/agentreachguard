@@ -183,3 +183,32 @@ Retained cases include a multi-agent ADK cloud-architecture reviewer, Document A
 All four FastAgent-labelled candidates in this tranche were analysis, metadata, specification, or digest content rather than runnable applications. After batch 6 the FastAgent stratum has 3 included cases, 19 excluded, and only 4 currently labelled candidates pending. Thus the preregistered minimum of 12 cannot be reached from the remaining FastAgent-labelled candidates alone; it would require future source-based re-stratifications into FastAgent. The study will preserve and report that coverage limitation if it remains at freeze time.
 
 With 77 inclusions from 156 reviewed, the cumulative inclusion yield is now below 50%, so early cohort selection would be methodologically unsafe.
+
+
+## Original candidate screening complete
+
+Source-only adjudication of the original 365-repository discovery snapshot is complete.
+
+Final screening state before any extension or cohort selection:
+
+- reviewed: 365
+- included: 180
+- excluded: 185
+- pending: 0
+- candidate pool frozen: no
+- HorusTrace execution: none
+- included by corrected framework stratum:
+  - Google ADK: 51
+  - OpenAI Agents SDK: 23
+  - Pydantic AI: 34
+  - LangGraph: 36
+  - FastAgent: 3
+  - MCP/custom: 33
+
+The original pool reaches 180 defensible applications, but it cannot itself become the final 180-case cohort without violating the preregistered Google ADK maximum of 40. It is also two cases below the OpenAI Agents SDK minimum of 25, while FastAgent remains materially below its preregistered minimum because the discovery stratum was dominated by catalogs, analysis, specifications, and unrelated name matches.
+
+Accordingly, screening completion does **not** freeze the candidate pool. A bounded pre-freeze extension will target non-ADK applications, with priority on OpenAI Agents SDK and deployment/IAM evidence, before selecting the final balanced cohort. FastAgent criteria will not be weakened; any remaining FastAgent shortfall will be documented as a stratum exception.
+
+The completion pass also corrected prior-study exposure provenance for four repositories found by cross-checking the frozen public-corpus and deployment-authority manifests. Two are included and two excluded. These corrections do not change selection decisions and allow later results to report previously unseen generalization separately.
+
+No HorusTrace result was used in any screening decision.
