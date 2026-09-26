@@ -14,7 +14,7 @@
       "framework": "fastagent",
       "tier_b": false,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": false
     },
     {
@@ -23,7 +23,7 @@
       "framework": "fastagent",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -32,7 +32,7 @@
       "framework": "fastagent",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -41,7 +41,7 @@
       "framework": "google-adk",
       "tier_b": false,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": false
     },
     {
@@ -50,7 +50,7 @@
       "framework": "google-adk",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -59,7 +59,7 @@
       "framework": "google-adk",
       "tier_b": false,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": false
     },
     {
@@ -68,7 +68,7 @@
       "framework": "google-adk",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -77,7 +77,7 @@
       "framework": "google-adk",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -86,7 +86,7 @@
       "framework": "google-adk",
       "tier_b": true,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": true
     },
     {
@@ -95,7 +95,7 @@
       "framework": "google-adk",
       "tier_b": false,
       "tier_c": false,
-      "status": "first_pass_source_draft",
+      "status": "first_pass_structural_review_complete",
       "second_review_required": false
     },
     {
@@ -1628,5 +1628,11 @@
       "status": "first_pass_source_draft",
       "second_review_required": false
     }
-  ]
+  ],
+  "status_counts": {
+    "first_pass_structural_review_complete": 10,
+    "first_pass_source_draft": 170
+  },
+  "detailed_first_pass_complete": 10,
+  "detailed_first_pass_remaining": 170
 }
