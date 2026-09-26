@@ -62,3 +62,16 @@ def test_aggregate_records_execution_mode_and_frozen_baseline_sha() -> None:
     assert report["scanner_sha"] == "b" * 40
     assert report["baseline_scanner_sha"] == "a" * 40
     assert report["execution_mode"] == "postfix"
+
+def test_agent_entity_scoring_includes_workflow_nodes_but_not_tools() -> None:
+    module = _module()
+    nodes = [
+        {"kind": "agent", "name": "workflow"},
+        {"kind": "workflow_node", "name": "chatbot"},
+        {"kind": "tool", "name": "search"},
+    ]
+
+    predicted = module.predicted_nodes_for_dimension(nodes, "agent_entities")
+
+    assert [item["name"] for item in predicted] == ["workflow", "chatbot"]
+

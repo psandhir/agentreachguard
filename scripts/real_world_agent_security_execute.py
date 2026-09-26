@@ -333,6 +333,20 @@ def tier_c_identity_metrics(
     }
 
 
+def predicted_nodes_for_dimension(
+    nodes: list[dict[str, Any]],
+    dimension: str,
+) -> list[dict[str, Any]]:
+    kinds = {
+        "agent_entities": {"agent", "workflow_node"},
+        "tools": {"tool"},
+        "mcp_servers": {"mcp_server"},
+    }
+    if dimension not in kinds:
+        raise ValueError(f"unknown structural dimension: {dimension}")
+    return [node for node in nodes if node.get("kind") in kinds[dimension]]
+
+
 def scan_one(
     case: dict[str, Any],
     truth: dict[str, Any],
@@ -393,13 +407,13 @@ def scan_one(
 
     comparisons: dict[str, Any] = {}
     kind_map = {
-        "agent_entities": ("agent_roots", "agent"),
-        "tools": ("tools", "tool"),
-        "mcp_servers": ("mcp_servers", "mcp_server"),
+        "agent_entities": "agent_roots",
+        "tools": "tools",
+        "mcp_servers": "mcp_servers",
     }
-    for dimension, (truth_key, node_kind) in kind_map.items():
+    for dimension, truth_key in kind_map.items():
         truth_items = truth_a.get(truth_key) or []
-        predicted = [node for node in nodes if node.get("kind") == node_kind]
+        predicted = predicted_nodes_for_dimension(nodes, dimension)
         tp, fn, _, matched_pred = match_entities(truth_items, predicted, truth_key if truth_key != "agent_roots" else "agent_entities")
         comparisons[dimension] = {
             "truth": len(truth_items),

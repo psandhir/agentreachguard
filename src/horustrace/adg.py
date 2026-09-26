@@ -209,6 +209,8 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
     identity_ids: dict[str, str] = {}
     agent_ids: dict[int, str] = {}
     agent_ids_by_name: dict[str, list[str]] = {}
+    agent_ids_by_instance: dict[str, str] = {}
+    workflow_node_ids: dict[tuple[str, str], str] = {}
     tool_ids: dict[tuple[int, str], str] = {}
 
     identities = sorted(
@@ -251,6 +253,9 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
         )
         agent_ids[id(agent)] = agent_id
         agent_ids_by_name.setdefault(agent.name, []).append(agent_id)
+        instance_key = agent.metadata.get("instance_key")
+        if instance_key:
+            agent_ids_by_instance[str(instance_key)] = agent_id
 
         prompt = agent.metadata.get("instruction") or agent.metadata.get("instructions")
         if isinstance(prompt, str) and prompt:
@@ -557,6 +562,33 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             )
             builder.edge("GUARDED_BY", agent_id, policy_id, location=agent.location)
 
+    for workflow_node in graph.workflow_nodes:
+        metadata = workflow_node.metadata
+        instance_key = str(metadata.get("graph_instance_key") or "")
+        node_id = builder.node(
+            "workflow_node",
+            workflow_node.name,
+            location=workflow_node.location,
+            framework=workflow_node.framework,
+            attributes={
+                "role": workflow_node.role,
+                "graph": metadata.get("graph"),
+                "function": metadata.get("function"),
+                "semantic_entity_id": metadata.get("semantic_entity_id"),
+                "semantic_entity_kind": metadata.get("semantic_entity_kind"),
+            },
+        )
+        workflow_node_ids[(instance_key, workflow_node.name)] = node_id
+        parent_id = agent_ids_by_instance.get(instance_key)
+        if parent_id:
+            builder.edge(
+                "CONTAINS",
+                parent_id,
+                node_id,
+                location=workflow_node.location,
+                attributes={"role": workflow_node.role},
+            )
+
     for agent in graph.agents:
         source_id = agent_ids.get(id(agent))
         if source_id is None:
@@ -577,6 +609,22 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             right = tool_ids.get((id(agent), str(control_edge[1])))
             if left and right:
                 builder.edge("CONTROL_FLOWS_TO", left, right, location=agent.location)
+
+            instance_key = str(agent.metadata.get("instance_key") or "")
+            workflow_left = workflow_node_ids.get(
+                (instance_key, str(control_edge[0]))
+            )
+            workflow_right = workflow_node_ids.get(
+                (instance_key, str(control_edge[1]))
+            )
+            if workflow_left and workflow_right:
+                builder.edge(
+                    "WORKFLOW_FLOWS_TO",
+                    workflow_left,
+                    workflow_right,
+                    location=agent.location,
+                    attributes={"projection": "workflow"},
+                )
 
         for tool in agent.tools:
             protected_id = tool_ids.get((id(agent), tool.name))
