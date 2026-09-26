@@ -428,10 +428,19 @@ def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
 
         for candidate in entries:
             if len(candidates) >= MAX_FILES_VISITED:
-                raise ScannerError(
-                    f"{root}: repository traversal exceeds the "
-                    f"{MAX_FILES_VISITED}-file safety limit"
+                add_diagnostic(
+                    graph.coverage,
+                    ScanDiagnostic(
+                        "repository_traversal_limit",
+                        (
+                            "Repository traversal reached the scanner file-count "
+                            "safety limit; remaining paths were not visited."
+                        ),
+                        SourceLocation(root),
+                        details={"limit": MAX_FILES_VISITED},
+                    ),
                 )
+                return candidates
             try:
                 if candidate.is_symlink():
                     target = candidate.resolve(strict=True)
