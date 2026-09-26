@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-115",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "Meer-Promethean/Voice_Agent",
   "sha": "f7e94334c253eb058ace3ff23655290b17b7a8ac",
   "application_path": "agent.py",
   "framework_stratum": "mcp-custom",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,49 +21,91 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "agent",
+        "kind": "Agent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "save_customer_sentiment",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "get_account_balance",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "get_account_info",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "get_recent_transactions",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "get_exchange_rate",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "lookup_customer",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "transfer_funds",
+        "binding": "@function_tool"
+      },
+      {
+        "name": "create_account",
+        "binding": "@function_tool"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "MCP-related source is present but exact binding was not extracted automatically.",
+      "No direct delegation edge was extracted automatically; dynamic/imported delegation requires manual review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-115.FRAMEWORK",
       "subject": "Meer-Promethean/Voice_Agent",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "mcp-custom",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.AGENT_ROOT",
+      "subject": "Meer-Promethean/Voice_Agent",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "agent"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically; manual verification required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],
   "tier_b_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "mcp_usage",
-      "sensitive_resource_access",
-      "external_write_or_network",
-      "multiple_trust_boundaries",
-      "tool_composition"
-    ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "manual authority/attack-path adjudication pending"
   },
   "tier_c_draft": null
 }
