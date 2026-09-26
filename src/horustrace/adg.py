@@ -619,7 +619,7 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             )
             if workflow_left and workflow_right:
                 builder.edge(
-                    "CONTROL_FLOWS_TO",
+                    "WORKFLOW_FLOWS_TO",
                     workflow_left,
                     workflow_right,
                     location=agent.location,
