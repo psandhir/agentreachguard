@@ -54,7 +54,36 @@ def _looks_like_adk(data: Any, path: Path) -> bool:
         return False
     if path.name == "root_agent.yaml":
         return True
-    return any(k in data for k in ("agent_class", "model", "instruction", "sub_agents", "tools", "code_executor"))
+
+    # ADK application manifests can carry app-level model/session settings plus
+    # a nested entry-point reference to a Python root agent. The manifest itself
+    # is not a distinct agent entity and must not be promoted as an LlmAgent.
+    nested_agent = data.get("agent")
+    direct_agent_keys = {
+        "agent_class",
+        "instruction",
+        "sub_agents",
+        "tools",
+        "code_executor",
+    }
+    if (
+        isinstance(nested_agent, dict)
+        and any(key in nested_agent for key in ("entry_point", "root_agent"))
+        and not any(key in data for key in direct_agent_keys)
+    ):
+        return False
+
+    return any(
+        k in data
+        for k in (
+            "agent_class",
+            "model",
+            "instruction",
+            "sub_agents",
+            "tools",
+            "code_executor",
+        )
+    )
 
 
 def _tool_from_config(raw: Any, path: Path) -> tuple[Tool | None, MCPServer | None]:
