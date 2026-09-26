@@ -437,6 +437,10 @@ def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
 
     def add_candidate(candidate: Path) -> None:
         if not _is_repository_candidate(candidate):
+            # Preserve historical coverage accounting even though irrelevant
+            # payload no longer consumes the analysis-candidate safety budget.
+            graph.coverage.files_considered += 1
+            graph.coverage.files_skipped += 1
             return
         if len(candidates) >= MAX_FILES_VISITED:
             raise ScannerError(
