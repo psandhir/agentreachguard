@@ -159,6 +159,15 @@ pipeline_agent = Agent(
     ]
     assert [item.name for item in agents] == ["realtime_agent", "pipeline_agent"]
     assert len({item.metadata["instance_key"] for item in agents}) == 2
+    assert graph.adg is not None
+    adg_agents = [
+        item
+        for item in graph.adg.nodes
+        if item.kind == "agent"
+        and item.framework == "model-tool-loop"
+        and item.name in {"realtime_agent", "pipeline_agent"}
+    ]
+    assert len(adg_agents) == 2
     assert all(
         item.metadata["discovery_basis"] == "explicit_tool_bound_agent_constructor"
         for item in agents
@@ -218,3 +227,42 @@ class Agent:
         item.metadata.get("framework") == "model-tool-loop"
         for item in graph.agents
     )
+
+
+def test_same_named_explicit_agent_branches_remain_distinct_in_adg(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "voice.py"
+    source.write_text(
+        """
+from livekit.agents import Agent
+
+if realtime:
+    agent = Agent(llm=realtime_model, tools=tools)
+else:
+    agent = Agent(llm=standard_model, tools=tools)
+""",
+        encoding="utf-8",
+    )
+
+    graph, _ = scan(tmp_path)
+
+    roots = [
+        item
+        for item in graph.agents
+        if item.metadata.get("framework") == "model-tool-loop"
+        and item.name == "agent"
+    ]
+    assert len(roots) == 2
+    assert len({item.metadata["instance_key"] for item in roots}) == 2
+    assert graph.adg is not None
+    nodes = [
+        item
+        for item in graph.adg.nodes
+        if item.kind == "agent"
+        and item.framework == "model-tool-loop"
+        and item.name == "agent"
+    ]
+    assert len(nodes) == 2
+    assert len({item.node_id for item in nodes}) == 2
+    assert {item.location["line"] for item in nodes} == {5, 7}
