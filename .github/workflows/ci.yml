@@ -54,7 +54,7 @@ jobs:
           python -m venv wheel-venv &&
           wheel-venv/bin/pip install dist/*.whl &&
           wheel-venv/bin/horustrace --help &&
-          wheel-venv/bin/horustrace --version | grep -q 'horustrace 0.8.0' &&
+          wheel-venv/bin/horustrace --version | grep -q 'horustrace 0.9.0' &&
           wheel-venv/bin/horustrace rules --format json &&
           wheel-venv/bin/horustrace scan examples/secure-agent --strict --fail-on high &&
           wheel-venv/bin/horustrace reconcile examples/deployment-reconciliation
