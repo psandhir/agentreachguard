@@ -70,7 +70,7 @@ workflow.add_edge("chatbot", "tools")
     workflow_control = [
         edge
         for edge in graph.adg.edges
-        if edge.kind == "CONTROL_FLOWS_TO"
+        if edge.kind == "WORKFLOW_FLOWS_TO"
         and edge.source in node_ids
         and edge.target in node_ids
     ]
