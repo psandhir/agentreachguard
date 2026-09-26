@@ -35,6 +35,25 @@ def _stable_id(kind: str, name: str, location: SourceLocation | None, root: Path
     return f"adg-v1:{digest}"
 
 
+def _collision_id(
+    kind: str,
+    name: str,
+    location: SourceLocation | None,
+    root: Path,
+) -> str:
+    payload = "\0".join(
+        (
+            kind,
+            name,
+            _relative(location, root) or "",
+            str(location.line if location else 0),
+            str(location.column if location else 0),
+        )
+    )
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
+    return f"adg-v1:{digest}"
+
+
 def _edge_id(kind: str, source: str, target: str, attributes: dict[str, Any]) -> str:
     qualifier = json.dumps(attributes, sort_keys=True, separators=(",", ":"), default=str)
     payload = f"{kind}\0{source}\0{target}\0{qualifier}"
@@ -131,8 +150,16 @@ class _Builder:
         attributes: dict[str, Any] | None = None,
     ) -> str:
         node_id = _stable_id(kind, name, location, self.root)
-        if node_id in self.nodes:
-            return node_id
+        existing = self.nodes.get(node_id)
+        if existing is not None:
+            incoming_location = _location(location, self.root)
+            if existing.location == incoming_location:
+                return node_id
+            # Preserve stable IDs for the common case while keeping distinct
+            # same-named declarations in one source file visible to topology.
+            node_id = _collision_id(kind, name, location, self.root)
+            if node_id in self.nodes:
+                return node_id
         if len(self.nodes) >= MAX_ADG_NODES:
             raise ScanLimitError("Agent Dependency Graph exceeds the configured node limit")
         clean = {key: value for key, value in (attributes or {}).items() if value is not None}
