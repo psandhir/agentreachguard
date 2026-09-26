@@ -451,6 +451,7 @@ class ScanDiagnostic:
             "notebook_non_python_cell": "ARG-COV-016",
             "templated_source": "ARG-COV-017",
             "source_fragment": "ARG-COV-018",
+            "unreadable_path": "ARG-COV-019",
         }
         self.kind = self.kind or self.code
         self.diagnostic_id = self.diagnostic_id or mapping.get(self.kind, "ARG-COV-007")

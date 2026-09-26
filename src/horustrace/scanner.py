@@ -378,6 +378,99 @@ def _ignored(path: Path, root: Path) -> bool:
     return False
 
 
+def _unreadable_path_diagnostic(
+    graph: Graph,
+    *,
+    root: Path,
+    path: Path,
+    operation: str,
+    exc: OSError | RuntimeError,
+) -> None:
+    try:
+        relative = path.relative_to(root).as_posix()
+    except ValueError:
+        relative = path.name
+    graph.coverage.files_failed += 1
+    add_diagnostic(
+        graph.coverage,
+        ScanDiagnostic(
+            "unreadable_path",
+            "Repository path could not be read; analysis continued with incomplete coverage.",
+            SourceLocation(path),
+            details={
+                "path": relative or ".",
+                "operation": operation,
+                "exception_type": type(exc).__name__,
+            },
+        ),
+    )
+
+
+def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
+    """Walk a repository without letting one unreadable path abort the scan."""
+    candidates: list[Path] = []
+    stack = [root]
+    containment_root = canonical_root(root)
+
+    while stack:
+        directory = stack.pop()
+        try:
+            entries = sorted(directory.iterdir(), key=lambda item: item.name)
+        except OSError as exc:
+            _unreadable_path_diagnostic(
+                graph,
+                root=root,
+                path=directory,
+                operation="list_directory",
+                exc=exc,
+            )
+            continue
+
+        for candidate in entries:
+            if len(candidates) >= MAX_FILES_VISITED:
+                raise ScannerError(
+                    f"{root}: repository traversal exceeds the "
+                    f"{MAX_FILES_VISITED}-file safety limit"
+                )
+            try:
+                if candidate.is_symlink():
+                    target = candidate.resolve(strict=True)
+                    if not is_within_root(target, containment_root):
+                        graph.coverage.files_skipped += 1
+                        add_diagnostic(
+                            graph.coverage,
+                            ScanDiagnostic(
+                                "unsupported_security_construct",
+                                "Symlink resolves outside the scan root; analysis was skipped.",
+                                SourceLocation(candidate),
+                                incomplete=False,
+                            ),
+                        )
+                        continue
+                    if target.is_dir():
+                        graph.coverage.files_skipped += 1
+                        continue
+                    if target.is_file() and not _ignored(candidate, root):
+                        candidates.append(candidate)
+                    continue
+
+                if candidate.is_dir():
+                    if not _ignored(candidate, root):
+                        stack.append(candidate)
+                    continue
+                if candidate.is_file() and not _ignored(candidate, root):
+                    candidates.append(candidate)
+            except (OSError, RuntimeError) as exc:
+                _unreadable_path_diagnostic(
+                    graph,
+                    root=root,
+                    path=candidate,
+                    operation="inspect_path",
+                    exc=exc,
+                )
+    return candidates
+
+
 def _merge(target: Graph, source: Graph, path: Path) -> None:
     annotate(source, path)
     # Manifest overlays must not alter another agent sharing the same source tool.
@@ -822,14 +915,7 @@ def scan(
     if root.is_file():
         candidates = [root]
     else:
-        candidates = []
-        for candidate in root.rglob("*"):
-            if len(candidates) >= MAX_FILES_VISITED:
-                raise ScannerError(
-                    f"{root}: repository traversal exceeds the {MAX_FILES_VISITED}-file safety limit"
-                )
-            if candidate.is_file() and not _ignored(candidate, root):
-                candidates.append(candidate)
+        candidates = _repository_candidates(root, graph)
 
     seen_real_paths: set[Path] = set()
     approved_python_paths: list[Path] = []
@@ -838,7 +924,17 @@ def scan(
     notebook_path_map: dict[Path, Path] = {}
     for candidate in sorted(candidates):
         graph.coverage.files_considered += 1
-        real_candidate = candidate.resolve()
+        try:
+            real_candidate = candidate.resolve(strict=True)
+        except (OSError, RuntimeError) as exc:
+            _unreadable_path_diagnostic(
+                graph,
+                root=root if root.is_dir() else root.parent,
+                path=candidate,
+                operation="resolve_path",
+                exc=exc,
+            )
+            continue
         if not is_within_root(candidate, containment_root):
             graph.coverage.files_skipped += 1
             add_diagnostic(graph.coverage, ScanDiagnostic(
