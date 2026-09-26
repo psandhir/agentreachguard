@@ -405,20 +405,45 @@ def _auth_state(call: ast.Call) -> bool | None:
 
 def _mcp_server_from_call(path: Path, call: ast.Call, alias: str) -> MCPServer | None:
     name = _call_name(call.func)
-    if name not in {"MCPToolset", "MCP", "MCPServerTool"}:
+    canonical_name = (
+        "MCPServerStdio"
+        if isinstance(name, str) and name.endswith("MCPServerStdio")
+        else name
+    )
+    if canonical_name not in {"MCPToolset", "MCP", "MCPServerTool", "MCPServerStdio"}:
         return None
+
+    metadata: dict[str, Any] = {
+        "framework": "pydantic-ai",
+        "source": canonical_name,
+    }
+    if canonical_name != name:
+        metadata["constructor_alias"] = name
+
+    if canonical_name == "MCPServerStdio":
+        command_node = call.args[0] if call.args else _kw(call, "command")
+        args_node = call.args[1] if len(call.args) > 1 else _kw(call, "args")
+        command = _literal(command_node)
+        args = _literal(args_node)
+        return MCPServer(
+            name=alias,
+            transport="stdio",
+            command=command if isinstance(command, str) else None,
+            args=[str(item) for item in args] if isinstance(args, (list, tuple)) else [],
+            location=_location(path, call),
+            metadata={
+                **metadata,
+                "dynamic_command": command_node is not None and not isinstance(command, str),
+            },
+        )
 
     endpoint_node = _kw(call, "url")
     if endpoint_node is None and call.args:
         endpoint_node = call.args[0]
-    if name == "MCP" and endpoint_node is None:
+    if canonical_name == "MCP" and endpoint_node is None:
         endpoint_node = _kw(call, "local")
 
     endpoint = _literal(endpoint_node)
-    metadata: dict[str, Any] = {
-        "framework": "pydantic-ai",
-        "source": name,
-    }
     native = _literal(_kw(call, "native"))
     if isinstance(native, bool):
         metadata["native"] = native
@@ -518,6 +543,17 @@ def _toolset_tools(
         if expr.id in visited:
             return [], [], True
         if expr.id in assignments:
+            named_mcp = _mcp_server_from_expr(
+                path,
+                expr,
+                expr.id,
+                assignments,
+                visited=visited,
+            )
+            if named_mcp is not None:
+                return [], [named_mcp], bool(
+                    named_mcp.metadata.get("dynamic_mcp_endpoint")
+                )
             tools, servers, dynamic = _toolset_tools(
                 path,
                 assignments[expr.id],
@@ -798,6 +834,7 @@ def scan_python_file(path: Path) -> Graph:
     sequences: dict[str, list[ast.AST]] = {}
     imports: dict[str, str] = {}
     agent_calls: dict[str, ast.Call] = {}
+    declared_mcp_servers: dict[str, MCPServer] = {}
 
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
@@ -812,6 +849,14 @@ def scan_python_file(path: Path) -> Graph:
                 assignments[target] = node.value
                 if isinstance(node.value, (ast.List, ast.Tuple, ast.Set)):
                     sequences[target] = list(node.value.elts)
+                if isinstance(node.value, ast.Call):
+                    declared_mcp = _mcp_server_from_call(
+                        path,
+                        node.value,
+                        target,
+                    )
+                    if declared_mcp is not None:
+                        declared_mcp_servers[target] = declared_mcp
                 if (
                     isinstance(node.value, ast.Call)
                     and _call_name(node.value.func) == "Agent"
@@ -916,6 +961,34 @@ def scan_python_file(path: Path) -> Graph:
 
         for tool in decorated_agents.get(alias, []):
             _merge_tool(agent.tools, deepcopy(tool))
+
+        mcp_servers_expr = _kw(call, "mcp_servers")
+        if mcp_servers_expr is not None:
+            elements = _resolve_sequence(mcp_servers_expr, sequences)
+            if elements is None:
+                _diagnostic(
+                    graph,
+                    path,
+                    mcp_servers_expr,
+                    "Pydantic AI MCP server collection could not be statically resolved.",
+                )
+            else:
+                for element in elements:
+                    server = _mcp_server_from_expr(
+                        path,
+                        element,
+                        _call_name(element) or "mcp",
+                        assignments,
+                    )
+                    if server is not None:
+                        agent.mcp_servers.append(server)
+                    else:
+                        _diagnostic(
+                            graph,
+                            path,
+                            element,
+                            "Pydantic AI MCP server reference could not be normalized.",
+                        )
 
         toolsets_expr = _kw(call, "toolsets")
         if toolsets_expr is not None:
@@ -1043,5 +1116,27 @@ def scan_python_file(path: Path) -> Graph:
             agent.mcp_servers.extend(servers)
             if dynamic:
                 agent.metadata["dynamic_tools"] = True
+
+    bound_mcp_keys = {
+        (
+            server.name,
+            str(server.location.path) if server.location else "",
+            server.location.line if server.location else 0,
+        )
+        for agent in graph.agents
+        for server in agent.mcp_servers
+    }
+    for server in declared_mcp_servers.values():
+        key = (
+            server.name,
+            str(server.location.path) if server.location else "",
+            server.location.line if server.location else 0,
+        )
+        if key in bound_mcp_keys:
+            continue
+        server.metadata.setdefault("topology_visible_unbound", True)
+        server.metadata.setdefault("binding_state", "unbound")
+        server.metadata.setdefault("discovery_source", "pydantic_ai_mcp_declaration")
+        graph.unbound_mcp_servers.append(server)
 
     return graph
