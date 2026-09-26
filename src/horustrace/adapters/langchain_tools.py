@@ -4,6 +4,7 @@ This adapter deliberately discovers tool *existence* without assigning authority
 Repository-level or framework-specific binders may later associate these tools with an
 agent when source evidence proves that relationship.
 """
+# ruff: noqa: I001
 
 from __future__ import annotations
 
