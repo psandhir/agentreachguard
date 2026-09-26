@@ -294,7 +294,14 @@ def _function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef, ser
             kind="mcp_exposed_tool",
             capabilities=capabilities,
             location=_location(path, node),
-            metadata={"framework": "mcp", "server": receiver},
+            metadata={
+                "framework": "mcp",
+                "server": receiver,
+                "structural_tool": True,
+                "topology_visible_unbound": True,
+                "binding_state": "unbound",
+                "discovery_source": "mcp_server_tool_decorator",
+            },
         )
     return None
 
@@ -458,6 +465,9 @@ def scan_python_file(path: Path) -> Graph:
 
     seen: set[tuple[str, str, int]] = set()
     for server in servers:
+        server.metadata.setdefault("topology_visible_unbound", True)
+        server.metadata.setdefault("binding_state", "unbound")
+        server.metadata.setdefault("structural_mcp_server", True)
         line = server.location.line if server.location else 1
         key = (server.name, server.transport, line)
         if key in seen:
