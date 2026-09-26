@@ -1,0 +1,90 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-056.A001",
+      "evidence": [
+        {
+          "line": 122,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph_builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-056.A002",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-056",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-056",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "victor-capriles/ollama-rag",
+    "sha": "6d90efabd14f01397b7ab2f5c01fbfa253b879a6"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 122,
+        "name": "graph_builder",
+        "path": "main.py",
+        "variable": "graph_builder"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 1,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 56,
+        "name": "retrieve",
+        "path": "main.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

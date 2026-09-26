@@ -1,0 +1,474 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-173.A001",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A002",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A003",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A004",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_directory_or_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A005",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A006",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "renamed_file_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A007",
+      "evidence": [
+        {
+          "line": 99,
+          "path": "tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-173",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A008",
+      "evidence": [
+        {
+          "line": 114,
+          "path": "tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_directory_or_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-173",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A009",
+      "evidence": [
+        {
+          "line": 125,
+          "path": "tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "renamed_file_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-173",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A010",
+      "evidence": [
+        {
+          "line": 142,
+          "path": "tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-173",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.A011",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-173",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-173.B001",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_file"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-173.B002",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "edit_file"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-173.B003",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "list_directory_or_file"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-173.B004",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_files"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-173.B005",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "Agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "renamed_file_name"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-173",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "Agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "xxLizXxx/AI-AgentTools-1",
+    "sha": "abf454c18134ef82902bed94ae4b3e99fde926fc"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 79,
+        "name": "agent",
+        "path": "Agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 79,
+        "name": "create_file",
+        "owner": "agent",
+        "path": "Agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 79,
+        "name": "edit_file",
+        "owner": "agent",
+        "path": "Agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 79,
+        "name": "list_directory_or_file",
+        "owner": "agent",
+        "path": "Agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 79,
+        "name": "read_files",
+        "owner": "agent",
+        "path": "Agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 79,
+        "name": "renamed_file_name",
+        "owner": "agent",
+        "path": "Agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 99,
+        "name": "read_files",
+        "path": "tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 114,
+        "name": "list_directory_or_file",
+        "path": "tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 125,
+        "name": "renamed_file_name",
+        "path": "tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 142,
+        "name": "create_file",
+        "path": "tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 161,
+        "name": "edit_file",
+        "path": "tool.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "create_file"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "edit_file"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "list_directory_or_file"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "read_files"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "renamed_file_name"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "agent",
+        "line": 79,
+        "path": "Agent.py",
+        "target_kind": "tool",
+        "target_name": "create_file"
+      },
+      {
+        "agent": "agent",
+        "line": 79,
+        "path": "Agent.py",
+        "target_kind": "tool",
+        "target_name": "edit_file"
+      },
+      {
+        "agent": "agent",
+        "line": 79,
+        "path": "Agent.py",
+        "target_kind": "tool",
+        "target_name": "list_directory_or_file"
+      },
+      {
+        "agent": "agent",
+        "line": 79,
+        "path": "Agent.py",
+        "target_kind": "tool",
+        "target_name": "read_files"
+      },
+      {
+        "agent": "agent",
+        "line": 79,
+        "path": "Agent.py",
+        "target_kind": "tool",
+        "target_name": "renamed_file_name"
+      }
+    ],
+    "eligibility_signals": [
+      "filesystem_write",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "filesystem_write",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

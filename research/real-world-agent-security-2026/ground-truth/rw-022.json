@@ -1,0 +1,833 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-022.A001",
+      "evidence": [
+        {
+          "line": 231,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A002",
+      "evidence": [
+        {
+          "line": 392,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A003",
+      "evidence": [
+        {
+          "line": 528,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A004",
+      "evidence": [
+        {
+          "line": 624,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent_cube",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A005",
+      "evidence": [
+        {
+          "line": 693,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent_sql",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A006",
+      "evidence": [
+        {
+          "line": 971,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A007",
+      "evidence": [
+        {
+          "line": 1168,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tabular_query_analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A008",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "api/utils.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A009",
+      "evidence": [
+        {
+          "line": 238,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent_planner",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A010",
+      "evidence": [
+        {
+          "line": 384,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent_analysis",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A011",
+      "evidence": [
+        {
+          "line": 455,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent_eval",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A012",
+      "evidence": [
+        {
+          "line": 231,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A013",
+      "evidence": [
+        {
+          "line": 231,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A014",
+      "evidence": [
+        {
+          "line": 392,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A015",
+      "evidence": [
+        {
+          "line": 392,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A016",
+      "evidence": [
+        {
+          "line": 528,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A017",
+      "evidence": [
+        {
+          "line": 528,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A018",
+      "evidence": [
+        {
+          "line": 624,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_cube",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A019",
+      "evidence": [
+        {
+          "line": 624,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_cube",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A020",
+      "evidence": [
+        {
+          "line": 693,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_sql",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A021",
+      "evidence": [
+        {
+          "line": 693,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_sql",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A022",
+      "evidence": [
+        {
+          "line": 971,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A023",
+      "evidence": [
+        {
+          "line": 971,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A024",
+      "evidence": [
+        {
+          "line": 1168,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_analysis",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A025",
+      "evidence": [
+        {
+          "line": 1168,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_analysis",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A026",
+      "evidence": [
+        {
+          "line": 238,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_planner",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A027",
+      "evidence": [
+        {
+          "line": 384,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_analysis",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A028",
+      "evidence": [
+        {
+          "line": 455,
+          "path": "api/workflow.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skillset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent_eval",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A029",
+      "evidence": [
+        {
+          "line": 218,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A030",
+      "evidence": [
+        {
+          "line": 377,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A031",
+      "evidence": [
+        {
+          "line": 515,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A032",
+      "evidence": [
+        {
+          "line": 597,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A033",
+      "evidence": [
+        {
+          "line": 956,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-022.A034",
+      "evidence": [
+        {
+          "line": 1159,
+          "path": "api/tools.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckdb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-022",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-022",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "api/tools.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "iwasnothing/agentic-insight",
+    "sha": "6f6673103b4c8cf19c4630f0715e95bca8732c20"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "LlmAgent",
+        "line": 231,
+        "name": "agent",
+        "path": "api/tools.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 392,
+        "name": "agent",
+        "path": "api/tools.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 528,
+        "name": "agent",
+        "path": "api/tools.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 624,
+        "name": "agent_cube",
+        "path": "api/tools.py",
+        "variable": "agent_cube"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 693,
+        "name": "agent_sql",
+        "path": "api/tools.py",
+        "variable": "agent_sql"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 971,
+        "name": "agent",
+        "path": "api/tools.py",
+        "variable": "agent"
+      },
+      {
+        "aliases": [
+          "agent_analysis"
+        ],
+        "kind": "LlmAgent",
+        "line": 1168,
+        "name": "tabular_query_analyst",
+        "path": "api/tools.py",
+        "variable": "agent_analysis"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 165,
+        "name": "agent",
+        "path": "api/utils.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 238,
+        "name": "agent_planner",
+        "path": "api/workflow.py",
+        "variable": "agent_planner"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 384,
+        "name": "agent_analysis",
+        "path": "api/workflow.py",
+        "variable": "agent_analysis"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 455,
+        "name": "agent_eval",
+        "path": "api/workflow.py",
+        "variable": "agent_eval"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "McpToolset",
+        "line": 218,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      },
+      {
+        "kind": "McpToolset",
+        "line": 377,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      },
+      {
+        "kind": "McpToolset",
+        "line": 515,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      },
+      {
+        "kind": "McpToolset",
+        "line": 597,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      },
+      {
+        "kind": "McpToolset",
+        "line": 956,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      },
+      {
+        "kind": "McpToolset",
+        "line": 1159,
+        "name": "duckdb_mcp",
+        "path": "api/tools.py",
+        "variable": "duckdb_mcp"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 231,
+        "name": "duckdb_mcp",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 231,
+        "name": "skillset",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 392,
+        "name": "duckdb_mcp",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 392,
+        "name": "skillset",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 528,
+        "name": "duckdb_mcp",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 528,
+        "name": "skillset",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 624,
+        "name": "duckdb_mcp",
+        "owner": "agent_cube",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 624,
+        "name": "skillset",
+        "owner": "agent_cube",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 693,
+        "name": "duckdb_mcp",
+        "owner": "agent_sql",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 693,
+        "name": "skillset",
+        "owner": "agent_sql",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 971,
+        "name": "duckdb_mcp",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 971,
+        "name": "skillset",
+        "owner": "agent",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1168,
+        "name": "duckdb_mcp",
+        "owner": "agent_analysis",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1168,
+        "name": "skillset",
+        "owner": "agent_analysis",
+        "path": "api/tools.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 238,
+        "name": "skillset",
+        "owner": "agent_planner",
+        "path": "api/workflow.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 384,
+        "name": "skillset",
+        "owner": "agent_analysis",
+        "path": "api/workflow.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 455,
+        "name": "skillset",
+        "owner": "agent_eval",
+        "path": "api/workflow.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

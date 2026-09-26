@@ -1,0 +1,196 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-023.A001",
+      "evidence": [
+        {
+          "line": 675,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agentic_data_scientist_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-023.A002",
+      "evidence": [
+        {
+          "line": 711,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-023.A003",
+      "evidence": [
+        {
+          "line": 675,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "high_level_planning_loop",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "agentic_data_scientist_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-023.A004",
+      "evidence": [
+        {
+          "line": 675,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "high_level_plan_parser",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "agentic_data_scientist_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-023.A005",
+      "evidence": [
+        {
+          "line": 675,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "stage_orchestrator",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "agentic_data_scientist_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-023.A006",
+      "evidence": [
+        {
+          "line": 675,
+          "path": "src/agentic_data_scientist/agents/adk/agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "summary_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "agentic_data_scientist_workflow",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-023",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "src/agentic_data_scientist/agents/adk/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "K-Dense-AI/agentic-data-scientist",
+    "sha": "702dee9dfb9e5165ce51b52ad7b7885948df7cd1"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "workflow"
+        ],
+        "kind": "SequentialAgent",
+        "line": 675,
+        "name": "agentic_data_scientist_workflow",
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "create_agent",
+        "line": 711,
+        "name": "root_agent",
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 675,
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "source": "agentic_data_scientist_workflow",
+        "source_variable": "workflow",
+        "target": "high_level_planning_loop",
+        "target_variable": "high_level_planning_loop"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 675,
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "source": "agentic_data_scientist_workflow",
+        "source_variable": "workflow",
+        "target": "high_level_plan_parser",
+        "target_variable": "high_level_plan_parser"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 675,
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "source": "agentic_data_scientist_workflow",
+        "source_variable": "workflow",
+        "target": "stage_orchestrator",
+        "target_variable": "stage_orchestrator"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 675,
+        "path": "src/agentic_data_scientist/agents/adk/agent.py",
+        "source": "agentic_data_scientist_workflow",
+        "source_variable": "workflow",
+        "target": "summary_agent",
+        "target_variable": "summary_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 8,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

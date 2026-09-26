@@ -1,0 +1,595 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-047.A001",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A002",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "parse_intent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A003",
+      "evidence": [
+        {
+          "line": 51,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "validate_budget",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A004",
+      "evidence": [
+        {
+          "line": 52,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_destination",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A005",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "verify_travel_time",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A006",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_documents",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A007",
+      "evidence": [
+        {
+          "line": 57,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "query_flights",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A008",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "query_hotels",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A009",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "query_attractions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A010",
+      "evidence": [
+        {
+          "line": 60,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "aggregate_results",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A011",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "budget_optimization",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A012",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_budget_satisfaction",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A013",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "itinerary_optimization",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A014",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_itinerary_satisfaction",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A015",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "human_intervention",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A016",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "generate_itinerary",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A017",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "write_itinerary_file",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A018",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tool_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A019",
+      "evidence": [
+        {
+          "line": 138,
+          "path": "src/graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_parallel",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A020",
+      "evidence": [
+        {
+          "line": 20,
+          "path": "src/tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_flight_prices",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-047",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A021",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "src/tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_hotel_prices",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-047",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A022",
+      "evidence": [
+        {
+          "line": 96,
+          "path": "src/tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_attractions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-047",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-047.A023",
+      "evidence": [
+        {
+          "line": 132,
+          "path": "src/tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "write_itinerary_to_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-047",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-047",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "src/graph.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "wafu7969/langgraph-workflow-demo",
+    "sha": "2e48b3da1f0dc181c5eb8e66e28f1d85cdd7c9a2"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 45,
+        "name": "workflow",
+        "path": "src/graph.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 48,
+        "name": "parse_intent",
+        "path": "src/graph.py",
+        "variable": "parse_intent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 51,
+        "name": "validate_budget",
+        "path": "src/graph.py",
+        "variable": "validate_budget"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 52,
+        "name": "check_destination",
+        "path": "src/graph.py",
+        "variable": "check_destination"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 53,
+        "name": "verify_travel_time",
+        "path": "src/graph.py",
+        "variable": "verify_travel_time"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 54,
+        "name": "check_documents",
+        "path": "src/graph.py",
+        "variable": "check_documents"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 57,
+        "name": "query_flights",
+        "path": "src/graph.py",
+        "variable": "query_flights"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 58,
+        "name": "query_hotels",
+        "path": "src/graph.py",
+        "variable": "query_hotels"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 59,
+        "name": "query_attractions",
+        "path": "src/graph.py",
+        "variable": "query_attractions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 60,
+        "name": "aggregate_results",
+        "path": "src/graph.py",
+        "variable": "aggregate_results"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 63,
+        "name": "budget_optimization",
+        "path": "src/graph.py",
+        "variable": "budget_optimization"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 64,
+        "name": "check_budget_satisfaction",
+        "path": "src/graph.py",
+        "variable": "check_budget_satisfaction"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 68,
+        "name": "itinerary_optimization",
+        "path": "src/graph.py",
+        "variable": "itinerary_optimization"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 69,
+        "name": "check_itinerary_satisfaction",
+        "path": "src/graph.py",
+        "variable": "check_itinerary_satisfaction"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 70,
+        "name": "human_intervention",
+        "path": "src/graph.py",
+        "variable": "human_intervention"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 71,
+        "name": "generate_itinerary",
+        "path": "src/graph.py",
+        "variable": "generate_itinerary"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 72,
+        "name": "write_itinerary_file",
+        "path": "src/graph.py",
+        "variable": "write_itinerary_file"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 73,
+        "name": "tool_node",
+        "path": "src/graph.py",
+        "variable": "tool_node"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 138,
+        "name": "start_parallel",
+        "path": "src/graph.py",
+        "variable": "start_parallel"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 9,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 20,
+        "name": "query_flight_prices",
+        "path": "src/tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 53,
+        "name": "query_hotel_prices",
+        "path": "src/tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 96,
+        "name": "query_attractions",
+        "path": "src/tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 132,
+        "name": "write_itinerary_to_file",
+        "path": "src/tool.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "approval_controls",
+      "filesystem_write",
+      "persistent_state",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "external_write_or_network",
+      "filesystem_write"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

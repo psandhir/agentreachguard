@@ -1,0 +1,2298 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-042.A001",
+      "evidence": [
+        {
+          "line": 743,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A002",
+      "evidence": [
+        {
+          "line": 745,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A003",
+      "evidence": [
+        {
+          "line": 748,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A004",
+      "evidence": [
+        {
+          "line": 417,
+          "path": "zad11.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A005",
+      "evidence": [
+        {
+          "line": 418,
+          "path": "zad11.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A006",
+      "evidence": [
+        {
+          "line": 419,
+          "path": "zad11.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "index",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A007",
+      "evidence": [
+        {
+          "line": 420,
+          "path": "zad11.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A008",
+      "evidence": [
+        {
+          "line": 421,
+          "path": "zad11.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A009",
+      "evidence": [
+        {
+          "line": 426,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A010",
+      "evidence": [
+        {
+          "line": 429,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "get_tables",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A011",
+      "evidence": [
+        {
+          "line": 430,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "get_schemas",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A012",
+      "evidence": [
+        {
+          "line": 431,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "generate_sql",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A013",
+      "evidence": [
+        {
+          "line": 432,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "execute_query",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A014",
+      "evidence": [
+        {
+          "line": 433,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_ids",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A015",
+      "evidence": [
+        {
+          "line": 434,
+          "path": "zad12.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A016",
+      "evidence": [
+        {
+          "line": 559,
+          "path": "zad13.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A017",
+      "evidence": [
+        {
+          "line": 562,
+          "path": "zad13.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download_note",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A018",
+      "evidence": [
+        {
+          "line": 563,
+          "path": "zad13.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_keywords",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A019",
+      "evidence": [
+        {
+          "line": 564,
+          "path": "zad13.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search_loop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A020",
+      "evidence": [
+        {
+          "line": 565,
+          "path": "zad13.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A021",
+      "evidence": [
+        {
+          "line": 428,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A022",
+      "evidence": [
+        {
+          "line": 431,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_users",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A023",
+      "evidence": [
+        {
+          "line": 432,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_connections",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A024",
+      "evidence": [
+        {
+          "line": 433,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "create_graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A025",
+      "evidence": [
+        {
+          "line": 434,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "find_path",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A026",
+      "evidence": [
+        {
+          "line": 435,
+          "path": "zad14.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A027",
+      "evidence": [
+        {
+          "line": 882,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A028",
+      "evidence": [
+        {
+          "line": 885,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_conversation",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A029",
+      "evidence": [
+        {
+          "line": 886,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "process_images",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A030",
+      "evidence": [
+        {
+          "line": 887,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "analyze_barbara",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A031",
+      "evidence": [
+        {
+          "line": 888,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "create_final_description",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A032",
+      "evidence": [
+        {
+          "line": 889,
+          "path": "zad15.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A033",
+      "evidence": [
+        {
+          "line": 580,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A034",
+      "evidence": [
+        {
+          "line": 583,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download_data",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A035",
+      "evidence": [
+        {
+          "line": 584,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "prepare_training",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A036",
+      "evidence": [
+        {
+          "line": 585,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "upload_training_file",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A037",
+      "evidence": [
+        {
+          "line": 586,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_fine_tuning",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A038",
+      "evidence": [
+        {
+          "line": 587,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "wait_for_training",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A039",
+      "evidence": [
+        {
+          "line": 588,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "verify_samples",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A040",
+      "evidence": [
+        {
+          "line": 589,
+          "path": "zad16.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A041",
+      "evidence": [
+        {
+          "line": 490,
+          "path": "zad17.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A042",
+      "evidence": [
+        {
+          "line": 493,
+          "path": "zad17.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A043",
+      "evidence": [
+        {
+          "line": 494,
+          "path": "zad17.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search_answers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A044",
+      "evidence": [
+        {
+          "line": 495,
+          "path": "zad17.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A045",
+      "evidence": [
+        {
+          "line": 441,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A046",
+      "evidence": [
+        {
+          "line": 444,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "parse_instruction",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A047",
+      "evidence": [
+        {
+          "line": 445,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "execute_movements",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A048",
+      "evidence": [
+        {
+          "line": 775,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A049",
+      "evidence": [
+        {
+          "line": 778,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_environment",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A050",
+      "evidence": [
+        {
+          "line": 779,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_server",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A051",
+      "evidence": [
+        {
+          "line": 780,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_ngrok",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A052",
+      "evidence": [
+        {
+          "line": 781,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_webhook_url",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A053",
+      "evidence": [
+        {
+          "line": 782,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "wait_for_completion",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A054",
+      "evidence": [
+        {
+          "line": 783,
+          "path": "zad18.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "cleanup",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A055",
+      "evidence": [
+        {
+          "line": 937,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A056",
+      "evidence": [
+        {
+          "line": 940,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download_pdf",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A057",
+      "evidence": [
+        {
+          "line": 941,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_content",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A058",
+      "evidence": [
+        {
+          "line": 942,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ocr_page19",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A059",
+      "evidence": [
+        {
+          "line": 943,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A060",
+      "evidence": [
+        {
+          "line": 944,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "answer_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A061",
+      "evidence": [
+        {
+          "line": 945,
+          "path": "zad19.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A062",
+      "evidence": [
+        {
+          "line": 1304,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A063",
+      "evidence": [
+        {
+          "line": 1306,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "setup_data",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A064",
+      "evidence": [
+        {
+          "line": 1307,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_data",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A065",
+      "evidence": [
+        {
+          "line": 1308,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "identify_speakers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A066",
+      "evidence": [
+        {
+          "line": 1309,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "find_liar",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A067",
+      "evidence": [
+        {
+          "line": 1310,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A068",
+      "evidence": [
+        {
+          "line": 1311,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "answer_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A069",
+      "evidence": [
+        {
+          "line": 1312,
+          "path": "zad20.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A070",
+      "evidence": [
+        {
+          "line": 483,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A071",
+      "evidence": [
+        {
+          "line": 486,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download_data",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A072",
+      "evidence": [
+        {
+          "line": 487,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "analyze_question",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A073",
+      "evidence": [
+        {
+          "line": 488,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "get_people_in_city",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A074",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "get_user_ids",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A075",
+      "evidence": [
+        {
+          "line": 490,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "get_gps_data",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A076",
+      "evidence": [
+        {
+          "line": 491,
+          "path": "zad21.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A077",
+      "evidence": [
+        {
+          "line": 776,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A078",
+      "evidence": [
+        {
+          "line": 779,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "check_environment",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A079",
+      "evidence": [
+        {
+          "line": 780,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_server",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A080",
+      "evidence": [
+        {
+          "line": 781,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "start_ngrok",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A081",
+      "evidence": [
+        {
+          "line": 782,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_webhook_url",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A082",
+      "evidence": [
+        {
+          "line": 783,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "wait_for_completion",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A083",
+      "evidence": [
+        {
+          "line": 784,
+          "path": "zad23.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "cleanup",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A084",
+      "evidence": [
+        {
+          "line": 1232,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A085",
+      "evidence": [
+        {
+          "line": 1235,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download_sources",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A086",
+      "evidence": [
+        {
+          "line": 1236,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "process_documents",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A087",
+      "evidence": [
+        {
+          "line": 1237,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "build_knowledge_base",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A088",
+      "evidence": [
+        {
+          "line": 1238,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fetch_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A089",
+      "evidence": [
+        {
+          "line": 1239,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "answer_questions",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A090",
+      "evidence": [
+        {
+          "line": 1240,
+          "path": "zad24.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send_answers",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A091",
+      "evidence": [
+        {
+          "line": 671,
+          "path": "zad8.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A092",
+      "evidence": [
+        {
+          "line": 674,
+          "path": "zad8.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "download",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A093",
+      "evidence": [
+        {
+          "line": 677,
+          "path": "zad8.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "classify",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A094",
+      "evidence": [
+        {
+          "line": 680,
+          "path": "zad8.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "aggregate",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A095",
+      "evidence": [
+        {
+          "line": 683,
+          "path": "zad8.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "send",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A096",
+      "evidence": [
+        {
+          "line": 377,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-042",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A097",
+      "evidence": [
+        {
+          "line": 406,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_secret",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-042",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-042.A098",
+      "evidence": [
+        {
+          "line": 435,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_env",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-042",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-042",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "sysadmin-info/reloaded",
+    "sha": "0d15f1268024ee09d87c21fa7ef00e61e453cf0e"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 743,
+        "name": "builder",
+        "path": "agent.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 745,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 748,
+        "name": "tools",
+        "path": "agent.py",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 417,
+        "name": "graph",
+        "path": "zad11.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 418,
+        "name": "download",
+        "path": "zad11.py",
+        "variable": "download"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 419,
+        "name": "index",
+        "path": "zad11.py",
+        "variable": "index"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 420,
+        "name": "search",
+        "path": "zad11.py",
+        "variable": "search"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 421,
+        "name": "send",
+        "path": "zad11.py",
+        "variable": "send"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 426,
+        "name": "graph",
+        "path": "zad12.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 429,
+        "name": "get_tables",
+        "path": "zad12.py",
+        "variable": "get_tables"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 430,
+        "name": "get_schemas",
+        "path": "zad12.py",
+        "variable": "get_schemas"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 431,
+        "name": "generate_sql",
+        "path": "zad12.py",
+        "variable": "generate_sql"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 432,
+        "name": "execute_query",
+        "path": "zad12.py",
+        "variable": "execute_query"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 433,
+        "name": "extract_ids",
+        "path": "zad12.py",
+        "variable": "extract_ids"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 434,
+        "name": "send_answer",
+        "path": "zad12.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 559,
+        "name": "graph",
+        "path": "zad13.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 562,
+        "name": "download_note",
+        "path": "zad13.py",
+        "variable": "download_note"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 563,
+        "name": "extract_keywords",
+        "path": "zad13.py",
+        "variable": "extract_keywords"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 564,
+        "name": "search_loop",
+        "path": "zad13.py",
+        "variable": "search_loop"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 565,
+        "name": "send_answer",
+        "path": "zad13.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 428,
+        "name": "graph",
+        "path": "zad14.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 431,
+        "name": "fetch_users",
+        "path": "zad14.py",
+        "variable": "fetch_users"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 432,
+        "name": "fetch_connections",
+        "path": "zad14.py",
+        "variable": "fetch_connections"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 433,
+        "name": "create_graph",
+        "path": "zad14.py",
+        "variable": "create_graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 434,
+        "name": "find_path",
+        "path": "zad14.py",
+        "variable": "find_path"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 435,
+        "name": "send_answer",
+        "path": "zad14.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 882,
+        "name": "graph",
+        "path": "zad15.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 885,
+        "name": "start_conversation",
+        "path": "zad15.py",
+        "variable": "start_conversation"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 886,
+        "name": "process_images",
+        "path": "zad15.py",
+        "variable": "process_images"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 887,
+        "name": "analyze_barbara",
+        "path": "zad15.py",
+        "variable": "analyze_barbara"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 888,
+        "name": "create_final_description",
+        "path": "zad15.py",
+        "variable": "create_final_description"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 889,
+        "name": "send_answer",
+        "path": "zad15.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 580,
+        "name": "graph",
+        "path": "zad16.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 583,
+        "name": "download_data",
+        "path": "zad16.py",
+        "variable": "download_data"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 584,
+        "name": "prepare_training",
+        "path": "zad16.py",
+        "variable": "prepare_training"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 585,
+        "name": "upload_training_file",
+        "path": "zad16.py",
+        "variable": "upload_training_file"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 586,
+        "name": "start_fine_tuning",
+        "path": "zad16.py",
+        "variable": "start_fine_tuning"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 587,
+        "name": "wait_for_training",
+        "path": "zad16.py",
+        "variable": "wait_for_training"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 588,
+        "name": "verify_samples",
+        "path": "zad16.py",
+        "variable": "verify_samples"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 589,
+        "name": "send_answer",
+        "path": "zad16.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 490,
+        "name": "graph",
+        "path": "zad17.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 493,
+        "name": "fetch_questions",
+        "path": "zad17.py",
+        "variable": "fetch_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 494,
+        "name": "search_answers",
+        "path": "zad17.py",
+        "variable": "search_answers"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 495,
+        "name": "send_answers",
+        "path": "zad17.py",
+        "variable": "send_answers"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 441,
+        "name": "graph",
+        "path": "zad18.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 444,
+        "name": "parse_instruction",
+        "path": "zad18.py",
+        "variable": "parse_instruction"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 445,
+        "name": "execute_movements",
+        "path": "zad18.py",
+        "variable": "execute_movements"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 775,
+        "name": "graph",
+        "path": "zad18.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 778,
+        "name": "check_environment",
+        "path": "zad18.py",
+        "variable": "check_environment"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 779,
+        "name": "start_server",
+        "path": "zad18.py",
+        "variable": "start_server"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 780,
+        "name": "start_ngrok",
+        "path": "zad18.py",
+        "variable": "start_ngrok"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 781,
+        "name": "send_webhook_url",
+        "path": "zad18.py",
+        "variable": "send_webhook_url"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 782,
+        "name": "wait_for_completion",
+        "path": "zad18.py",
+        "variable": "wait_for_completion"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 783,
+        "name": "cleanup",
+        "path": "zad18.py",
+        "variable": "cleanup"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 937,
+        "name": "graph",
+        "path": "zad19.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 940,
+        "name": "download_pdf",
+        "path": "zad19.py",
+        "variable": "download_pdf"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 941,
+        "name": "extract_content",
+        "path": "zad19.py",
+        "variable": "extract_content"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 942,
+        "name": "ocr_page19",
+        "path": "zad19.py",
+        "variable": "ocr_page19"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 943,
+        "name": "fetch_questions",
+        "path": "zad19.py",
+        "variable": "fetch_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 944,
+        "name": "answer_questions",
+        "path": "zad19.py",
+        "variable": "answer_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 945,
+        "name": "send_answers",
+        "path": "zad19.py",
+        "variable": "send_answers"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1304,
+        "name": "graph",
+        "path": "zad20.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1306,
+        "name": "setup_data",
+        "path": "zad20.py",
+        "variable": "setup_data"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1307,
+        "name": "fetch_data",
+        "path": "zad20.py",
+        "variable": "fetch_data"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1308,
+        "name": "identify_speakers",
+        "path": "zad20.py",
+        "variable": "identify_speakers"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1309,
+        "name": "find_liar",
+        "path": "zad20.py",
+        "variable": "find_liar"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1310,
+        "name": "fetch_questions",
+        "path": "zad20.py",
+        "variable": "fetch_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1311,
+        "name": "answer_questions",
+        "path": "zad20.py",
+        "variable": "answer_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1312,
+        "name": "send_answers",
+        "path": "zad20.py",
+        "variable": "send_answers"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 483,
+        "name": "graph",
+        "path": "zad21.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 486,
+        "name": "download_data",
+        "path": "zad21.py",
+        "variable": "download_data"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 487,
+        "name": "analyze_question",
+        "path": "zad21.py",
+        "variable": "analyze_question"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 488,
+        "name": "get_people_in_city",
+        "path": "zad21.py",
+        "variable": "get_people_in_city"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 489,
+        "name": "get_user_ids",
+        "path": "zad21.py",
+        "variable": "get_user_ids"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 490,
+        "name": "get_gps_data",
+        "path": "zad21.py",
+        "variable": "get_gps_data"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 491,
+        "name": "send_answer",
+        "path": "zad21.py",
+        "variable": "send_answer"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 776,
+        "name": "graph",
+        "path": "zad23.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 779,
+        "name": "check_environment",
+        "path": "zad23.py",
+        "variable": "check_environment"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 780,
+        "name": "start_server",
+        "path": "zad23.py",
+        "variable": "start_server"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 781,
+        "name": "start_ngrok",
+        "path": "zad23.py",
+        "variable": "start_ngrok"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 782,
+        "name": "send_webhook_url",
+        "path": "zad23.py",
+        "variable": "send_webhook_url"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 783,
+        "name": "wait_for_completion",
+        "path": "zad23.py",
+        "variable": "wait_for_completion"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 784,
+        "name": "cleanup",
+        "path": "zad23.py",
+        "variable": "cleanup"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1232,
+        "name": "graph",
+        "path": "zad24.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1235,
+        "name": "download_sources",
+        "path": "zad24.py",
+        "variable": "download_sources"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1236,
+        "name": "process_documents",
+        "path": "zad24.py",
+        "variable": "process_documents"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1237,
+        "name": "build_knowledge_base",
+        "path": "zad24.py",
+        "variable": "build_knowledge_base"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1238,
+        "name": "fetch_questions",
+        "path": "zad24.py",
+        "variable": "fetch_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1239,
+        "name": "answer_questions",
+        "path": "zad24.py",
+        "variable": "answer_questions"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1240,
+        "name": "send_answers",
+        "path": "zad24.py",
+        "variable": "send_answers"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 671,
+        "name": "graph",
+        "path": "zad8.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 674,
+        "name": "download",
+        "path": "zad8.py",
+        "variable": "download"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 677,
+        "name": "classify",
+        "path": "zad8.py",
+        "variable": "classify"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 680,
+        "name": "aggregate",
+        "path": "zad8.py",
+        "variable": "aggregate"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 683,
+        "name": "send",
+        "path": "zad8.py",
+        "variable": "send"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 35,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 377,
+        "name": "run_task",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 406,
+        "name": "run_secret",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 435,
+        "name": "read_env",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

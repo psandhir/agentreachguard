@@ -1,0 +1,3153 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-085.A001",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_navigate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A002",
+      "evidence": [
+        {
+          "line": 231,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_warmup",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A003",
+      "evidence": [
+        {
+          "line": 490,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_get_elements",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A004",
+      "evidence": [
+        {
+          "line": 550,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_wait_for",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A005",
+      "evidence": [
+        {
+          "line": 618,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_screenshot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A006",
+      "evidence": [
+        {
+          "line": 733,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_screenshot_marks",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A007",
+      "evidence": [
+        {
+          "line": 865,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_click",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A008",
+      "evidence": [
+        {
+          "line": 937,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_click_xy",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A009",
+      "evidence": [
+        {
+          "line": 1011,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_type",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A010",
+      "evidence": [
+        {
+          "line": 1091,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_select_option",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A011",
+      "evidence": [
+        {
+          "line": 1141,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_hover",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A012",
+      "evidence": [
+        {
+          "line": 1193,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_scroll",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A013",
+      "evidence": [
+        {
+          "line": 1216,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_reset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A014",
+      "evidence": [
+        {
+          "line": 1242,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_press_key",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A015",
+      "evidence": [
+        {
+          "line": 1258,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_go_back",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A016",
+      "evidence": [
+        {
+          "line": 1272,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_go_forward",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A017",
+      "evidence": [
+        {
+          "line": 1298,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_switch_tab",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A018",
+      "evidence": [
+        {
+          "line": 1337,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_find_text",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A019",
+      "evidence": [
+        {
+          "line": 1427,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_fill_form",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A020",
+      "evidence": [
+        {
+          "line": 1467,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_open_tab",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A021",
+      "evidence": [
+        {
+          "line": 1532,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_inspect_requests",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A022",
+      "evidence": [
+        {
+          "line": 1576,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_set_dialog_policy",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A023",
+      "evidence": [
+        {
+          "line": 1629,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_drag",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A024",
+      "evidence": [
+        {
+          "line": 1680,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_grant_permissions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A025",
+      "evidence": [
+        {
+          "line": 1727,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_set_geolocation",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A026",
+      "evidence": [
+        {
+          "line": 1772,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_right_click",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A027",
+      "evidence": [
+        {
+          "line": 1803,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_write_clipboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A028",
+      "evidence": [
+        {
+          "line": 1821,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_read_clipboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A029",
+      "evidence": [
+        {
+          "line": 1850,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_wait_for_network_idle",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A030",
+      "evidence": [
+        {
+          "line": 1878,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_detect_captcha",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A031",
+      "evidence": [
+        {
+          "line": 1936,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_upload_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A032",
+      "evidence": [
+        {
+          "line": 2064,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_solve_captcha",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A033",
+      "evidence": [
+        {
+          "line": 2113,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_captcha_help",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A034",
+      "evidence": [
+        {
+          "line": 2217,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_browser_login",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A035",
+      "evidence": [
+        {
+          "line": 2304,
+          "path": "src/agent/builtins/browser_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "browser_download",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A036",
+      "evidence": [
+        {
+          "line": 202,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "hand_off",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A037",
+      "evidence": [
+        {
+          "line": 558,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_inbox",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A038",
+      "evidence": [
+        {
+          "line": 683,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A039",
+      "evidence": [
+        {
+          "line": 783,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "complete_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A040",
+      "evidence": [
+        {
+          "line": 899,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ask_teammate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A041",
+      "evidence": [
+        {
+          "line": 1076,
+          "path": "src/agent/builtins/coordination_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "answer_ask",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A042",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "src/agent/builtins/drive_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "team_drive",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A043",
+      "evidence": [
+        {
+          "line": 125,
+          "path": "src/agent/builtins/exec_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "exec_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A044",
+      "evidence": [
+        {
+          "line": 180,
+          "path": "src/agent/builtins/exec_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "execute_code",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A045",
+      "evidence": [
+        {
+          "line": 109,
+          "path": "src/agent/builtins/file_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A046",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "src/agent/builtins/file_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "write_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A047",
+      "evidence": [
+        {
+          "line": 203,
+          "path": "src/agent/builtins/file_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A048",
+      "evidence": [
+        {
+          "line": 24,
+          "path": "src/agent/builtins/fleet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_templates",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A049",
+      "evidence": [
+        {
+          "line": 88,
+          "path": "src/agent/builtins/fleet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "apply_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A050",
+      "evidence": [
+        {
+          "line": 155,
+          "path": "src/agent/builtins/git_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "commit_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A051",
+      "evidence": [
+        {
+          "line": 420,
+          "path": "src/agent/builtins/http_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "http_request",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A052",
+      "evidence": [
+        {
+          "line": 60,
+          "path": "src/agent/builtins/image_gen_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_image",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A053",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "src/agent/builtins/introspect_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "introspect_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A054",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "src/agent/builtins/memory_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A055",
+      "evidence": [
+        {
+          "line": 208,
+          "path": "src/agent/builtins/memory_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_think",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A056",
+      "evidence": [
+        {
+          "line": 280,
+          "path": "src/agent/builtins/memory_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_save",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A057",
+      "evidence": [
+        {
+          "line": 41,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "notify_user",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A058",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "recommend_pending_action",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A059",
+      "evidence": [
+        {
+          "line": 151,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "allocate_member_budget",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A060",
+      "evidence": [
+        {
+          "line": 185,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_agents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A061",
+      "evidence": [
+        {
+          "line": 254,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_blackboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A062",
+      "evidence": [
+        {
+          "line": 299,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "write_blackboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A063",
+      "evidence": [
+        {
+          "line": 329,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_blackboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A064",
+      "evidence": [
+        {
+          "line": 371,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "publish_event",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A065",
+      "evidence": [
+        {
+          "line": 402,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "subscribe_event",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A066",
+      "evidence": [
+        {
+          "line": 430,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "watch_blackboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A067",
+      "evidence": [
+        {
+          "line": 459,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "claim_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A068",
+      "evidence": [
+        {
+          "line": 502,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_artifact",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A069",
+      "evidence": [
+        {
+          "line": 641,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_cron",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A070",
+      "evidence": [
+        {
+          "line": 698,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_cron",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A071",
+      "evidence": [
+        {
+          "line": 706,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_cron",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A072",
+      "evidence": [
+        {
+          "line": 718,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_cron",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A073",
+      "evidence": [
+        {
+          "line": 755,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "spawn_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A074",
+      "evidence": [
+        {
+          "line": 784,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_agent_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A075",
+      "evidence": [
+        {
+          "line": 812,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_agent_profile",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A076",
+      "evidence": [
+        {
+          "line": 852,
+          "path": "src/agent/builtins/mesh_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_workspace",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A077",
+      "evidence": [
+        {
+          "line": 220,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_agent_config",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A078",
+      "evidence": [
+        {
+          "line": 302,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_user_notifications",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A079",
+      "evidence": [
+        {
+          "line": 363,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_peer_artifacts",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A080",
+      "evidence": [
+        {
+          "line": 428,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_peer_artifact",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A081",
+      "evidence": [
+        {
+          "line": 515,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_peer_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A082",
+      "evidence": [
+        {
+          "line": 586,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_peer_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A083",
+      "evidence": [
+        {
+          "line": 650,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_available_models",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A084",
+      "evidence": [
+        {
+          "line": 753,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A085",
+      "evidence": [
+        {
+          "line": 838,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "undo_change",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A086",
+      "evidence": [
+        {
+          "line": 907,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A087",
+      "evidence": [
+        {
+          "line": 998,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_agent_queue",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A088",
+      "evidence": [
+        {
+          "line": 1036,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_team_outputs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A089",
+      "evidence": [
+        {
+          "line": 1079,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inspect_team_spend",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A090",
+      "evidence": [
+        {
+          "line": 1116,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "workflow_snapshot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A091",
+      "evidence": [
+        {
+          "line": 1164,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inspect_task_run",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A092",
+      "evidence": [
+        {
+          "line": 1244,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "await_task_event",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A093",
+      "evidence": [
+        {
+          "line": 1538,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inspect_agents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A094",
+      "evidence": [
+        {
+          "line": 1706,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "manage_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A095",
+      "evidence": [
+        {
+          "line": 1801,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "manage_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A096",
+      "evidence": [
+        {
+          "line": 1872,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_pending",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A097",
+      "evidence": [
+        {
+          "line": 1907,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cancel_pending_action",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A098",
+      "evidence": [
+        {
+          "line": 1965,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "archive_audit_before",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A099",
+      "evidence": [
+        {
+          "line": 2030,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inspect_teams",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A100",
+      "evidence": [
+        {
+          "line": 2084,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A101",
+      "evidence": [
+        {
+          "line": 2104,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_agents_to_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A102",
+      "evidence": [
+        {
+          "line": 2119,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_agents_to_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A103",
+      "evidence": [
+        {
+          "line": 2141,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_agents_from_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A104",
+      "evidence": [
+        {
+          "line": 2156,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_agents_from_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A105",
+      "evidence": [
+        {
+          "line": 2178,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_team_context",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A106",
+      "evidence": [
+        {
+          "line": 2189,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_team_context",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A107",
+      "evidence": [
+        {
+          "line": 2229,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_team_lead",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A108",
+      "evidence": [
+        {
+          "line": 2279,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_team_brief",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A109",
+      "evidence": [
+        {
+          "line": 2324,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_team_goal",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A110",
+      "evidence": [
+        {
+          "line": 2389,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "summarize_team_progress",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A111",
+      "evidence": [
+        {
+          "line": 2476,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "assess_team_progress",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A112",
+      "evidence": [
+        {
+          "line": 2622,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compose_work_summary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A113",
+      "evidence": [
+        {
+          "line": 2814,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "manage_team",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A114",
+      "evidence": [
+        {
+          "line": 3242,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "manage_goals",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A115",
+      "evidence": [
+        {
+          "line": 3490,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_agent_goals",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A116",
+      "evidence": [
+        {
+          "line": 3606,
+          "path": "src/agent/builtins/operator_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "rate_delivery",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A117",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "src/agent/builtins/skill_admin_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "install_skill",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A118",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "src/agent/builtins/skill_admin_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_skill",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A119",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "src/agent/builtins/skill_admin_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_skill_assignments",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A120",
+      "evidence": [
+        {
+          "line": 139,
+          "path": "src/agent/builtins/skill_admin_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "assign_skill",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A121",
+      "evidence": [
+        {
+          "line": 89,
+          "path": "src/agent/builtins/skills_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skills_list",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A122",
+      "evidence": [
+        {
+          "line": 124,
+          "path": "src/agent/builtins/skills_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "skill_view",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A123",
+      "evidence": [
+        {
+          "line": 196,
+          "path": "src/agent/builtins/subagent_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "spawn_subagent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A124",
+      "evidence": [
+        {
+          "line": 253,
+          "path": "src/agent/builtins/subagent_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_subagents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A125",
+      "evidence": [
+        {
+          "line": 260,
+          "path": "src/agent/builtins/subagent_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_subagents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A126",
+      "evidence": [
+        {
+          "line": 301,
+          "path": "src/agent/builtins/subagent_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wait_for_subagent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A127",
+      "evidence": [
+        {
+          "line": 181,
+          "path": "src/agent/builtins/tool_authoring.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "post_tweet",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A128",
+      "evidence": [
+        {
+          "line": 207,
+          "path": "src/agent/builtins/tool_authoring.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "my_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A129",
+      "evidence": [
+        {
+          "line": 275,
+          "path": "src/agent/builtins/tool_authoring.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A130",
+      "evidence": [
+        {
+          "line": 321,
+          "path": "src/agent/builtins/tool_authoring.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "reload_tools",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A131",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "src/agent/builtins/tool_search.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "load_tools",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A132",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "src/agent/builtins/vault_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "vault_generate_secret",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A133",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "src/agent/builtins/vault_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "vault_list",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A134",
+      "evidence": [
+        {
+          "line": 122,
+          "path": "src/agent/builtins/vault_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_credential",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A135",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "src/agent/builtins/wallet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wallet_get_address",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A136",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "src/agent/builtins/wallet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wallet_get_balance",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A137",
+      "evidence": [
+        {
+          "line": 117,
+          "path": "src/agent/builtins/wallet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wallet_read_contract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A138",
+      "evidence": [
+        {
+          "line": 170,
+          "path": "src/agent/builtins/wallet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wallet_transfer",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A139",
+      "evidence": [
+        {
+          "line": 234,
+          "path": "src/agent/builtins/wallet_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "wallet_execute",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-085.A140",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "src/agent/builtins/web_search_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "web_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-085",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-085",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "src/agent/__main__.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "openlegion-ai/openlegion",
+    "sha": "24efd6e06b28768cbbcd9275f43c479b3df37b18"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 37,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 94,
+        "name": "browser_navigate",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 231,
+        "name": "browser_warmup",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 490,
+        "name": "browser_get_elements",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 550,
+        "name": "browser_wait_for",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 618,
+        "name": "browser_screenshot",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 733,
+        "name": "browser_screenshot_marks",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 865,
+        "name": "browser_click",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 937,
+        "name": "browser_click_xy",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1011,
+        "name": "browser_type",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1091,
+        "name": "browser_select_option",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1141,
+        "name": "browser_hover",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1193,
+        "name": "browser_scroll",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1216,
+        "name": "browser_reset",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1242,
+        "name": "browser_press_key",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1258,
+        "name": "browser_go_back",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1272,
+        "name": "browser_go_forward",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1298,
+        "name": "browser_switch_tab",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1337,
+        "name": "browser_find_text",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1427,
+        "name": "browser_fill_form",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1467,
+        "name": "browser_open_tab",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1532,
+        "name": "browser_inspect_requests",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1576,
+        "name": "browser_set_dialog_policy",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1629,
+        "name": "browser_drag",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1680,
+        "name": "browser_grant_permissions",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1727,
+        "name": "browser_set_geolocation",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1772,
+        "name": "browser_right_click",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1803,
+        "name": "browser_write_clipboard",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1821,
+        "name": "browser_read_clipboard",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1850,
+        "name": "browser_wait_for_network_idle",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1878,
+        "name": "browser_detect_captcha",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1936,
+        "name": "browser_upload_file",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2064,
+        "name": "browser_solve_captcha",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2113,
+        "name": "request_captcha_help",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2217,
+        "name": "request_browser_login",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2304,
+        "name": "browser_download",
+        "path": "src/agent/builtins/browser_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 202,
+        "name": "hand_off",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 558,
+        "name": "check_inbox",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 683,
+        "name": "update_status",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 783,
+        "name": "complete_task",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 899,
+        "name": "ask_teammate",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1076,
+        "name": "answer_ask",
+        "path": "src/agent/builtins/coordination_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 191,
+        "name": "team_drive",
+        "path": "src/agent/builtins/drive_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 125,
+        "name": "exec_command",
+        "path": "src/agent/builtins/exec_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 180,
+        "name": "execute_code",
+        "path": "src/agent/builtins/exec_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 109,
+        "name": "read_file",
+        "path": "src/agent/builtins/file_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 154,
+        "name": "write_file",
+        "path": "src/agent/builtins/file_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 203,
+        "name": "list_files",
+        "path": "src/agent/builtins/file_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 24,
+        "name": "list_templates",
+        "path": "src/agent/builtins/fleet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 88,
+        "name": "apply_template",
+        "path": "src/agent/builtins/fleet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 155,
+        "name": "commit_file",
+        "path": "src/agent/builtins/git_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 420,
+        "name": "http_request",
+        "path": "src/agent/builtins/http_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 60,
+        "name": "generate_image",
+        "path": "src/agent/builtins/image_gen_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 36,
+        "name": "introspect_tool",
+        "path": "src/agent/builtins/introspect_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 73,
+        "name": "memory_search",
+        "path": "src/agent/builtins/memory_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 208,
+        "name": "memory_think",
+        "path": "src/agent/builtins/memory_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 280,
+        "name": "memory_save",
+        "path": "src/agent/builtins/memory_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 41,
+        "name": "notify_user",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 98,
+        "name": "recommend_pending_action",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 151,
+        "name": "allocate_member_budget",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 185,
+        "name": "list_agents",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 254,
+        "name": "read_blackboard",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 299,
+        "name": "write_blackboard",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 329,
+        "name": "list_blackboard",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 371,
+        "name": "publish_event",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 402,
+        "name": "subscribe_event",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 430,
+        "name": "watch_blackboard",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 459,
+        "name": "claim_task",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 502,
+        "name": "save_artifact",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 641,
+        "name": "set_cron",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 698,
+        "name": "list_cron",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 706,
+        "name": "remove_cron",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 718,
+        "name": "remove_cron",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 755,
+        "name": "spawn_agent",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 784,
+        "name": "read_agent_history",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 812,
+        "name": "get_agent_profile",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 852,
+        "name": "update_workspace",
+        "path": "src/agent/builtins/mesh_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 220,
+        "name": "read_agent_config",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 302,
+        "name": "read_user_notifications",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 363,
+        "name": "list_peer_artifacts",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 428,
+        "name": "read_peer_artifact",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 515,
+        "name": "list_peer_files",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 586,
+        "name": "read_peer_file",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 650,
+        "name": "list_available_models",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 753,
+        "name": "edit_agent",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 838,
+        "name": "undo_change",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 907,
+        "name": "create_agent",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 998,
+        "name": "list_agent_queue",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1036,
+        "name": "get_team_outputs",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1079,
+        "name": "inspect_team_spend",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1116,
+        "name": "workflow_snapshot",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1164,
+        "name": "inspect_task_run",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1244,
+        "name": "await_task_event",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1538,
+        "name": "inspect_agents",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1706,
+        "name": "manage_task",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1801,
+        "name": "manage_agent",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1872,
+        "name": "list_pending",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1907,
+        "name": "cancel_pending_action",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1965,
+        "name": "archive_audit_before",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2030,
+        "name": "inspect_teams",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2084,
+        "name": "create_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 2104,
+        "name": "add_agents_to_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2119,
+        "name": "add_agents_to_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 2141,
+        "name": "remove_agents_from_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2156,
+        "name": "remove_agents_from_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 2178,
+        "name": "update_team_context",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2189,
+        "name": "update_team_context",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2229,
+        "name": "set_team_lead",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2279,
+        "name": "update_team_brief",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2324,
+        "name": "set_team_goal",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2389,
+        "name": "summarize_team_progress",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2476,
+        "name": "assess_team_progress",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2622,
+        "name": "compose_work_summary",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 2814,
+        "name": "manage_team",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 3242,
+        "name": "manage_goals",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 3490,
+        "name": "set_agent_goals",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 3606,
+        "name": "rate_delivery",
+        "path": "src/agent/builtins/operator_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 46,
+        "name": "install_skill",
+        "path": "src/agent/builtins/skill_admin_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 73,
+        "name": "remove_skill",
+        "path": "src/agent/builtins/skill_admin_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 97,
+        "name": "list_skill_assignments",
+        "path": "src/agent/builtins/skill_admin_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 139,
+        "name": "assign_skill",
+        "path": "src/agent/builtins/skill_admin_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 89,
+        "name": "skills_list",
+        "path": "src/agent/builtins/skills_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 124,
+        "name": "skill_view",
+        "path": "src/agent/builtins/skills_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 196,
+        "name": "spawn_subagent",
+        "path": "src/agent/builtins/subagent_tool.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 253,
+        "name": "list_subagents",
+        "path": "src/agent/builtins/subagent_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 260,
+        "name": "list_subagents",
+        "path": "src/agent/builtins/subagent_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 301,
+        "name": "wait_for_subagent",
+        "path": "src/agent/builtins/subagent_tool.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 181,
+        "name": "post_tweet",
+        "path": "src/agent/builtins/tool_authoring.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 207,
+        "name": "my_tool",
+        "path": "src/agent/builtins/tool_authoring.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 275,
+        "name": "create_tool",
+        "path": "src/agent/builtins/tool_authoring.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 321,
+        "name": "reload_tools",
+        "path": "src/agent/builtins/tool_authoring.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 49,
+        "name": "load_tools",
+        "path": "src/agent/builtins/tool_search.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 47,
+        "name": "vault_generate_secret",
+        "path": "src/agent/builtins/vault_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 79,
+        "name": "vault_list",
+        "path": "src/agent/builtins/vault_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 122,
+        "name": "request_credential",
+        "path": "src/agent/builtins/vault_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 36,
+        "name": "wallet_get_address",
+        "path": "src/agent/builtins/wallet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 70,
+        "name": "wallet_get_balance",
+        "path": "src/agent/builtins/wallet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 117,
+        "name": "wallet_read_contract",
+        "path": "src/agent/builtins/wallet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 170,
+        "name": "wallet_transfer",
+        "path": "src/agent/builtins/wallet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 234,
+        "name": "wallet_execute",
+        "path": "src/agent/builtins/wallet_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 98,
+        "name": "web_search",
+        "path": "src/agent/builtins/web_search_tool.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "mcp_usage",
+      "approval_controls",
+      "identity_and_credential_boundaries",
+      "multiple_trust_boundaries",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "identity_and_credential_boundaries",
+      "mcp_usage",
+      "multiple_trust_boundaries"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

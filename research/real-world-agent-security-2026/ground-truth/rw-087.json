@@ -1,0 +1,806 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-087.A001",
+      "evidence": [
+        {
+          "line": 82,
+          "path": "activities_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_activities",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A002",
+      "evidence": [
+        {
+          "line": 119,
+          "path": "activities_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_activities",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A003",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "activities_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "recommend_itinerary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A004",
+      "evidence": [
+        {
+          "line": 258,
+          "path": "activities_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_activity_categories",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A005",
+      "evidence": [
+        {
+          "line": 296,
+          "path": "activities_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "estimate_activity_cost",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A006",
+      "evidence": [
+        {
+          "line": 65,
+          "path": "budget_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "estimate_budget",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A007",
+      "evidence": [
+        {
+          "line": 139,
+          "path": "budget_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compare_budgets",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A008",
+      "evidence": [
+        {
+          "line": 183,
+          "path": "budget_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "calculate_group_budget",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A009",
+      "evidence": [
+        {
+          "line": 257,
+          "path": "budget_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "estimate_monthly_budget",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A010",
+      "evidence": [
+        {
+          "line": 14,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "calculate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A011",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A012",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "subtract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A013",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "multiply",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A014",
+      "evidence": [
+        {
+          "line": 115,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "divide",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A015",
+      "evidence": [
+        {
+          "line": 142,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "percentage",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A016",
+      "evidence": [
+        {
+          "line": 164,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "calculate_tip",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A017",
+      "evidence": [
+        {
+          "line": 188,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "split_bill",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A018",
+      "evidence": [
+        {
+          "line": 225,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "calculate_average",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A019",
+      "evidence": [
+        {
+          "line": 260,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compound_interest",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A020",
+      "evidence": [
+        {
+          "line": 289,
+          "path": "calculator_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "distance_to_time",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A021",
+      "evidence": [
+        {
+          "line": 57,
+          "path": "currency_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "convert_currency",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A022",
+      "evidence": [
+        {
+          "line": 102,
+          "path": "currency_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_exchange_rate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A023",
+      "evidence": [
+        {
+          "line": 136,
+          "path": "currency_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_supported_currencies",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A024",
+      "evidence": [
+        {
+          "line": 155,
+          "path": "currency_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "convert_multiple_currencies",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A025",
+      "evidence": [
+        {
+          "line": 204,
+          "path": "currency_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_destination_currency",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A026",
+      "evidence": [
+        {
+          "line": 96,
+          "path": "destinations_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_destinations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A027",
+      "evidence": [
+        {
+          "line": 132,
+          "path": "destinations_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_destination_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A028",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "destinations_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "recommend_destinations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A029",
+      "evidence": [
+        {
+          "line": 228,
+          "path": "destinations_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compare_destinations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A030",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "weather_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_current_weather",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A031",
+      "evidence": [
+        {
+          "line": 115,
+          "path": "weather_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_weather_forecast",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A032",
+      "evidence": [
+        {
+          "line": 182,
+          "path": "weather_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_best_travel_months",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-087.A033",
+      "evidence": [
+        {
+          "line": 265,
+          "path": "weather_mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compare_weather",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-087",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "elmerjani/lab",
+    "sha": "407d71a903f1269797f6e837bcd93c53038105a8"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 7,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 82,
+        "name": "get_activities",
+        "owner": "mcp",
+        "path": "activities_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 119,
+        "name": "search_activities",
+        "owner": "mcp",
+        "path": "activities_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 161,
+        "name": "recommend_itinerary",
+        "owner": "mcp",
+        "path": "activities_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 258,
+        "name": "get_activity_categories",
+        "owner": "mcp",
+        "path": "activities_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 296,
+        "name": "estimate_activity_cost",
+        "owner": "mcp",
+        "path": "activities_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 65,
+        "name": "estimate_budget",
+        "owner": "mcp",
+        "path": "budget_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 139,
+        "name": "compare_budgets",
+        "owner": "mcp",
+        "path": "budget_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 183,
+        "name": "calculate_group_budget",
+        "owner": "mcp",
+        "path": "budget_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 257,
+        "name": "estimate_monthly_budget",
+        "owner": "mcp",
+        "path": "budget_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 14,
+        "name": "calculate",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 49,
+        "name": "add",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 71,
+        "name": "subtract",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 93,
+        "name": "multiply",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 115,
+        "name": "divide",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 142,
+        "name": "percentage",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 164,
+        "name": "calculate_tip",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 188,
+        "name": "split_bill",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 225,
+        "name": "calculate_average",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 260,
+        "name": "compound_interest",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 289,
+        "name": "distance_to_time",
+        "owner": "mcp",
+        "path": "calculator_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 57,
+        "name": "convert_currency",
+        "owner": "mcp",
+        "path": "currency_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 102,
+        "name": "get_exchange_rate",
+        "owner": "mcp",
+        "path": "currency_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 136,
+        "name": "list_supported_currencies",
+        "owner": "mcp",
+        "path": "currency_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 155,
+        "name": "convert_multiple_currencies",
+        "owner": "mcp",
+        "path": "currency_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 204,
+        "name": "get_destination_currency",
+        "owner": "mcp",
+        "path": "currency_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 96,
+        "name": "search_destinations",
+        "owner": "mcp",
+        "path": "destinations_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 132,
+        "name": "get_destination_info",
+        "owner": "mcp",
+        "path": "destinations_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 156,
+        "name": "recommend_destinations",
+        "owner": "mcp",
+        "path": "destinations_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 228,
+        "name": "compare_destinations",
+        "owner": "mcp",
+        "path": "destinations_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 49,
+        "name": "get_current_weather",
+        "owner": "mcp",
+        "path": "weather_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 115,
+        "name": "get_weather_forecast",
+        "owner": "mcp",
+        "path": "weather_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 182,
+        "name": "get_best_travel_months",
+        "owner": "mcp",
+        "path": "weather_mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 265,
+        "name": "compare_weather",
+        "owner": "mcp",
+        "path": "weather_mcp_server.py"
+      }
+    ],
+    "unresolved": [
+      "app.py:python_ast_parse_failed",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

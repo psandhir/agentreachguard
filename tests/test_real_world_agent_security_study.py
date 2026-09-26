@@ -41,7 +41,7 @@ def test_real_world_agent_security_protocol_is_valid() -> None:
     assert report["cohort"]["cases"] == 180
     assert report["cohort"]["tier_b"] == 60
     assert report["cohort"]["tier_c"] == 4
-    assert report["cohort"]["truth_locked"] is False
+    assert report["cohort"]["truth_locked"] is True
     assert report["cohort"]["framework_counts"] == {
         "fastagent": 3,
         "google-adk": 37,

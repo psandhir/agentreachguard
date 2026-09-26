@@ -1,0 +1,120 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-039.A001",
+      "evidence": [
+        {
+          "line": 145,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "foreman",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-039.A002",
+      "evidence": [
+        {
+          "line": 145,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mongodb_mcp",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-039.A003",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "agent.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mongodb_mcp",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-039",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-039",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Umbra-shadow/Foreman",
+    "sha": "c623c4116acf066787bce735263fc01195a76bb6"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 145,
+        "name": "foreman",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "MCPToolset",
+        "line": 93,
+        "name": "mongodb_mcp",
+        "path": "agent.py",
+        "variable": "mongodb_mcp"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 9,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 145,
+        "name": "mongodb_mcp",
+        "owner": "root_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

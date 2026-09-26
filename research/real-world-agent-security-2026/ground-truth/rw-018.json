@@ -1,0 +1,577 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-018.A001",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TitleResearchAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A002",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TitleGeneratorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A003",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "BestTitleSelectorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A004",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TitlePipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A005",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DescriptionResearchAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A006",
+      "evidence": [
+        {
+          "line": 83,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DescriptionGeneratorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A007",
+      "evidence": [
+        {
+          "line": 129,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DescriptionPipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A008",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "AggregatorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A009",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "SequentialResearchTeam",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A010",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ResearchSystem",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A011",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "title_researcher",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A012",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "description_researcher",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A013",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TitleResearchAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "TitlePipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A014",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TitleGeneratorAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "TitlePipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A015",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "BestTitleSelectorAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "TitlePipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A016",
+      "evidence": [
+        {
+          "line": 129,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "DescriptionResearchAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DescriptionPipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A017",
+      "evidence": [
+        {
+          "line": 129,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "DescriptionGeneratorAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DescriptionPipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A018",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TitlePipeline",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "SequentialResearchTeam",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A019",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "DescriptionPipeline",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "SequentialResearchTeam",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A020",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "SequentialResearchTeam",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ResearchSystem",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-018.A021",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AggregatorAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ResearchSystem",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-018",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "tushar-elite-in/viral-tb-studio",
+    "sha": "5b843ea380c59df4a5a6bd333d17389e382237bc"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "title_researcher"
+        ],
+        "kind": "Agent",
+        "line": 17,
+        "name": "TitleResearchAgent",
+        "path": "agent.py",
+        "variable": "title_researcher"
+      },
+      {
+        "aliases": [
+          "title_generator"
+        ],
+        "kind": "Agent",
+        "line": 38,
+        "name": "TitleGeneratorAgent",
+        "path": "agent.py",
+        "variable": "title_generator"
+      },
+      {
+        "aliases": [
+          "best_title_agent"
+        ],
+        "kind": "Agent",
+        "line": 54,
+        "name": "BestTitleSelectorAgent",
+        "path": "agent.py",
+        "variable": "best_title_agent"
+      },
+      {
+        "aliases": [
+          "title_agent"
+        ],
+        "kind": "SequentialAgent",
+        "line": 69,
+        "name": "TitlePipeline",
+        "path": "agent.py",
+        "variable": "title_agent"
+      },
+      {
+        "aliases": [
+          "description_researcher"
+        ],
+        "kind": "Agent",
+        "line": 74,
+        "name": "DescriptionResearchAgent",
+        "path": "agent.py",
+        "variable": "description_researcher"
+      },
+      {
+        "aliases": [
+          "description_generator"
+        ],
+        "kind": "Agent",
+        "line": 83,
+        "name": "DescriptionGeneratorAgent",
+        "path": "agent.py",
+        "variable": "description_generator"
+      },
+      {
+        "aliases": [
+          "description_agent"
+        ],
+        "kind": "SequentialAgent",
+        "line": 129,
+        "name": "DescriptionPipeline",
+        "path": "agent.py",
+        "variable": "description_agent"
+      },
+      {
+        "aliases": [
+          "aggregator_agent"
+        ],
+        "kind": "Agent",
+        "line": 134,
+        "name": "AggregatorAgent",
+        "path": "agent.py",
+        "variable": "aggregator_agent"
+      },
+      {
+        "aliases": [
+          "Parallel_research_team"
+        ],
+        "kind": "ParallelAgent",
+        "line": 161,
+        "name": "SequentialResearchTeam",
+        "path": "agent.py",
+        "variable": "Parallel_research_team"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "SequentialAgent",
+        "line": 166,
+        "name": "ResearchSystem",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 69,
+        "path": "agent.py",
+        "source": "TitlePipeline",
+        "source_variable": "title_agent",
+        "target": "TitleResearchAgent",
+        "target_variable": "title_researcher"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 69,
+        "path": "agent.py",
+        "source": "TitlePipeline",
+        "source_variable": "title_agent",
+        "target": "TitleGeneratorAgent",
+        "target_variable": "title_generator"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 69,
+        "path": "agent.py",
+        "source": "TitlePipeline",
+        "source_variable": "title_agent",
+        "target": "BestTitleSelectorAgent",
+        "target_variable": "best_title_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 129,
+        "path": "agent.py",
+        "source": "DescriptionPipeline",
+        "source_variable": "description_agent",
+        "target": "DescriptionResearchAgent",
+        "target_variable": "description_researcher"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 129,
+        "path": "agent.py",
+        "source": "DescriptionPipeline",
+        "source_variable": "description_agent",
+        "target": "DescriptionGeneratorAgent",
+        "target_variable": "description_generator"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 161,
+        "path": "agent.py",
+        "source": "SequentialResearchTeam",
+        "source_variable": "Parallel_research_team",
+        "target": "TitlePipeline",
+        "target_variable": "title_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 161,
+        "path": "agent.py",
+        "source": "SequentialResearchTeam",
+        "source_variable": "Parallel_research_team",
+        "target": "DescriptionPipeline",
+        "target_variable": "description_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 166,
+        "path": "agent.py",
+        "source": "ResearchSystem",
+        "source_variable": "root_agent",
+        "target": "SequentialResearchTeam",
+        "target_variable": "Parallel_research_team"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 166,
+        "path": "agent.py",
+        "source": "ResearchSystem",
+        "source_variable": "root_agent",
+        "target": "AggregatorAgent",
+        "target_variable": "aggregator_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 3,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 17,
+        "name": "google_search",
+        "owner": "title_researcher",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 74,
+        "name": "google_search",
+        "owner": "description_researcher",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

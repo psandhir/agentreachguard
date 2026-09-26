@@ -1,0 +1,422 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-065.A001",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A002",
+      "evidence": [
+        {
+          "line": 135,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A003",
+      "evidence": [
+        {
+          "line": 136,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A004",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "function_tools/db_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "execute_query",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A005",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "function_tools/db_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_table_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A006",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "function_tools/db_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_table_names",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A007",
+      "evidence": [
+        {
+          "line": 41,
+          "path": "function_tools/db_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_sql_design_guidance",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A008",
+      "evidence": [
+        {
+          "line": 7,
+          "path": "function_tools/plot_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_chart",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A009",
+      "evidence": [
+        {
+          "line": 9,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_or_select_quicksight_builder_with_analysis",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A010",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_or_select_sheet",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A011",
+      "evidence": [
+        {
+          "line": 92,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_or_operate_charts",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A012",
+      "evidence": [
+        {
+          "line": 276,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_or_operate_filter_and_control",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A013",
+      "evidence": [
+        {
+          "line": 427,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_compile",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A014",
+      "evidence": [
+        {
+          "line": 774,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_all_datasets_from_quicksight",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A015",
+      "evidence": [
+        {
+          "line": 790,
+          "path": "function_tools/quicksight_chaintools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_analysis_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A016",
+      "evidence": [
+        {
+          "line": 30,
+          "path": "function_tools/search_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "match_accurate_propernoun_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-065.A017",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "function_tools/search_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AskKnowledgeBaseAboutQuicksight",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-065",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-065",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "KomachiZ/BICO",
+    "sha": "8bfc1b6dd254bff3a5969baa467efca28d7a6c46"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 134,
+        "name": "workflow",
+        "path": "app.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 135,
+        "name": "agent",
+        "path": "app.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 136,
+        "name": "action",
+        "path": "app.py",
+        "variable": "action"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 10,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 5,
+        "name": "execute_query",
+        "path": "function_tools/db_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 17,
+        "name": "get_table_info",
+        "path": "function_tools/db_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "get_table_names",
+        "path": "function_tools/db_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 41,
+        "name": "get_sql_design_guidance",
+        "path": "function_tools/db_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 7,
+        "name": "plot_chart",
+        "path": "function_tools/plot_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 9,
+        "name": "create_or_select_quicksight_builder_with_analysis",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 54,
+        "name": "create_or_select_sheet",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 92,
+        "name": "create_or_operate_charts",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 276,
+        "name": "create_or_operate_filter_and_control",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 427,
+        "name": "build_compile",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 774,
+        "name": "get_all_datasets_from_quicksight",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 790,
+        "name": "get_analysis_info",
+        "path": "function_tools/quicksight_chaintools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 30,
+        "name": "match_accurate_propernoun_tool",
+        "path": "function_tools/search_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 38,
+        "name": "AskKnowledgeBaseAboutQuicksight",
+        "path": "function_tools/search_tool.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

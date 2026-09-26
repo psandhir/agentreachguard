@@ -21,6 +21,8 @@ from typing import Any
 
 STUDY = "real-world-agent-security-2026"
 LOCK_DATE = "2026-09-26"
+REGENERATION_REASON = "corrected frozen application paths for rw-072 and rw-169"
+REGENERATION_SEQUENCE = 2
 MAX_FILES = 100
 MAX_BYTES = 3_000_000
 CLONE_TIMEOUT = 180

@@ -1,0 +1,726 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-046.A001",
+      "evidence": [
+        {
+          "line": 88,
+          "path": "src/agent/hierarchy_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "reviewer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A002",
+      "evidence": [
+        {
+          "line": 110,
+          "path": "src/agent/hierarchy_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A003",
+      "evidence": [
+        {
+          "line": 111,
+          "path": "src/agent/hierarchy_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "issue_resolve_graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A004",
+      "evidence": [
+        {
+          "line": 116,
+          "path": "src/agent/hierarchy_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "mam_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A005",
+      "evidence": [
+        {
+          "line": 126,
+          "path": "src/agent/hierarchy_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "reviewer_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A006",
+      "evidence": [
+        {
+          "line": 181,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "problem_decoder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A007",
+      "evidence": [
+        {
+          "line": 202,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "solution_mapper_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A008",
+      "evidence": [
+        {
+          "line": 224,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "problem_solver_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A009",
+      "evidence": [
+        {
+          "line": 259,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "supervisor_builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A010",
+      "evidence": [
+        {
+          "line": 261,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "input_handler",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A011",
+      "evidence": [
+        {
+          "line": 266,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "human_feedback",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A012",
+      "evidence": [
+        {
+          "line": 277,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "problem_decoder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A013",
+      "evidence": [
+        {
+          "line": 282,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "solution_mapper",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A014",
+      "evidence": [
+        {
+          "line": 287,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "problem_solver",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A015",
+      "evidence": [
+        {
+          "line": 292,
+          "path": "src/agent/supervisor_graph_demo.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "supervisor",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A016",
+      "evidence": [
+        {
+          "line": 207,
+          "path": "src/agent/tool_set/dev_knowledge.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "history_issue_knowledge_analysis_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A017",
+      "evidence": [
+        {
+          "line": 172,
+          "path": "src/agent/tool_set/context_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_relevant_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A018",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "src/agent/tool_set/deepwiki_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ask_repository_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A019",
+      "evidence": [
+        {
+          "line": 434,
+          "path": "src/agent/tool_set/dev_knowledge.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_dev_knowledge_design_version_2",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A020",
+      "evidence": [
+        {
+          "line": 538,
+          "path": "src/agent/tool_set/dev_knowledge.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_dev_knowledge_design_version_3",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A021",
+      "evidence": [
+        {
+          "line": 680,
+          "path": "src/agent/tool_set/dev_knowledge.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_dev_knowledge_design_version_4",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A022",
+      "evidence": [
+        {
+          "line": 25,
+          "path": "src/agent/tool_set/edit_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "str_replace_editor",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A023",
+      "evidence": [
+        {
+          "line": 124,
+          "path": "src/agent/tool_set/edit_tool.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "str_replace_based_edit_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A024",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_files_by_keywords",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A025",
+      "evidence": [
+        {
+          "line": 202,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "view_directory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A026",
+      "evidence": [
+        {
+          "line": 317,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "view_file_structure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A027",
+      "evidence": [
+        {
+          "line": 322,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "view_file_structure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A028",
+      "evidence": [
+        {
+          "line": 443,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "view_file_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A029",
+      "evidence": [
+        {
+          "line": 484,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_shell_cmd",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-046.A030",
+      "evidence": [
+        {
+          "line": 558,
+          "path": "src/agent/tool_set/sepl_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "think",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-046",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-046",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "src/agent/hierarchy_graph_demo.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "lingxi-agent/Lingxi",
+    "sha": "1f2e5dc4c87072cb4827c9c65d31450ae05ac482"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "create_react_agent",
+        "line": 88,
+        "name": "reviewer_agent",
+        "path": "src/agent/hierarchy_graph_demo.py",
+        "variable": "reviewer_agent"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 110,
+        "name": "builder",
+        "path": "src/agent/hierarchy_graph_demo.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 111,
+        "name": "issue_resolve_graph",
+        "path": "src/agent/hierarchy_graph_demo.py",
+        "variable": "issue_resolve_graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 116,
+        "name": "mam_node",
+        "path": "src/agent/hierarchy_graph_demo.py",
+        "variable": "mam_node"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 126,
+        "name": "reviewer_node",
+        "path": "src/agent/hierarchy_graph_demo.py",
+        "variable": "reviewer_node"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 181,
+        "name": "problem_decoder_agent",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "problem_decoder_agent"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 202,
+        "name": "solution_mapper_agent",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "solution_mapper_agent"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 224,
+        "name": "problem_solver_agent",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "problem_solver_agent"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 259,
+        "name": "supervisor_builder",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "supervisor_builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 261,
+        "name": "input_handler",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "input_handler"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 266,
+        "name": "human_feedback",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "human_feedback"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 277,
+        "name": "problem_decoder",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "problem_decoder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 282,
+        "name": "solution_mapper",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "solution_mapper"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 287,
+        "name": "problem_solver",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "problem_solver"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 292,
+        "name": "supervisor",
+        "path": "src/agent/supervisor_graph_demo.py",
+        "variable": "supervisor"
+      },
+      {
+        "aliases": [
+          "analysis_agent"
+        ],
+        "kind": "create_react_agent",
+        "line": 207,
+        "name": "history_issue_knowledge_analysis_agent",
+        "path": "src/agent/tool_set/dev_knowledge.py",
+        "variable": "analysis_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 36,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 172,
+        "name": "search_relevant_files",
+        "path": "src/agent/tool_set/context_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 21,
+        "name": "ask_repository_agent",
+        "path": "src/agent/tool_set/deepwiki_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 434,
+        "name": "get_dev_knowledge_design_version_2",
+        "path": "src/agent/tool_set/dev_knowledge.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 538,
+        "name": "get_dev_knowledge_design_version_3",
+        "path": "src/agent/tool_set/dev_knowledge.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 680,
+        "name": "get_dev_knowledge_design_version_4",
+        "path": "src/agent/tool_set/dev_knowledge.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 25,
+        "name": "str_replace_editor",
+        "path": "src/agent/tool_set/edit_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 124,
+        "name": "str_replace_based_edit_tool",
+        "path": "src/agent/tool_set/edit_tool.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 48,
+        "name": "search_files_by_keywords",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 202,
+        "name": "view_directory",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 317,
+        "name": "view_file_structure",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 322,
+        "name": "view_file_structure",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 443,
+        "name": "view_file_content",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 484,
+        "name": "run_shell_cmd",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 558,
+        "name": "think",
+        "path": "src/agent/tool_set/sepl_tools.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

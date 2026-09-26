@@ -1,0 +1,158 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-067.A001",
+      "evidence": [
+        {
+          "line": 223,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-067.A002",
+      "evidence": [
+        {
+          "line": 226,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-067.A003",
+      "evidence": [
+        {
+          "line": 227,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-067.A004",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "deviceState",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-067",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-067.A005",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "deviceControl",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-067",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-067",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "solnone/LangChain-LangGraph-Ollama-MQTT",
+    "sha": "a207de1725c43b5d87d8e4fcd20b89a0cca27a6e"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 223,
+        "name": "workflow",
+        "path": "app.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 226,
+        "name": "agent",
+        "path": "app.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 227,
+        "name": "tools",
+        "path": "app.py",
+        "variable": "tools"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 1,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 106,
+        "name": "deviceState",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 156,
+        "name": "deviceControl",
+        "path": "app.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

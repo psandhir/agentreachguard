@@ -1,0 +1,113 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-101.A001",
+      "evidence": [
+        {
+          "line": 16,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-101.A002",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "calculate_bmi",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-101.A003",
+      "evidence": [
+        {
+          "line": 26,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_current_time",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-101",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "client.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "ohidurbappy/learn-mcp",
+    "sha": "a158eb5b408318b373b7a2ba08ac8f52b6340ab5"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 16,
+        "name": "add",
+        "owner": "mcp",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 21,
+        "name": "calculate_bmi",
+        "owner": "mcp",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 26,
+        "name": "get_current_time",
+        "owner": "mcp",
+        "path": "server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

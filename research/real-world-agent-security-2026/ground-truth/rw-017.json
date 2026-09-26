@@ -1,0 +1,566 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-017.A001",
+      "evidence": [
+        {
+          "line": 449,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ingest_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A002",
+      "evidence": [
+        {
+          "line": 472,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "consolidate_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A003",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "query_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A004",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "memory_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A005",
+      "evidence": [
+        {
+          "line": 449,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "store_memory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "ingest_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A006",
+      "evidence": [
+        {
+          "line": 472,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_unconsolidated_memories",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "consolidate_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A007",
+      "evidence": [
+        {
+          "line": 472,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "store_consolidation",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "consolidate_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A008",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_all_memories",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "query_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A009",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_consolidation_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "query_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A010",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_memory_stats",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A011",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ingest_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "memory_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A012",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "consolidate_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "memory_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.A013",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "memory_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-017.B001",
+      "evidence": [
+        {
+          "line": 449,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "store_memory"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ingest_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-017.B002",
+      "evidence": [
+        {
+          "line": 472,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_unconsolidated_memories"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "consolidate_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-017.B003",
+      "evidence": [
+        {
+          "line": 472,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "store_consolidation"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "consolidate_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-017.B004",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_all_memories"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "query_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-017.B005",
+      "evidence": [
+        {
+          "line": 489,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_consolidation_history"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "query_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-017.B006",
+      "evidence": [
+        {
+          "line": 505,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_memory_stats"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "memory_orchestrator",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-017",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "mxyhi/always-on-memory-agent",
+    "sha": "5a92fd6fa34baa2920ac5ec6b1e1ac4def940311"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 449,
+        "name": "ingest_agent",
+        "path": "agent.py",
+        "variable": "ingest_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 472,
+        "name": "consolidate_agent",
+        "path": "agent.py",
+        "variable": "consolidate_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 489,
+        "name": "query_agent",
+        "path": "agent.py",
+        "variable": "query_agent"
+      },
+      {
+        "aliases": [
+          "orchestrator"
+        ],
+        "kind": "Agent",
+        "line": 505,
+        "name": "memory_orchestrator",
+        "path": "agent.py",
+        "variable": "orchestrator"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 505,
+        "path": "agent.py",
+        "source": "memory_orchestrator",
+        "source_variable": "orchestrator",
+        "target": "ingest_agent",
+        "target_variable": "ingest_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 505,
+        "path": "agent.py",
+        "source": "memory_orchestrator",
+        "source_variable": "orchestrator",
+        "target": "consolidate_agent",
+        "target_variable": "consolidate_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 505,
+        "path": "agent.py",
+        "source": "memory_orchestrator",
+        "source_variable": "orchestrator",
+        "target": "query_agent",
+        "target_variable": "query_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 48,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 449,
+        "name": "store_memory",
+        "owner": "ingest_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 472,
+        "name": "read_unconsolidated_memories",
+        "owner": "consolidate_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 472,
+        "name": "store_consolidation",
+        "owner": "consolidate_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 489,
+        "name": "read_all_memories",
+        "owner": "query_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 489,
+        "name": "read_consolidation_history",
+        "owner": "query_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 505,
+        "name": "get_memory_stats",
+        "owner": "orchestrator",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "ingest_agent",
+          "target_kind": "tool",
+          "target_name": "store_memory"
+        },
+        {
+          "agent": "consolidate_agent",
+          "target_kind": "tool",
+          "target_name": "read_unconsolidated_memories"
+        },
+        {
+          "agent": "consolidate_agent",
+          "target_kind": "tool",
+          "target_name": "store_consolidation"
+        },
+        {
+          "agent": "query_agent",
+          "target_kind": "tool",
+          "target_name": "read_all_memories"
+        },
+        {
+          "agent": "query_agent",
+          "target_kind": "tool",
+          "target_name": "read_consolidation_history"
+        },
+        {
+          "agent": "memory_orchestrator",
+          "target_kind": "tool",
+          "target_name": "get_memory_stats"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "ingest_agent",
+        "line": 449,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "store_memory"
+      },
+      {
+        "agent": "consolidate_agent",
+        "line": 472,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_unconsolidated_memories"
+      },
+      {
+        "agent": "consolidate_agent",
+        "line": 472,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "store_consolidation"
+      },
+      {
+        "agent": "query_agent",
+        "line": 489,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_all_memories"
+      },
+      {
+        "agent": "query_agent",
+        "line": 489,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_consolidation_history"
+      },
+      {
+        "agent": "memory_orchestrator",
+        "line": 505,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_memory_stats"
+      }
+    ],
+    "eligibility_signals": [
+      "sensitive_resource_access",
+      "filesystem_write",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "filesystem_write",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

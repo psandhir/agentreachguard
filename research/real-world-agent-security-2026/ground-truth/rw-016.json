@@ -1,0 +1,394 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-016.A001",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "VisaCheckAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A002",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "InsuranceRiskAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A003",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "PersonalizationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A004",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "PlaceDiscoveryAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A005",
+      "evidence": [
+        {
+          "line": 99,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ItineraryPlanningAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A006",
+      "evidence": [
+        {
+          "line": 117,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "SegmentTransportAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A007",
+      "evidence": [
+        {
+          "line": 130,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "LocalLogisticsAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A008",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TransportAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A009",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A010",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TravelerProfileAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A011",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "PersonalizationAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A012",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "PlaceDiscoveryAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A013",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ItineraryPlanningAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-016.A014",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TransportAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "RootOrchestrationAgent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-016",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Aryan-Madaan/buildblogmarathonblr",
+    "sha": "54fe26d233aaf2ac5bf9ff4beed5320a0fe22b22"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "visa_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 45,
+        "name": "VisaCheckAgent",
+        "path": "agent.py",
+        "variable": "visa_agent"
+      },
+      {
+        "aliases": [
+          "insurance_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 58,
+        "name": "InsuranceRiskAgent",
+        "path": "agent.py",
+        "variable": "insurance_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 73,
+        "name": "PersonalizationAgent",
+        "path": "agent.py",
+        "variable": "PersonalizationAgent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 84,
+        "name": "PlaceDiscoveryAgent",
+        "path": "agent.py",
+        "variable": "PlaceDiscoveryAgent"
+      },
+      {
+        "aliases": [
+          "itinerary_planning_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 99,
+        "name": "ItineraryPlanningAgent",
+        "path": "agent.py",
+        "variable": "itinerary_planning_agent"
+      },
+      {
+        "aliases": [
+          "segment_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 117,
+        "name": "SegmentTransportAgent",
+        "path": "agent.py",
+        "variable": "segment_agent"
+      },
+      {
+        "aliases": [
+          "logistics_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 130,
+        "name": "LocalLogisticsAgent",
+        "path": "agent.py",
+        "variable": "logistics_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 149,
+        "name": "TransportAgent",
+        "path": "agent.py",
+        "variable": "TransportAgent"
+      },
+      {
+        "kind": "SequentialAgent",
+        "line": 162,
+        "name": "RootOrchestrationAgent",
+        "path": "agent.py",
+        "variable": "RootOrchestrationAgent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 162,
+        "path": "agent.py",
+        "source": "RootOrchestrationAgent",
+        "source_variable": "RootOrchestrationAgent",
+        "target": "TravelerProfileAgent",
+        "target_variable": "TravelerProfileAgent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 162,
+        "path": "agent.py",
+        "source": "RootOrchestrationAgent",
+        "source_variable": "RootOrchestrationAgent",
+        "target": "PersonalizationAgent",
+        "target_variable": "PersonalizationAgent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 162,
+        "path": "agent.py",
+        "source": "RootOrchestrationAgent",
+        "source_variable": "RootOrchestrationAgent",
+        "target": "PlaceDiscoveryAgent",
+        "target_variable": "PlaceDiscoveryAgent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 162,
+        "path": "agent.py",
+        "source": "RootOrchestrationAgent",
+        "source_variable": "RootOrchestrationAgent",
+        "target": "ItineraryPlanningAgent",
+        "target_variable": "itinerary_planning_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 162,
+        "path": "agent.py",
+        "source": "RootOrchestrationAgent",
+        "source_variable": "RootOrchestrationAgent",
+        "target": "TransportAgent",
+        "target_variable": "TransportAgent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 30,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

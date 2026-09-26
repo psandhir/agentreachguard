@@ -1,0 +1,200 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-117.A001",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_web",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A002",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "is_known_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A003",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fetch_github_metadata_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A004",
+      "evidence": [
+        {
+          "line": 87,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_source_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A005",
+      "evidence": [
+        {
+          "line": 92,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_tool_profile_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A006",
+      "evidence": [
+        {
+          "line": 159,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_rejected_profile_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-117.A007",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "src/discovery_forge/agents/researcher_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "report_no_new_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-117",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-117",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "AGENTS.md",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "wandb/discovery-forge",
+    "sha": "05fabee1288d25c9a4f338cb723bb3b05023a570"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 51,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 59,
+        "name": "search_web",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 72,
+        "name": "is_known_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 79,
+        "name": "fetch_github_metadata_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 87,
+        "name": "save_source_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 92,
+        "name": "save_tool_profile_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 159,
+        "name": "save_rejected_profile_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 191,
+        "name": "report_no_new_tool",
+        "path": "src/discovery_forge/agents/researcher_tools.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

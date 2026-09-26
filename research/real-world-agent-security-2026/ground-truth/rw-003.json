@@ -1,0 +1,324 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-003.A001",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fast",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A002",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "concept_developer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A003",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "narrative_architect",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A004",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "character_developer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A005",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "prose_generator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A006",
+      "evidence": [
+        {
+          "line": 105,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "editor",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A007",
+      "evidence": [
+        {
+          "line": 117,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "story_generator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A008",
+      "evidence": [
+        {
+          "line": 136,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "story_evaluator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A009",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "narrative_assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.A010",
+      "evidence": [
+        {
+          "line": 167,
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "writing_workflow",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-003",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "mcp_server/components/fast_agent_integration.py",
+    "automated_reference": true,
+    "framework_stratum": "fastagent",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "angrysky56/ai_writers_workshop",
+    "sha": "c160a299706dd0cd1dc9ae114b97aba905e9261d"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "FastAgent",
+        "line": 43,
+        "name": "fast",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "fast"
+      },
+      {
+        "aliases": [
+          "concept_developer_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 63,
+        "name": "concept_developer",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "concept_developer_agent"
+      },
+      {
+        "aliases": [
+          "narrative_architect_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 74,
+        "name": "narrative_architect",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "narrative_architect_agent"
+      },
+      {
+        "aliases": [
+          "character_developer_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 85,
+        "name": "character_developer",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "character_developer_agent"
+      },
+      {
+        "aliases": [
+          "prose_generator_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 95,
+        "name": "prose_generator",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "prose_generator_agent"
+      },
+      {
+        "aliases": [
+          "editor_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 105,
+        "name": "editor",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "editor_agent"
+      },
+      {
+        "aliases": [
+          "story_generator_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 117,
+        "name": "story_generator",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "story_generator_agent"
+      },
+      {
+        "aliases": [
+          "story_evaluator_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 136,
+        "name": "story_evaluator",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "story_evaluator_agent"
+      },
+      {
+        "aliases": [
+          "narrative_assistant_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 149,
+        "name": "narrative_assistant",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "narrative_assistant_agent"
+      },
+      {
+        "kind": "decorator:chain",
+        "line": 167,
+        "name": "writing_workflow",
+        "path": "mcp_server/components/fast_agent_integration.py",
+        "variable": "writing_workflow"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "fastagent"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 13,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "mcp_usage",
+      "multiple_trust_boundaries",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "mcp_usage",
+      "multiple_trust_boundaries"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

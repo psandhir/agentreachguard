@@ -1,0 +1,344 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-165.A001",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A002",
+      "evidence": [
+        {
+          "line": 51,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_jira_task_assignee",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A003",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_jira_task_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A004",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_jira_ticket",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A005",
+      "evidence": [
+        {
+          "line": 87,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "open_jira_issue_in_browser",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A006",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "load_all_comments_for_jira_issue",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A007",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_comment_to_jira_issue",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A008",
+      "evidence": [
+        {
+          "line": 118,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "archive_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A009",
+      "evidence": [
+        {
+          "line": 128,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_task_by_id",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A010",
+      "evidence": [
+        {
+          "line": 139,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_tasks",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A011",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_or_create_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A012",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "current_date_time",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-165.A013",
+      "evidence": [
+        {
+          "line": 186,
+          "path": "ramon/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_task_id",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-165",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "ramon/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "abuiles/ramon",
+    "sha": "890b364018b8aea2ec50405cdde700fe824a9082"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 40,
+        "name": "agent",
+        "path": "ramon/agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 8,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 51,
+        "name": "get_jira_task_assignee",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 64,
+        "name": "get_jira_task_status",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 77,
+        "name": "create_jira_ticket",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 87,
+        "name": "open_jira_issue_in_browser",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 97,
+        "name": "load_all_comments_for_jira_issue",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 107,
+        "name": "add_comment_to_jira_issue",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 118,
+        "name": "archive_task",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 128,
+        "name": "get_task_by_id",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 139,
+        "name": "get_tasks",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 166,
+        "name": "update_or_create_task",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 177,
+        "name": "current_date_time",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 186,
+        "name": "generate_task_id",
+        "owner": "agent",
+        "path": "ramon/agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

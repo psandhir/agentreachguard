@@ -1,0 +1,308 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-161.A001",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-161.A002",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_knowledge",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-161.A003",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "offer_profile_download",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-161.A004",
+      "evidence": [
+        {
+          "line": 119,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "offer_booking",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-161.A005",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-161.B001",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "search_knowledge"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-161.B002",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "offer_profile_download"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-161.B003",
+      "evidence": [
+        {
+          "line": 119,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "offer_booking"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-161.B004",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "backend/app/agent/assistant.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_document"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-161",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "backend/app/agent/assistant.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "mars-mx/portfolio",
+    "sha": "6e6871b85fb0d4d051c2043bd0daa4911676e4d3"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 56,
+        "name": "agent",
+        "path": "backend/app/agent/assistant.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "decorator:tool_plain",
+        "line": 77,
+        "name": "search_knowledge",
+        "owner": "agent",
+        "path": "backend/app/agent/assistant.py"
+      },
+      {
+        "kind": "decorator:tool_plain",
+        "line": 93,
+        "name": "offer_profile_download",
+        "owner": "agent",
+        "path": "backend/app/agent/assistant.py"
+      },
+      {
+        "kind": "decorator:tool_plain",
+        "line": 119,
+        "name": "offer_booking",
+        "owner": "agent",
+        "path": "backend/app/agent/assistant.py"
+      },
+      {
+        "kind": "decorator:tool_plain",
+        "line": 149,
+        "name": "read_document",
+        "owner": "agent",
+        "path": "backend/app/agent/assistant.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "search_knowledge"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "offer_profile_download"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "offer_booking"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "read_document"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "agent",
+        "line": 77,
+        "path": "backend/app/agent/assistant.py",
+        "target_kind": "tool",
+        "target_name": "search_knowledge"
+      },
+      {
+        "agent": "agent",
+        "line": 93,
+        "path": "backend/app/agent/assistant.py",
+        "target_kind": "tool",
+        "target_name": "offer_profile_download"
+      },
+      {
+        "agent": "agent",
+        "line": 119,
+        "path": "backend/app/agent/assistant.py",
+        "target_kind": "tool",
+        "target_name": "offer_booking"
+      },
+      {
+        "agent": "agent",
+        "line": 149,
+        "path": "backend/app/agent/assistant.py",
+        "target_kind": "tool",
+        "target_name": "read_document"
+      }
+    ],
+    "eligibility_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

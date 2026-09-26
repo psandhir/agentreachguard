@@ -1,0 +1,695 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-004.A001",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "FunnelAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A002",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "AgroAsesorIA",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A003",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_to_products_a_repasar_in_firestore_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A004",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ask_contact_name_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A005",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ask_pain_points_questions_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A006",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "determine_next_profile_question_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A007",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_alternative_products_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A008",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_catalog_level_options_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A009",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_current_datetime_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A010",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_detailed_product_info_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A011",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_or_create_user_profile_from_firestore_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A012",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_products_final_list_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A013",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "prepare_selection_update_for_session_state",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A014",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_video_upload_link_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A015",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_external_products_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A016",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_internal_products_by_embedding_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A017",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_profile_in_firestore_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "funnel_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A018",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_to_cart",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A019",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_discount_code",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A020",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_cart_summary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A021",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_customer_profile",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A022",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_product_details",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A023",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_recommendations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A024",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_checkout",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A025",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remove_from_cart",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A026",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "schedule_service",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A027",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_products",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.A028",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "agentGemini/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_customer_profile",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-004",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "JoanMarinPages/agentGemini",
+    "sha": "0160690bb47cca17e70ceb8486209d7b1cacaf76"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "funnel_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 98,
+        "name": "FunnelAgent",
+        "path": "agent.py",
+        "variable": "funnel_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 38,
+        "name": "AgroAsesorIA",
+        "path": "agentGemini/agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 14,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "add_to_products_a_repasar_in_firestore_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "ask_contact_name_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "ask_pain_points_questions_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "determine_next_profile_question_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_alternative_products_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_catalog_level_options_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_current_datetime_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_detailed_product_info_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_or_create_user_profile_from_firestore_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "get_products_final_list_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "prepare_selection_update_for_session_state",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "request_video_upload_link_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "search_external_products_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "search_internal_products_by_embedding_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 98,
+        "name": "update_user_profile_in_firestore_tool",
+        "owner": "funnel_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "add_to_cart",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "generate_discount_code",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "get_cart_summary",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "get_customer_profile",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "get_product_details",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "get_recommendations",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "process_checkout",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "remove_from_cart",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "schedule_service",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "search_products",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "update_customer_profile",
+        "owner": "root_agent",
+        "path": "agentGemini/agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

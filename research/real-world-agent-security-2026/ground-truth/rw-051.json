@@ -1,0 +1,659 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-051.A001",
+      "evidence": [
+        {
+          "line": 18,
+          "path": "1_simple_graph.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A002",
+      "evidence": [
+        {
+          "line": 20,
+          "path": "1_simple_graph.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "calc_total_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A003",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "1_simple_graph.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "convert_to_inr_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A004",
+      "evidence": [
+        {
+          "line": 26,
+          "path": "2_graph_with_condition.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A005",
+      "evidence": [
+        {
+          "line": 28,
+          "path": "2_graph_with_condition.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "calc_total_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A006",
+      "evidence": [
+        {
+          "line": 29,
+          "path": "2_graph_with_condition.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "convert_to_inr_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A007",
+      "evidence": [
+        {
+          "line": 30,
+          "path": "2_graph_with_condition.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "convert_to_eur_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A008",
+      "evidence": [
+        {
+          "line": 20,
+          "path": "3_chatbot.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A009",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "3_chatbot.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "chatbot_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A010",
+      "evidence": [
+        {
+          "line": 39,
+          "path": "4_tool_call.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A011",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "4_tool_call.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A012",
+      "evidence": [
+        {
+          "line": 39,
+          "path": "5_tool_call_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A013",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "5_tool_call_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A014",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "6_memory.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A015",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "6_memory.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A016",
+      "evidence": [
+        {
+          "line": 39,
+          "path": "7_langsmith_tracing.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A017",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "7_langsmith_tracing.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A018",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "8_HITL.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A019",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "8_HITL.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "chatbot",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A020",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "8_HITL.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A021",
+      "evidence": [
+        {
+          "line": 19,
+          "path": "4_tool_call.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_stock_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A022",
+      "evidence": [
+        {
+          "line": 19,
+          "path": "5_tool_call_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_stock_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A023",
+      "evidence": [
+        {
+          "line": 23,
+          "path": "6_memory.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_stock_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A024",
+      "evidence": [
+        {
+          "line": 19,
+          "path": "7_langsmith_tracing.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_stock_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A025",
+      "evidence": [
+        {
+          "line": 19,
+          "path": "8_HITL.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_stock_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-051.A026",
+      "evidence": [
+        {
+          "line": 24,
+          "path": "8_HITL.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "buy_stocks",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-051",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-051",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "8_HITL.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "codebasics/langgraph-crash-course",
+    "sha": "4d926a1ac90b0a647f7f340e83353df3efedeb06"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 18,
+        "name": "builder",
+        "path": "1_simple_graph.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 20,
+        "name": "calc_total_node",
+        "path": "1_simple_graph.ipynb",
+        "variable": "calc_total_node"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 21,
+        "name": "convert_to_inr_node",
+        "path": "1_simple_graph.ipynb",
+        "variable": "convert_to_inr_node"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 26,
+        "name": "builder",
+        "path": "2_graph_with_condition.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 28,
+        "name": "calc_total_node",
+        "path": "2_graph_with_condition.ipynb",
+        "variable": "calc_total_node"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 29,
+        "name": "convert_to_inr_node",
+        "path": "2_graph_with_condition.ipynb",
+        "variable": "convert_to_inr_node"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 30,
+        "name": "convert_to_eur_node",
+        "path": "2_graph_with_condition.ipynb",
+        "variable": "convert_to_eur_node"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 20,
+        "name": "builder",
+        "path": "3_chatbot.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 21,
+        "name": "chatbot_node",
+        "path": "3_chatbot.ipynb",
+        "variable": "chatbot_node"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 39,
+        "name": "builder",
+        "path": "4_tool_call.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 42,
+        "name": "tools",
+        "path": "4_tool_call.ipynb",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 39,
+        "name": "builder",
+        "path": "5_tool_call_agent.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 42,
+        "name": "tools",
+        "path": "5_tool_call_agent.ipynb",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 43,
+        "name": "builder",
+        "path": "6_memory.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 46,
+        "name": "tools",
+        "path": "6_memory.ipynb",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 39,
+        "name": "builder",
+        "path": "7_langsmith_tracing.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 42,
+        "name": "tools",
+        "path": "7_langsmith_tracing.ipynb",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 44,
+        "name": "builder",
+        "path": "8_HITL.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 45,
+        "name": "chatbot",
+        "path": "8_HITL.py",
+        "variable": "chatbot"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 46,
+        "name": "tools",
+        "path": "8_HITL.py",
+        "variable": "tools"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 8,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 19,
+        "name": "get_stock_price",
+        "path": "4_tool_call.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 19,
+        "name": "get_stock_price",
+        "path": "5_tool_call_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 23,
+        "name": "get_stock_price",
+        "path": "6_memory.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 19,
+        "name": "get_stock_price",
+        "path": "7_langsmith_tracing.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 19,
+        "name": "get_stock_price",
+        "path": "8_HITL.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 24,
+        "name": "buy_stocks",
+        "path": "8_HITL.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "approval_controls",
+      "external_write_or_transaction_semantics",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "external_write_or_transaction_semantics"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

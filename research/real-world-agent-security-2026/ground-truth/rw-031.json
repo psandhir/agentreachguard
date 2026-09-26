@@ -1,0 +1,350 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-031.A001",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sentient_roadtrip_copilot",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A002",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "RoadTripToolset",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A003",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "mcp_usage.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_roadtrip_mood",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A004",
+      "evidence": [
+        {
+          "line": 27,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_roadtrip_mood",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A005",
+      "evidence": [
+        {
+          "line": 60,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plan_route",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A006",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "estimate_fuel_cost",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A007",
+      "evidence": [
+        {
+          "line": 112,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "find_scenic_spots",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A008",
+      "evidence": [
+        {
+          "line": 132,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "find_food_rest_stops",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A009",
+      "evidence": [
+        {
+          "line": 151,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_weather_on_route",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A010",
+      "evidence": [
+        {
+          "line": 194,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_trip_media",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A011",
+      "evidence": [
+        {
+          "line": 252,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_roadtrip_itinerary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A012",
+      "evidence": [
+        {
+          "line": 275,
+          "path": "server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enhance_destination_context",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "app",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-031.A013",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "agent.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "RoadTripToolset",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-031",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-031",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "ParasHarnagle/-Agent-Orch--travelConcierage",
+    "sha": "a50e4bd2995b66c5dc14f4b1c0c655e2b2e1219b"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 58,
+        "name": "sentient_roadtrip_copilot",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "McpToolset",
+        "line": 47,
+        "name": "RoadTripToolset",
+        "path": "agent.py",
+        "variable": "RoadTripToolset"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 7,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "RoadTripToolset",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "analyze_roadtrip_mood",
+        "owner": "app",
+        "path": "mcp_usage.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 27,
+        "name": "analyze_roadtrip_mood",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 60,
+        "name": "plan_route",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 93,
+        "name": "estimate_fuel_cost",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 112,
+        "name": "find_scenic_spots",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 132,
+        "name": "find_food_rest_stops",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 151,
+        "name": "get_weather_on_route",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 194,
+        "name": "generate_trip_media",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 252,
+        "name": "generate_roadtrip_itinerary",
+        "owner": "app",
+        "path": "server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 275,
+        "name": "enhance_destination_context",
+        "owner": "app",
+        "path": "server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

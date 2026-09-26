@@ -1,0 +1,1416 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-129.A001",
+      "evidence": [
+        {
+          "line": 677,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DocumentFieldExtractor",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A002",
+      "evidence": [
+        {
+          "line": 783,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TemplateFieldDetector",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A003",
+      "evidence": [
+        {
+          "line": 866,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DocumentAnalyzerAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A004",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "agents/registry.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A005",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/registry/agent_registry.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A006",
+      "evidence": [
+        {
+          "line": 1977,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DataGatheringAgentMinimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A007",
+      "evidence": [
+        {
+          "line": 1989,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "KBQueryAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A008",
+      "evidence": [
+        {
+          "line": 2037,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "QueryAnalyzerAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A009",
+      "evidence": [
+        {
+          "line": 2114,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DOCXGenerationAgentMinimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A010",
+      "evidence": [
+        {
+          "line": 2125,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TemplateAnalyzerAgentMinimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A011",
+      "evidence": [
+        {
+          "line": 2135,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DataExtractorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A012",
+      "evidence": [
+        {
+          "line": 2167,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TemplatePopulatorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A013",
+      "evidence": [
+        {
+          "line": 2198,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "FinalSynthesizerAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A014",
+      "evidence": [
+        {
+          "line": 2242,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "MetaQuerySynthesizerAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A015",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "tools/reranking_implementation.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "rerank_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A016",
+      "evidence": [
+        {
+          "line": 32,
+          "path": "tools/search_query_generator_implementation.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search_query_generator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A017",
+      "evidence": [
+        {
+          "line": 146,
+          "path": "tools/source_attribution_implementation.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "final_synthesizer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A018",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "tools/vector_store_tool_implementation.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "knowledge_retrieval_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A019",
+      "evidence": [
+        {
+          "line": 88,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_document_structure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A020",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_fields_from_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A021",
+      "evidence": [
+        {
+          "line": 389,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "detect_fields_from_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A022",
+      "evidence": [
+        {
+          "line": 500,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_document_for_workflow",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A023",
+      "evidence": [
+        {
+          "line": 866,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_document_for_workflow",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "document_analyzer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A024",
+      "evidence": [
+        {
+          "line": 866,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_document_structure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "document_analyzer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A025",
+      "evidence": [
+        {
+          "line": 866,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "detect_fields_from_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "document_analyzer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A026",
+      "evidence": [
+        {
+          "line": 866,
+          "path": "agents/document_analyzer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_fields_from_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "document_analyzer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A027",
+      "evidence": [
+        {
+          "line": 388,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_knowledge_base_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A028",
+      "evidence": [
+        {
+          "line": 448,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_kb_document_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A029",
+      "evidence": [
+        {
+          "line": 718,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_temporary_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A030",
+      "evidence": [
+        {
+          "line": 747,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_template_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A031",
+      "evidence": [
+        {
+          "line": 798,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_docx_from_markdown",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A032",
+      "evidence": [
+        {
+          "line": 832,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_data_for_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A033",
+      "evidence": [
+        {
+          "line": 1977,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_kb_document_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "data_gathering_agent_minimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A034",
+      "evidence": [
+        {
+          "line": 1977,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_temporary_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "data_gathering_agent_minimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A035",
+      "evidence": [
+        {
+          "line": 1977,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_template_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "data_gathering_agent_minimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A036",
+      "evidence": [
+        {
+          "line": 1989,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_kb_document_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "kb_query_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A037",
+      "evidence": [
+        {
+          "line": 1989,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_knowledge_base_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "kb_query_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A038",
+      "evidence": [
+        {
+          "line": 2114,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_docx_from_markdown",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "docx_generation_agent_minimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A039",
+      "evidence": [
+        {
+          "line": 2125,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_document_for_workflow",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "template_analyzer_agent_minimal",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A040",
+      "evidence": [
+        {
+          "line": 2135,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_data_for_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "data_extractor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A041",
+      "evidence": [
+        {
+          "line": 16,
+          "path": "tools/evaluation_tools/learning_report.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_learning_report",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A042",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "tools/evaluation_tools/learning_report.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_query_type_metrics",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A043",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "tools/evaluation_tools/learning_report.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_all_query_types",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A044",
+      "evidence": [
+        {
+          "line": 105,
+          "path": "tools/evaluation_tools/learning_report.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_learning_effectiveness_summary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A045",
+      "evidence": [
+        {
+          "line": 22,
+          "path": "tools/extraction_tools/data_extractor.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_data_for_template",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A046",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "tools/file_tools/temp_file_processor.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_temporary_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A047",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "tools/kb_tools/kb_adapter.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_kb_document_content_adapter",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A048",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "tools/kb_tools/kb_listing.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_knowledge_base_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A049",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "tools/kb_tools/kb_retrieval.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_kb_document_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A050",
+      "evidence": [
+        {
+          "line": 28,
+          "path": "tools/memory_tools/memory_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_agent_memory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A051",
+      "evidence": [
+        {
+          "line": 78,
+          "path": "tools/memory_tools/memory_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_agent_memory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A052",
+      "evidence": [
+        {
+          "line": 132,
+          "path": "tools/memory_tools/memory_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_to_agent_memory_list",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A053",
+      "evidence": [
+        {
+          "line": 33,
+          "path": "tools/reasoning_tools/outcome_analyzer.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_tool_outcome",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A054",
+      "evidence": [
+        {
+          "line": 82,
+          "path": "tools/reasoning_tools/outcome_analyzer.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_agent_outcome",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A055",
+      "evidence": [
+        {
+          "line": 32,
+          "path": "tools/reasoning_tools/parameter_helper.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "suggest_tool_parameters",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A056",
+      "evidence": [
+        {
+          "line": 182,
+          "path": "tools/reranking_implementation.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enhanced_get_kb_document_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A057",
+      "evidence": [
+        {
+          "line": 22,
+          "path": "tools/template_tools/docx_generation.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_docx_from_markdown",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A058",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "tools/template_tools/template_retrieval.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_template_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-129.A059",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "tools/vector_store_tool_implementation.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_vector_store",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-129",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-129",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "ALPHAbilal/test3",
+    "sha": "78c04c2b227ba8af0f152a5997c88609e9a1ed86"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "extraction_agent"
+        ],
+        "kind": "Agent",
+        "line": 677,
+        "name": "DocumentFieldExtractor",
+        "path": "agents/document_analyzer_agent.py",
+        "variable": "extraction_agent"
+      },
+      {
+        "aliases": [
+          "field_detection_agent"
+        ],
+        "kind": "Agent",
+        "line": 783,
+        "name": "TemplateFieldDetector",
+        "path": "agents/document_analyzer_agent.py",
+        "variable": "field_detection_agent"
+      },
+      {
+        "aliases": [
+          "document_analyzer_agent"
+        ],
+        "kind": "Agent",
+        "line": 866,
+        "name": "DocumentAnalyzerAgent",
+        "path": "agents/document_analyzer_agent.py",
+        "variable": "document_analyzer_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 71,
+        "name": "agent",
+        "path": "agents/registry.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 160,
+        "name": "agent",
+        "path": "agents/registry/agent_registry.py",
+        "variable": "agent"
+      },
+      {
+        "aliases": [
+          "data_gathering_agent_minimal"
+        ],
+        "kind": "Agent",
+        "line": 1977,
+        "name": "DataGatheringAgentMinimal",
+        "path": "app.py",
+        "variable": "data_gathering_agent_minimal"
+      },
+      {
+        "aliases": [
+          "kb_query_agent"
+        ],
+        "kind": "Agent",
+        "line": 1989,
+        "name": "KBQueryAgent",
+        "path": "app.py",
+        "variable": "kb_query_agent"
+      },
+      {
+        "aliases": [
+          "query_analyzer_agent"
+        ],
+        "kind": "Agent",
+        "line": 2037,
+        "name": "QueryAnalyzerAgent",
+        "path": "app.py",
+        "variable": "query_analyzer_agent"
+      },
+      {
+        "aliases": [
+          "docx_generation_agent_minimal"
+        ],
+        "kind": "Agent",
+        "line": 2114,
+        "name": "DOCXGenerationAgentMinimal",
+        "path": "app.py",
+        "variable": "docx_generation_agent_minimal"
+      },
+      {
+        "aliases": [
+          "template_analyzer_agent_minimal"
+        ],
+        "kind": "Agent",
+        "line": 2125,
+        "name": "TemplateAnalyzerAgentMinimal",
+        "path": "app.py",
+        "variable": "template_analyzer_agent_minimal"
+      },
+      {
+        "aliases": [
+          "data_extractor_agent"
+        ],
+        "kind": "Agent",
+        "line": 2135,
+        "name": "DataExtractorAgent",
+        "path": "app.py",
+        "variable": "data_extractor_agent"
+      },
+      {
+        "aliases": [
+          "template_populator_agent"
+        ],
+        "kind": "Agent",
+        "line": 2167,
+        "name": "TemplatePopulatorAgent",
+        "path": "app.py",
+        "variable": "template_populator_agent"
+      },
+      {
+        "aliases": [
+          "final_synthesizer_agent"
+        ],
+        "kind": "Agent",
+        "line": 2198,
+        "name": "FinalSynthesizerAgent",
+        "path": "app.py",
+        "variable": "final_synthesizer_agent"
+      },
+      {
+        "aliases": [
+          "meta_query_synthesizer_agent"
+        ],
+        "kind": "Agent",
+        "line": 2242,
+        "name": "MetaQuerySynthesizerAgent",
+        "path": "app.py",
+        "variable": "meta_query_synthesizer_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 40,
+        "name": "rerank_agent",
+        "path": "tools/reranking_implementation.py",
+        "variable": "rerank_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 32,
+        "name": "search_query_generator_agent",
+        "path": "tools/search_query_generator_implementation.py",
+        "variable": "search_query_generator_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 146,
+        "name": "final_synthesizer_agent",
+        "path": "tools/source_attribution_implementation.py",
+        "variable": "final_synthesizer_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 156,
+        "name": "knowledge_retrieval_agent",
+        "path": "tools/vector_store_tool_implementation.py",
+        "variable": "knowledge_retrieval_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 72,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 88,
+        "name": "analyze_document_structure",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 189,
+        "name": "extract_fields_from_document",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 389,
+        "name": "detect_fields_from_template",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 500,
+        "name": "analyze_document_for_workflow",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 866,
+        "name": "analyze_document_for_workflow",
+        "owner": "document_analyzer_agent",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 866,
+        "name": "analyze_document_structure",
+        "owner": "document_analyzer_agent",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 866,
+        "name": "detect_fields_from_template",
+        "owner": "document_analyzer_agent",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 866,
+        "name": "extract_fields_from_document",
+        "owner": "document_analyzer_agent",
+        "path": "agents/document_analyzer_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 388,
+        "name": "list_knowledge_base_files",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 448,
+        "name": "get_kb_document_content",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 718,
+        "name": "process_temporary_file",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 747,
+        "name": "retrieve_template_content",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 798,
+        "name": "generate_docx_from_markdown",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 832,
+        "name": "extract_data_for_template",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1977,
+        "name": "get_kb_document_content",
+        "owner": "data_gathering_agent_minimal",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1977,
+        "name": "process_temporary_file",
+        "owner": "data_gathering_agent_minimal",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1977,
+        "name": "retrieve_template_content",
+        "owner": "data_gathering_agent_minimal",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1989,
+        "name": "get_kb_document_content",
+        "owner": "kb_query_agent",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 1989,
+        "name": "list_knowledge_base_files",
+        "owner": "kb_query_agent",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 2114,
+        "name": "generate_docx_from_markdown",
+        "owner": "docx_generation_agent_minimal",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 2125,
+        "name": "analyze_document_for_workflow",
+        "owner": "template_analyzer_agent_minimal",
+        "path": "app.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 2135,
+        "name": "extract_data_for_template",
+        "owner": "data_extractor_agent",
+        "path": "app.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 16,
+        "name": "generate_learning_report",
+        "path": "tools/evaluation_tools/learning_report.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 40,
+        "name": "get_query_type_metrics",
+        "path": "tools/evaluation_tools/learning_report.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 81,
+        "name": "get_all_query_types",
+        "path": "tools/evaluation_tools/learning_report.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 105,
+        "name": "get_learning_effectiveness_summary",
+        "path": "tools/evaluation_tools/learning_report.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 22,
+        "name": "extract_data_for_template",
+        "path": "tools/extraction_tools/data_extractor.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 37,
+        "name": "process_temporary_file",
+        "path": "tools/file_tools/temp_file_processor.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 15,
+        "name": "get_kb_document_content_adapter",
+        "path": "tools/kb_tools/kb_adapter.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 15,
+        "name": "list_knowledge_base_files",
+        "path": "tools/kb_tools/kb_listing.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 56,
+        "name": "get_kb_document_content",
+        "path": "tools/kb_tools/kb_retrieval.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 28,
+        "name": "get_agent_memory",
+        "path": "tools/memory_tools/memory_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 78,
+        "name": "update_agent_memory",
+        "path": "tools/memory_tools/memory_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 132,
+        "name": "add_to_agent_memory_list",
+        "path": "tools/memory_tools/memory_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 33,
+        "name": "analyze_tool_outcome",
+        "path": "tools/reasoning_tools/outcome_analyzer.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 82,
+        "name": "analyze_agent_outcome",
+        "path": "tools/reasoning_tools/outcome_analyzer.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 32,
+        "name": "suggest_tool_parameters",
+        "path": "tools/reasoning_tools/parameter_helper.py"
+      },
+      {
+        "kind": "lexical:function_tool",
+        "line": 182,
+        "name": "enhanced_get_kb_document_content",
+        "path": "tools/reranking_implementation.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 22,
+        "name": "generate_docx_from_markdown",
+        "path": "tools/template_tools/docx_generation.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 46,
+        "name": "retrieve_template_content",
+        "path": "tools/template_tools/template_retrieval.py"
+      },
+      {
+        "kind": "lexical:function_tool",
+        "line": 48,
+        "name": "search_vector_store",
+        "path": "tools/vector_store_tool_implementation.py"
+      }
+    ],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement",
+      "core/streaming_implementation.py:python_ast_parse_failed",
+      "dynamic_source_constructs_detected",
+      "tools/reranking_implementation.py:python_ast_parse_failed",
+      "tools/search_query_generator_implementation.py:python_ast_parse_failed",
+      "tools/vector_store_tool_implementation.py:python_ast_parse_failed"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

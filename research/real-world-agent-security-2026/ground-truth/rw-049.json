@@ -1,0 +1,229 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-049.A001",
+      "evidence": [
+        {
+          "line": 90,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A002",
+      "evidence": [
+        {
+          "line": 30,
+          "path": "servers/exa_web_search.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_web",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A003",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "servers/exa_web_search.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "advanced_search_web",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A004",
+      "evidence": [
+        {
+          "line": 105,
+          "path": "servers/fire_crawl.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "scrape_url",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A005",
+      "evidence": [
+        {
+          "line": 126,
+          "path": "servers/fire_crawl.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "crawl_website",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A006",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "servers/fire_crawl.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_crawl_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A007",
+      "evidence": [
+        {
+          "line": 184,
+          "path": "servers/fire_crawl.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "map_website",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-049.A008",
+      "evidence": [
+        {
+          "line": 205,
+          "path": "servers/fire_crawl.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_structured_data",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-049",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "mshojaei77/ReActMCP",
+    "sha": "3fe0886eefa7ec6744d7ca78ad430d6e1749f126"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "create_react_agent",
+        "line": 90,
+        "name": "agent",
+        "path": "main.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 30,
+        "name": "search_web",
+        "owner": "mcp",
+        "path": "servers/exa_web_search.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 58,
+        "name": "advanced_search_web",
+        "owner": "mcp",
+        "path": "servers/exa_web_search.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 105,
+        "name": "scrape_url",
+        "owner": "mcp",
+        "path": "servers/fire_crawl.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 126,
+        "name": "crawl_website",
+        "owner": "mcp",
+        "path": "servers/fire_crawl.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 166,
+        "name": "check_crawl_status",
+        "owner": "mcp",
+        "path": "servers/fire_crawl.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 184,
+        "name": "map_website",
+        "owner": "mcp",
+        "path": "servers/fire_crawl.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 205,
+        "name": "extract_structured_data",
+        "owner": "mcp",
+        "path": "servers/fire_crawl.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

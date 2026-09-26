@@ -1,0 +1,120 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-132.A001",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "api/agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Research Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-132.A002",
+      "evidence": [
+        {
+          "line": 80,
+          "path": "api/agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Formatting Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-132.A003",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "api/agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "research_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-132",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "api/agents.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "brookr/serverless-agents",
+    "sha": "9b533fa9fb77502e1321b061c30d5ec5ac41f9f6"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "research_agent"
+        ],
+        "kind": "Agent",
+        "line": 40,
+        "name": "Research Agent",
+        "path": "api/agents.py",
+        "variable": "research_agent"
+      },
+      {
+        "aliases": [
+          "formatting_agent"
+        ],
+        "kind": "Agent",
+        "line": 80,
+        "name": "Formatting Agent",
+        "path": "api/agents.py",
+        "variable": "formatting_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 1,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 40,
+        "name": "WebSearchTool",
+        "owner": "research_agent",
+        "path": "api/agents.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

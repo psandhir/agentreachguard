@@ -1,0 +1,887 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-034.A001",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "social_media_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A002",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ContentGenAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A003",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ContentReviewAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A004",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "LoopControlAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A005",
+      "evidence": [
+        {
+          "line": 108,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "PromptCaptureAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A006",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A007",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_image",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A008",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_image",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A009",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_asset_versions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A010",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_reference_images",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A011",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "load_artifacts_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A012",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_image",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "content_generation_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A013",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_image",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "content_generation_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A014",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "load_artifacts_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "content_generation_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A015",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "load_artifacts_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "content_review_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A016",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "deep_think_loop",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "social_media_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A017",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "DeepThinkPreparationAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A018",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "PromptCaptureAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A019",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ContentGenAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A020",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ContentReviewAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A021",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "LoopControlAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.A022",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "deep_think_loop.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "LoopTerminationAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "DeepThinkLoop",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.B001",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "edit_image"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "social_media_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B002",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "generate_image"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "social_media_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B003",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "list_asset_versions"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "social_media_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B004",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "list_reference_images"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "social_media_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B005",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "load_artifacts_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "social_media_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B006",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "edit_image"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ContentGenAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B007",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "generate_image"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ContentGenAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B008",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "deep_think_loop.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "load_artifacts_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ContentGenAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-034.B009",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "deep_think_loop.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "load_artifacts_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ContentReviewAgent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-034",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "salomonerobert/adk-design-agent",
+    "sha": "b3aba77570f3891f836ac031257fe25872fc4000"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 72,
+        "name": "social_media_agent",
+        "path": "agent.py",
+        "variable": "root_agent"
+      },
+      {
+        "aliases": [
+          "content_generation_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 36,
+        "name": "ContentGenAgent",
+        "path": "deep_think_loop.py",
+        "variable": "content_generation_agent"
+      },
+      {
+        "aliases": [
+          "content_review_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 42,
+        "name": "ContentReviewAgent",
+        "path": "deep_think_loop.py",
+        "variable": "content_review_agent"
+      },
+      {
+        "aliases": [
+          "loop_control_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 53,
+        "name": "LoopControlAgent",
+        "path": "deep_think_loop.py",
+        "variable": "loop_control_agent"
+      },
+      {
+        "aliases": [
+          "prompt_capture_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 108,
+        "name": "PromptCaptureAgent",
+        "path": "deep_think_loop.py",
+        "variable": "prompt_capture_agent"
+      },
+      {
+        "aliases": [
+          "deep_think_loop"
+        ],
+        "kind": "LoopAgent",
+        "line": 154,
+        "name": "DeepThinkLoop",
+        "path": "deep_think_loop.py",
+        "variable": "deep_think_loop"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 72,
+        "path": "agent.py",
+        "source": "social_media_agent",
+        "source_variable": "root_agent",
+        "target": "deep_think_loop",
+        "target_variable": "deep_think_loop"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "DeepThinkPreparationAgent",
+        "target_variable": "DeepThinkPreparationAgent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "PromptCaptureAgent",
+        "target_variable": "prompt_capture_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "ContentGenAgent",
+        "target_variable": "content_generation_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "ContentReviewAgent",
+        "target_variable": "content_review_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "LoopControlAgent",
+        "target_variable": "loop_control_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 154,
+        "path": "deep_think_loop.py",
+        "source": "DeepThinkLoop",
+        "source_variable": "deep_think_loop",
+        "target": "LoopTerminationAgent",
+        "target_variable": "LoopTerminationAgent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 72,
+        "name": "edit_image",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 72,
+        "name": "generate_image",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 72,
+        "name": "list_asset_versions",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 72,
+        "name": "list_reference_images",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 72,
+        "name": "load_artifacts_tool",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 36,
+        "name": "edit_image",
+        "owner": "content_generation_agent",
+        "path": "deep_think_loop.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 36,
+        "name": "generate_image",
+        "owner": "content_generation_agent",
+        "path": "deep_think_loop.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 36,
+        "name": "load_artifacts_tool",
+        "owner": "content_generation_agent",
+        "path": "deep_think_loop.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 42,
+        "name": "load_artifacts_tool",
+        "owner": "content_review_agent",
+        "path": "deep_think_loop.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "social_media_agent",
+          "target_kind": "tool",
+          "target_name": "edit_image"
+        },
+        {
+          "agent": "social_media_agent",
+          "target_kind": "tool",
+          "target_name": "generate_image"
+        },
+        {
+          "agent": "social_media_agent",
+          "target_kind": "tool",
+          "target_name": "list_asset_versions"
+        },
+        {
+          "agent": "social_media_agent",
+          "target_kind": "tool",
+          "target_name": "list_reference_images"
+        },
+        {
+          "agent": "social_media_agent",
+          "target_kind": "tool",
+          "target_name": "load_artifacts_tool"
+        },
+        {
+          "agent": "ContentGenAgent",
+          "target_kind": "tool",
+          "target_name": "edit_image"
+        },
+        {
+          "agent": "ContentGenAgent",
+          "target_kind": "tool",
+          "target_name": "generate_image"
+        },
+        {
+          "agent": "ContentGenAgent",
+          "target_kind": "tool",
+          "target_name": "load_artifacts_tool"
+        },
+        {
+          "agent": "ContentReviewAgent",
+          "target_kind": "tool",
+          "target_name": "load_artifacts_tool"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "social_media_agent",
+        "line": 72,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "edit_image"
+      },
+      {
+        "agent": "social_media_agent",
+        "line": 72,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "generate_image"
+      },
+      {
+        "agent": "social_media_agent",
+        "line": 72,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "list_asset_versions"
+      },
+      {
+        "agent": "social_media_agent",
+        "line": 72,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "list_reference_images"
+      },
+      {
+        "agent": "social_media_agent",
+        "line": 72,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "load_artifacts_tool"
+      },
+      {
+        "agent": "ContentGenAgent",
+        "line": 36,
+        "path": "deep_think_loop.py",
+        "target_kind": "tool",
+        "target_name": "edit_image"
+      },
+      {
+        "agent": "ContentGenAgent",
+        "line": 36,
+        "path": "deep_think_loop.py",
+        "target_kind": "tool",
+        "target_name": "generate_image"
+      },
+      {
+        "agent": "ContentGenAgent",
+        "line": 36,
+        "path": "deep_think_loop.py",
+        "target_kind": "tool",
+        "target_name": "load_artifacts_tool"
+      },
+      {
+        "agent": "ContentReviewAgent",
+        "line": 42,
+        "path": "deep_think_loop.py",
+        "target_kind": "tool",
+        "target_name": "load_artifacts_tool"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "tool_composition",
+      "sensitive_resource_access"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-098.A001",
+      "evidence": [
+        {
+          "line": 25,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-098",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-098.A002",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-098.A003",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-098",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-098.A004",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_document",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-098",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "SHOCKWAVE07/mcp-gemini",
+    "sha": "8d43f39679a15a150474560002c13fc42f263c55"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 10,
+    "tools": [
+      {
+        "kind": "lexical:tool",
+        "line": 25,
+        "name": "read_document",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "read_document",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 38,
+        "name": "edit_document",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 44,
+        "name": "edit_document",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

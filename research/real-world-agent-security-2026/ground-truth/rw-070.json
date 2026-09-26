@@ -1,0 +1,186 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-070.A001",
+      "evidence": [
+        {
+          "line": 194,
+          "path": "agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-070.A002",
+      "evidence": [
+        {
+          "line": 154,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-070.A003",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-070.A004",
+      "evidence": [
+        {
+          "line": 157,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-070.A005",
+      "evidence": [
+        {
+          "line": 158,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "summarize",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-070.A006",
+      "evidence": [
+        {
+          "line": 50,
+          "path": "app.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-070",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-070",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "RidaNaz/Chatbot",
+    "sha": "c0637eaddfb2a9929ce454bf5de5a4452b3e89be"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 194,
+        "name": "builder",
+        "path": "agent.ipynb",
+        "variable": "builder"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 154,
+        "name": "builder",
+        "path": "app.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 156,
+        "name": "agent",
+        "path": "app.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 157,
+        "name": "tools",
+        "path": "app.py",
+        "variable": "tools"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 158,
+        "name": "summarize",
+        "path": "app.py",
+        "variable": "summarize"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 50,
+        "name": "search",
+        "path": "app.py"
+      }
+    ],
+    "unresolved": [
+      "agent.ipynb:python_ast_parse_failed",
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

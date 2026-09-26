@@ -1,0 +1,268 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-053.A001",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A002",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A003",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A004",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_order_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A005",
+      "evidence": [
+        {
+          "line": 34,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "initiate_return",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A006",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_support_ticket",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A007",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "escalate_to_human",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A008",
+      "evidence": [
+        {
+          "line": 91,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_return_policy",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A009",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_shipping_policy",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-053.A010",
+      "evidence": [
+        {
+          "line": 112,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_general_faq",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-053",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-053",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Aakash109-hub/eCommerce-Customer-Support-Agent",
+    "sha": "531d10da2b755781b081349139b72d953bf3922b"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 43,
+        "name": "workflow",
+        "path": "main.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 44,
+        "name": "agent",
+        "path": "main.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 45,
+        "name": "tools",
+        "path": "main.py",
+        "variable": "tools"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 8,
+        "name": "check_order_status",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 34,
+        "name": "initiate_return",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 48,
+        "name": "create_support_ticket",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 70,
+        "name": "escalate_to_human",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 91,
+        "name": "search_return_policy",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 101,
+        "name": "search_shipping_policy",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 112,
+        "name": "search_general_faq",
+        "path": "tools.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

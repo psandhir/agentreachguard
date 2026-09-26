@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
-  "phase": "cohort_frozen_truth_pending",
+  "phase": "ground_truth_locked",
   "scanner_freeze_sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
   "cohort_frozen": true,
   "horustrace_results_used_for_selection": false,
@@ -662,7 +662,7 @@
       "case_id": "rw-072",
       "repo": "lgesuellip/researcher_agent",
       "sha": "d95548b6e63db7f46a94df432ebccc703fb8ec6b",
-      "application_path": "agents/base/react.py",
+      "application_path": "core/agents/base/react.py",
       "framework_stratum": "langgraph",
       "previously_studied": false,
       "ground_truth": "ground-truth/rw-072.json"
@@ -1535,7 +1535,7 @@
       "case_id": "rw-169",
       "repo": "badlydrawnrod/agent-c",
       "sha": "9789e93dab47c4bd38ccc6fe19c3761f611d09e4",
-      "application_path": "agent_c",
+      "application_path": "src/agentc",
       "framework_stratum": "pydantic-ai",
       "previously_studied": false,
       "ground_truth": "ground-truth/rw-169.json"
@@ -1733,5 +1733,37 @@
     "source_review_complete": true,
     "reason": "After complete 381-repository screening and a dedicated deployment/IAM source review, only four defensible deployment-identity cases survived the independently selected broad cohort. The methodology preregisters this scarcity as a reportable result; no weak cases were promoted to satisfy the target."
   },
-  "ground_truth_locked": false
+  "ground_truth_locked": true,
+  "ground_truth_reference": {
+    "method_version": "source-reference-v1",
+    "locked_at": "2026-09-26",
+    "automated_dual_pass": true,
+    "human_dual_review": false,
+    "summary": {
+      "cases": 180,
+      "fetch_failures": 0,
+      "assertions": 2091,
+      "explicit_agent_entities": 692,
+      "explicit_tools": 1115,
+      "explicit_mcp_servers": 22,
+      "explicit_delegation_edges": 85,
+      "agent_complete_cases": 72
+    },
+    "limitations": [
+      "automated source reference is not a substitute for independent human dual adjudication",
+      "precision is reported only where reference completeness is explicitly established",
+      "dynamic/runtime constructs remain unresolved"
+    ]
+  },
+  "metadata_corrections": [
+    {
+      "corrected_at": "2026-09-26",
+      "cases": [
+        "rw-072",
+        "rw-169"
+      ],
+      "reason": "Pre-baseline source review found application-path metadata errors at the already frozen repo/SHA; paths corrected without changing selection, framework, or target revision.",
+      "horustrace_output_seen": false
+    }
+  ]
 }

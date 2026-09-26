@@ -1,0 +1,1364 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-035.A001",
+      "evidence": [
+        {
+          "line": 116,
+          "path": "000-usermanuals/get_started_with_memory_for_adk_in_cloud_run.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A002",
+      "evidence": [
+        {
+          "line": 168,
+          "path": "000-usermanuals/tutorial_a2a_on_agent_engine.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "qna_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A003",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "perception_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A004",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "perception_app/jvp_agent/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "iamjvp-commander",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A005",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "perception_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A006",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A007",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A008",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_daily_ingestion_plan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A009",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "finalize_ingestion_run",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A010",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_daily_ingestion",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A011",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "start_ingestion_run",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A012",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "perception_app/jvp_agent/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "PreloadMemoryTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "JVP_AGENT",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A013",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "perception_app/jvp_agent/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "echo_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "JVP_AGENT",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A014",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "perception_app/jvp_agent/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "orchestrate_strategy",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "JVP_AGENT",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.A015",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "perception_app/jvp_agent/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "vertex_ai_rag_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "JVP_AGENT",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-035.C001",
+      "evidence": [
+        {
+          "line": 27,
+          "path": ".github/workflows/deploy-mcp.yml",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C002",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "000-docs/002-OD-DEPL-deployment-status.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-agent-runner@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C003",
+      "evidence": [
+        {
+          "line": 92,
+          "path": "000-docs/002-OD-DEPL-deployment-status.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C004",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C005",
+      "evidence": [
+        {
+          "line": 552,
+          "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C006",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C007",
+      "evidence": [
+        {
+          "line": 90,
+          "path": "000-docs/6767-AT-ARCH-mcp-consolidation.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C008",
+      "evidence": [
+        {
+          "line": 510,
+          "path": "000-docs/6767-AT-ARCH-perception-platform-overview.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C009",
+      "evidence": [
+        {
+          "line": 279,
+          "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "github-actions@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C010",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "DEPLOYMENT-STATUS.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-agent-runner@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C011",
+      "evidence": [
+        {
+          "line": 92,
+          "path": "DEPLOYMENT-STATUS.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C012",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C013",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "000-docs/002-OD-DEPL-deployment-status.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.workloadIdentityUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C014",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/run.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C015",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/artifactregistry.writer",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C016",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/storage.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C017",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/aiplatform.user",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C018",
+      "evidence": [
+        {
+          "line": 89,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.serviceAccountUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C019",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.workloadIdentityUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C020",
+      "evidence": [
+        {
+          "line": 562,
+          "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/datastore.user",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C021",
+      "evidence": [
+        {
+          "line": 563,
+          "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/aiplatform.user",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C022",
+      "evidence": [
+        {
+          "line": 564,
+          "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/secretmanager.secretAccessor",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C023",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/run.invoker",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C024",
+      "evidence": [
+        {
+          "line": 210,
+          "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/secretmanager.secretAccessor",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C025",
+      "evidence": [
+        {
+          "line": 211,
+          "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/logging.logWriter",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C026",
+      "evidence": [
+        {
+          "line": 212,
+          "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/cloudtrace.agent",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C027",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/aiplatform.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C028",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/logging.logWriter",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C029",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/monitoring.metricWriter",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C030",
+      "evidence": [
+        {
+          "line": 355,
+          "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/run.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C031",
+      "evidence": [
+        {
+          "line": 356,
+          "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.serviceAccountUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C032",
+      "evidence": [
+        {
+          "line": 357,
+          "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/aiplatform.user",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C033",
+      "evidence": [
+        {
+          "line": 358,
+          "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/firebase.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C034",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "000-docs/6767-PM-REPO-context-handoff.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/storage.objectViewer",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C035",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "000-docs/6767-PM-REPO-context-handoff.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/logging.logWriter",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C036",
+      "evidence": [
+        {
+          "line": 86,
+          "path": "000-docs/6767-PM-REPO-context-handoff.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/artifactregistry.writer",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C037",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "DEPLOYMENT-STATUS.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.workloadIdentityUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C038",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/run.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C039",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/artifactregistry.writer",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C040",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/storage.admin",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C041",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/aiplatform.user",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C042",
+      "evidence": [
+        {
+          "line": 89,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.serviceAccountUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-035.C043",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "WIF-SETUP-GUIDE.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this role."
+        }
+      ],
+      "expected_state": "present",
+      "object": "roles/iam.workloadIdentityUser",
+      "predicate": "declares_role",
+      "rationale": "Repository deployment/IAM source explicitly declares this role.",
+      "subject": "rw-035",
+      "tier": "C"
+    }
+  ],
+  "case_id": "rw-035",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "jeremylongshore/perception-with-intent",
+    "sha": "b812b4406c41584a095b109b41ff5dfc58700b03"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 116,
+        "name": "root_agent",
+        "path": "000-usermanuals/get_started_with_memory_for_adk_in_cloud_run.ipynb",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 168,
+        "name": "qna_agent",
+        "path": "000-usermanuals/tutorial_a2a_on_agent_engine.ipynb",
+        "variable": "qna_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 49,
+        "name": "perception_orchestrator",
+        "path": "agent.py",
+        "variable": "root_agent"
+      },
+      {
+        "aliases": [
+          "JVP_AGENT"
+        ],
+        "kind": "Agent",
+        "line": 38,
+        "name": "iamjvp-commander",
+        "path": "perception_app/jvp_agent/agent.py",
+        "variable": "JVP_AGENT"
+      },
+      {
+        "aliases": [
+          "agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 54,
+        "name": "perception_orchestrator",
+        "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "create_agent",
+        "line": 73,
+        "name": "agent",
+        "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "create_agent",
+        "line": 85,
+        "name": "root_agent",
+        "path": "perception_app/perception_agent/agents/agent_0_orchestrator/agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 100,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 49,
+        "name": "build_daily_ingestion_plan",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 49,
+        "name": "finalize_ingestion_run",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 49,
+        "name": "run_daily_ingestion",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 49,
+        "name": "start_ingestion_run",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "PreloadMemoryTool",
+        "owner": "JVP_AGENT",
+        "path": "perception_app/jvp_agent/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "echo_command",
+        "owner": "JVP_AGENT",
+        "path": "perception_app/jvp_agent/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "orchestrate_strategy",
+        "owner": "JVP_AGENT",
+        "path": "perception_app/jvp_agent/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 38,
+        "name": "vertex_ai_rag_search",
+        "owner": "JVP_AGENT",
+        "path": "perception_app/jvp_agent/agent.py"
+      }
+    ],
+    "unresolved": [
+      "000-usermanuals/get_started_with_memory_for_adk_in_cloud_run.ipynb:python_ast_parse_failed",
+      "000-usermanuals/tutorial_a2a_on_agent_engine.ipynb:python_ast_parse_failed",
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected",
+      "source_scope_file_limit_reached"
+    ]
+  },
+  "tier_c": {
+    "declared_roles": [
+      {
+        "line": 94,
+        "path": "000-docs/002-OD-DEPL-deployment-status.md",
+        "provider": "gcp",
+        "role": "roles/iam.workloadIdentityUser"
+      },
+      {
+        "line": 73,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/run.admin"
+      },
+      {
+        "line": 77,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/artifactregistry.writer"
+      },
+      {
+        "line": 81,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/storage.admin"
+      },
+      {
+        "line": 85,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/aiplatform.user"
+      },
+      {
+        "line": 89,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/iam.serviceAccountUser"
+      },
+      {
+        "line": 101,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp",
+        "role": "roles/iam.workloadIdentityUser"
+      },
+      {
+        "line": 562,
+        "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+        "provider": "gcp",
+        "role": "roles/datastore.user"
+      },
+      {
+        "line": 563,
+        "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+        "provider": "gcp",
+        "role": "roles/aiplatform.user"
+      },
+      {
+        "line": 564,
+        "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+        "provider": "gcp",
+        "role": "roles/secretmanager.secretAccessor"
+      },
+      {
+        "line": 209,
+        "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+        "provider": "gcp",
+        "role": "roles/run.invoker"
+      },
+      {
+        "line": 210,
+        "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+        "provider": "gcp",
+        "role": "roles/secretmanager.secretAccessor"
+      },
+      {
+        "line": 211,
+        "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+        "provider": "gcp",
+        "role": "roles/logging.logWriter"
+      },
+      {
+        "line": 212,
+        "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+        "provider": "gcp",
+        "role": "roles/cloudtrace.agent"
+      },
+      {
+        "line": 43,
+        "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+        "provider": "gcp",
+        "role": "roles/aiplatform.admin"
+      },
+      {
+        "line": 44,
+        "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+        "provider": "gcp",
+        "role": "roles/logging.logWriter"
+      },
+      {
+        "line": 45,
+        "path": "000-docs/6767-OD-GUID-agent-engine-deploy.md",
+        "provider": "gcp",
+        "role": "roles/monitoring.metricWriter"
+      },
+      {
+        "line": 355,
+        "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+        "provider": "gcp",
+        "role": "roles/run.admin"
+      },
+      {
+        "line": 356,
+        "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+        "provider": "gcp",
+        "role": "roles/iam.serviceAccountUser"
+      },
+      {
+        "line": 357,
+        "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+        "provider": "gcp",
+        "role": "roles/aiplatform.user"
+      },
+      {
+        "line": 358,
+        "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+        "provider": "gcp",
+        "role": "roles/firebase.admin"
+      },
+      {
+        "line": 84,
+        "path": "000-docs/6767-PM-REPO-context-handoff.md",
+        "provider": "gcp",
+        "role": "roles/storage.objectViewer"
+      },
+      {
+        "line": 85,
+        "path": "000-docs/6767-PM-REPO-context-handoff.md",
+        "provider": "gcp",
+        "role": "roles/logging.logWriter"
+      },
+      {
+        "line": 86,
+        "path": "000-docs/6767-PM-REPO-context-handoff.md",
+        "provider": "gcp",
+        "role": "roles/artifactregistry.writer"
+      },
+      {
+        "line": 94,
+        "path": "DEPLOYMENT-STATUS.md",
+        "provider": "gcp",
+        "role": "roles/iam.workloadIdentityUser"
+      },
+      {
+        "line": 73,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/run.admin"
+      },
+      {
+        "line": 77,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/artifactregistry.writer"
+      },
+      {
+        "line": 81,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/storage.admin"
+      },
+      {
+        "line": 85,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/aiplatform.user"
+      },
+      {
+        "line": 89,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/iam.serviceAccountUser"
+      },
+      {
+        "line": 101,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp",
+        "role": "roles/iam.workloadIdentityUser"
+      }
+    ],
+    "files_reviewed": 151,
+    "review_method": "repository-declared deployment/IAM source review",
+    "runtime_effectiveness": "not_verified",
+    "unresolved": [
+      "repository evidence cannot establish live runtime effectiveness",
+      "identity-to-agent binding is scored only when source evidence is explicit"
+    ],
+    "workload_or_deployer_identities": [
+      {
+        "identity": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+        "line": 27,
+        "path": ".github/workflows/deploy-mcp.yml",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-agent-runner@perception-with-intent.iam.gserviceaccount.com",
+        "line": 36,
+        "path": "000-docs/002-OD-DEPL-deployment-status.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+        "line": 92,
+        "path": "000-docs/002-OD-DEPL-deployment-status.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+        "line": 72,
+        "path": "000-docs/003-OD-GUID-wif-setup-guide.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+        "line": 552,
+        "path": "000-docs/007-AT-ARCH-mcp-tools.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+        "line": 31,
+        "path": "000-docs/6767-AT-ARCH-mcp-cloud-run-runtime.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+        "line": 90,
+        "path": "000-docs/6767-AT-ARCH-mcp-consolidation.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "mcp-service@perception-with-intent.iam.gserviceaccount.com",
+        "line": 510,
+        "path": "000-docs/6767-AT-ARCH-perception-platform-overview.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "github-actions@perception-with-intent.iam.gserviceaccount.com",
+        "line": 279,
+        "path": "000-docs/6767-OD-GUID-ci-deploy-map.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-agent-runner@perception-with-intent.iam.gserviceaccount.com",
+        "line": 36,
+        "path": "DEPLOYMENT-STATUS.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+        "line": 92,
+        "path": "DEPLOYMENT-STATUS.md",
+        "provider": "gcp"
+      },
+      {
+        "identity": "perception-deployer@perception-with-intent.iam.gserviceaccount.com",
+        "line": 72,
+        "path": "WIF-SETUP-GUIDE.md",
+        "provider": "gcp"
+      }
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

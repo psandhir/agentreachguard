@@ -5567,8 +5567,8 @@
       "screening": {
         "reviewed_at": "2026-09-26",
         "source_only": true,
-        "application_path": "agent_c",
-        "rationale": "Pinned source review established a bounded substantive pydantic-ai application at agent_c; retained independently of HorusTrace output.",
+        "application_path": "src/agentc",
+        "rationale": "Pinned source review established the substantive Pydantic AI application package at src/agentc, including the Textual launcher and backend agent factory; retained independently of HorusTrace output.",
         "license_status": "public_repository_provenance_checked; license_not_adjudicated",
         "tier_b": {
           "eligible": true,
@@ -7974,8 +7974,8 @@
       "screening": {
         "reviewed_at": "2026-09-26",
         "source_only": true,
-        "application_path": "agents/base/react.py",
-        "rationale": "Pinned source review established a bounded substantive langgraph application at agents/base/react.py; retained independently of HorusTrace output.",
+        "application_path": "core/agents/base/react.py",
+        "rationale": "Pinned source review established a bounded substantive LangGraph application at core/agents/base/react.py; retained independently of HorusTrace output.",
         "license_status": "public_repository_provenance_checked; license_not_adjudicated",
         "tier_b": {
           "eligible": false,

@@ -1,0 +1,235 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-020.A001",
+      "evidence": [
+        {
+          "line": 208,
+          "path": "agent/genai-toolbox/docs/en/getting-started/colab_quickstart.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A002",
+      "evidence": [
+        {
+          "line": 299,
+          "path": "agent/genai-toolbox/docs/en/getting-started/colab_quickstart.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A003",
+      "evidence": [
+        {
+          "line": 27,
+          "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/js/adk/quickstart.js",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "rootAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A004",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/python/adk/quickstart.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A005",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/python/langchain/quickstart.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A006",
+      "evidence": [
+        {
+          "line": 548,
+          "path": "agent/genai-toolbox/docs/en/samples/alloydb/ai-nl/alloydb_ai_nl.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A007",
+      "evidence": [
+        {
+          "line": 230,
+          "path": "agent/genai-toolbox/docs/en/samples/bigquery/colab_quickstart_bigquery.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-020.A008",
+      "evidence": [
+        {
+          "line": 339,
+          "path": "agent/genai-toolbox/docs/en/samples/bigquery/colab_quickstart_bigquery.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-020",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent/main.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Ditto190/modme-ui-01",
+    "sha": "6b15366dbf86598de9d325e9c2c65ee23789bd09"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 208,
+        "name": "root_agent",
+        "path": "agent/genai-toolbox/docs/en/getting-started/colab_quickstart.ipynb",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 299,
+        "name": "agent",
+        "path": "agent/genai-toolbox/docs/en/getting-started/colab_quickstart.ipynb",
+        "variable": "agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 27,
+        "name": "rootAgent",
+        "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/js/adk/quickstart.js",
+        "variable": "rootAgent"
+      },
+      {
+        "kind": "Agent",
+        "line": 8,
+        "name": "root_agent",
+        "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/python/adk/quickstart.py",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 44,
+        "name": "agent",
+        "path": "agent/genai-toolbox/docs/en/getting-started/quickstart/python/langchain/quickstart.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 548,
+        "name": "root_agent",
+        "path": "agent/genai-toolbox/docs/en/samples/alloydb/ai-nl/alloydb_ai_nl.ipynb",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 230,
+        "name": "agent",
+        "path": "agent/genai-toolbox/docs/en/samples/bigquery/colab_quickstart_bigquery.ipynb",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 339,
+        "name": "root_agent",
+        "path": "agent/genai-toolbox/docs/en/samples/bigquery/colab_quickstart_bigquery.ipynb",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 100,
+    "tools": [],
+    "unresolved": [
+      "agent/genai-toolbox/docs/en/getting-started/colab_quickstart.ipynb:python_ast_parse_failed",
+      "agent/genai-toolbox/docs/en/samples/alloydb/ai-nl/alloydb_ai_nl.ipynb:python_ast_parse_failed",
+      "agent/genai-toolbox/docs/en/samples/bigquery/colab_quickstart_bigquery.ipynb:python_ast_parse_failed",
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected",
+      "source_scope_file_limit_reached"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

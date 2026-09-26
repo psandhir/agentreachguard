@@ -1,0 +1,548 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-055.A001",
+      "evidence": [
+        {
+          "line": 604,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A002",
+      "evidence": [
+        {
+          "line": 607,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Market Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A003",
+      "evidence": [
+        {
+          "line": 608,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Social Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A004",
+      "evidence": [
+        {
+          "line": 609,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "News Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A005",
+      "evidence": [
+        {
+          "line": 610,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Fundamentals Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A006",
+      "evidence": [
+        {
+          "line": 611,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A007",
+      "evidence": [
+        {
+          "line": 612,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Msg Clear",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A008",
+      "evidence": [
+        {
+          "line": 615,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Bull Researcher",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A009",
+      "evidence": [
+        {
+          "line": 616,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Bear Researcher",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A010",
+      "evidence": [
+        {
+          "line": 617,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Research Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A011",
+      "evidence": [
+        {
+          "line": 620,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Trader",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A012",
+      "evidence": [
+        {
+          "line": 621,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Risky Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A013",
+      "evidence": [
+        {
+          "line": 622,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Safe Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A014",
+      "evidence": [
+        {
+          "line": 623,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Neutral Analyst",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A015",
+      "evidence": [
+        {
+          "line": 624,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Risk Judge",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A016",
+      "evidence": [
+        {
+          "line": 120,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_yfinance_data",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A017",
+      "evidence": [
+        {
+          "line": 136,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_technical_indicators",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A018",
+      "evidence": [
+        {
+          "line": 153,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_finnhub_news",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A019",
+      "evidence": [
+        {
+          "line": 169,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_social_media_sentiment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A020",
+      "evidence": [
+        {
+          "line": 175,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_fundamental_analysis",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-055.A021",
+      "evidence": [
+        {
+          "line": 181,
+          "path": "code.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_macroeconomic_news",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-055",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-055",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "code.ipynb",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "FareedKhan-dev/multi-agent-trading-system",
+    "sha": "6ae0c4bf8776e8e383923b69d3696ecc3e1ac0f0"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 604,
+        "name": "workflow",
+        "path": "code.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 607,
+        "name": "Market Analyst",
+        "path": "code.ipynb",
+        "variable": "Market Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 608,
+        "name": "Social Analyst",
+        "path": "code.ipynb",
+        "variable": "Social Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 609,
+        "name": "News Analyst",
+        "path": "code.ipynb",
+        "variable": "News Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 610,
+        "name": "Fundamentals Analyst",
+        "path": "code.ipynb",
+        "variable": "Fundamentals Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 611,
+        "name": "tools",
+        "path": "code.ipynb",
+        "variable": "tools"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 612,
+        "name": "Msg Clear",
+        "path": "code.ipynb",
+        "variable": "Msg Clear"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 615,
+        "name": "Bull Researcher",
+        "path": "code.ipynb",
+        "variable": "Bull Researcher"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 616,
+        "name": "Bear Researcher",
+        "path": "code.ipynb",
+        "variable": "Bear Researcher"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 617,
+        "name": "Research Manager",
+        "path": "code.ipynb",
+        "variable": "Research Manager"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 620,
+        "name": "Trader",
+        "path": "code.ipynb",
+        "variable": "Trader"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 621,
+        "name": "Risky Analyst",
+        "path": "code.ipynb",
+        "variable": "Risky Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 622,
+        "name": "Safe Analyst",
+        "path": "code.ipynb",
+        "variable": "Safe Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 623,
+        "name": "Neutral Analyst",
+        "path": "code.ipynb",
+        "variable": "Neutral Analyst"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 624,
+        "name": "Risk Judge",
+        "path": "code.ipynb",
+        "variable": "Risk Judge"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 1,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 120,
+        "name": "get_yfinance_data",
+        "path": "code.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 136,
+        "name": "get_technical_indicators",
+        "path": "code.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 153,
+        "name": "get_finnhub_news",
+        "path": "code.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 169,
+        "name": "get_social_media_sentiment",
+        "path": "code.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 175,
+        "name": "get_fundamental_analysis",
+        "path": "code.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 181,
+        "name": "get_macroeconomic_news",
+        "path": "code.ipynb"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "sensitive_resource_access",
+      "external_write_or_transaction_semantics",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_transaction_semantics",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

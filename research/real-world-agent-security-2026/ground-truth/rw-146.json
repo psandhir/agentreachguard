@@ -1,0 +1,96 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-146.A001",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "agent/custom_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Validation Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-146.A002",
+      "evidence": [
+        {
+          "line": 21,
+          "path": "agent/custom_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "guardrail_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-146",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent/custom_agents.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "engagepy/openai_agent_sales",
+    "sha": "ffa3be97dbbae504bdd6d45f668888af61b043c5"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "guardrail_agent"
+        ],
+        "kind": "Agent",
+        "line": 21,
+        "name": "Validation Agent",
+        "path": "agent/custom_agents.py",
+        "variable": "guardrail_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 3,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 21,
+        "name": "WebSearchTool",
+        "owner": "guardrail_agent",
+        "path": "agent/custom_agents.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

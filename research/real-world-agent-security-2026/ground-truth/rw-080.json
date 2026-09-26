@@ -1,0 +1,714 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-080.A001",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A002",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "sqrt",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A003",
+      "evidence": [
+        {
+          "line": 50,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "subtract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A004",
+      "evidence": [
+        {
+          "line": 57,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "multiply",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A005",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "divide",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A006",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "power",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A007",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cbrt",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A008",
+      "evidence": [
+        {
+          "line": 86,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "factorial",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A009",
+      "evidence": [
+        {
+          "line": 100,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "remainder",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A010",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "sin",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A011",
+      "evidence": [
+        {
+          "line": 114,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cos",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A012",
+      "evidence": [
+        {
+          "line": 121,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A013",
+      "evidence": [
+        {
+          "line": 128,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mine",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A014",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_thumbnail",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A015",
+      "evidence": [
+        {
+          "line": 142,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "strings_to_chars_to_int",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A016",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "int_list_to_exponential_sum",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A017",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fibonacci_numbers",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A018",
+      "evidence": [
+        {
+          "line": 172,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_python_sandbox",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A019",
+      "evidence": [
+        {
+          "line": 206,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_shell_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A020",
+      "evidence": [
+        {
+          "line": 226,
+          "path": "mcp_server_1.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_sql_query",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A021",
+      "evidence": [
+        {
+          "line": 99,
+          "path": "mcp_server_2.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_documents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A022",
+      "evidence": [
+        {
+          "line": 187,
+          "path": "mcp_server_2.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_webpage",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A023",
+      "evidence": [
+        {
+          "line": 206,
+          "path": "mcp_server_2.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract_pdf",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A024",
+      "evidence": [
+        {
+          "line": 215,
+          "path": "mcp_server_3.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A025",
+      "evidence": [
+        {
+          "line": 233,
+          "path": "mcp_server_3.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fetch_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A026",
+      "evidence": [
+        {
+          "line": 66,
+          "path": "mcp_telegram_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_telegram_query",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A027",
+      "evidence": [
+        {
+          "line": 100,
+          "path": "mcp_telegram_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "send_telegram_reply",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-080.A028",
+      "evidence": [
+        {
+          "line": 151,
+          "path": "mcp_telegram_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_telegram_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-080",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Amlan66/SSEEnabledMCPAgent",
+    "sha": "11531239e71b123f25b3c6103ee36a9d614d0032"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 17,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 37,
+        "name": "add",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 43,
+        "name": "sqrt",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 50,
+        "name": "subtract",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 57,
+        "name": "multiply",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 64,
+        "name": "divide",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 71,
+        "name": "power",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 79,
+        "name": "cbrt",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 86,
+        "name": "factorial",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 100,
+        "name": "remainder",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 107,
+        "name": "sin",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 114,
+        "name": "cos",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 121,
+        "name": "tan",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 128,
+        "name": "mine",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 134,
+        "name": "create_thumbnail",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 142,
+        "name": "strings_to_chars_to_int",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 149,
+        "name": "int_list_to_exponential_sum",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 156,
+        "name": "fibonacci_numbers",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 172,
+        "name": "run_python_sandbox",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 206,
+        "name": "run_shell_command",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 226,
+        "name": "run_sql_query",
+        "owner": "mcp",
+        "path": "mcp_server_1.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 99,
+        "name": "search_documents",
+        "owner": "mcp",
+        "path": "mcp_server_2.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 187,
+        "name": "extract_webpage",
+        "owner": "mcp",
+        "path": "mcp_server_2.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 206,
+        "name": "extract_pdf",
+        "owner": "mcp",
+        "path": "mcp_server_2.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 215,
+        "name": "search",
+        "owner": "mcp",
+        "path": "mcp_server_3.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 233,
+        "name": "fetch_content",
+        "owner": "mcp",
+        "path": "mcp_server_3.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 66,
+        "name": "get_telegram_query",
+        "owner": "mcp",
+        "path": "mcp_telegram_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 100,
+        "name": "send_telegram_reply",
+        "owner": "mcp",
+        "path": "mcp_telegram_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 151,
+        "name": "check_telegram_status",
+        "owner": "mcp",
+        "path": "mcp_telegram_server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "multiple_trust_boundaries",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "mcp_usage",
+      "multiple_trust_boundaries"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

@@ -1,0 +1,858 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-011.A001",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "corporate_analyst_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A002",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/domain_verifier_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "domain_verifier_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A003",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "agents/logo_finder_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "logo_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A004",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/report_generator_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "report_generator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A005",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/sec_10k_extractor_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sec_10k_extractor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A006",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/sec_10k_retriever_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sec_10k_retriever_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A007",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/ticker_finder_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ticker_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A008",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/zoominfo_enricher_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "zoominfo_enricher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A009",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/zoominfo_extractor_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "zoominfo_extractor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A010",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ticker_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A011",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sec_10k_link_retriever_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A012",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sec_10k_report_downloader_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A013",
+      "evidence": [
+        {
+          "line": 96,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sec_10k_extractor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A014",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "domain_verifier_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A015",
+      "evidence": [
+        {
+          "line": 179,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "logo_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A016",
+      "evidence": [
+        {
+          "line": 208,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "zoominfo_enricher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A017",
+      "evidence": [
+        {
+          "line": 244,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "report_generator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A018",
+      "evidence": [
+        {
+          "line": 349,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sequencer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A019",
+      "evidence": [
+        {
+          "line": 363,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "corporate_analyst_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A020",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "download_sec_filing",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A021",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enrich_company",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A022",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enrich_linkedin_company",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A023",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_10k_report_link",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A024",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_company_logo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A025",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "render_markdown",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A026",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "agents/logo_finder_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "built_in_google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "logo_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A027",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/sec_10k_retriever_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "download_sec_filing",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "sec_10k_retriever_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A028",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/sec_10k_retriever_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_10k_report_link",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "sec_10k_retriever_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A029",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/zoominfo_enricher_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enrich_company",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "zoominfo_enricher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A030",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "built_in_google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "ticker_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A031",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_10k_report_link",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "sec_10k_link_retriever_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A032",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "download_sec_filing",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "sec_10k_report_downloader_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A033",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "built_in_google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "domain_verifier_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A034",
+      "evidence": [
+        {
+          "line": 179,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "built_in_google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "logo_finder_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-011.A035",
+      "evidence": [
+        {
+          "line": 208,
+          "path": "backups/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "enrich_company",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "zoominfo_enricher_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-011",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "VeerMuchandi/corporate_analyst",
+    "sha": "224dd5a5684e39fd9e89e84296694965e32beb72"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 58,
+        "name": "corporate_analyst_agent",
+        "path": "agent.py",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 6,
+        "name": "domain_verifier_agent",
+        "path": "agents/domain_verifier_agent.py",
+        "variable": "domain_verifier_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 8,
+        "name": "logo_finder_agent",
+        "path": "agents/logo_finder_agent.py",
+        "variable": "logo_finder_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "report_generator_agent",
+        "path": "agents/report_generator_agent.py",
+        "variable": "report_generator_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "sec_10k_extractor_agent",
+        "path": "agents/sec_10k_extractor_agent.py",
+        "variable": "sec_10k_extractor_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 6,
+        "name": "sec_10k_retriever_agent",
+        "path": "agents/sec_10k_retriever_agent.py",
+        "variable": "sec_10k_retriever_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 5,
+        "name": "ticker_finder_agent",
+        "path": "agents/ticker_finder_agent.py",
+        "variable": "ticker_finder_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 6,
+        "name": "zoominfo_enricher_agent",
+        "path": "agents/zoominfo_enricher_agent.py",
+        "variable": "zoominfo_enricher_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "zoominfo_extractor_agent",
+        "path": "agents/zoominfo_extractor_agent.py",
+        "variable": "zoominfo_extractor_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 11,
+        "name": "ticker_finder_agent",
+        "path": "backups/agent.py",
+        "variable": "ticker_finder_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 40,
+        "name": "sec_10k_link_retriever_agent",
+        "path": "backups/agent.py",
+        "variable": "sec_10k_link_retriever_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 68,
+        "name": "sec_10k_report_downloader_agent",
+        "path": "backups/agent.py",
+        "variable": "sec_10k_report_downloader_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 96,
+        "name": "sec_10k_extractor_agent",
+        "path": "backups/agent.py",
+        "variable": "sec_10k_extractor_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 149,
+        "name": "domain_verifier_agent",
+        "path": "backups/agent.py",
+        "variable": "domain_verifier_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 179,
+        "name": "logo_finder_agent",
+        "path": "backups/agent.py",
+        "variable": "logo_finder_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 208,
+        "name": "zoominfo_enricher_agent",
+        "path": "backups/agent.py",
+        "variable": "zoominfo_enricher_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 244,
+        "name": "report_generator_agent",
+        "path": "backups/agent.py",
+        "variable": "report_generator_agent"
+      },
+      {
+        "kind": "SequentialAgent",
+        "line": 349,
+        "name": "sequencer_agent",
+        "path": "backups/agent.py",
+        "variable": "sequencer_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 363,
+        "name": "corporate_analyst_agent",
+        "path": "backups/agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 19,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "download_sec_filing",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "enrich_company",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "enrich_linkedin_company",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "get_10k_report_link",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "get_company_logo",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "render_markdown",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 8,
+        "name": "built_in_google_search",
+        "owner": "logo_finder_agent",
+        "path": "agents/logo_finder_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 6,
+        "name": "download_sec_filing",
+        "owner": "sec_10k_retriever_agent",
+        "path": "agents/sec_10k_retriever_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 6,
+        "name": "get_10k_report_link",
+        "owner": "sec_10k_retriever_agent",
+        "path": "agents/sec_10k_retriever_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 6,
+        "name": "enrich_company",
+        "owner": "zoominfo_enricher_agent",
+        "path": "agents/zoominfo_enricher_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 11,
+        "name": "built_in_google_search",
+        "owner": "ticker_finder_agent",
+        "path": "backups/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 40,
+        "name": "get_10k_report_link",
+        "owner": "sec_10k_link_retriever_agent",
+        "path": "backups/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 68,
+        "name": "download_sec_filing",
+        "owner": "sec_10k_report_downloader_agent",
+        "path": "backups/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 149,
+        "name": "built_in_google_search",
+        "owner": "domain_verifier_agent",
+        "path": "backups/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 179,
+        "name": "built_in_google_search",
+        "owner": "logo_finder_agent",
+        "path": "backups/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 208,
+        "name": "enrich_company",
+        "owner": "zoominfo_enricher_agent",
+        "path": "backups/agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

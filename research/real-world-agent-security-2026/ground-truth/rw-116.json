@@ -1,0 +1,222 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-116.A001",
+      "evidence": [
+        {
+          "line": 207,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_conversation_state",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A002",
+      "evidence": [
+        {
+          "line": 264,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_user_response",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A003",
+      "evidence": [
+        {
+          "line": 291,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "advance_to_next_question",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A004",
+      "evidence": [
+        {
+          "line": 351,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_session_state",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A005",
+      "evidence": [
+        {
+          "line": 542,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "validate_response",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A006",
+      "evidence": [
+        {
+          "line": 841,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_content_sensitivity",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A007",
+      "evidence": [
+        {
+          "line": 1086,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_current_question_naturally",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-116.A008",
+      "evidence": [
+        {
+          "line": 1099,
+          "path": "chat_engine.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_natural_question",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-116",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-116",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "chat_engine.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "KrishnaKumarSoni/barmuda",
+    "sha": "0387a8d11f54a9e07ae91b4d69acbe1f2ef5c98b"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 75,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 207,
+        "name": "get_conversation_state",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 264,
+        "name": "save_user_response",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 291,
+        "name": "advance_to_next_question",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 351,
+        "name": "update_session_state",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 542,
+        "name": "validate_response",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 841,
+        "name": "check_content_sensitivity",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 1086,
+        "name": "get_current_question_naturally",
+        "path": "chat_engine.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 1099,
+        "name": "get_natural_question",
+        "path": "chat_engine.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

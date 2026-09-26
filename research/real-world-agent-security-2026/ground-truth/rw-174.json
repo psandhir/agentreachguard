@@ -1,0 +1,321 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-174.A001",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "examples/01_simple_chain.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A002",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "examples/02_bidirectional_chain.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A003",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "examples/03_parallel_fanout.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A004",
+      "evidence": [
+        {
+          "line": 80,
+          "path": "examples/04_mesh_network.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A005",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "examples/05_hierarchical_escalation.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A006",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "examples/06_complex_pipeline.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A007",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "examples/07_handoff_options.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A008",
+      "evidence": [
+        {
+          "line": 52,
+          "path": "examples/08_mesh_with_tools.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A009",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "examples/09_mixed_tools_handoff.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A010",
+      "evidence": [
+        {
+          "line": 34,
+          "path": "examples/10_handoff_include_history.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-174.A011",
+      "evidence": [
+        {
+          "line": 52,
+          "path": "examples/11_handoff_exclude_history_tool_calls.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-174",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "examples/12_data_analysis_pipeline.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Unfold-Security/pydantic-collab",
+    "sha": "b35097cb7cb5f39cc3d098f51d819c1cfe3a0266"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "create_swarm",
+        "line": 64,
+        "name": "swarm",
+        "path": "examples/01_simple_chain.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 59,
+        "name": "swarm",
+        "path": "examples/02_bidirectional_chain.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 68,
+        "name": "swarm",
+        "path": "examples/03_parallel_fanout.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 80,
+        "name": "swarm",
+        "path": "examples/04_mesh_network.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 94,
+        "name": "swarm",
+        "path": "examples/05_hierarchical_escalation.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 75,
+        "name": "swarm",
+        "path": "examples/06_complex_pipeline.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 48,
+        "name": "swarm",
+        "path": "examples/07_handoff_options.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 52,
+        "name": "swarm",
+        "path": "examples/08_mesh_with_tools.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 48,
+        "name": "swarm",
+        "path": "examples/09_mixed_tools_handoff.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 34,
+        "name": "swarm",
+        "path": "examples/10_handoff_include_history.py",
+        "variable": "swarm"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 52,
+        "name": "swarm",
+        "path": "examples/11_handoff_exclude_history_tool_calls.py",
+        "variable": "swarm"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 15,
+    "tools": [],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "filesystem_write",
+      "process_execution",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "filesystem_write",
+      "process_execution"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

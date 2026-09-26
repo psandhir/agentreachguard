@@ -1,0 +1,639 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-069.A001",
+      "evidence": [
+        {
+          "line": 280,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "music_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A002",
+      "evidence": [
+        {
+          "line": 284,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "music_assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A003",
+      "evidence": [
+        {
+          "line": 288,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "music_tool_node",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A004",
+      "evidence": [
+        {
+          "line": 447,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "invoice_information_subagent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A005",
+      "evidence": [
+        {
+          "line": 490,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "supervisor_prebuilt_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A006",
+      "evidence": [
+        {
+          "line": 659,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "multi_agent_verify",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A007",
+      "evidence": [
+        {
+          "line": 662,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "verify_info",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A008",
+      "evidence": [
+        {
+          "line": 665,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "human_input",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A009",
+      "evidence": [
+        {
+          "line": 668,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "supervisor",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A010",
+      "evidence": [
+        {
+          "line": 852,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "multi_agent_final",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A011",
+      "evidence": [
+        {
+          "line": 855,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "verify_info",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A012",
+      "evidence": [
+        {
+          "line": 856,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "human_input",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A013",
+      "evidence": [
+        {
+          "line": 857,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "load_memory",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A014",
+      "evidence": [
+        {
+          "line": 858,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "supervisor",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A015",
+      "evidence": [
+        {
+          "line": 859,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "create_memory",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A016",
+      "evidence": [
+        {
+          "line": 952,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "invoice_information_agent_with_handoff",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A017",
+      "evidence": [
+        {
+          "line": 961,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "music_catalog_agent_with_handoff",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A018",
+      "evidence": [
+        {
+          "line": 971,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "swarm_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A019",
+      "evidence": [
+        {
+          "line": 89,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_albums_by_artist",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A020",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_tracks_by_artist",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A021",
+      "evidence": [
+        {
+          "line": 122,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_songs_by_genre",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A022",
+      "evidence": [
+        {
+          "line": 170,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_for_songs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A023",
+      "evidence": [
+        {
+          "line": 347,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_invoices_by_customer_sorted_by_date",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A024",
+      "evidence": [
+        {
+          "line": 365,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_invoices_sorted_by_unit_price",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-069.A025",
+      "evidence": [
+        {
+          "line": 390,
+          "path": "multi_agent.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_employee_by_invoice_and_customer",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-069",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-069",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "multi_agent.ipynb",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+    "sha": "c06021c1773359ec7192706c3259b52948e00b20"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 280,
+        "name": "music_workflow",
+        "path": "multi_agent.ipynb",
+        "variable": "music_workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 284,
+        "name": "music_assistant",
+        "path": "multi_agent.ipynb",
+        "variable": "music_assistant"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 288,
+        "name": "music_tool_node",
+        "path": "multi_agent.ipynb",
+        "variable": "music_tool_node"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 447,
+        "name": "invoice_information_subagent",
+        "path": "multi_agent.ipynb",
+        "variable": "invoice_information_subagent"
+      },
+      {
+        "kind": "create_supervisor",
+        "line": 490,
+        "name": "supervisor_prebuilt_workflow",
+        "path": "multi_agent.ipynb",
+        "variable": "supervisor_prebuilt_workflow"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 659,
+        "name": "multi_agent_verify",
+        "path": "multi_agent.ipynb",
+        "variable": "multi_agent_verify"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 662,
+        "name": "verify_info",
+        "path": "multi_agent.ipynb",
+        "variable": "verify_info"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 665,
+        "name": "human_input",
+        "path": "multi_agent.ipynb",
+        "variable": "human_input"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 668,
+        "name": "supervisor",
+        "path": "multi_agent.ipynb",
+        "variable": "supervisor"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 852,
+        "name": "multi_agent_final",
+        "path": "multi_agent.ipynb",
+        "variable": "multi_agent_final"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 855,
+        "name": "verify_info",
+        "path": "multi_agent.ipynb",
+        "variable": "verify_info"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 856,
+        "name": "human_input",
+        "path": "multi_agent.ipynb",
+        "variable": "human_input"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 857,
+        "name": "load_memory",
+        "path": "multi_agent.ipynb",
+        "variable": "load_memory"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 858,
+        "name": "supervisor",
+        "path": "multi_agent.ipynb",
+        "variable": "supervisor"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 859,
+        "name": "create_memory",
+        "path": "multi_agent.ipynb",
+        "variable": "create_memory"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 952,
+        "name": "invoice_information_agent_with_handoff",
+        "path": "multi_agent.ipynb",
+        "variable": "invoice_information_agent_with_handoff"
+      },
+      {
+        "kind": "create_react_agent",
+        "line": 961,
+        "name": "music_catalog_agent_with_handoff",
+        "path": "multi_agent.ipynb",
+        "variable": "music_catalog_agent_with_handoff"
+      },
+      {
+        "kind": "create_swarm",
+        "line": 971,
+        "name": "swarm_workflow",
+        "path": "multi_agent.ipynb",
+        "variable": "swarm_workflow"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 89,
+        "name": "get_albums_by_artist",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 106,
+        "name": "get_tracks_by_artist",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 122,
+        "name": "get_songs_by_genre",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 170,
+        "name": "check_for_songs",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 347,
+        "name": "get_invoices_by_customer_sorted_by_date",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 365,
+        "name": "get_invoices_sorted_by_unit_price",
+        "path": "multi_agent.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 390,
+        "name": "get_employee_by_invoice_and_customer",
+        "path": "multi_agent.ipynb"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "approval_controls",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

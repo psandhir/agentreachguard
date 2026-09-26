@@ -1,0 +1,366 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-177.A001",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.A002",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_exploit_package",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.A003",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_index_categories",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.A004",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_file_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.A005",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_index_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.A006",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_rtl_lines",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-177.B001",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_exploit_package"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-177.B002",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "list_index_categories"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-177.B003",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_file_content"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-177.B004",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_index_file"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-177.B005",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "read_rtl_lines"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-177",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "JUN176/exp-agent",
+    "sha": "e20250253039d4148ab8caca293a4cfef0f214af"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 48,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 100,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 48,
+        "name": "create_exploit_package",
+        "owner": "agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 48,
+        "name": "list_index_categories",
+        "owner": "agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 48,
+        "name": "read_file_content",
+        "owner": "agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 48,
+        "name": "read_index_file",
+        "owner": "agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 48,
+        "name": "read_rtl_lines",
+        "owner": "agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected",
+      "source_scope_file_limit_reached"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "create_exploit_package"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "list_index_categories"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "read_file_content"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "read_index_file"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "read_rtl_lines"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "agent",
+        "line": 48,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "create_exploit_package"
+      },
+      {
+        "agent": "agent",
+        "line": 48,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "list_index_categories"
+      },
+      {
+        "agent": "agent",
+        "line": 48,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_file_content"
+      },
+      {
+        "agent": "agent",
+        "line": 48,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_index_file"
+      },
+      {
+        "agent": "agent",
+        "line": 48,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "read_rtl_lines"
+      }
+    ],
+    "eligibility_signals": [
+      "filesystem_write",
+      "sensitive_resource_access",
+      "tool_composition",
+      "multiple_agent_runs"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "filesystem_write",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}
