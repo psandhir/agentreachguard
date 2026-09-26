@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,40 +20,85 @@
     ],
     "agent_roots": [
       {
-        "path": "examples/browser_agent/agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "browser_agent",
+        "kind": "google-adk deep agent",
+        "path": "examples/browser_agent/agent.py"
       }
     ],
     "tools": [],
-    "mcp_servers": [],
+    "mcp_servers": [
+      {
+        "name": "@playwright/mcp",
+        "binding": "async browser-agent tool resolution"
+      }
+    ],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "The synchronous ADK CLI root lacks browser tools; tool availability depends on the async factory path.",
+      "Exact Playwright MCP tool names are resolved dynamically and are not enumerated in the application file."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-006.FRAMEWORK",
       "subject": "manojlds/adk-deepagents",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "examples/browser_agent/agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         },
         {
           "path": "docs/tools.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Original discovery evidence retained for provenance."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-006.AGENT_ROOT",
+      "subject": "manojlds/adk-deepagents",
+      "predicate": "has_agent_root",
+      "object": "browser_agent",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "examples/browser_agent/agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "docs/tools.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-006.MCP",
+      "subject": "manojlds/adk-deepagents",
+      "predicate": "has_mcp_binding",
+      "object": [
+        "@playwright/mcp"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "examples/browser_agent/agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "docs/tools.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source directly declares or resolves the listed MCP server binding(s).",
+      "category": "mcp",
       "tier": "A"
     }
   ],

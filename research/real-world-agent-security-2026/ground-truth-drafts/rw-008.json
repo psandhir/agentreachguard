@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,121 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "greeter",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
+      },
+      {
+        "name": "tour_guide_workflow",
+        "kind": "google-adk:SequentialAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "comprehensive_researcher",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
+      },
+      {
+        "name": "response_formatter",
+        "kind": "google-adk:Agent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "add_prompt_to_state",
+        "binding": "greeter tools list"
+      },
+      {
+        "name": "wikipedia_tool",
+        "binding": "comprehensive_researcher tools list"
+      }
+    ],
     "mcp_servers": [],
-    "delegation_edges": [],
+    "delegation_edges": [
+      {
+        "from": "greeter",
+        "to": "tour_guide_workflow",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "tour_guide_workflow",
+        "to": "comprehensive_researcher",
+        "kind": "sequential_step"
+      },
+      {
+        "from": "tour_guide_workflow",
+        "to": "response_formatter",
+        "kind": "sequential_step"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No MCP binding is evidenced in the reviewed application file."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-008.FRAMEWORK",
       "subject": "aayushprsingh/track1-zoo-agent",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-008.AGENT_ROOT",
+      "subject": "aayushprsingh/track1-zoo-agent",
+      "predicate": "has_agent_root",
+      "object": "greeter",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-008.DELEGATION",
+      "subject": "aayushprsingh/track1-zoo-agent",
+      "predicate": "has_delegation_edges",
+      "object": [
+        {
+          "from": "greeter",
+          "to": "tour_guide_workflow",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "tour_guide_workflow",
+          "to": "comprehensive_researcher",
+          "kind": "sequential_step"
+        },
+        {
+          "from": "tour_guide_workflow",
+          "to": "response_formatter",
+          "kind": "sequential_step"
+        }
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly declares the listed sub-agent/workflow/delegation relationships.",
+      "category": "delegation",
       "tier": "A"
     }
   ],
@@ -61,7 +146,7 @@
       "external_write_or_network",
       "tool_composition"
     ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "first_pass_structural_review_complete; authority/attack-path adjudication still pending"
   },
   "tier_c_draft": null
 }

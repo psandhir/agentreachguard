@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,177 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "cloud_architecture_review_orchestrator",
+        "kind": "google-adk:LlmAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "qa_feedback_loop_orchestrator",
+        "kind": "google-adk:LoopAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "audit_pipeline_agent",
+        "kind": "google-adk:LlmAgent",
+        "path": "agent.py"
       }
     ],
     "tools": [],
     "mcp_servers": [],
-    "delegation_edges": [],
+    "delegation_edges": [
+      {
+        "from": "cloud_architecture_review_orchestrator",
+        "to": "iac_ingestion_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "cloud_architecture_review_orchestrator",
+        "to": "qa_feedback_loop_orchestrator",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "cloud_architecture_review_orchestrator",
+        "to": "deep_audit_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "cloud_architecture_review_orchestrator",
+        "to": "report_synthesizer_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "qa_feedback_loop_orchestrator",
+        "to": "audit_pipeline_agent",
+        "kind": "loop_sub_agent"
+      },
+      {
+        "from": "qa_feedback_loop_orchestrator",
+        "to": "qa_reviewer_agent",
+        "kind": "loop_sub_agent"
+      },
+      {
+        "from": "audit_pipeline_agent",
+        "to": "security_audit_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "audit_pipeline_agent",
+        "to": "cost_pattern_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "audit_pipeline_agent",
+        "to": "reliability_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "audit_pipeline_agent",
+        "to": "performance_agent",
+        "kind": "sub_agent"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "Specialist-agent tool inventories are imported from separate modules and require follow-up review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-009.FRAMEWORK",
       "subject": "vivekcommit/Cloud_Architecture_Review",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.AGENT_ROOT",
+      "subject": "vivekcommit/Cloud_Architecture_Review",
+      "predicate": "has_agent_root",
+      "object": "cloud_architecture_review_orchestrator",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.DELEGATION",
+      "subject": "vivekcommit/Cloud_Architecture_Review",
+      "predicate": "has_delegation_edges",
+      "object": [
+        {
+          "from": "cloud_architecture_review_orchestrator",
+          "to": "iac_ingestion_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "cloud_architecture_review_orchestrator",
+          "to": "qa_feedback_loop_orchestrator",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "cloud_architecture_review_orchestrator",
+          "to": "deep_audit_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "cloud_architecture_review_orchestrator",
+          "to": "report_synthesizer_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "qa_feedback_loop_orchestrator",
+          "to": "audit_pipeline_agent",
+          "kind": "loop_sub_agent"
+        },
+        {
+          "from": "qa_feedback_loop_orchestrator",
+          "to": "qa_reviewer_agent",
+          "kind": "loop_sub_agent"
+        },
+        {
+          "from": "audit_pipeline_agent",
+          "to": "security_audit_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "audit_pipeline_agent",
+          "to": "cost_pattern_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "audit_pipeline_agent",
+          "to": "reliability_agent",
+          "kind": "sub_agent"
+        },
+        {
+          "from": "audit_pipeline_agent",
+          "to": "performance_agent",
+          "kind": "sub_agent"
+        }
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly declares the listed sub-agent/workflow/delegation relationships.",
+      "category": "delegation",
       "tier": "A"
     }
   ],
@@ -62,7 +203,7 @@
       "sensitive_resource_access",
       "tool_composition"
     ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "first_pass_structural_review_complete; authority/attack-path adjudication still pending"
   },
   "tier_c_draft": null
 }

@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,106 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "FunnelAgent",
+        "kind": "google-adk:LlmAgent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "ask_contact_name_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_or_create_user_profile_from_firestore_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "update_user_profile_in_firestore_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "determine_next_profile_question_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_catalog_level_options_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_products_final_list_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_detailed_product_info_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_current_datetime_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "ask_pain_points_questions_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "search_internal_products_by_embedding_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "search_external_products_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "add_to_products_a_repasar_in_firestore_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "request_video_upload_link_tool",
+        "binding": "FunnelAgent tools list"
+      },
+      {
+        "name": "get_alternative_products_tool",
+        "binding": "FunnelAgent tools list"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No direct MCP binding or sub-agent delegation is evidenced in the reviewed application file."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-004.FRAMEWORK",
       "subject": "JoanMarinPages/agentGemini",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-004.AGENT_ROOT",
+      "subject": "JoanMarinPages/agentGemini",
+      "predicate": "has_agent_root",
+      "object": "FunnelAgent",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],

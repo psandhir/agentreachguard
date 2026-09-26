@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,40 +20,273 @@
     ],
     "agent_roots": [
       {
-        "path": "backend/agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "Jarvis",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "PersonalAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "IoTAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "MusicAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "AudioReaderAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "ResearchAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "FinanceAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
+      },
+      {
+        "name": "CrawlStoriesAgent",
+        "kind": "fastagent",
+        "path": "backend/agent.py"
       }
     ],
-    "tools": [],
-    "mcp_servers": [],
-    "delegation_edges": [],
+    "tools": [
+      {
+        "name": "spawn_agent",
+        "server": "agent_spawner"
+      },
+      {
+        "name": "spawn_team_tool",
+        "server": "agent_spawner"
+      },
+      {
+        "name": "send_team_message",
+        "server": "agent_spawner"
+      },
+      {
+        "name": "resume_team_tool",
+        "server": "agent_spawner"
+      }
+    ],
+    "mcp_servers": [
+      {
+        "name": "sequential-thinking",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "scrapling-server",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "serpapi",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "cron-server",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "time-service",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "approval-server",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "skill_server",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "mcp_admin",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "memory_server",
+        "binding": "Jarvis server registration"
+      },
+      {
+        "name": "agent_spawner",
+        "binding": "Jarvis server registration"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "from": "Jarvis",
+        "to": "PersonalAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "IoTAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "MusicAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "AudioReaderAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "ResearchAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "FinanceAgent",
+        "kind": "agent_tool_delegation"
+      },
+      {
+        "from": "Jarvis",
+        "to": "CrawlStoriesAgent",
+        "kind": "agent_tool_delegation"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "Dynamic agents and teams can be created at runtime; the complete runtime delegation graph is therefore open-ended."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-002.FRAMEWORK",
       "subject": "omnigentx/jarvis",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "fastagent",
       "expected_state": "present",
       "evidence": [
         {
           "path": "backend/agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         },
         {
           "path": "backend/.fast-agent/skills/jarvis-knowledge/references/fast-agent-skills/hf-space-deployer.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Original discovery evidence retained for provenance."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.AGENT_ROOT",
+      "subject": "omnigentx/jarvis",
+      "predicate": "has_agent_root",
+      "object": "Jarvis",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "backend/agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "backend/.fast-agent/skills/jarvis-knowledge/references/fast-agent-skills/hf-space-deployer.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.MCP",
+      "subject": "omnigentx/jarvis",
+      "predicate": "has_mcp_binding",
+      "object": [
+        "sequential-thinking",
+        "scrapling-server",
+        "serpapi",
+        "cron-server",
+        "time-service",
+        "approval-server",
+        "skill_server",
+        "mcp_admin",
+        "memory_server",
+        "agent_spawner"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "backend/agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "backend/.fast-agent/skills/jarvis-knowledge/references/fast-agent-skills/hf-space-deployer.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source directly declares or resolves the listed MCP server binding(s).",
+      "category": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.DELEGATION",
+      "subject": "omnigentx/jarvis",
+      "predicate": "has_delegation_edges",
+      "object": [
+        {
+          "from": "Jarvis",
+          "to": "PersonalAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "IoTAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "MusicAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "AudioReaderAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "ResearchAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "FinanceAgent",
+          "kind": "agent_tool_delegation"
+        },
+        {
+          "from": "Jarvis",
+          "to": "CrawlStoriesAgent",
+          "kind": "agent_tool_delegation"
+        }
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "backend/agent.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        },
+        {
+          "path": "backend/.fast-agent/skills/jarvis-knowledge/references/fast-agent-skills/hf-space-deployer.md",
+          "rationale": "Original discovery evidence retained for provenance."
+        }
+      ],
+      "rationale": "Pinned application source directly declares the listed sub-agent/workflow/delegation relationships.",
+      "category": "delegation",
       "tier": "A"
     }
   ],
@@ -65,7 +298,7 @@
       "multiple_trust_boundaries",
       "tool_composition"
     ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "first_pass_structural_review_complete; authority/attack-path adjudication still pending"
   },
   "tier_c_draft": null
 }

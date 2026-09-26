@@ -12,7 +12,7 @@
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Draft only; detailed source adjudication completed for the fields below, but this is not locked ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +20,210 @@
     ],
     "agent_roots": [
       {
-        "path": "mcp_server/components/fast_agent_integration.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "concept_developer",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "narrative_architect",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "character_developer",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "prose_generator",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "editor",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "story_generator",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "story_evaluator",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
+      },
+      {
+        "name": "narrative_assistant",
+        "kind": "fastagent",
+        "path": "mcp_server/components/fast_agent_integration.py"
       }
     ],
     "tools": [],
-    "mcp_servers": [],
-    "delegation_edges": [],
+    "mcp_servers": [
+      {
+        "name": "archetypal_patterns",
+        "binding": "FastAgent servers declaration"
+      },
+      {
+        "name": "character_engine",
+        "binding": "FastAgent servers declaration"
+      },
+      {
+        "name": "narrative_engine",
+        "binding": "FastAgent servers declaration"
+      },
+      {
+        "name": "symbolic_system",
+        "binding": "FastAgent servers declaration"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "from": "writing_workflow",
+        "to": "concept_developer",
+        "kind": "chain_step"
+      },
+      {
+        "from": "writing_workflow",
+        "to": "narrative_architect",
+        "kind": "chain_step"
+      },
+      {
+        "from": "writing_workflow",
+        "to": "character_developer",
+        "kind": "chain_step"
+      },
+      {
+        "from": "writing_workflow",
+        "to": "prose_generator",
+        "kind": "chain_step"
+      },
+      {
+        "from": "writing_workflow",
+        "to": "editor",
+        "kind": "chain_step"
+      },
+      {
+        "from": "story_refinement",
+        "to": "story_generator",
+        "kind": "generator"
+      },
+      {
+        "from": "story_refinement",
+        "to": "story_evaluator",
+        "kind": "evaluator"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "Exact tools exposed by the referenced MCP servers require server-side review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-003.FRAMEWORK",
       "subject": "angrysky56/ai_writers_workshop",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "fastagent",
       "expected_state": "present",
       "evidence": [
         {
           "path": "mcp_server/components/fast_agent_integration.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Pinned source contains the framework-specific agent construction used for cohort inclusion.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.AGENT_ROOT",
+      "subject": "angrysky56/ai_writers_workshop",
+      "predicate": "has_agent_root",
+      "object": "concept_developer",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source contains the identified primary agent/root or workflow entry point.",
+      "category": "agent_root",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.MCP",
+      "subject": "angrysky56/ai_writers_workshop",
+      "predicate": "has_mcp_binding",
+      "object": [
+        "archetypal_patterns",
+        "character_engine",
+        "narrative_engine",
+        "symbolic_system"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly declares or resolves the listed MCP server binding(s).",
+      "category": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-003.DELEGATION",
+      "subject": "angrysky56/ai_writers_workshop",
+      "predicate": "has_delegation_edges",
+      "object": [
+        {
+          "from": "writing_workflow",
+          "to": "concept_developer",
+          "kind": "chain_step"
+        },
+        {
+          "from": "writing_workflow",
+          "to": "narrative_architect",
+          "kind": "chain_step"
+        },
+        {
+          "from": "writing_workflow",
+          "to": "character_developer",
+          "kind": "chain_step"
+        },
+        {
+          "from": "writing_workflow",
+          "to": "prose_generator",
+          "kind": "chain_step"
+        },
+        {
+          "from": "writing_workflow",
+          "to": "editor",
+          "kind": "chain_step"
+        },
+        {
+          "from": "story_refinement",
+          "to": "story_generator",
+          "kind": "generator"
+        },
+        {
+          "from": "story_refinement",
+          "to": "story_evaluator",
+          "kind": "evaluator"
+        }
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "mcp_server/components/fast_agent_integration.py",
+          "rationale": "Pinned application source reviewed directly for this first-pass adjudication."
+        }
+      ],
+      "rationale": "Pinned application source directly declares the listed sub-agent/workflow/delegation relationships.",
+      "category": "delegation",
       "tier": "A"
     }
   ],
@@ -62,7 +236,7 @@
       "multiple_trust_boundaries",
       "tool_composition"
     ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "first_pass_structural_review_complete; authority/attack-path adjudication still pending"
   },
   "tier_c_draft": null
 }
