@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ast
 from pathlib import Path
+
 from horustrace.heuristics import infer_capabilities
 from horustrace.models import Graph, SourceLocation, Tool
 
