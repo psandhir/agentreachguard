@@ -237,3 +237,30 @@ Frozen candidate-pool state:
 The extension deliberately targeted non-ADK applications. It raises OpenAI Agents SDK above its preregistered minimum and expands the framework-neutral MCP/custom pool. FastAgent remains a documented ecosystem-coverage shortfall: only three defensible evalstate FastAgent applications were found despite exhaustive source screening, and inclusion criteria were not weakened to manufacture the preregistered minimum.
 
 Tier B depth is ample: 147 of 196 eligible repositories have source-observed deep-authority/security signals. Tier C remains scarce at screening time; only five repositories are provisionally deployment/IAM eligible. The methodology explicitly treats failure to find 25 defensible public deployment cases as a reportable study result rather than a reason to alter selection rules.
+
+
+## Final cohort freeze
+
+The final study cohort was selected from the immutable 381-repository candidate pool using source-only evidence. HorusTrace output did not influence candidate discovery, screening, extension, or cohort selection.
+
+Frozen Tier A cohort:
+
+- total repositories: 180
+- Google ADK: 35
+- OpenAI Agents SDK: 31
+- Pydantic AI: 35
+- LangGraph: 36
+- FastAgent: 3
+- MCP/custom: 40
+- Tier B deep authority / attack-path cases: 60
+- Tier C deployment / IAM cases: 25
+- ground truth locked: no
+- HorusTrace baseline execution: not yet permitted
+
+The FastAgent stratum is the sole documented framework exception. Only three defensible applications survived source-only screening of the frozen candidate universe, below the preregistered minimum of 12. The inclusion criterion was not relaxed; the shortfall is retained as a measured coverage limitation.
+
+Tier B was selected from source-reviewed authority-bearing applications and balanced across all six framework strata, with no framework contributing more than 20% of the 60 cases.
+
+Tier C was selected through a dedicated source review of deployment evidence. The 25 cases include GCP Agent Engine / Cloud Run / Terraform, AWS CDK / EKS / AgentCore / IAM, Azure or cloud-agent identity surfaces, and containerized/self-hosted deployment patterns. Cases with incomplete or unsupported identity evidence are intentionally retained because correct unresolved/unsupported classification is a preregistered study endpoint.
+
+The next allowed phase is independent ground-truth creation and dual review. HorusTrace execution remains blocked until ground truth is locked.
