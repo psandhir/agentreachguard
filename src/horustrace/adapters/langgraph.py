@@ -14,7 +14,8 @@ from pathlib import Path
 from typing import Any
 
 from horustrace.heuristics import infer_capabilities
-from horustrace.models import Agent, Graph, InputSource, SourceLocation, Tool
+from horustrace.models import Agent, Graph, InputSource, SourceLocation, Tool, WorkflowNode
+from horustrace.semantic_discovery import SemanticEntityKind, stable_entity_id
 
 _GRAPH_TYPES = {"StateGraph", "MessageGraph"}
 _RETRIEVAL_MARKERS = ("search", "retrieve", "browser", "web", "fetch", "document")
@@ -425,6 +426,49 @@ def _return_targets(
     return list(dict.fromkeys(targets))
 
 
+def _function_has_model_invocation(
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+) -> bool:
+    receiver_markers = {"agent", "chain", "chat", "llm", "model", "runnable"}
+    call_methods = {"ainvoke", "astream", "invoke", "stream"}
+    for child in ast.walk(node):
+        if not isinstance(child, ast.Call) or not isinstance(child.func, ast.Attribute):
+            continue
+        if child.func.attr not in call_methods:
+            continue
+        receiver = (_dotted(child.func.value) or _call_name(child.func.value) or "").lower()
+        tokens = set(receiver.replace("-", "_").replace(".", "_").split("_"))
+        if tokens & receiver_markers:
+            return True
+    return False
+
+
+def _workflow_node_role(
+    function_node: ast.AST | None,
+    function_name: str | None,
+    *,
+    functions: dict[str, ast.FunctionDef | ast.AsyncFunctionDef],
+    assignments: dict[str, ast.AST],
+    factory_aliases: set[str],
+) -> str:
+    resolved = function_node
+    if isinstance(resolved, ast.Name) and resolved.id in assignments:
+        resolved = assignments[resolved.id]
+
+    if isinstance(resolved, ast.Call) and _call_name(resolved.func) == "ToolNode":
+        return "tool_node"
+    if function_name and function_name in factory_aliases:
+        return "model_agent"
+    if function_name and function_name in functions:
+        function = functions[function_name]
+        if _function_has_model_invocation(function):
+            return "model_agent"
+        if _return_targets(function):
+            return "control"
+        return "deterministic_transform"
+    return "unknown"
+
+
 def _resolved_tool_elements(expr: ast.AST | None, sequences: dict[str, list[ast.AST]]) -> list[ast.AST]:
     if isinstance(expr, (ast.List, ast.Tuple, ast.Set)):
         return list(expr.elts)
@@ -509,9 +553,11 @@ def scan_python_file(path: Path) -> Graph:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
     }
     sequences: dict[str, list[ast.AST]] = {}
+    assignments: dict[str, ast.AST] = {}
     graph_aliases: dict[str, ast.Call] = {}
     memory_aliases: dict[str, dict[str, Any]] = {}
     factory_agents: list[Agent] = []
+    factory_agent_aliases: set[str] = set()
 
     for node in ast.walk(tree):
         if not isinstance(node, (ast.Assign, ast.AnnAssign)):
@@ -519,6 +565,8 @@ def scan_python_file(path: Path) -> Graph:
         value = node.value
         targets = node.targets if isinstance(node, ast.Assign) else [node.target]
         aliases = [name for target in targets if (name := _target_name(target))]
+        for alias in aliases:
+            assignments[alias] = value
         if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
             for alias in aliases:
                 sequences[alias] = list(value.elts)
@@ -544,6 +592,7 @@ def scan_python_file(path: Path) -> Graph:
             "create_handoff_back_messages",
         } or call_name in langchain_agent_factories:
             framework = "langchain" if call_name in langchain_agent_factories else "langgraph"
+            factory_agent_aliases.add(alias)
             factory_agents.append(
                 _factory_agent(
                     path,
@@ -593,6 +642,36 @@ def scan_python_file(path: Path) -> Graph:
                 if not node_name:
                     unresolved_dynamic_edge = True
                     continue
+                role = _workflow_node_role(
+                    function_node,
+                    function_name,
+                    functions=functions,
+                    assignments=assignments,
+                    factory_aliases=factory_agent_aliases,
+                )
+                workflow_instance_key = str(agent.metadata["instance_key"])
+                semantic_id = stable_entity_id(
+                    framework="langgraph",
+                    kind=SemanticEntityKind.WORKFLOW,
+                    name=node_name,
+                    source_key=path.as_posix(),
+                    line=getattr(call, "lineno", 1) or 1,
+                )
+                graph.workflow_nodes.append(
+                    WorkflowNode(
+                        name=node_name,
+                        role=role,
+                        framework="langgraph",
+                        location=_location(path, call),
+                        metadata={
+                            "graph": graph_alias,
+                            "graph_instance_key": workflow_instance_key,
+                            "function": function_name,
+                            "semantic_entity_id": semantic_id,
+                            "semantic_entity_kind": SemanticEntityKind.WORKFLOW.value,
+                        },
+                    )
+                )
                 caps = _name_capabilities(node_name)
                 computer_metadata: dict[str, Any] = {}
                 if function_name and function_name in functions:
