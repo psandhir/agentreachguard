@@ -1,13 +1,1743 @@
 {
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
-  "phase": "protocol_only",
+  "phase": "cohort_frozen_ground_truth_pending",
   "scanner_freeze_sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
-  "cohort_frozen": false,
+  "cohort_frozen": true,
   "horustrace_results_used_for_selection": false,
   "target_unique_repositories": 180,
-  "cases": [],
-  "tier_b_case_ids": [],
-  "tier_c_case_ids": [],
+  "selection_method": {
+    "candidate_pool": "381-repository immutable source-only screened pool",
+    "rule": "Retain all eligible non-ADK cases and 35 source-screened ADK cases, ensuring preregistered Tier C deployment cases remain represented; no HorusTrace output used.",
+    "framework_counts": {
+      "google-adk": 35,
+      "openai-agents": 31,
+      "pydantic-ai": 35,
+      "langgraph": 36,
+      "fastagent": 3,
+      "mcp-custom": 40
+    }
+  },
+  "cases": [
+    {
+      "case_id": "case-001",
+      "repo": "proflead/how-to-build-ai-agent",
+      "sha": "6dba7692cf4fa2c41944c6b327af2be78b1ab793",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-001.json"
+    },
+    {
+      "case_id": "case-002",
+      "repo": "firebase-studio/templates",
+      "sha": "d7a65bce3668c44d20780ad5a197bedf906c20c2",
+      "application_path": "adk/multi_tool_agent/agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-002.json"
+    },
+    {
+      "case_id": "case-003",
+      "repo": "jeremylongshore/perception-with-intent",
+      "sha": "b812b4406c41584a095b109b41ff5dfc58700b03",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-003.json"
+    },
+    {
+      "case_id": "case-004",
+      "repo": "AbiramiSukumaran/adk-renovation-single-agent",
+      "sha": "f1b779be5d1d49093b46102a8440d26830efa07d",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-004.json"
+    },
+    {
+      "case_id": "case-005",
+      "repo": "salomonerobert/adk-design-agent",
+      "sha": "b3aba77570f3891f836ac031257fe25872fc4000",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-005.json"
+    },
+    {
+      "case_id": "case-006",
+      "repo": "mxyhi/always-on-memory-agent",
+      "sha": "5a92fd6fa34baa2920ac5ec6b1e1ac4def940311",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-006.json"
+    },
+    {
+      "case_id": "case-007",
+      "repo": "VeerMuchandi/corporate_analyst",
+      "sha": "224dd5a5684e39fd9e89e84296694965e32beb72",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-007.json"
+    },
+    {
+      "case_id": "case-008",
+      "repo": "ulises-jimenez07/adk-multiagent-demo",
+      "sha": "da7bdd85d0d1a2279d730ddcd834df69441c3034",
+      "application_path": "coordinator_agent/agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-008.json"
+    },
+    {
+      "case_id": "case-009",
+      "repo": "allen-stephen/memory-bank-samples",
+      "sha": "ac7fdb1ed89f96c4f4e4d96548c09260e9e387da",
+      "application_path": "app/agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-009.json"
+    },
+    {
+      "case_id": "case-010",
+      "repo": "AhmadK-it/research_assistant",
+      "sha": "923bf68dde7186f7ecff050cc3513550b5f68b0d",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-010.json"
+    },
+    {
+      "case_id": "case-011",
+      "repo": "Ojas-Patil26/VeriQ",
+      "sha": "067cb330ab943279b4b8ea13c91c9042bdd9f421",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-011.json"
+    },
+    {
+      "case_id": "case-012",
+      "repo": "Dannyzen/montagegenerator",
+      "sha": "bad2d0c26723ecd80e6ee1c471536f647c44d7ac",
+      "application_path": "agents/definitions.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-012.json"
+    },
+    {
+      "case_id": "case-013",
+      "repo": "Quantum-Cipher/MCP-GCP-governance-protocol",
+      "sha": "ff3864266f752c572393584721d70059955b33c2",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-013.json"
+    },
+    {
+      "case_id": "case-014",
+      "repo": "dwij2812/streamassist-datastorespec-example",
+      "sha": "c7ae87d8c45a55c2c678690269ec49c92801d4b8",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-014.json"
+    },
+    {
+      "case_id": "case-015",
+      "repo": "aayushprsingh/track1-zoo-agent",
+      "sha": "152f7f5fcefa1301c653ca10bacb4a4c93ae8edc",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-015.json"
+    },
+    {
+      "case_id": "case-016",
+      "repo": "moonpy-a11y/agent_payments",
+      "sha": "b08e4bec80ea2f8a3664d670bc6fc52b8a50d1ae",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-016.json"
+    },
+    {
+      "case_id": "case-017",
+      "repo": "namanraina16/morning-wire",
+      "sha": "29529fbf066b30eb0d7c45d1a70b1eda5dfb53dd",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-017.json"
+    },
+    {
+      "case_id": "case-018",
+      "repo": "vivekcommit/Cloud_Architecture_Review",
+      "sha": "16ac50de750de9d4681a501f936184804a819754",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-018.json"
+    },
+    {
+      "case_id": "case-019",
+      "repo": "joshnaim1/ocr-test",
+      "sha": "12a850dec83f04039862fb6ef03e0fc80c462bf3",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-019.json"
+    },
+    {
+      "case_id": "case-020",
+      "repo": "Piyushhpatel/aquagaurd-google-cloud-rapid",
+      "sha": "98c843300428b3b01a38e33a014dfbabc984d4fd",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-020.json"
+    },
+    {
+      "case_id": "case-021",
+      "repo": "JoanMarinPages/agentGemini",
+      "sha": "0160690bb47cca17e70ceb8486209d7b1cacaf76",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-021.json"
+    },
+    {
+      "case_id": "case-022",
+      "repo": "RawleySM/adk-builder-manus",
+      "sha": "c98e25dc40f581e0c4adfd6eaecd44050633a659",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-022.json"
+    },
+    {
+      "case_id": "case-023",
+      "repo": "elitepunith/apdm-agent",
+      "sha": "c2f30462bc8663bec5c4046dc62006f52889c19a",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-023.json"
+    },
+    {
+      "case_id": "case-024",
+      "repo": "Umbra-shadow/Foreman",
+      "sha": "c623c4116acf066787bce735263fc01195a76bb6",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-024.json"
+    },
+    {
+      "case_id": "case-025",
+      "repo": "justsankalp/enterprise-rag-poc",
+      "sha": "194979df7146ad0fd90132c7aa71b659b9260660",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-025.json"
+    },
+    {
+      "case_id": "case-026",
+      "repo": "Aryan-Madaan/buildblogmarathonblr",
+      "sha": "54fe26d233aaf2ac5bf9ff4beed5320a0fe22b22",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-026.json"
+    },
+    {
+      "case_id": "case-027",
+      "repo": "litmus-zhang/course-creator",
+      "sha": "881acff4847f96454ebf50135b19ebe95fda1cb8",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-027.json"
+    },
+    {
+      "case_id": "case-028",
+      "repo": "git791/GreenAI-Agent",
+      "sha": "94fdaf7fd9dd4269ac85fef9e850237da0360908",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-028.json"
+    },
+    {
+      "case_id": "case-029",
+      "repo": "Shivain-codes/adk-text-intelligence-agent",
+      "sha": "7ea77e24f242b9d270c048a3ca867b7c82acf918",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-029.json"
+    },
+    {
+      "case_id": "case-030",
+      "repo": "jmoncayo-pursuit/parameter-golf-uniform-int4",
+      "sha": "f34c12d79c9e9da6d8c8dbfc9104c07b4b627ed1",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-030.json"
+    },
+    {
+      "case_id": "case-031",
+      "repo": "shahriarhasan443/clarix_agent",
+      "sha": "ed8326c05f00d60da6be752ac484d80e54b40f90",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-031.json"
+    },
+    {
+      "case_id": "case-032",
+      "repo": "saivijayragav/Job-Sniper",
+      "sha": "d6687fb01cd16e049047e5794b376257c2e66e5c",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-032.json"
+    },
+    {
+      "case_id": "case-033",
+      "repo": "rishiraj/mediquick-adk",
+      "sha": "4f074e5aa818b2eb8c11d10e21adf76f28e7a3e4",
+      "application_path": "agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-033.json"
+    },
+    {
+      "case_id": "case-034",
+      "repo": "google/pubmed-rag",
+      "sha": "909b6e280b0f78ebc32fe4756513c859fe078491",
+      "application_path": "agents/pipelines/full_review/agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-034.json"
+    },
+    {
+      "case_id": "case-035",
+      "repo": "jeremylongshore/iam-bob-adk-python",
+      "sha": "e3ab610ba825a54cc4c41fff5d314e53dece3817",
+      "application_path": "agents/iam_adk/agent.py",
+      "framework_stratum": "google-adk",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-035.json"
+    },
+    {
+      "case_id": "case-036",
+      "repo": "blastshielddown/dagster-diagnostic-agent",
+      "sha": "5d2d40b339030123f2e851b0d82b8a1d69bb3fe2",
+      "application_path": "src/dagster_diagnostic_agent/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-036.json"
+    },
+    {
+      "case_id": "case-037",
+      "repo": "DunaSpice/JetsonMind",
+      "sha": "4dde749d932478c55c43de935efa21a67830fac5",
+      "application_path": "core/agents_system.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-037.json"
+    },
+    {
+      "case_id": "case-038",
+      "repo": "undertherain/PaperX",
+      "sha": "25af7bd2ec41a7b0c3b4033eb7328c1874e1aefd",
+      "application_path": "redelivery_agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-038.json"
+    },
+    {
+      "case_id": "case-039",
+      "repo": "wuyoscar/Internal-Safety-Collapse",
+      "sha": "ac75b759fe755ea41048990c38b8543ac53ecc39",
+      "application_path": "experiment/tvd_agent/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-039.json"
+    },
+    {
+      "case_id": "case-040",
+      "repo": "nexi-lab/nexus",
+      "sha": "66e3b994773036514a2aebae8138c60b77a64329",
+      "application_path": "examples/openai_agents/openai_agent_react_demo.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-040.json"
+    },
+    {
+      "case_id": "case-041",
+      "repo": "agent-axiom/agent-anvil",
+      "sha": "65025264994f17999f83c830a317cbe88edbdd07",
+      "application_path": "examples/openai_agents_sdk_agent/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-041.json"
+    },
+    {
+      "case_id": "case-042",
+      "repo": "ConesaLab/PaintOmics",
+      "sha": "a166da377450977a6a95ec44f4ae703a31c99742",
+      "application_path": "PaintomicsServer/src/classes/AIInterpret/walker/sdk.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-042.json"
+    },
+    {
+      "case_id": "case-043",
+      "repo": "SATUNIX/gateway",
+      "sha": "f0659bbf7e804865e5142e97092683884110d6d0",
+      "application_path": "examples/agents/Spark/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-043.json"
+    },
+    {
+      "case_id": "case-044",
+      "repo": "abhinavg6/yutha",
+      "sha": "d6172254bf8a219f34f195e7ffdeb4f7dfd769e6",
+      "application_path": "docs/developer/openai-agents.md",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-044.json"
+    },
+    {
+      "case_id": "case-045",
+      "repo": "elastic/observability-examples",
+      "sha": "b69114e63fa0bfc483f56d4cb3af3512f58fb451",
+      "application_path": "inference-platforms/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-045.json"
+    },
+    {
+      "case_id": "case-046",
+      "repo": "als141/a2a-openai-multiagent",
+      "sha": "8d4061bf210aecacd68a7ef6e68051d1aa724050",
+      "application_path": "advanced_experiment_system.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-046.json"
+    },
+    {
+      "case_id": "case-047",
+      "repo": "disler/single-file-agents",
+      "sha": "ae5826a4165c4af2e54501ba99b4d98dda0bb8b3",
+      "application_path": "sfa_openai_agent_sdk_v1.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-047.json"
+    },
+    {
+      "case_id": "case-048",
+      "repo": "ShinyDapps/l402-kit",
+      "sha": "a9a216105e240a42b1cfae9147f491b2e5e9b0e1",
+      "application_path": "docs/agent/openai-agents.mdx",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-048.json"
+    },
+    {
+      "case_id": "case-049",
+      "repo": "cuttlesoft/agent-loop-examples",
+      "sha": "959ce356fadb4577f40c35e2942a3237ad8f7988",
+      "application_path": "openai-agents/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-049.json"
+    },
+    {
+      "case_id": "case-050",
+      "repo": "ulab-uiuc/coinjure",
+      "sha": "51bd34c0e3172973714181332bbdffac46716071",
+      "application_path": "coinjure/strategy/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-050.json"
+    },
+    {
+      "case_id": "case-051",
+      "repo": "steel-dev/steel-cookbook",
+      "sha": "40f1326ba885d758a8072848a5eacccb51ba7400",
+      "application_path": "examples/openai-agents-py/README.md",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-051.json"
+    },
+    {
+      "case_id": "case-052",
+      "repo": "merlinfuchs/ai-in-a-box",
+      "sha": "7821400c9ef4cb7ac4cdaf79d2dfd751c1557641",
+      "application_path": "agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-052.json"
+    },
+    {
+      "case_id": "case-053",
+      "repo": "blaxel-templates/template-openai-py",
+      "sha": "51f59e68b4e69d0391b88f85e03d861130865cc9",
+      "application_path": "src/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-053.json"
+    },
+    {
+      "case_id": "case-054",
+      "repo": "ALPHAbilal/test3",
+      "sha": "78c04c2b227ba8af0f152a5997c88609e9a1ed86",
+      "application_path": "main.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-054.json"
+    },
+    {
+      "case_id": "case-055",
+      "repo": "KrishnaKumarSoni/barmuda",
+      "sha": "0387a8d11f54a9e07ae91b4d69acbe1f2ef5c98b",
+      "application_path": "chat_engine.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-055.json"
+    },
+    {
+      "case_id": "case-056",
+      "repo": "VitalyOborin/yodoca",
+      "sha": "2af56ec52e0a7ff211c2276e8301e83da8a95dcd",
+      "application_path": "AGENTS.md",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-056.json"
+    },
+    {
+      "case_id": "case-057",
+      "repo": "datacurve-ai/wide-research",
+      "sha": "c48a6fcd87e5d857ad80fd2a16fc73bd2a60af41",
+      "application_path": "AGENTS.md",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-057.json"
+    },
+    {
+      "case_id": "case-058",
+      "repo": "wandb/discovery-forge",
+      "sha": "05fabee1288d25c9a4f338cb723bb3b05023a570",
+      "application_path": "AGENTS.md",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-058.json"
+    },
+    {
+      "case_id": "case-059",
+      "repo": "xxLizXxx/AI-AgentTools-1",
+      "sha": "abf454c18134ef82902bed94ae4b3e99fde926fc",
+      "application_path": "Agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-059.json"
+    },
+    {
+      "case_id": "case-060",
+      "repo": "Unfold-Security/pydantic-collab",
+      "sha": "b35097cb7cb5f39cc3d098f51d819c1cfe3a0266",
+      "application_path": "examples/12_data_analysis_pipeline.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-060.json"
+    },
+    {
+      "case_id": "case-061",
+      "repo": "djaboxx/template-ai-chat-stack",
+      "sha": "d8f54cc067f387b4f6f1cb685266adca4111aadc",
+      "application_path": "ai_service.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-061.json"
+    },
+    {
+      "case_id": "case-062",
+      "repo": "Krishnanand2517/rag-doc-agent",
+      "sha": "a56e3f85e5738f3865efc90e7212f8bd4e98dfa8",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-062.json"
+    },
+    {
+      "case_id": "case-063",
+      "repo": "JUN176/exp-agent",
+      "sha": "e20250253039d4148ab8caca293a4cfef0f214af",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-063.json"
+    },
+    {
+      "case_id": "case-064",
+      "repo": "aws-samples/sample-agentic-platform",
+      "sha": "3013ce28c58c3a6242a8fc8bcfcfc133a4e3f82e",
+      "application_path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": true,
+      "ground_truth": "ground-truth/case-064.json"
+    },
+    {
+      "case_id": "case-065",
+      "repo": "mars-mx/portfolio",
+      "sha": "6e6871b85fb0d4d051c2043bd0daa4911676e4d3",
+      "application_path": "backend/app/agent/assistant.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-065.json"
+    },
+    {
+      "case_id": "case-066",
+      "repo": "hypermemory-ai/openrouter_provider_validator",
+      "sha": "95eee5b0694ca7901526e6280f1a700760a7e7ba",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-066.json"
+    },
+    {
+      "case_id": "case-067",
+      "repo": "shotgun-sh/shotgun",
+      "sha": "4d344d5a46aafc815de441ff670d4131187f33e6",
+      "application_path": "src/shotgun/agents/router/router.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-067.json"
+    },
+    {
+      "case_id": "case-068",
+      "repo": "LeonieFreisinger/pydanticai-base-agent",
+      "sha": "0cf88a4caf2b5da29ff7af8364d4db14ac9e50b4",
+      "application_path": "app.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-068.json"
+    },
+    {
+      "case_id": "case-069",
+      "repo": "ShariqAli-Dev/graphiti-poc",
+      "sha": "edc355130f7eec9ae6baa3c989d722d8735d298d",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-069.json"
+    },
+    {
+      "case_id": "case-070",
+      "repo": "LuizaRubim/chatbot_agent_music",
+      "sha": "54f135d00726cb8d91d8692498ebd03e214b4199",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-070.json"
+    },
+    {
+      "case_id": "case-071",
+      "repo": "amscotti/local-LLM-with-RAG",
+      "sha": "832fb9a2970884e61a6ca2eabcfa103b78df4cfb",
+      "application_path": "core/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-071.json"
+    },
+    {
+      "case_id": "case-072",
+      "repo": "hope-tatenda-mutema/Pedantic-AI-Deep-Research-Agent",
+      "sha": "0369d0675851071e9f2da850951144e2bb022b3f",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-072.json"
+    },
+    {
+      "case_id": "case-073",
+      "repo": "harshalmore31/phoenix-os",
+      "sha": "1c7f552d9d7515f065f68306a4b066dd6e3afc79",
+      "application_path": "phoenix",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-073.json"
+    },
+    {
+      "case_id": "case-074",
+      "repo": "badlydrawnrod/agent-c",
+      "sha": "9789e93dab47c4bd38ccc6fe19c3761f611d09e4",
+      "application_path": "agent_c",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-074.json"
+    },
+    {
+      "case_id": "case-075",
+      "repo": "rachedblili/MCP-Transition",
+      "sha": "7c1941f6b592787622b91a321d031c1cd77a688d",
+      "application_path": "improved_agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-075.json"
+    },
+    {
+      "case_id": "case-076",
+      "repo": "FaustoS88/Pydantic-AI-Pinescript-Expert",
+      "sha": "03cbd93c486435df08d70185fbab9aa61fff5fbb",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-076.json"
+    },
+    {
+      "case_id": "case-077",
+      "repo": "coleam00/second-brain-research-dashboard",
+      "sha": "908fb63f99a9aaf60b60dd3ea719dbf48822ea0e",
+      "application_path": "agent/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-077.json"
+    },
+    {
+      "case_id": "case-078",
+      "repo": "abuiles/ramon",
+      "sha": "890b364018b8aea2ec50405cdde700fe824a9082",
+      "application_path": "ramon/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-078.json"
+    },
+    {
+      "case_id": "case-079",
+      "repo": "kumarvipu1/agentic-ppt-slide",
+      "sha": "2614076f9fbb0cdde10e481918b5177c5c3399c8",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-079.json"
+    },
+    {
+      "case_id": "case-080",
+      "repo": "Alejandro-Candela/agentic-rag-knowledge-graph",
+      "sha": "53a1d4b1cb8029edbc35b5e554ab9c0806a2fc85",
+      "application_path": "agent/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-080.json"
+    },
+    {
+      "case_id": "case-081",
+      "repo": "MhankBarBar/zero-ichi",
+      "sha": "e4c4ae87ce7b81009b4dd4bc6e671a512e8d2bd6",
+      "application_path": "src/ai/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-081.json"
+    },
+    {
+      "case_id": "case-082",
+      "repo": "GB153/AlpacaAgent",
+      "sha": "56e1156a7ab7afee072deef9a6a950c2ea469711",
+      "application_path": "core/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-082.json"
+    },
+    {
+      "case_id": "case-083",
+      "repo": "coleam00/orbit-support-agent",
+      "sha": "d03e6fabf801e3fb6aec9e2533064408ca24706c",
+      "application_path": "agent_v1_style.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-083.json"
+    },
+    {
+      "case_id": "case-084",
+      "repo": "aws-samples/sample-serverless-pydantic-agents",
+      "sha": "f930e68f7399e9db4c860bf2c36e7d124c8ee83d",
+      "application_path": "lambda/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-084.json"
+    },
+    {
+      "case_id": "case-085",
+      "repo": "newsbubbles/matplotlib_mcp",
+      "sha": "5628ad1370acb03b4cba265bcf0a322a7ded1c07",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-085.json"
+    },
+    {
+      "case_id": "case-086",
+      "repo": "abhaybhargav/pydanticai-sec-research-assistant",
+      "sha": "26cb40a164787fb2b1b59f9630964f964a7ee64f",
+      "application_path": "research_agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-086.json"
+    },
+    {
+      "case_id": "case-087",
+      "repo": "NateMerriman/crawl4AI-agent-v2",
+      "sha": "8aed07f14bc2088890d899044b7e63ee83f61926",
+      "application_path": "rag_agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-087.json"
+    },
+    {
+      "case_id": "case-088",
+      "repo": "Amar-Ag/project-ideation-tool",
+      "sha": "169a9d50841de7cf05bfd5240f9509e0eccd5167",
+      "application_path": "src/agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-088.json"
+    },
+    {
+      "case_id": "case-089",
+      "repo": "SadeepaNHerath/risk-management-learning-agent",
+      "sha": "70f615bc1b985ffcab7b12d9b0c4fe1f8a00d9c9",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-089.json"
+    },
+    {
+      "case_id": "case-090",
+      "repo": "lladdy/progressive-disclosure-ai-assistant",
+      "sha": "6e46f905897f4d89ad7219041505b17e81f2114c",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-090.json"
+    },
+    {
+      "case_id": "case-091",
+      "repo": "Rehaan-2006/Virtual_Clinical_Assistant",
+      "sha": "a55ce1b3220909cdf6f183412db3830c6f41ef61",
+      "application_path": "agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-091.json"
+    },
+    {
+      "case_id": "case-092",
+      "repo": "kai-feinberg/reddit-agent",
+      "sha": "f4503c6076c1e43d91d25f9feddf014c605c62e7",
+      "application_path": "ai_agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-092.json"
+    },
+    {
+      "case_id": "case-093",
+      "repo": "AminHP-GenAI/customer-support-persian",
+      "sha": "3b149671b83b7c0385488188614c8118fce46b65",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-093.json"
+    },
+    {
+      "case_id": "case-094",
+      "repo": "oskarkyle/FireGPT",
+      "sha": "a91e1d408dffaecdbfc52595b895f93056a6e476",
+      "application_path": "main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-094.json"
+    },
+    {
+      "case_id": "case-095",
+      "repo": "kaarthik108/snowChat",
+      "sha": "d0c2520e5a785f3a0fe496630a510015ef04c342",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-095.json"
+    },
+    {
+      "case_id": "case-096",
+      "repo": "neo4j-partners/hands-on-lab-neo4j-and-amazon",
+      "sha": "6fcaa60ceccb2f7ee13e69d756f37efe449f05eb",
+      "application_path": "Lab_4_Intro_to_Bedrock_and_Agents/basic_langgraph_agent.ipynb",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-096.json"
+    },
+    {
+      "case_id": "case-097",
+      "repo": "FareedKhan-dev/temporal-ai-agent-pipeline",
+      "sha": "51d928a6d4e89f7f2881b7776acfef244ea21196",
+      "application_path": "temporal_agent_pipeline.ipynb",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-097.json"
+    },
+    {
+      "case_id": "case-098",
+      "repo": "Tunnello/ChatBI",
+      "sha": "6f6f633d692a8c3de24f516d8bc5c5c56aa067f1",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-098.json"
+    },
+    {
+      "case_id": "case-099",
+      "repo": "codebasics/langgraph-crash-course",
+      "sha": "4d926a1ac90b0a647f7f340e83353df3efedeb06",
+      "application_path": "8_HITL.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-099.json"
+    },
+    {
+      "case_id": "case-100",
+      "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+      "sha": "c06021c1773359ec7192706c3259b52948e00b20",
+      "application_path": "multi_agent.ipynb",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-100.json"
+    },
+    {
+      "case_id": "case-101",
+      "repo": "MKRNaqeebi/GenAlima",
+      "sha": "e237b03c69a80ec69197a3d0532719b66439e7fa",
+      "application_path": "agent/main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-101.json"
+    },
+    {
+      "case_id": "case-102",
+      "repo": "Pairrot-Lore/agent-solarpanels-tutorial",
+      "sha": "ed5cad7a6164eb289a2c8bfc3511cf79ba9da379",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-102.json"
+    },
+    {
+      "case_id": "case-103",
+      "repo": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
+      "sha": "862d312c799727858e7d9b0ff27ca3d873733d04",
+      "application_path": "graph.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-103.json"
+    },
+    {
+      "case_id": "case-104",
+      "repo": "hgarrereyn/nfuncs-agent",
+      "sha": "0fd754c938c2fec6f5eb276f20a526be16d330d0",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-104.json"
+    },
+    {
+      "case_id": "case-105",
+      "repo": "victor-capriles/ollama-rag",
+      "sha": "6d90efabd14f01397b7ab2f5c01fbfa253b879a6",
+      "application_path": "main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-105.json"
+    },
+    {
+      "case_id": "case-106",
+      "repo": "FareedKhan-dev/multi-agent-trading-system",
+      "sha": "6ae0c4bf8776e8e383923b69d3696ecc3e1ac0f0",
+      "application_path": "code.ipynb",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-106.json"
+    },
+    {
+      "case_id": "case-107",
+      "repo": "xlisp/learn-langgraph",
+      "sha": "e0d97b0ed16b279551a9d5ba9ff62c390725e023",
+      "application_path": "generate_shell_and_eval.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-107.json"
+    },
+    {
+      "case_id": "case-108",
+      "repo": "wafu7969/langgraph-workflow-demo",
+      "sha": "2e48b3da1f0dc181c5eb8e66e28f1d85cdd7c9a2",
+      "application_path": "src/graph.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-108.json"
+    },
+    {
+      "case_id": "case-109",
+      "repo": "RidaNaz/Chatbot",
+      "sha": "c0637eaddfb2a9929ce454bf5de5a4452b3e89be",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-109.json"
+    },
+    {
+      "case_id": "case-110",
+      "repo": "PovedaAqui/cybertrace-ai",
+      "sha": "82843b1b6665cb52600a615c6d8af31758def66f",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-110.json"
+    },
+    {
+      "case_id": "case-111",
+      "repo": "mozaloom/event-rag-agent",
+      "sha": "010f17bc2fc4f50419ebdd2bdb77cd505041fa44",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-111.json"
+    },
+    {
+      "case_id": "case-112",
+      "repo": "shadow3aaa/PlotWeave",
+      "sha": "47cc89bae2c88a65f7af2b6ca2507c97dd2e549f",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-112.json"
+    },
+    {
+      "case_id": "case-113",
+      "repo": "Aakash109-hub/eCommerce-Customer-Support-Agent",
+      "sha": "531d10da2b755781b081349139b72d953bf3922b",
+      "application_path": "main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-113.json"
+    },
+    {
+      "case_id": "case-114",
+      "repo": "solnone/LangChain-LangGraph-Ollama-MQTT",
+      "sha": "a207de1725c43b5d87d8e4fcd20b89a0cca27a6e",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-114.json"
+    },
+    {
+      "case_id": "case-115",
+      "repo": "aniket-work/Lets-Build-Online-Booking-System-Using-AI-Agents",
+      "sha": "7cc5937038ceb9d90a1212257d31233d265ef519",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-115.json"
+    },
+    {
+      "case_id": "case-116",
+      "repo": "maxidiazbattan/Agentic-RAG-langgraph-ollama-streamlit",
+      "sha": "fde35006d862b46b4a3edfd3dfa3543b388f71a1",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-116.json"
+    },
+    {
+      "case_id": "case-117",
+      "repo": "KomachiZ/BICO",
+      "sha": "8bfc1b6dd254bff3a5969baa467efca28d7a6c46",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-117.json"
+    },
+    {
+      "case_id": "case-118",
+      "repo": "t-redactyl/language-learning-agent",
+      "sha": "920caf19bd2b8e81523d8c326afb06e9856ac7dc",
+      "application_path": "main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-118.json"
+    },
+    {
+      "case_id": "case-119",
+      "repo": "databricks-industry-solutions/contextual-content-placement",
+      "sha": "6e2c8842c4817bf90c0a4542b93df93effb6c53d",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-119.json"
+    },
+    {
+      "case_id": "case-120",
+      "repo": "xueh88401-web/langgraph_vibe_engine",
+      "sha": "1dd2373dfc0cbafd4dc3f77bb202d34958fbeffc",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-120.json"
+    },
+    {
+      "case_id": "case-121",
+      "repo": "sysadmin-info/reloaded",
+      "sha": "0d15f1268024ee09d87c21fa7ef00e61e453cf0e",
+      "application_path": "agent.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-121.json"
+    },
+    {
+      "case_id": "case-122",
+      "repo": "MounirKhalil/new-treadwise-tires-co",
+      "sha": "878aa1bbc4122eaf99ea14ae93ca5d2c71c8e912",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-122.json"
+    },
+    {
+      "case_id": "case-123",
+      "repo": "lingxi-agent/Lingxi",
+      "sha": "1f2e5dc4c87072cb4827c9c65d31450ae05ac482",
+      "application_path": "src/agent/hierarchy_graph_demo.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-123.json"
+    },
+    {
+      "case_id": "case-124",
+      "repo": "mshojaei77/ReActMCP",
+      "sha": "3fe0886eefa7ec6744d7ca78ad430d6e1749f126",
+      "application_path": "main.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-124.json"
+    },
+    {
+      "case_id": "case-125",
+      "repo": "aarora79/aws-cost-explorer-mcp-server",
+      "sha": "67a50d7de430495b5482bad7fde56d2abc4884ea",
+      "application_path": "app.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-125.json"
+    },
+    {
+      "case_id": "case-126",
+      "repo": "lgesuellip/researcher_agent",
+      "sha": "d95548b6e63db7f46a94df432ebccc703fb8ec6b",
+      "application_path": "agents/base/react.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-126.json"
+    },
+    {
+      "case_id": "case-127",
+      "repo": "aws-samples/sample-bedrock-mcp",
+      "sha": "153ff7f7b99c4c65f4c8ded87131c5bd8d69d114",
+      "application_path": "README.md",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-127.json"
+    },
+    {
+      "case_id": "case-128",
+      "repo": "Yanyutin753/LambChat",
+      "sha": "78438d41147fa8ef51098ea6f0a9c47e417c07e9",
+      "application_path": "src/agents/fast_agent/graph.py",
+      "framework_stratum": "langgraph",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-128.json"
+    },
+    {
+      "case_id": "case-129",
+      "repo": "Klavis-AI/klavis",
+      "sha": "45c9f7da83d1cf43f7429b96f9c8e8153542ea1e",
+      "application_path": "mcp_servers/hugging_face/packages/e2e-python/skybridge1.py",
+      "framework_stratum": "fastagent",
+      "previously_studied": true,
+      "ground_truth": "ground-truth/case-129.json"
+    },
+    {
+      "case_id": "case-130",
+      "repo": "angrysky56/ai_writers_workshop",
+      "sha": "c160a299706dd0cd1dc9ae114b97aba905e9261d",
+      "application_path": "mcp_server/components/fast_agent_integration.py",
+      "framework_stratum": "fastagent",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-130.json"
+    },
+    {
+      "case_id": "case-131",
+      "repo": "billyhargroveofficial/billyharness",
+      "sha": "6c71fa1ddc7dc9237a8419cf86a73a6237cec5af",
+      "application_path": "cmd/fast-agent-harness/service_cmd.go",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-131.json"
+    },
+    {
+      "case_id": "case-132",
+      "repo": "RooCodeInc/Roomote",
+      "sha": "32cdaa576386f5f79a85bc5cae6bcc632f280ffc",
+      "application_path": "packages/cloud-agents/src/server/fast-agent/fast-agent-integration-broker.ts",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-132.json"
+    },
+    {
+      "case_id": "case-133",
+      "repo": "omnigentx/jarvis",
+      "sha": "90d1eb1620912e752be2e6fe8156923a0394216d",
+      "application_path": "backend/agent.py",
+      "framework_stratum": "fastagent",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-133.json"
+    },
+    {
+      "case_id": "case-134",
+      "repo": "jianbo27/mcp-demo",
+      "sha": "af095e06608839aa52c9c1a17ed332c03ed7aba2",
+      "application_path": "mcp.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-134.json"
+    },
+    {
+      "case_id": "case-135",
+      "repo": "lilgreml1n/gemini-cli-mcp",
+      "sha": "0c2cad211f00e1c316b172cbde9ef9b82daf3da3",
+      "application_path": "main_mcp.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-135.json"
+    },
+    {
+      "case_id": "case-136",
+      "repo": "xavi0007/agentic_chatbot",
+      "sha": "0c5e20d45b75164b76b6041c643396d14db039a5",
+      "application_path": "mcp.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-136.json"
+    },
+    {
+      "case_id": "case-137",
+      "repo": "eginaml/clinical-research-agents",
+      "sha": "be3883c2eff8cd1a7059ef795407d9d9949922d8",
+      "application_path": "main.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-137.json"
+    },
+    {
+      "case_id": "case-138",
+      "repo": "Amlan66/SSEEnabledMCPAgent",
+      "sha": "11531239e71b123f25b3c6103ee36a9d614d0032",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-138.json"
+    },
+    {
+      "case_id": "case-139",
+      "repo": "ZygimantasB/AI-with-jupyter",
+      "sha": "ac8b74ff4aecf17e8026e8666fb917effd1355ed",
+      "application_path": "MCP/app.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-139.json"
+    },
+    {
+      "case_id": "case-140",
+      "repo": "aakashyo/Operational-Planning-Agent",
+      "sha": "9fd22e999d18b2becdba3a1fc2eac411b9a25577",
+      "application_path": "app.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-140.json"
+    },
+    {
+      "case_id": "case-141",
+      "repo": "Nagharjun17/MCP-Ollama-Client",
+      "sha": "aa54c8d8f808123ba26922138126afa6675dce68",
+      "application_path": "client.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-141.json"
+    },
+    {
+      "case_id": "case-142",
+      "repo": "Eeshu-Yadav/GraphPatch",
+      "sha": "e4cc5ccae3b63869abf3f3a77b07345be26fc73e",
+      "application_path": "lean_agent/agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-142.json"
+    },
+    {
+      "case_id": "case-143",
+      "repo": "jiamingkong/agent_demos",
+      "sha": "6fab148888845bc08e762b82ce0477a3a213d712",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-143.json"
+    },
+    {
+      "case_id": "case-144",
+      "repo": "openlegion-ai/openlegion",
+      "sha": "24efd6e06b28768cbbcd9275f43c479b3df37b18",
+      "application_path": "src/agent/__main__.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-144.json"
+    },
+    {
+      "case_id": "case-145",
+      "repo": "Meer-Promethean/Voice_Agent",
+      "sha": "f7e94334c253eb058ace3ff23655290b17b7a8ac",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-145.json"
+    },
+    {
+      "case_id": "case-146",
+      "repo": "ariadnasaez/master_thesis",
+      "sha": "b99f9bb05017a39396a2302351e85f380fac7a71",
+      "application_path": "client.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-146.json"
+    },
+    {
+      "case_id": "case-147",
+      "repo": "Josuehmz/AIAssistant",
+      "sha": "80b7af1a91411cfc040a58494415f457c3bd0e61",
+      "application_path": "main.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-147.json"
+    },
+    {
+      "case_id": "case-148",
+      "repo": "SHOCKWAVE07/mcp-gemini",
+      "sha": "8d43f39679a15a150474560002c13fc42f263c55",
+      "application_path": "app.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-148.json"
+    },
+    {
+      "case_id": "case-149",
+      "repo": "RGGH/refactored-octo-parakeet",
+      "sha": "1aec28cb33fbff0e8d0fa7799c0c2bba6ac90a6a",
+      "application_path": "main.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-149.json"
+    },
+    {
+      "case_id": "case-150",
+      "repo": "night2tl/mcp-slides",
+      "sha": "a7e55b4b02a16e390dbf1ae09e9ff99275be9e55",
+      "application_path": "host.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-150.json"
+    },
+    {
+      "case_id": "case-151",
+      "repo": "kztomita/chat-app-with-mcp-example",
+      "sha": "9db740a753d74ce8cbeb3815f86af4d995cfe57c",
+      "application_path": "chat.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-151.json"
+    },
+    {
+      "case_id": "case-152",
+      "repo": "elmerjani/lab",
+      "sha": "407d71a903f1269797f6e837bcd93c53038105a8",
+      "application_path": "app.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-152.json"
+    },
+    {
+      "case_id": "case-153",
+      "repo": "nks676/hume-agent",
+      "sha": "d019097903fb656230e868d0b3ffe67deb10fc72",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-153.json"
+    },
+    {
+      "case_id": "case-154",
+      "repo": "ohidurbappy/learn-mcp",
+      "sha": "a158eb5b408318b373b7a2ba08ac8f52b6340ab5",
+      "application_path": "client.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-154.json"
+    },
+    {
+      "case_id": "case-155",
+      "repo": "mestercuby/MCP-Demo",
+      "sha": "814f476d5740a1bc9808fc2ebd8b8d547fdaecb2",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-155.json"
+    },
+    {
+      "case_id": "case-156",
+      "repo": "milesonline/Orion-ChatAgent",
+      "sha": "16611187dc3ead5232d5c385fe409646fe67518d",
+      "application_path": "orion.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-156.json"
+    },
+    {
+      "case_id": "case-157",
+      "repo": "dehora/tars",
+      "sha": "89b59de7c1a20c8a3231b211cdc0b85649c0ef4a",
+      "application_path": "tars",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-157.json"
+    },
+    {
+      "case_id": "case-158",
+      "repo": "huanchong-99/Go-Home",
+      "sha": "c08702ae7d1b6818ce932ab0ac649f548f40dfc4",
+      "application_path": "main.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-158.json"
+    },
+    {
+      "case_id": "case-159",
+      "repo": "udaykiranpod/udaymcpserver",
+      "sha": "e73c1aa20de2432430f13afd3188e00723c3da9e",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-159.json"
+    },
+    {
+      "case_id": "case-160",
+      "repo": "Frostday/Agent4Molecule",
+      "sha": "131f7f8898a15a90e6e9faa9131c0fd4bb706797",
+      "application_path": "mcp_agent/client.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-160.json"
+    },
+    {
+      "case_id": "case-161",
+      "repo": "TnjMyWife/NanoAgent-Assignment",
+      "sha": "7f5a9a1d3c73f7311e25dcecf0f3ee66018bea4d",
+      "application_path": "agent-paperread.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-161.json"
+    },
+    {
+      "case_id": "case-162",
+      "repo": "Pragna-echuri/Agentic-Autonomous-Data-Analyst-Platform",
+      "sha": "ddc464a7585e6c7c82957357bd243e2254579104",
+      "application_path": "agents.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-162.json"
+    },
+    {
+      "case_id": "case-163",
+      "repo": "azizyartas/amazon-hack",
+      "sha": "06aaf6784a2ba294f60261219453a2b955314e89",
+      "application_path": "chat.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-163.json"
+    },
+    {
+      "case_id": "case-164",
+      "repo": "ayushshah04/DashBoard_Agent",
+      "sha": "df75fa280204db2cdaac3d46096f2545526bd991",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-164.json"
+    },
+    {
+      "case_id": "case-165",
+      "repo": "IAmTomShaw/stock-tracker-agent",
+      "sha": "c2e02428e3360ed00a94052b211d2422c6c8155c",
+      "application_path": "lib/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-165.json"
+    },
+    {
+      "case_id": "case-166",
+      "repo": "elchanio-76/deep_research",
+      "sha": "fbe2b3181382862e8238c445baeb71bab708f9d5",
+      "application_path": "src/agents/qa_agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-166.json"
+    },
+    {
+      "case_id": "case-167",
+      "repo": "indrazm/ai-discord-bot",
+      "sha": "c2fb1924fc8efe7b2eed3929396f0281ae162585",
+      "application_path": "app/llm/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-167.json"
+    },
+    {
+      "case_id": "case-168",
+      "repo": "Danejw/ai-companion-backend",
+      "sha": "5868863046a6b3e69cba9d07e98fb2bd357976d1",
+      "application_path": "app/my_agents.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-168.json"
+    },
+    {
+      "case_id": "case-169",
+      "repo": "engagepy/openai_agent_sales",
+      "sha": "ffa3be97dbbae504bdd6d45f668888af61b043c5",
+      "application_path": "agent/custom_agents.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-169.json"
+    },
+    {
+      "case_id": "case-170",
+      "repo": "brookr/serverless-agents",
+      "sha": "9b533fa9fb77502e1321b061c30d5ec5ac41f9f6",
+      "application_path": "api/agents.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-170.json"
+    },
+    {
+      "case_id": "case-171",
+      "repo": "totalhack/zillion",
+      "sha": "d508864b13a942942895936559f538c7f7d246c6",
+      "application_path": "zillion/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-171.json"
+    },
+    {
+      "case_id": "case-172",
+      "repo": "IAmTomShaw/tourist-agent",
+      "sha": "b4dccafce5c3bbd00405a18ec7e25665c6272ad1",
+      "application_path": "src/agent.py",
+      "framework_stratum": "openai-agents",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-172.json"
+    },
+    {
+      "case_id": "case-173",
+      "repo": "Croups/smart-web-scraper",
+      "sha": "a157701a22ae1853a00156b2364830130958c82d",
+      "application_path": "scraping_agent.py",
+      "framework_stratum": "pydantic-ai",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-173.json"
+    },
+    {
+      "case_id": "case-174",
+      "repo": "jakie528/mcp-oauth",
+      "sha": "8476ee620196e60114e9dc1d6d497e4edf614cf2",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-174.json"
+    },
+    {
+      "case_id": "case-175",
+      "repo": "7bernie/meridian-chatbot",
+      "sha": "d8be1cf5ddf4bda6a38e30d4e857031df3199039",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-175.json"
+    },
+    {
+      "case_id": "case-176",
+      "repo": "ibrahimsaleem/mcp-security-lab",
+      "sha": "77cf0df7cba2cf3f247f1a86b3ec7a77651146f2",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-176.json"
+    },
+    {
+      "case_id": "case-177",
+      "repo": "AndreaCadonna/redmine-ai-cli",
+      "sha": "1b2976858b61f8f0b6fe1ce1d0d0173cd52e4452",
+      "application_path": "agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-177.json"
+    },
+    {
+      "case_id": "case-178",
+      "repo": "nandangupta-security/CloudSecAIBot",
+      "sha": "7847614f8439bf053d32e8db7fa33675440ed873",
+      "application_path": "agent_runner.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-178.json"
+    },
+    {
+      "case_id": "case-179",
+      "repo": "sashi-does/gamma",
+      "sha": "01f9ed81dd9aa33634ede60ed2914b5e29162a52",
+      "application_path": "agent_ppt.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-179.json"
+    },
+    {
+      "case_id": "case-180",
+      "repo": "garland3/redesigned-octo-umbrella",
+      "sha": "741a959071e6859de0387600b23695f678ce8d0c",
+      "application_path": "cli_agent.py",
+      "framework_stratum": "mcp-custom",
+      "previously_studied": false,
+      "ground_truth": "ground-truth/case-180.json"
+    }
+  ],
+  "tier_b_case_ids": [
+    "case-001",
+    "case-003",
+    "case-004",
+    "case-005",
+    "case-006",
+    "case-007",
+    "case-008",
+    "case-009",
+    "case-010",
+    "case-011",
+    "case-036",
+    "case-037",
+    "case-038",
+    "case-039",
+    "case-040",
+    "case-042",
+    "case-043",
+    "case-044",
+    "case-045",
+    "case-046",
+    "case-047",
+    "case-048",
+    "case-059",
+    "case-060",
+    "case-061",
+    "case-062",
+    "case-063",
+    "case-064",
+    "case-065",
+    "case-066",
+    "case-067",
+    "case-068",
+    "case-073",
+    "case-074",
+    "case-093",
+    "case-094",
+    "case-095",
+    "case-096",
+    "case-097",
+    "case-098",
+    "case-099",
+    "case-100",
+    "case-101",
+    "case-103",
+    "case-104",
+    "case-106",
+    "case-130",
+    "case-133",
+    "case-131",
+    "case-132",
+    "case-135",
+    "case-136",
+    "case-137",
+    "case-138",
+    "case-139",
+    "case-140",
+    "case-141",
+    "case-142",
+    "case-143",
+    "case-144"
+  ],
+  "tier_c_case_ids": [
+    "case-009",
+    "case-035",
+    "case-003",
+    "case-013",
+    "case-014",
+    "case-015",
+    "case-020",
+    "case-034",
+    "case-004",
+    "case-042",
+    "case-045",
+    "case-171",
+    "case-064",
+    "case-084",
+    "case-061",
+    "case-067",
+    "case-125",
+    "case-133",
+    "case-163",
+    "case-132",
+    "case-144",
+    "case-135",
+    "case-162",
+    "case-178",
+    "case-137"
+  ],
+  "stratum_exceptions": [
+    {
+      "stratum": "fastagent",
+      "observed_count": 3,
+      "preregistered_minimum": 12,
+      "reason": "Only three defensible FastAgent applications survived source-only screening of the frozen candidate universe. Inclusion criteria were not weakened; the shortfall is retained as a measured ecosystem/discovery limitation."
+    }
+  ],
+  "tier_b_selection_basis": "Source-only authority-surface eligibility, balanced across six strata; no framework contributes more than 20%.",
+  "tier_c_selection_basis": "Dedicated source review of repository deployment, container, cloud-runtime, IAM, service-account, identity, or provider deployment evidence. Cases with incomplete identity evidence are intentionally retained to measure correct unresolved/unsupported outcomes.",
   "ground_truth_locked": false
 }
