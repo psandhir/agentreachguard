@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "case_id": "rw-069",
+  "status": "first_pass_source_draft",
+  "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+  "sha": "c06021c1773359ec7192706c3259b52948e00b20",
+  "application_path": "multi_agent.ipynb",
+  "framework_stratum": "langgraph",
+  "review": {
+    "reviewer": "assistant-source-pass-1",
+    "reviewed_at": "2026-09-26",
+    "horustrace_output_seen": false,
+    "second_review_required": true,
+    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+  },
+  "tier_a": {
+    "frameworks": [
+      "langgraph"
+    ],
+    "agent_roots": [
+      {
+        "path": "multi_agent.ipynb",
+        "status": "source_screened_application_root_candidate",
+        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+      }
+    ],
+    "tools": [],
+    "mcp_servers": [],
+    "delegation_edges": [],
+    "unresolved": [
+      "Detailed agent-root name/count enumeration pending reviewer verification.",
+      "Tool inventory pending reviewer verification.",
+      "MCP server/binding inventory pending reviewer verification.",
+      "Delegation-edge inventory pending reviewer verification."
+    ]
+  },
+  "assertions": [
+    {
+      "assertion_id": "RW-069.FRAMEWORK",
+      "subject": "FareedKhan-dev/Multi-Agent-AI-System",
+      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "object": "langgraph",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "multi_agent.ipynb",
+          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+        },
+        {
+          "path": "README.md",
+          "rationale": "Original discovery evidence path retained as an independent source pointer."
+        }
+      ],
+      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "category": "framework",
+      "tier": "A"
+    }
+  ],
+  "tier_b_draft": {
+    "selected": true,
+    "source_screening_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "approval_controls",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "review_status": "detailed_authority_and_attack_path_review_pending"
+  },
+  "tier_c_draft": null
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "case_id": "rw-077",
+  "status": "first_pass_source_draft",
+  "repo": "azizyartas/amazon-hack",
+  "sha": "06aaf6784a2ba294f60261219453a2b955314e89",
+  "application_path": "chat.py",
+  "framework_stratum": "mcp-custom",
+  "review": {
+    "reviewer": "assistant-source-pass-1",
+    "reviewed_at": "2026-09-26",
+    "horustrace_output_seen": false,
+    "second_review_required": true,
+    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+  },
+  "tier_a": {
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "agent_roots": [
+      {
+        "path": "chat.py",
+        "status": "source_screened_application_root_candidate",
+        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+      }
+    ],
+    "tools": [],
+    "mcp_servers": [],
+    "delegation_edges": [],
+    "unresolved": [
+      "Detailed agent-root name/count enumeration pending reviewer verification.",
+      "Tool inventory pending reviewer verification.",
+      "MCP server/binding inventory pending reviewer verification.",
+      "Delegation-edge inventory pending reviewer verification."
+    ]
+  },
+  "assertions": [
+    {
+      "assertion_id": "RW-077.FRAMEWORK",
+      "subject": "azizyartas/amazon-hack",
+      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "object": "mcp-custom",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "chat.py",
+          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+        }
+      ],
+      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "category": "framework",
+      "tier": "A"
+    }
+  ],
+  "tier_b_draft": null,
+  "tier_c_draft": {
+    "selected": true,
+    "source_screening_signals": [
+      "paired_deployment_or_identity_evidence_requires_dedicated_review"
+    ],
+    "review_status": "deployment_identity_and_iam_review_pending"
+  }
+}

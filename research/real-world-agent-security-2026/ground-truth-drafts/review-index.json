@@ -1,0 +1,1632 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "generated_at": "2026-09-26",
+  "horustrace_output_seen": false,
+  "total": 180,
+  "tier_b": 60,
+  "tier_c": 4,
+  "second_review_required": 62,
+  "cases": [
+    {
+      "case_id": "rw-001",
+      "repo": "Klavis-AI/klavis",
+      "framework": "fastagent",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-002",
+      "repo": "omnigentx/jarvis",
+      "framework": "fastagent",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-003",
+      "repo": "angrysky56/ai_writers_workshop",
+      "framework": "fastagent",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-004",
+      "repo": "JoanMarinPages/agentGemini",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-005",
+      "repo": "Ojas-Patil26/VeriQ",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-006",
+      "repo": "manojlds/adk-deepagents",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-007",
+      "repo": "joshnaim1/ocr-test",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-008",
+      "repo": "aayushprsingh/track1-zoo-agent",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-009",
+      "repo": "vivekcommit/Cloud_Architecture_Review",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-010",
+      "repo": "justsankalp/enterprise-rag-poc",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-011",
+      "repo": "VeerMuchandi/corporate_analyst",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-012",
+      "repo": "namanraina16/morning-wire",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-013",
+      "repo": "philiptitus/FionaAgents",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-014",
+      "repo": "mindful-ai-dude/Gemini-AgentsADK-GUI",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-015",
+      "repo": "rishiraj/mediquick-adk",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-016",
+      "repo": "Aryan-Madaan/buildblogmarathonblr",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-017",
+      "repo": "mxyhi/always-on-memory-agent",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-018",
+      "repo": "tushar-elite-in/viral-tb-studio",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-019",
+      "repo": "pedapallisuresh/Data-Pipeline-Agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-020",
+      "repo": "Ditto190/modme-ui-01",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-021",
+      "repo": "proflead/how-to-build-ai-agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-022",
+      "repo": "iwasnothing/agentic-insight",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-023",
+      "repo": "K-Dense-AI/agentic-data-scientist",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-024",
+      "repo": "Shivain-codes/adk-text-intelligence-agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-025",
+      "repo": "litmus-zhang/course-creator",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-026",
+      "repo": "devchilll/scope",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-027",
+      "repo": "google/pubmed-rag",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-028",
+      "repo": "AhmadK-it/research_assistant",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-029",
+      "repo": "git791/GreenAI-Agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-030",
+      "repo": "Piyushhpatel/aquagaurd-google-cloud-rapid",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-031",
+      "repo": "ParasHarnagle/-Agent-Orch--travelConcierage",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-032",
+      "repo": "allen-stephen/memory-bank-samples",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": true,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-033",
+      "repo": "moonpy-a11y/agent_payments",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-034",
+      "repo": "salomonerobert/adk-design-agent",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-035",
+      "repo": "jeremylongshore/perception-with-intent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": true,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-036",
+      "repo": "Dannyzen/montagegenerator",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-037",
+      "repo": "Jorgelmh/sentoru-agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-038",
+      "repo": "elitepunith/apdm-agent",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-039",
+      "repo": "Umbra-shadow/Foreman",
+      "framework": "google-adk",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-040",
+      "repo": "dwij2812/streamassist-datastorespec-example",
+      "framework": "google-adk",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-041",
+      "repo": "mozaloom/event-rag-agent",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-042",
+      "repo": "sysadmin-info/reloaded",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-043",
+      "repo": "hgarrereyn/nfuncs-agent",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-044",
+      "repo": "aws-samples/sample-bedrock-mcp",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-045",
+      "repo": "xueh88401-web/langgraph_vibe_engine",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-046",
+      "repo": "lingxi-agent/Lingxi",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-047",
+      "repo": "wafu7969/langgraph-workflow-demo",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-048",
+      "repo": "AminHP-GenAI/customer-support-persian",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-049",
+      "repo": "mshojaei77/ReActMCP",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-050",
+      "repo": "shadow3aaa/PlotWeave",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-051",
+      "repo": "codebasics/langgraph-crash-course",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-052",
+      "repo": "FareedKhan-dev/temporal-ai-agent-pipeline",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-053",
+      "repo": "Aakash109-hub/eCommerce-Customer-Support-Agent",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-054",
+      "repo": "aarora79/aws-cost-explorer-mcp-server",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-055",
+      "repo": "FareedKhan-dev/multi-agent-trading-system",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-056",
+      "repo": "victor-capriles/ollama-rag",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-057",
+      "repo": "databricks-industry-solutions/contextual-content-placement",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-058",
+      "repo": "Tunnello/ChatBI",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-059",
+      "repo": "neo4j-partners/hands-on-lab-neo4j-and-amazon",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-060",
+      "repo": "Yanyutin753/LambChat",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-061",
+      "repo": "aniket-work/Lets-Build-Online-Booking-System-Using-AI-Agents",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-062",
+      "repo": "PovedaAqui/cybertrace-ai",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-063",
+      "repo": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-064",
+      "repo": "MounirKhalil/new-treadwise-tires-co",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-065",
+      "repo": "KomachiZ/BICO",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-066",
+      "repo": "t-redactyl/language-learning-agent",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-067",
+      "repo": "solnone/LangChain-LangGraph-Ollama-MQTT",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-068",
+      "repo": "oskarkyle/FireGPT",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-069",
+      "repo": "FareedKhan-dev/Multi-Agent-AI-System",
+      "framework": "langgraph",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-070",
+      "repo": "RidaNaz/Chatbot",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-071",
+      "repo": "kaarthik108/snowChat",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-072",
+      "repo": "lgesuellip/researcher_agent",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-073",
+      "repo": "xlisp/learn-langgraph",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-074",
+      "repo": "MKRNaqeebi/GenAlima",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-075",
+      "repo": "Pairrot-Lore/agent-solarpanels-tutorial",
+      "framework": "langgraph",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-076",
+      "repo": "sashi-does/gamma",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-077",
+      "repo": "azizyartas/amazon-hack",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": true,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-078",
+      "repo": "lilgreml1n/gemini-cli-mcp",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-079",
+      "repo": "xavi0007/agentic_chatbot",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-080",
+      "repo": "Amlan66/SSEEnabledMCPAgent",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-081",
+      "repo": "Frostday/Agent4Molecule",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-082",
+      "repo": "milesonline/Orion-ChatAgent",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-083",
+      "repo": "RGGH/refactored-octo-parakeet",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-084",
+      "repo": "AndreaCadonna/redmine-ai-cli",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-085",
+      "repo": "openlegion-ai/openlegion",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-086",
+      "repo": "RooCodeInc/Roomote",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-087",
+      "repo": "elmerjani/lab",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-088",
+      "repo": "billyhargroveofficial/billyharness",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-089",
+      "repo": "jiamingkong/agent_demos",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-090",
+      "repo": "garland3/redesigned-octo-umbrella",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-091",
+      "repo": "ibrahimsaleem/mcp-security-lab",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-092",
+      "repo": "nandangupta-security/CloudSecAIBot",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-093",
+      "repo": "TnjMyWife/NanoAgent-Assignment",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-094",
+      "repo": "Josuehmz/AIAssistant",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-095",
+      "repo": "mestercuby/MCP-Demo",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-096",
+      "repo": "jakie528/mcp-oauth",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-097",
+      "repo": "dehora/tars",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-098",
+      "repo": "SHOCKWAVE07/mcp-gemini",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-099",
+      "repo": "kztomita/chat-app-with-mcp-example",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-100",
+      "repo": "aakashyo/Operational-Planning-Agent",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-101",
+      "repo": "ohidurbappy/learn-mcp",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-102",
+      "repo": "night2tl/mcp-slides",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-103",
+      "repo": "Nagharjun17/MCP-Ollama-Client",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-104",
+      "repo": "ZygimantasB/AI-with-jupyter",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-105",
+      "repo": "jianbo27/mcp-demo",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-106",
+      "repo": "ariadnasaez/master_thesis",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-107",
+      "repo": "eginaml/clinical-research-agents",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-108",
+      "repo": "huanchong-99/Go-Home",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-109",
+      "repo": "nks676/hume-agent",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-110",
+      "repo": "7bernie/meridian-chatbot",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-111",
+      "repo": "Pragna-echuri/Agentic-Autonomous-Data-Analyst-Platform",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-112",
+      "repo": "ayushshah04/DashBoard_Agent",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-113",
+      "repo": "Eeshu-Yadav/GraphPatch",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-114",
+      "repo": "udaykiranpod/udaymcpserver",
+      "framework": "mcp-custom",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-115",
+      "repo": "Meer-Promethean/Voice_Agent",
+      "framework": "mcp-custom",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-116",
+      "repo": "KrishnaKumarSoni/barmuda",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-117",
+      "repo": "wandb/discovery-forge",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-118",
+      "repo": "undertherain/PaperX",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-119",
+      "repo": "VitalyOborin/yodoca",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-120",
+      "repo": "steel-dev/steel-cookbook",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-121",
+      "repo": "DunaSpice/JetsonMind",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-122",
+      "repo": "ulab-uiuc/coinjure",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-123",
+      "repo": "blaxel-templates/template-openai-py",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-124",
+      "repo": "Danejw/ai-companion-backend",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-125",
+      "repo": "blastshielddown/dagster-diagnostic-agent",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-126",
+      "repo": "agent-axiom/agent-anvil",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-127",
+      "repo": "nexi-lab/nexus",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-128",
+      "repo": "merlinfuchs/ai-in-a-box",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-129",
+      "repo": "ALPHAbilal/test3",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-130",
+      "repo": "als141/a2a-openai-multiagent",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-131",
+      "repo": "cuttlesoft/agent-loop-examples",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-132",
+      "repo": "brookr/serverless-agents",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-133",
+      "repo": "ConesaLab/PaintOmics",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-134",
+      "repo": "ShinyDapps/l402-kit",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-135",
+      "repo": "wuyoscar/Internal-Safety-Collapse",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-136",
+      "repo": "disler/single-file-agents",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-137",
+      "repo": "IAmTomShaw/tourist-agent",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-138",
+      "repo": "elastic/observability-examples",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-139",
+      "repo": "IAmTomShaw/stock-tracker-agent",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-140",
+      "repo": "indrazm/ai-discord-bot",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-141",
+      "repo": "datacurve-ai/wide-research",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-142",
+      "repo": "totalhack/zillion",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-143",
+      "repo": "abhinavg6/yutha",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-144",
+      "repo": "SATUNIX/gateway",
+      "framework": "openai-agents",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-145",
+      "repo": "elchanio-76/deep_research",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-146",
+      "repo": "engagepy/openai_agent_sales",
+      "framework": "openai-agents",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-147",
+      "repo": "hope-tatenda-mutema/Pedantic-AI-Deep-Research-Agent",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-148",
+      "repo": "FaustoS88/Pydantic-AI-Pinescript-Expert",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-149",
+      "repo": "LeonieFreisinger/pydanticai-base-agent",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-150",
+      "repo": "Amar-Ag/project-ideation-tool",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-151",
+      "repo": "harshalmore31/phoenix-os",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-152",
+      "repo": "kumarvipu1/agentic-ppt-slide",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-153",
+      "repo": "abhaybhargav/pydanticai-sec-research-assistant",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-154",
+      "repo": "aws-samples/sample-agentic-platform",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": true,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-155",
+      "repo": "shotgun-sh/shotgun",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-156",
+      "repo": "Alejandro-Candela/agentic-rag-knowledge-graph",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-157",
+      "repo": "LuizaRubim/chatbot_agent_music",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-158",
+      "repo": "newsbubbles/matplotlib_mcp",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-159",
+      "repo": "GB153/AlpacaAgent",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-160",
+      "repo": "lladdy/progressive-disclosure-ai-assistant",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-161",
+      "repo": "mars-mx/portfolio",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-162",
+      "repo": "SadeepaNHerath/risk-management-learning-agent",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-163",
+      "repo": "rachedblili/MCP-Transition",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-164",
+      "repo": "amscotti/local-LLM-with-RAG",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-165",
+      "repo": "abuiles/ramon",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-166",
+      "repo": "NateMerriman/crawl4AI-agent-v2",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-167",
+      "repo": "coleam00/second-brain-research-dashboard",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-168",
+      "repo": "hypermemory-ai/openrouter_provider_validator",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-169",
+      "repo": "badlydrawnrod/agent-c",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-170",
+      "repo": "Croups/smart-web-scraper",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-171",
+      "repo": "Rehaan-2006/Virtual_Clinical_Assistant",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-172",
+      "repo": "Krishnanand2517/rag-doc-agent",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-173",
+      "repo": "xxLizXxx/AI-AgentTools-1",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-174",
+      "repo": "Unfold-Security/pydantic-collab",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-175",
+      "repo": "coleam00/orbit-support-agent",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-176",
+      "repo": "djaboxx/template-ai-chat-stack",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-177",
+      "repo": "JUN176/exp-agent",
+      "framework": "pydantic-ai",
+      "tier_b": true,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": true
+    },
+    {
+      "case_id": "rw-178",
+      "repo": "MhankBarBar/zero-ichi",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-179",
+      "repo": "ShariqAli-Dev/graphiti-poc",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    },
+    {
+      "case_id": "rw-180",
+      "repo": "kai-feinberg/reddit-agent",
+      "framework": "pydantic-ai",
+      "tier_b": false,
+      "tier_c": false,
+      "status": "first_pass_source_draft",
+      "second_review_required": false
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "case_id": "rw-091",
+  "status": "first_pass_source_draft",
+  "repo": "ibrahimsaleem/mcp-security-lab",
+  "sha": "77cf0df7cba2cf3f247f1a86b3ec7a77651146f2",
+  "application_path": "agent.py",
+  "framework_stratum": "mcp-custom",
+  "review": {
+    "reviewer": "assistant-source-pass-1",
+    "reviewed_at": "2026-09-26",
+    "horustrace_output_seen": false,
+    "second_review_required": false,
+    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+  },
+  "tier_a": {
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "agent_roots": [
+      {
+        "path": "agent.py",
+        "status": "source_screened_application_root_candidate",
+        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+      }
+    ],
+    "tools": [],
+    "mcp_servers": [],
+    "delegation_edges": [],
+    "unresolved": [
+      "Detailed agent-root name/count enumeration pending reviewer verification.",
+      "Tool inventory pending reviewer verification.",
+      "MCP server/binding inventory pending reviewer verification.",
+      "Delegation-edge inventory pending reviewer verification."
+    ]
+  },
+  "assertions": [
+    {
+      "assertion_id": "RW-091.FRAMEWORK",
+      "subject": "ibrahimsaleem/mcp-security-lab",
+      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "object": "mcp-custom",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+        }
+      ],
+      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "category": "framework",
+      "tier": "A"
+    }
+  ],
+  "tier_b_draft": null,
+  "tier_c_draft": null
+}

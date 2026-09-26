@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "case_id": "rw-138",
+  "status": "first_pass_source_draft",
+  "repo": "elastic/observability-examples",
+  "sha": "b69114e63fa0bfc483f56d4cb3af3512f58fb451",
+  "application_path": "inference-platforms/agent.py",
+  "framework_stratum": "openai-agents",
+  "review": {
+    "reviewer": "assistant-source-pass-1",
+    "reviewed_at": "2026-09-26",
+    "horustrace_output_seen": false,
+    "second_review_required": true,
+    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+  },
+  "tier_a": {
+    "frameworks": [
+      "openai-agents"
+    ],
+    "agent_roots": [
+      {
+        "path": "inference-platforms/agent.py",
+        "status": "source_screened_application_root_candidate",
+        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+      }
+    ],
+    "tools": [],
+    "mcp_servers": [],
+    "delegation_edges": [],
+    "unresolved": [
+      "Detailed agent-root name/count enumeration pending reviewer verification.",
+      "Tool inventory pending reviewer verification.",
+      "MCP server/binding inventory pending reviewer verification.",
+      "Delegation-edge inventory pending reviewer verification."
+    ]
+  },
+  "assertions": [
+    {
+      "assertion_id": "RW-138.FRAMEWORK",
+      "subject": "elastic/observability-examples",
+      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "object": "openai-agents",
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "inference-platforms/agent.py",
+          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+        }
+      ],
+      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "category": "framework",
+      "tier": "A"
+    }
+  ],
+  "tier_b_draft": {
+    "selected": true,
+    "source_screening_signals": [
+      "mcp_usage",
+      "external_write_or_network",
+      "approval_configuration",
+      "tool_composition"
+    ],
+    "review_status": "detailed_authority_and_attack_path_review_pending"
+  },
+  "tier_c_draft": null
+}
