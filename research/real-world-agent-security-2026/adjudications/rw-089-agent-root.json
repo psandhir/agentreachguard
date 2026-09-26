@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "case_id": "rw-089",
+  "dimension": "agent_entities",
+  "classification": "ground_truth_error",
+  "original_locked_truth_preserved": true,
+  "triggered_by_post_fix_disagreement": true,
+  "scanner_output_seen_before_adjudication": true,
+  "human_dual_review": false,
+  "adjudication_method": "post-fix pinned-source re-review",
+  "source_reference": {
+    "repo": "jiamingkong/agent_demos",
+    "sha": "6fab148888845bc08e762b82ce0477a3a213d712",
+    "path": "agent.py"
+  },
+  "original_locked_truth": {
+    "agent_roots": []
+  },
+  "post_hoc_correction": {
+    "add_agent_root": {
+      "kind": "custom_model_tool_loop",
+      "name": "DeepSeekMCPAgent",
+      "aliases": [
+        "deep_seek_m_c_p_agent"
+      ],
+      "path": "agent.py",
+      "line": 86
+    }
+  },
+  "evidence": [
+    {
+      "line": 86,
+      "fact": "Defines DeepSeekMCPAgent, an explicit model/tool orchestration class."
+    },
+    {
+      "line": 173,
+      "fact": "Obtains MCP tool catalogue with session.list_tools()."
+    },
+    {
+      "line": 266,
+      "fact": "Invokes the model through chat.completions.create(..., tools=...)."
+    },
+    {
+      "line": 435,
+      "fact": "Handles model-selected tool_calls."
+    },
+    {
+      "line": 494,
+      "fact": "Dispatches selected calls to self.call_tool(...), which reaches MCP call_tool."
+    }
+  ],
+  "rationale": "Pinned source contains the complete model -> advertised tools -> model-selected tool call -> concrete MCP dispatch loop. The locked automated source reference omitted this explicit agent entity. Per the preregistered disagreement protocol, the original truth remains unchanged and this correction is reported separately."
+}
