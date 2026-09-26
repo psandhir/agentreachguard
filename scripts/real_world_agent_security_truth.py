@@ -145,22 +145,40 @@ def notebook_code(path: Path) -> str:
     return "\n\n".join(parts)
 
 
+def safe_source_paths(scope: Path) -> list[Path]:
+    """Return readable source paths without following symlinked/unreadable directories."""
+    found: list[Path] = []
+    stack = [scope]
+    while stack:
+        current = stack.pop()
+        try:
+            entries = list(current.iterdir())
+        except OSError:
+            continue
+        for path in entries:
+            try:
+                if path.is_symlink():
+                    continue
+                if path.is_dir():
+                    stack.append(path)
+                elif path.is_file() and path.suffix.lower() in SOURCE_SUFFIXES:
+                    found.append(path)
+            except OSError:
+                continue
+    return found
+
+
 def collect_sources(root: Path, application_path: str) -> tuple[list[tuple[str, str]], list[str]]:
     selected = root / application_path
     scope = selected if selected.is_dir() else selected.parent
     candidates: list[Path]
+    discovered = safe_source_paths(scope)
     if selected.is_file():
         candidates = [selected]
         # Include sibling application modules in the selected bounded application directory.
-        candidates.extend(
-            p for p in scope.rglob("*")
-            if p.is_file() and p.suffix.lower() in SOURCE_SUFFIXES and p != selected
-        )
+        candidates.extend(p for p in discovered if p != selected)
     else:
-        candidates = [
-            p for p in scope.rglob("*")
-            if p.is_file() and p.suffix.lower() in SOURCE_SUFFIXES
-        ]
+        candidates = discovered
     candidates = sorted(dict.fromkeys(candidates), key=lambda p: p.as_posix())
     sources: list[tuple[str, str]] = []
     diagnostics: list[str] = []
