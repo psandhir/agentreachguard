@@ -54,7 +54,27 @@ def _looks_like_adk(data: Any, path: Path) -> bool:
         return False
     if path.name == "root_agent.yaml":
         return True
-    return any(k in data for k in ("agent_class", "model", "instruction", "sub_agents", "tools", "code_executor"))
+
+    # ADK project descriptors can carry top-level name/model metadata while
+    # pointing at the actual Python agent through a nested agent block. They
+    # describe an application package, not a second agent entity.
+    project_agent = data.get("agent")
+    if isinstance(project_agent, dict) and any(
+        key in project_agent for key in ("entry_point", "root_agent")
+    ):
+        return False
+
+    return any(
+        k in data
+        for k in (
+            "agent_class",
+            "model",
+            "instruction",
+            "sub_agents",
+            "tools",
+            "code_executor",
+        )
+    )
 
 
 def _tool_from_config(raw: Any, path: Path) -> tuple[Tool | None, MCPServer | None]:
