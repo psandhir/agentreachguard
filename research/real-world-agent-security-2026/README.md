@@ -101,3 +101,25 @@ Batch 2 retained two genuine FastAgent applications after earlier discovery fals
 It also retained `aws-samples/sample-agentic-platform` as the first especially strong Tier C candidate because the same pinned repository contains Pydantic AI application examples together with Terraform, Kubernetes/EKS and AWS deployment/identity context. Tier C eligibility is still provisional until dedicated deployment-source review.
 
 As in earlier batches, documentation registries, SDK/library repositories, translated guides, MCP servers without an agent loop, and close project variants were excluded rather than counted merely because framework keywords were present.
+
+
+## Screening batch 3
+
+The third scaled screening batch reviewed 24 additional repositories.
+
+Cumulative state after this batch:
+
+- reviewed: 84
+- included: 45
+- excluded: 39
+- pending: 281
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+Batch 3 added several high-value authority cases: a multi-agent AML/KYC system with read-only BigQuery access, an ADK research orchestrator using MCP plus sequential/parallel delegation, an OpenAI Agents SDK interpretation system inside PaintOmics, a LangGraph HITL stock-purchase example, and an autonomous ticket-to-PR coding pipeline.
+
+`allen-stephen/memory-bank-samples` is retained as a strong provisional Tier C GCP case because the pinned repository contains the ADK application together with Agent Engine/Cloud Run deployment logic, service-account handling, and explicit GCP role grants.
+
+`billyhargroveofficial/billyharness` was a false FastAgent discovery but a valid custom agent system. It was re-stratified to MCP/custom and retained because source shows a Go agent harness with MCP, gateway/TUI/Telegram surfaces, and shell/write-capable execution modes.
+
+The FastAgent stratum continues to show substantial discovery noise. The study will report real scarcity if source screening cannot support the preregistered minimum rather than weakening inclusion criteria.
