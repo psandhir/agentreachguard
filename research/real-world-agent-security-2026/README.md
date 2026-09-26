@@ -237,3 +237,25 @@ Frozen candidate-pool state:
 The extension deliberately targeted non-ADK applications. It raises OpenAI Agents SDK above its preregistered minimum and expands the framework-neutral MCP/custom pool. FastAgent remains a documented ecosystem-coverage shortfall: only three defensible evalstate FastAgent applications were found despite exhaustive source screening, and inclusion criteria were not weakened to manufacture the preregistered minimum.
 
 Tier B depth is ample: 147 of 196 eligible repositories have source-observed deep-authority/security signals. Tier C remains scarce at screening time; only five repositories are provisionally deployment/IAM eligible. The methodology explicitly treats failure to find 25 defensible public deployment cases as a reportable study result rather than a reason to alter selection rules.
+
+
+## Cohort freeze
+
+The final broad cohort is frozen at 180 exact-SHA repositories using a deterministic framework-stratified rule that does not use HorusTrace output, security findings, or deployment richness.
+
+Framework composition:
+
+- Google ADK: 37
+- OpenAI Agents SDK: 31
+- Pydantic AI: 34
+- LangGraph: 35
+- FastAgent: 3 (documented ecosystem shortfall against the preregistered minimum of 12)
+- MCP/custom: 40
+
+Only two cohort repositories were previously studied by HorusTrace; 178 are previously unseen.
+
+Tier B is frozen at 60 source-complex cases: 12 Google ADK, 12 OpenAI Agents, 11 Pydantic AI, 11 LangGraph, 2 FastAgent and 12 MCP/custom.
+
+Tier C is frozen at four defensible cases after a dedicated source-only deployment/IAM review. The preregistered target remains 25; the 21-case shortfall is a study finding, not a reason to weaken evidence requirements or alter broad-cohort selection. The study harness permits this only when the shortfall is explicitly documented and source review is complete.
+
+Ground truth remains pending. HorusTrace still must not be executed against the cohort until truth is locked.
