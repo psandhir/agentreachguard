@@ -143,3 +143,23 @@ Retained cases add ADK multi-agent data-quality and media pipelines, a Vertex AI
 All four FastAgent discoveries in this tranche were research notes or editorial/review content rather than runnable FastAgent applications. This further strengthens the evidence that the discovery stratum is noisy and potentially scarce after source adjudication.
 
 At the current cumulative inclusion yield (56 of 108 screened), substantially more screening is still required before a defensible 180-case cohort can be selected without weakening inclusion criteria.
+
+
+## Screening batch 5
+
+The fifth scaled screening batch reviewed 24 additional repositories.
+
+Cumulative state:
+
+- reviewed: 132
+- included: 68
+- excluded: 64
+- pending: 233
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+Batch 5 retained several high-value security cases, including an ADK payment agent with confirmation-gated purchase authority, an enterprise datastore/OAuth ADK example, Pydantic AI agents with MCP/filesystem authority, a CTF LangGraph agent with Python/Binary Ninja tooling, and OpenLegion's multi-agent/MCP trust-boundary controls.
+
+`omnigentx/jarvis` is a confirmed genuine evalstate FastAgent application and is retained in the FastAgent stratum. `RooCodeInc/Roomote` uses an internal custom subsystem named "fast-agent" but not evalstate FastAgent; it is re-stratified to MCP/custom and retained as a substantive custom cloud coding-agent system.
+
+The corrected candidate-universe counts are now FastAgent 26 and MCP/custom 67. The original discovery snapshot remains unchanged.
