@@ -123,3 +123,23 @@ Batch 3 added several high-value authority cases: a multi-agent AML/KYC system w
 `billyhargroveofficial/billyharness` was a false FastAgent discovery but a valid custom agent system. It was re-stratified to MCP/custom and retained because source shows a Go agent harness with MCP, gateway/TUI/Telegram surfaces, and shell/write-capable execution modes.
 
 The FastAgent stratum continues to show substantial discovery noise. The study will report real scarcity if source screening cannot support the preregistered minimum rather than weakening inclusion criteria.
+
+
+## Screening batch 4
+
+The fourth scaled screening batch reviewed 24 additional repositories.
+
+Cumulative state:
+
+- reviewed: 108
+- included: 56
+- excluded: 52
+- pending: 257
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+Retained cases add ADK multi-agent data-quality and media pipelines, a Vertex AI ADK + remote MCP governance example, OpenAI Agents identity/capability and MCP examples, an A2A multi-agent experiment, a real Pydantic AI portfolio assistant, LangGraph MCP/lead-generation workflows, and a custom MCP coding agent.
+
+All four FastAgent discoveries in this tranche were research notes or editorial/review content rather than runnable FastAgent applications. This further strengthens the evidence that the discovery stratum is noisy and potentially scarce after source adjudication.
+
+At the current cumulative inclusion yield (56 of 108 screened), substantially more screening is still required before a defensible 180-case cohort can be selected without weakening inclusion criteria.
