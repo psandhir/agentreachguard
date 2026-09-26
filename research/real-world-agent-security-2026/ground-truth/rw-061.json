@@ -1,0 +1,205 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-061.A001",
+      "evidence": [
+        {
+          "line": 111,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "caller_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A002",
+      "evidence": [
+        {
+          "line": 114,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A003",
+      "evidence": [
+        {
+          "line": 115,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "preprocess",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A004",
+      "evidence": [
+        {
+          "line": 116,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A005",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "book_appointment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-061",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A006",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_next_available_appointment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-061",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-061.A007",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cancel_appointment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-061",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-061",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "aniket-work/Lets-Build-Online-Booking-System-Using-AI-Agents",
+    "sha": "7cc5937038ceb9d90a1212257d31233d265ef519"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 111,
+        "name": "caller_workflow",
+        "path": "agent.py",
+        "variable": "caller_workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 114,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 115,
+        "name": "preprocess",
+        "path": "agent.py",
+        "variable": "preprocess"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 116,
+        "name": "action",
+        "path": "agent.py",
+        "variable": "action"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 7,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 11,
+        "name": "book_appointment",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 36,
+        "name": "get_next_available_appointment",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 54,
+        "name": "cancel_appointment",
+        "path": "tools.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

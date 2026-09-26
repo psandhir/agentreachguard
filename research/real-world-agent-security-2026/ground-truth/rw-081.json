@@ -1,0 +1,1012 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-081.A001",
+      "evidence": [
+        {
+          "line": 24,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "smiles_to_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A002",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "sdf_to_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A003",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mol_to_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A004",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "smiles_to_sdf",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A005",
+      "evidence": [
+        {
+          "line": 117,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mol_to_sdf",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A006",
+      "evidence": [
+        {
+          "line": 141,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pdb_to_sdf",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A007",
+      "evidence": [
+        {
+          "line": 179,
+          "path": "mcp_agent/docking_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "dock_pipeline",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A008",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "debug_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A009",
+      "evidence": [
+        {
+          "line": 114,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "find_enzyme_category_using_keywords",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A010",
+      "evidence": [
+        {
+          "line": 128,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "find_mined_motifs_enzyme_category",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A011",
+      "evidence": [
+        {
+          "line": 259,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_enzygen_input",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A012",
+      "evidence": [
+        {
+          "line": 307,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_enzygen",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A013",
+      "evidence": [
+        {
+          "line": 356,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_esp_score_on_enzygen_output",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A014",
+      "evidence": [
+        {
+          "line": 390,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_colabfold_on_enzygen_output",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A015",
+      "evidence": [
+        {
+          "line": 440,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "convert_mol_to_sdf_for_docking",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A016",
+      "evidence": [
+        {
+          "line": 462,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "convert_ligand_pdb_to_sdf_for_docking",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A017",
+      "evidence": [
+        {
+          "line": 495,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_docking_pipeline",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A018",
+      "evidence": [
+        {
+          "line": 608,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_docked_protein_ligand_complex",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A019",
+      "evidence": [
+        {
+          "line": 630,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "prepare_protein_ligand_complex_for_md",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A020",
+      "evidence": [
+        {
+          "line": 663,
+          "path": "mcp_agent/enzygen_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_fastmd_on_protein_ligand_complex",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A021",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "separate_ligand_protein_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A022",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "convert_ligand_pdb_to_sdf",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A023",
+      "evidence": [
+        {
+          "line": 91,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_cst_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A024",
+      "evidence": [
+        {
+          "line": 175,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_ligand_params_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A025",
+      "evidence": [
+        {
+          "line": 308,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_rf_diffusion",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A026",
+      "evidence": [
+        {
+          "line": 399,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_rf_diffusion_outputs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A027",
+      "evidence": [
+        {
+          "line": 515,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_protein_mpnn",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A028",
+      "evidence": [
+        {
+          "line": 596,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_af2",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A029",
+      "evidence": [
+        {
+          "line": 692,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_af2_outputs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A030",
+      "evidence": [
+        {
+          "line": 810,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_ligand_mpnn",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A031",
+      "evidence": [
+        {
+          "line": 888,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_ligand_mpnn_outputs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A032",
+      "evidence": [
+        {
+          "line": 925,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_ligand_mpnn_redesign_2nd_layer_residues",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A033",
+      "evidence": [
+        {
+          "line": 1017,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_fast_relax",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A034",
+      "evidence": [
+        {
+          "line": 1103,
+          "path": "mcp_agent/heme_binder_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_fast_relax_outputs",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A035",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_ppdiff_input_binder_design_from_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A036",
+      "evidence": [
+        {
+          "line": 85,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_ppdiff_input_binder_design",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A037",
+      "evidence": [
+        {
+          "line": 99,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_ppdiff_input_antibody_design_from_pdb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A038",
+      "evidence": [
+        {
+          "line": 114,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "build_ppdiff_input_antibody_design",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A039",
+      "evidence": [
+        {
+          "line": 131,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_ppdiff_binder_design",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A040",
+      "evidence": [
+        {
+          "line": 167,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_ppdiff_antibody_design",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A041",
+      "evidence": [
+        {
+          "line": 213,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_alphafold3_on_ppdiff_binder_output",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-081.A042",
+      "evidence": [
+        {
+          "line": 284,
+          "path": "mcp_agent/ppdiff_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_alphafold3_on_antibody_binder_output",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-081",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "mcp_agent/client.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Frostday/Agent4Molecule",
+    "sha": "131f7f8898a15a90e6e9faa9131c0fd4bb706797"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 20,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 24,
+        "name": "smiles_to_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 47,
+        "name": "sdf_to_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 71,
+        "name": "mol_to_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 95,
+        "name": "smiles_to_sdf",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 117,
+        "name": "mol_to_sdf",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 141,
+        "name": "pdb_to_sdf",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 179,
+        "name": "dock_pipeline",
+        "owner": "mcp",
+        "path": "mcp_agent/docking_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 72,
+        "name": "debug_info",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 114,
+        "name": "find_enzyme_category_using_keywords",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 128,
+        "name": "find_mined_motifs_enzyme_category",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 259,
+        "name": "build_enzygen_input",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 307,
+        "name": "run_enzygen",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 356,
+        "name": "run_esp_score_on_enzygen_output",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 390,
+        "name": "run_colabfold_on_enzygen_output",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 440,
+        "name": "convert_mol_to_sdf_for_docking",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 462,
+        "name": "convert_ligand_pdb_to_sdf_for_docking",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 495,
+        "name": "run_docking_pipeline",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 608,
+        "name": "get_docked_protein_ligand_complex",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 630,
+        "name": "prepare_protein_ligand_complex_for_md",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 663,
+        "name": "run_fastmd_on_protein_ligand_complex",
+        "owner": "mcp",
+        "path": "mcp_agent/enzygen_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 48,
+        "name": "separate_ligand_protein_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 74,
+        "name": "convert_ligand_pdb_to_sdf",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 91,
+        "name": "generate_cst_file",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 175,
+        "name": "generate_ligand_params_file",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 308,
+        "name": "run_rf_diffusion",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 399,
+        "name": "analyze_rf_diffusion_outputs",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 515,
+        "name": "run_protein_mpnn",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 596,
+        "name": "run_af2",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 692,
+        "name": "analyze_af2_outputs",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 810,
+        "name": "run_ligand_mpnn",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 888,
+        "name": "analyze_ligand_mpnn_outputs",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 925,
+        "name": "run_ligand_mpnn_redesign_2nd_layer_residues",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1017,
+        "name": "run_fast_relax",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1103,
+        "name": "analyze_fast_relax_outputs",
+        "owner": "mcp",
+        "path": "mcp_agent/heme_binder_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 72,
+        "name": "build_ppdiff_input_binder_design_from_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 85,
+        "name": "build_ppdiff_input_binder_design",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 99,
+        "name": "build_ppdiff_input_antibody_design_from_pdb",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 114,
+        "name": "build_ppdiff_input_antibody_design",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 131,
+        "name": "run_ppdiff_binder_design",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 167,
+        "name": "run_ppdiff_antibody_design",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 213,
+        "name": "run_alphafold3_on_ppdiff_binder_output",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 284,
+        "name": "run_alphafold3_on_antibody_binder_output",
+        "owner": "mcp",
+        "path": "mcp_agent/ppdiff_server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

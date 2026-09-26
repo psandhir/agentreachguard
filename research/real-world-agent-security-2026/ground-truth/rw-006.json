@@ -1,0 +1,70 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-006.A001",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "examples/browser_agent/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "browser_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-006",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "examples/browser_agent/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "manojlds/adk-deepagents",
+    "sha": "11a15d7c935061c50e1ef626df2445103b91c931"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "create_deep_agent",
+        "line": 97,
+        "name": "browser_agent",
+        "path": "examples/browser_agent/agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 3,
+    "tools": [],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

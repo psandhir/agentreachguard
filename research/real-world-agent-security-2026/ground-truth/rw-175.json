@@ -1,0 +1,116 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-175.A001",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "agent_v1_style.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "support_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-175.A002",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "agent_v1_style.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_ticket",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "support_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-175.A003",
+      "evidence": [
+        {
+          "line": 101,
+          "path": "agent_v1_style.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_kb",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "support_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-175",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent_v1_style.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "coleam00/orbit-support-agent",
+    "sha": "d03e6fabf801e3fb6aec9e2533064408ca24706c"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 101,
+        "name": "support_agent",
+        "path": "agent_v1_style.py",
+        "variable": "support_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 101,
+        "name": "create_ticket",
+        "owner": "support_agent",
+        "path": "agent_v1_style.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 101,
+        "name": "search_kb",
+        "owner": "support_agent",
+        "path": "agent_v1_style.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

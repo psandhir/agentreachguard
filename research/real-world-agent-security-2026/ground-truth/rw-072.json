@@ -1,0 +1,44 @@
+{
+  "assertions": [],
+  "case_id": "rw-072",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agents/base/react.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "lgesuellip/researcher_agent",
+    "sha": "d95548b6e63db7f46a94df432ebccc703fb8ec6b"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 0,
+    "tools": [],
+    "unresolved": [
+      "application_path_missing:agents/base/react.py"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

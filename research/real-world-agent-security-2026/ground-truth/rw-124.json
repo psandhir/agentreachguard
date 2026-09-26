@@ -1,0 +1,4662 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-124.A001",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "app/function/improv_form_filler/form_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Extraction Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A002",
+      "evidence": [
+        {
+          "line": 23,
+          "path": "app/function/improv_form_filler/form_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Improv Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A003",
+      "evidence": [
+        {
+          "line": 304,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Search",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A004",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A005",
+      "evidence": [
+        {
+          "line": 7,
+          "path": "app/mcp/mcp/memory/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Memory Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A006",
+      "evidence": [
+        {
+          "line": 32,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "voice_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A007",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "voice",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A008",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Search",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A009",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "File Search",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A010",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Sentiment",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A011",
+      "evidence": [
+        {
+          "line": 77,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "MBTI",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A012",
+      "evidence": [
+        {
+          "line": 86,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Wit",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A013",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A014",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Spanish",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A015",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Pidgin",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A016",
+      "evidence": [
+        {
+          "line": 113,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "English",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A017",
+      "evidence": [
+        {
+          "line": 121,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A018",
+      "evidence": [
+        {
+          "line": 130,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "hawaiian_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A019",
+      "evidence": [
+        {
+          "line": 135,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Hawaiian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A020",
+      "evidence": [
+        {
+          "line": 146,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "SearchVoiceAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A021",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "KnowledgeVoiceAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A022",
+      "evidence": [
+        {
+          "line": 169,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "AccountVoiceAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A023",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "VoiceAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A024",
+      "evidence": [
+        {
+          "line": 76,
+          "path": "app/personal_agents/conversation_context.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Summarizer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A025",
+      "evidence": [
+        {
+          "line": 7,
+          "path": "app/personal_agents/discord_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Discord",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A026",
+      "evidence": [
+        {
+          "line": 14,
+          "path": "app/personal_agents/feedback_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Finetune Feedback Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A027",
+      "evidence": [
+        {
+          "line": 27,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "MemoryAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A028",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Multistep Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A029",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Notification Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A030",
+      "evidence": [
+        {
+          "line": 201,
+          "path": "app/psychology/intent_classification.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Intent Classificator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A031",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "app/psychology/mbti_analysis.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "MBTI",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A032",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "app/psychology/multistep_service.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Multistep Judgement Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A033",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "app/psychology/ocean_analysis.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "OCEAN",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A034",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "app/psychology/theory_planned_behavior.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TPB",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A035",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "app/routes/connect_routes.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Profile Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A036",
+      "evidence": [
+        {
+          "line": 25,
+          "path": "app/routes/feedback.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Sentiment",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A037",
+      "evidence": [
+        {
+          "line": 145,
+          "path": "app/supabase/conversation_history.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Summary",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A038",
+      "evidence": [
+        {
+          "line": 67,
+          "path": "app/websockets/handlers/text_handlers.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "UI Action Agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A039",
+      "evidence": [
+        {
+          "line": 124,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Search",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A040",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Database",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A041",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A042",
+      "evidence": [
+        {
+          "line": 304,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "search_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A043",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "clear_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A044",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_user_feedback",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A045",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A046",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A047",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A048",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_users_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A049",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_agents.agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A050",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_personalized_info_about_user",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A051",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A052",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A053",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A054",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A055",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A056",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_users_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A057",
+      "evidence": [
+        {
+          "line": 29,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A058",
+      "evidence": [
+        {
+          "line": 41,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A059",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A060",
+      "evidence": [
+        {
+          "line": 65,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A061",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A062",
+      "evidence": [
+        {
+          "line": 96,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A063",
+      "evidence": [
+        {
+          "line": 111,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A064",
+      "evidence": [
+        {
+          "line": 126,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_personalized_info_about_user",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A065",
+      "evidence": [
+        {
+          "line": 145,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_user_feedback",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A066",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "app/function/supabase_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "clear_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A067",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_entities",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A068",
+      "evidence": [
+        {
+          "line": 28,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_relations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A069",
+      "evidence": [
+        {
+          "line": 41,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_observations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A070",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_entities",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A071",
+      "evidence": [
+        {
+          "line": 64,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_observations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A072",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_relations",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A073",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_graph",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A074",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_nodes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A075",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "app/mcp/mcp/memory/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "open_nodes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A076",
+      "evidence": [
+        {
+          "line": 30,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_irony_definition",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A077",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_irony_definition",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "voice_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A078",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "search_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A079",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FileSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "filesearch_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A080",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mbti_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "manager_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A081",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ocean_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "manager_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A082",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "manager_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A083",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "witty_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "manager_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A084",
+      "evidence": [
+        {
+          "line": 89,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_weather",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A085",
+      "evidence": [
+        {
+          "line": 121,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_weather",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A086",
+      "evidence": [
+        {
+          "line": 146,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "search_voice_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A087",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FileSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "knowledge_voice_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A088",
+      "evidence": [
+        {
+          "line": 39,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "emotional_intensity",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A089",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "context_weighted",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A090",
+      "evidence": [
+        {
+          "line": 109,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mood_based_language",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A091",
+      "evidence": [
+        {
+          "line": 145,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_surface",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A092",
+      "evidence": [
+        {
+          "line": 181,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "rituals",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A093",
+      "evidence": [
+        {
+          "line": 218,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "boundaries",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A094",
+      "evidence": [
+        {
+          "line": 255,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "self_awareness",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A095",
+      "evidence": [
+        {
+          "line": 291,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "topics",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A096",
+      "evidence": [
+        {
+          "line": 330,
+          "path": "app/personal_agents/memory_agents.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "feedback",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A097",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "start_multistep",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A098",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "abort_multistep",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A099",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "abort_multistep",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "multistep_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A100",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "start_multistep",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "multistep_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A101",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "schedule_a_push_notification",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A102",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "unsubscribe_from_push_notification",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A103",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "schedule_a_push_notification",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "notification_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A104",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "unsubscribe_from_push_notification",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "notification_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A105",
+      "evidence": [
+        {
+          "line": 124,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WebSearchTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "search_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A106",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "clear_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A107",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_user_feedback",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A108",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A109",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A110",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A111",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_users_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A112",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve_personalized_info_about_user",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A113",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_birthdate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A114",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_gender",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A115",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_location",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A116",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_user_name",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "database_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A117",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "database_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A118",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "memory_agents.agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A119",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "multistep_agent.multistep_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A120",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "notification_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A121",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A122",
+      "evidence": [
+        {
+          "line": 3,
+          "path": "app/mcp/care.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "KnoliaCare",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A123",
+      "evidence": [
+        {
+          "line": 12,
+          "path": "app/mcp/connect.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "KnoliaConnect",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-124",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A124",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Search",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "convo_lead_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A125",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Search",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A126",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Sentiment",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A127",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "MBTI",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A128",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Wit",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "Manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A129",
+      "evidence": [
+        {
+          "line": 121,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Spanish",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "Assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A130",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AccountVoiceAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "VoiceAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A131",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "KnowledgeVoiceAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "VoiceAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A132",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "app/openai/voice.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "SearchVoiceAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "VoiceAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A133",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Database",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.A134",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "Search",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "noelle_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-124.B001",
+      "evidence": [
+        {
+          "line": 304,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "WebSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Search",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B002",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "clear_history"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B003",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_user_feedback"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B004",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_birthdate"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B005",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_gender"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B006",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_location"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B007",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_users_name"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B008",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "memory_agents.agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B009",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "retrieve_personalized_info_about_user"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B010",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "search_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B011",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_birthdate"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B012",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_gender"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B013",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_location"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B014",
+      "evidence": [
+        {
+          "line": 315,
+          "path": "app/function/orchestrate.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_name"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "convo_lead_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B015",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_irony_definition"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "voice",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B016",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "WebSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Search",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B017",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FileSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "File Search",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B018",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "mbti_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Manager",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B019",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "ocean_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Manager",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B020",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "search_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Manager",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B021",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "app/my_agents.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "witty_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Manager",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B022",
+      "evidence": [
+        {
+          "line": 121,
+          "path": "app/openai/voice.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_weather"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "MemoryAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B023",
+      "evidence": [
+        {
+          "line": 146,
+          "path": "app/openai/voice.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "WebSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "SearchVoiceAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B024",
+      "evidence": [
+        {
+          "line": 156,
+          "path": "app/openai/voice.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FileSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "KnowledgeVoiceAgent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B025",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "abort_multistep"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Multistep Agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B026",
+      "evidence": [
+        {
+          "line": 56,
+          "path": "app/personal_agents/multistep_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "start_multistep"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Multistep Agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B027",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "schedule_a_push_notification"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Notification Agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B028",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "app/personal_agents/notification_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "unsubscribe_from_push_notification"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Notification Agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B029",
+      "evidence": [
+        {
+          "line": 124,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "WebSearchTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Search",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B030",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "clear_history"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B031",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_user_feedback"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B032",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_birthdate"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B033",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_gender"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B034",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_user_location"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B035",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_users_name"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B036",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "retrieve_personalized_info_about_user"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B037",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_birthdate"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B038",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_gender"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B039",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_location"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B040",
+      "evidence": [
+        {
+          "line": 133,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "update_user_name"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Database",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B041",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "database_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "noelle_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B042",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "memory_agents.agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "noelle_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B043",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "multistep_agent.multistep_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "noelle_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B044",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "notification_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "noelle_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-124.B045",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "app/websockets/orchestrate_contextual.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "search_agent"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "noelle_agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-124",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app/my_agents.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Danejw/ai-companion-backend",
+    "sha": "5868863046a6b3e69cba9d07e98fb2bd357976d1"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "extraction_agent"
+        ],
+        "kind": "Agent",
+        "line": 5,
+        "name": "Extraction Agent",
+        "path": "app/function/improv_form_filler/form_agents.py",
+        "variable": "extraction_agent"
+      },
+      {
+        "aliases": [
+          "improv_agent"
+        ],
+        "kind": "Agent",
+        "line": 23,
+        "name": "Improv Agent",
+        "path": "app/function/improv_form_filler/form_agents.py",
+        "variable": "improv_agent"
+      },
+      {
+        "aliases": [
+          "search_agent"
+        ],
+        "kind": "Agent",
+        "line": 304,
+        "name": "Search",
+        "path": "app/function/orchestrate.py",
+        "variable": "search_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 315,
+        "name": "convo_lead_agent",
+        "path": "app/function/orchestrate.py",
+        "variable": "convo_lead_agent"
+      },
+      {
+        "aliases": [
+          "memory_agent"
+        ],
+        "kind": "Agent",
+        "line": 7,
+        "name": "Memory Agent",
+        "path": "app/mcp/mcp/memory/agent.py",
+        "variable": "memory_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 32,
+        "name": "voice_agent",
+        "path": "app/my_agents.py",
+        "variable": "voice_agent"
+      },
+      {
+        "aliases": [
+          "voice_agent"
+        ],
+        "kind": "Agent",
+        "line": 37,
+        "name": "voice",
+        "path": "app/my_agents.py",
+        "variable": "voice_agent"
+      },
+      {
+        "aliases": [
+          "search_agent"
+        ],
+        "kind": "Agent",
+        "line": 47,
+        "name": "Search",
+        "path": "app/my_agents.py",
+        "variable": "search_agent"
+      },
+      {
+        "aliases": [
+          "filesearch_agent"
+        ],
+        "kind": "Agent",
+        "line": 56,
+        "name": "File Search",
+        "path": "app/my_agents.py",
+        "variable": "filesearch_agent"
+      },
+      {
+        "aliases": [
+          "ocean_agent"
+        ],
+        "kind": "Agent",
+        "line": 68,
+        "name": "Sentiment",
+        "path": "app/my_agents.py",
+        "variable": "ocean_agent"
+      },
+      {
+        "aliases": [
+          "mbti_agent"
+        ],
+        "kind": "Agent",
+        "line": 77,
+        "name": "MBTI",
+        "path": "app/my_agents.py",
+        "variable": "mbti_agent"
+      },
+      {
+        "aliases": [
+          "witty_agent"
+        ],
+        "kind": "Agent",
+        "line": 86,
+        "name": "Wit",
+        "path": "app/my_agents.py",
+        "variable": "witty_agent"
+      },
+      {
+        "aliases": [
+          "manager_agent"
+        ],
+        "kind": "Agent",
+        "line": 94,
+        "name": "Manager",
+        "path": "app/my_agents.py",
+        "variable": "manager_agent"
+      },
+      {
+        "aliases": [
+          "spanish_agent"
+        ],
+        "kind": "Agent",
+        "line": 97,
+        "name": "Spanish",
+        "path": "app/openai/voice.py",
+        "variable": "spanish_agent"
+      },
+      {
+        "aliases": [
+          "pidgin_agent"
+        ],
+        "kind": "Agent",
+        "line": 106,
+        "name": "Pidgin",
+        "path": "app/openai/voice.py",
+        "variable": "pidgin_agent"
+      },
+      {
+        "aliases": [
+          "english_agent"
+        ],
+        "kind": "Agent",
+        "line": 113,
+        "name": "English",
+        "path": "app/openai/voice.py",
+        "variable": "english_agent"
+      },
+      {
+        "aliases": [
+          "agent"
+        ],
+        "kind": "Agent",
+        "line": 121,
+        "name": "Assistant",
+        "path": "app/openai/voice.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 130,
+        "name": "hawaiian_agent",
+        "path": "app/openai/voice.py",
+        "variable": "hawaiian_agent"
+      },
+      {
+        "aliases": [
+          "hawaiian_agent"
+        ],
+        "kind": "Agent",
+        "line": 135,
+        "name": "Hawaiian",
+        "path": "app/openai/voice.py",
+        "variable": "hawaiian_agent"
+      },
+      {
+        "aliases": [
+          "search_voice_agent"
+        ],
+        "kind": "Agent",
+        "line": 146,
+        "name": "SearchVoiceAgent",
+        "path": "app/openai/voice.py",
+        "variable": "search_voice_agent"
+      },
+      {
+        "aliases": [
+          "knowledge_voice_agent"
+        ],
+        "kind": "Agent",
+        "line": 156,
+        "name": "KnowledgeVoiceAgent",
+        "path": "app/openai/voice.py",
+        "variable": "knowledge_voice_agent"
+      },
+      {
+        "aliases": [
+          "account_voice_agent"
+        ],
+        "kind": "Agent",
+        "line": 169,
+        "name": "AccountVoiceAgent",
+        "path": "app/openai/voice.py",
+        "variable": "account_voice_agent"
+      },
+      {
+        "aliases": [
+          "triage_voice_agent"
+        ],
+        "kind": "Agent",
+        "line": 178,
+        "name": "VoiceAssistant",
+        "path": "app/openai/voice.py",
+        "variable": "triage_voice_agent"
+      },
+      {
+        "aliases": [
+          "summarization_agent"
+        ],
+        "kind": "Agent",
+        "line": 76,
+        "name": "Summarizer",
+        "path": "app/personal_agents/conversation_context.py",
+        "variable": "summarization_agent"
+      },
+      {
+        "aliases": [
+          "discord_agent"
+        ],
+        "kind": "Agent",
+        "line": 7,
+        "name": "Discord",
+        "path": "app/personal_agents/discord_agent.py",
+        "variable": "discord_agent"
+      },
+      {
+        "aliases": [
+          "finetune_feedback_agent"
+        ],
+        "kind": "Agent",
+        "line": 14,
+        "name": "Finetune Feedback Agent",
+        "path": "app/personal_agents/feedback_agent.py",
+        "variable": "finetune_feedback_agent"
+      },
+      {
+        "aliases": [
+          "agent"
+        ],
+        "kind": "Agent",
+        "line": 27,
+        "name": "MemoryAgent",
+        "path": "app/personal_agents/memory_agents.py",
+        "variable": "agent"
+      },
+      {
+        "aliases": [
+          "multistep_agent"
+        ],
+        "kind": "Agent",
+        "line": 56,
+        "name": "Multistep Agent",
+        "path": "app/personal_agents/multistep_agent.py",
+        "variable": "multistep_agent"
+      },
+      {
+        "aliases": [
+          "notification_agent"
+        ],
+        "kind": "Agent",
+        "line": 59,
+        "name": "Notification Agent",
+        "path": "app/personal_agents/notification_agent.py",
+        "variable": "notification_agent"
+      },
+      {
+        "aliases": [
+          "intent_classification_agent"
+        ],
+        "kind": "Agent",
+        "line": 201,
+        "name": "Intent Classificator",
+        "path": "app/psychology/intent_classification.py",
+        "variable": "intent_classification_agent"
+      },
+      {
+        "aliases": [
+          "mbti_agent"
+        ],
+        "kind": "Agent",
+        "line": 58,
+        "name": "MBTI",
+        "path": "app/psychology/mbti_analysis.py",
+        "variable": "mbti_agent"
+      },
+      {
+        "aliases": [
+          "multistep_judgement_agent"
+        ],
+        "kind": "Agent",
+        "line": 49,
+        "name": "Multistep Judgement Agent",
+        "path": "app/psychology/multistep_service.py",
+        "variable": "multistep_judgement_agent"
+      },
+      {
+        "aliases": [
+          "ocean_agent"
+        ],
+        "kind": "Agent",
+        "line": 64,
+        "name": "OCEAN",
+        "path": "app/psychology/ocean_analysis.py",
+        "variable": "ocean_agent"
+      },
+      {
+        "aliases": [
+          "tpb_agent"
+        ],
+        "kind": "Agent",
+        "line": 42,
+        "name": "TPB",
+        "path": "app/psychology/theory_planned_behavior.py",
+        "variable": "tpb_agent"
+      },
+      {
+        "aliases": [
+          "profile_agent"
+        ],
+        "kind": "Agent",
+        "line": 46,
+        "name": "Profile Agent",
+        "path": "app/routes/connect_routes.py",
+        "variable": "profile_agent"
+      },
+      {
+        "aliases": [
+          "sentiment_agent"
+        ],
+        "kind": "Agent",
+        "line": 25,
+        "name": "Sentiment",
+        "path": "app/routes/feedback.py",
+        "variable": "sentiment_agent"
+      },
+      {
+        "aliases": [
+          "summarization_agent"
+        ],
+        "kind": "Agent",
+        "line": 145,
+        "name": "Summary",
+        "path": "app/supabase/conversation_history.py",
+        "variable": "summarization_agent"
+      },
+      {
+        "aliases": [
+          "ui_action_agent"
+        ],
+        "kind": "Agent",
+        "line": 67,
+        "name": "UI Action Agent",
+        "path": "app/websockets/handlers/text_handlers.py",
+        "variable": "ui_action_agent"
+      },
+      {
+        "aliases": [
+          "search_agent"
+        ],
+        "kind": "Agent",
+        "line": 124,
+        "name": "Search",
+        "path": "app/websockets/orchestrate_contextual.py",
+        "variable": "search_agent"
+      },
+      {
+        "aliases": [
+          "database_agent"
+        ],
+        "kind": "Agent",
+        "line": 133,
+        "name": "Database",
+        "path": "app/websockets/orchestrate_contextual.py",
+        "variable": "database_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 189,
+        "name": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py",
+        "variable": "noelle_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "agent_as_tool",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "source": "convo_lead_agent",
+        "source_variable": "convo_lead_agent",
+        "target": "Search",
+        "target_variable": "search_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "source": "Manager",
+        "source_variable": "manager_agent",
+        "target": "Search",
+        "target_variable": "search_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "source": "Manager",
+        "source_variable": "manager_agent",
+        "target": "Sentiment",
+        "target_variable": "ocean_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "source": "Manager",
+        "source_variable": "manager_agent",
+        "target": "MBTI",
+        "target_variable": "mbti_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "source": "Manager",
+        "source_variable": "manager_agent",
+        "target": "Wit",
+        "target_variable": "witty_agent"
+      },
+      {
+        "kind": "handoffs",
+        "line": 121,
+        "path": "app/openai/voice.py",
+        "source": "Assistant",
+        "source_variable": "agent",
+        "target": "Spanish",
+        "target_variable": "spanish_agent"
+      },
+      {
+        "kind": "handoffs",
+        "line": 178,
+        "path": "app/openai/voice.py",
+        "source": "VoiceAssistant",
+        "source_variable": "triage_voice_agent",
+        "target": "AccountVoiceAgent",
+        "target_variable": "account_voice_agent"
+      },
+      {
+        "kind": "handoffs",
+        "line": 178,
+        "path": "app/openai/voice.py",
+        "source": "VoiceAssistant",
+        "source_variable": "triage_voice_agent",
+        "target": "KnowledgeVoiceAgent",
+        "target_variable": "knowledge_voice_agent"
+      },
+      {
+        "kind": "handoffs",
+        "line": 178,
+        "path": "app/openai/voice.py",
+        "source": "VoiceAssistant",
+        "source_variable": "triage_voice_agent",
+        "target": "SearchVoiceAgent",
+        "target_variable": "search_voice_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "source": "noelle_agent",
+        "source_variable": "noelle_agent",
+        "target": "Database",
+        "target_variable": "database_agent"
+      },
+      {
+        "kind": "agent_as_tool",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "source": "noelle_agent",
+        "source_variable": "noelle_agent",
+        "target": "Search",
+        "target_variable": "search_agent"
+      }
+    ],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [
+      {
+        "aliases": [
+          "care_mcp"
+        ],
+        "kind": "MCPServerSse",
+        "line": 3,
+        "name": "KnoliaCare",
+        "path": "app/mcp/care.py",
+        "variable": "care_mcp"
+      },
+      {
+        "aliases": [
+          "connect_mcp"
+        ],
+        "kind": "MCPServerSse",
+        "line": 12,
+        "name": "KnoliaConnect",
+        "path": "app/mcp/connect.py",
+        "variable": "connect_mcp"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 89,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 304,
+        "name": "WebSearchTool",
+        "owner": "search_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "clear_history",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "create_user_feedback",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "get_user_birthdate",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "get_user_gender",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "get_user_location",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "get_users_name",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "memory_agents.agent",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "retrieve_personalized_info_about_user",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "search_agent",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "update_user_birthdate",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "update_user_gender",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "update_user_location",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 315,
+        "name": "update_user_name",
+        "owner": "convo_lead_agent",
+        "path": "app/function/orchestrate.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 17,
+        "name": "get_users_name",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 29,
+        "name": "get_user_birthdate",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 41,
+        "name": "get_user_location",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 53,
+        "name": "get_user_gender",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 65,
+        "name": "update_user_name",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 81,
+        "name": "update_user_birthdate",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 96,
+        "name": "update_user_location",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 111,
+        "name": "update_user_gender",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 126,
+        "name": "retrieve_personalized_info_about_user",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 145,
+        "name": "create_user_feedback",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 166,
+        "name": "clear_history",
+        "path": "app/function/supabase_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 15,
+        "name": "create_entities",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 28,
+        "name": "create_relations",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 41,
+        "name": "add_observations",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 54,
+        "name": "delete_entities",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 64,
+        "name": "delete_observations",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 74,
+        "name": "delete_relations",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 84,
+        "name": "read_graph",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 94,
+        "name": "search_nodes",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 107,
+        "name": "open_nodes",
+        "owner": "mcp",
+        "path": "app/mcp/mcp/memory/server.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 30,
+        "name": "get_irony_definition",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 37,
+        "name": "get_irony_definition",
+        "owner": "voice_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 47,
+        "name": "WebSearchTool",
+        "owner": "search_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 56,
+        "name": "FileSearchTool",
+        "owner": "filesearch_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 94,
+        "name": "mbti_agent",
+        "owner": "manager_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 94,
+        "name": "ocean_agent",
+        "owner": "manager_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 94,
+        "name": "search_agent",
+        "owner": "manager_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 94,
+        "name": "witty_agent",
+        "owner": "manager_agent",
+        "path": "app/my_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 89,
+        "name": "get_weather",
+        "path": "app/openai/voice.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 121,
+        "name": "get_weather",
+        "owner": "agent",
+        "path": "app/openai/voice.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 146,
+        "name": "WebSearchTool",
+        "owner": "search_voice_agent",
+        "path": "app/openai/voice.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 156,
+        "name": "FileSearchTool",
+        "owner": "knowledge_voice_agent",
+        "path": "app/openai/voice.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 39,
+        "name": "emotional_intensity",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 74,
+        "name": "context_weighted",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 109,
+        "name": "mood_based_language",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 145,
+        "name": "memory_surface",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 181,
+        "name": "rituals",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 218,
+        "name": "boundaries",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 255,
+        "name": "self_awareness",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 291,
+        "name": "topics",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 330,
+        "name": "feedback",
+        "path": "app/personal_agents/memory_agents.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 48,
+        "name": "start_multistep",
+        "path": "app/personal_agents/multistep_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 53,
+        "name": "abort_multistep",
+        "path": "app/personal_agents/multistep_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 56,
+        "name": "abort_multistep",
+        "owner": "multistep_agent",
+        "path": "app/personal_agents/multistep_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 56,
+        "name": "start_multistep",
+        "owner": "multistep_agent",
+        "path": "app/personal_agents/multistep_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 8,
+        "name": "schedule_a_push_notification",
+        "path": "app/personal_agents/notification_agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 35,
+        "name": "unsubscribe_from_push_notification",
+        "path": "app/personal_agents/notification_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 59,
+        "name": "schedule_a_push_notification",
+        "owner": "notification_agent",
+        "path": "app/personal_agents/notification_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 59,
+        "name": "unsubscribe_from_push_notification",
+        "owner": "notification_agent",
+        "path": "app/personal_agents/notification_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 124,
+        "name": "WebSearchTool",
+        "owner": "search_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "clear_history",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "create_user_feedback",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "get_user_birthdate",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "get_user_gender",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "get_user_location",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "get_users_name",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "retrieve_personalized_info_about_user",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "update_user_birthdate",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "update_user_gender",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "update_user_location",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 133,
+        "name": "update_user_name",
+        "owner": "database_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 189,
+        "name": "database_agent",
+        "owner": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 189,
+        "name": "memory_agents.agent",
+        "owner": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 189,
+        "name": "multistep_agent.multistep_agent",
+        "owner": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 189,
+        "name": "notification_agent",
+        "owner": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 189,
+        "name": "search_agent",
+        "owner": "noelle_agent",
+        "path": "app/websockets/orchestrate_contextual.py"
+      }
+    ],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "Search",
+          "target_kind": "tool",
+          "target_name": "WebSearchTool"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "clear_history"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "create_user_feedback"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "get_user_birthdate"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "get_user_gender"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "get_user_location"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "get_users_name"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "memory_agents.agent"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "retrieve_personalized_info_about_user"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "search_agent"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "update_user_birthdate"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "update_user_gender"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "update_user_location"
+        },
+        {
+          "agent": "convo_lead_agent",
+          "target_kind": "tool",
+          "target_name": "update_user_name"
+        },
+        {
+          "agent": "voice",
+          "target_kind": "tool",
+          "target_name": "get_irony_definition"
+        },
+        {
+          "agent": "Search",
+          "target_kind": "tool",
+          "target_name": "WebSearchTool"
+        },
+        {
+          "agent": "File Search",
+          "target_kind": "tool",
+          "target_name": "FileSearchTool"
+        },
+        {
+          "agent": "Manager",
+          "target_kind": "tool",
+          "target_name": "mbti_agent"
+        },
+        {
+          "agent": "Manager",
+          "target_kind": "tool",
+          "target_name": "ocean_agent"
+        },
+        {
+          "agent": "Manager",
+          "target_kind": "tool",
+          "target_name": "search_agent"
+        },
+        {
+          "agent": "Manager",
+          "target_kind": "tool",
+          "target_name": "witty_agent"
+        },
+        {
+          "agent": "MemoryAgent",
+          "target_kind": "tool",
+          "target_name": "get_weather"
+        },
+        {
+          "agent": "SearchVoiceAgent",
+          "target_kind": "tool",
+          "target_name": "WebSearchTool"
+        },
+        {
+          "agent": "KnowledgeVoiceAgent",
+          "target_kind": "tool",
+          "target_name": "FileSearchTool"
+        },
+        {
+          "agent": "Multistep Agent",
+          "target_kind": "tool",
+          "target_name": "abort_multistep"
+        },
+        {
+          "agent": "Multistep Agent",
+          "target_kind": "tool",
+          "target_name": "start_multistep"
+        },
+        {
+          "agent": "Notification Agent",
+          "target_kind": "tool",
+          "target_name": "schedule_a_push_notification"
+        },
+        {
+          "agent": "Notification Agent",
+          "target_kind": "tool",
+          "target_name": "unsubscribe_from_push_notification"
+        },
+        {
+          "agent": "Search",
+          "target_kind": "tool",
+          "target_name": "WebSearchTool"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "clear_history"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "create_user_feedback"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "get_user_birthdate"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "get_user_gender"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "get_user_location"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "get_users_name"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "retrieve_personalized_info_about_user"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "update_user_birthdate"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "update_user_gender"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "update_user_location"
+        },
+        {
+          "agent": "Database",
+          "target_kind": "tool",
+          "target_name": "update_user_name"
+        },
+        {
+          "agent": "noelle_agent",
+          "target_kind": "tool",
+          "target_name": "database_agent"
+        },
+        {
+          "agent": "noelle_agent",
+          "target_kind": "tool",
+          "target_name": "memory_agents.agent"
+        },
+        {
+          "agent": "noelle_agent",
+          "target_kind": "tool",
+          "target_name": "multistep_agent.multistep_agent"
+        },
+        {
+          "agent": "noelle_agent",
+          "target_kind": "tool",
+          "target_name": "notification_agent"
+        },
+        {
+          "agent": "noelle_agent",
+          "target_kind": "tool",
+          "target_name": "search_agent"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "Search",
+        "line": 304,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "WebSearchTool"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "clear_history"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "create_user_feedback"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "get_user_birthdate"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "get_user_gender"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "get_user_location"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "get_users_name"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "memory_agents.agent"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "retrieve_personalized_info_about_user"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "search_agent"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "update_user_birthdate"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "update_user_gender"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "update_user_location"
+      },
+      {
+        "agent": "convo_lead_agent",
+        "line": 315,
+        "path": "app/function/orchestrate.py",
+        "target_kind": "tool",
+        "target_name": "update_user_name"
+      },
+      {
+        "agent": "voice",
+        "line": 37,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "get_irony_definition"
+      },
+      {
+        "agent": "Search",
+        "line": 47,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "WebSearchTool"
+      },
+      {
+        "agent": "File Search",
+        "line": 56,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "FileSearchTool"
+      },
+      {
+        "agent": "Manager",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "mbti_agent"
+      },
+      {
+        "agent": "Manager",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "ocean_agent"
+      },
+      {
+        "agent": "Manager",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "search_agent"
+      },
+      {
+        "agent": "Manager",
+        "line": 94,
+        "path": "app/my_agents.py",
+        "target_kind": "tool",
+        "target_name": "witty_agent"
+      },
+      {
+        "agent": "MemoryAgent",
+        "line": 121,
+        "path": "app/openai/voice.py",
+        "target_kind": "tool",
+        "target_name": "get_weather"
+      },
+      {
+        "agent": "SearchVoiceAgent",
+        "line": 146,
+        "path": "app/openai/voice.py",
+        "target_kind": "tool",
+        "target_name": "WebSearchTool"
+      },
+      {
+        "agent": "KnowledgeVoiceAgent",
+        "line": 156,
+        "path": "app/openai/voice.py",
+        "target_kind": "tool",
+        "target_name": "FileSearchTool"
+      },
+      {
+        "agent": "Multistep Agent",
+        "line": 56,
+        "path": "app/personal_agents/multistep_agent.py",
+        "target_kind": "tool",
+        "target_name": "abort_multistep"
+      },
+      {
+        "agent": "Multistep Agent",
+        "line": 56,
+        "path": "app/personal_agents/multistep_agent.py",
+        "target_kind": "tool",
+        "target_name": "start_multistep"
+      },
+      {
+        "agent": "Notification Agent",
+        "line": 59,
+        "path": "app/personal_agents/notification_agent.py",
+        "target_kind": "tool",
+        "target_name": "schedule_a_push_notification"
+      },
+      {
+        "agent": "Notification Agent",
+        "line": 59,
+        "path": "app/personal_agents/notification_agent.py",
+        "target_kind": "tool",
+        "target_name": "unsubscribe_from_push_notification"
+      },
+      {
+        "agent": "Search",
+        "line": 124,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "WebSearchTool"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "clear_history"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "create_user_feedback"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "get_user_birthdate"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "get_user_gender"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "get_user_location"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "get_users_name"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "retrieve_personalized_info_about_user"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "update_user_birthdate"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "update_user_gender"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "update_user_location"
+      },
+      {
+        "agent": "Database",
+        "line": 133,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "update_user_name"
+      },
+      {
+        "agent": "noelle_agent",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "database_agent"
+      },
+      {
+        "agent": "noelle_agent",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "memory_agents.agent"
+      },
+      {
+        "agent": "noelle_agent",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "multistep_agent.multistep_agent"
+      },
+      {
+        "agent": "noelle_agent",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "notification_agent"
+      },
+      {
+        "agent": "noelle_agent",
+        "line": 189,
+        "path": "app/websockets/orchestrate_contextual.py",
+        "target_kind": "tool",
+        "target_name": "search_agent"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "agent_as_tool",
+      "web_search",
+      "file_search"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

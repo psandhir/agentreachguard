@@ -1,0 +1,1125 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-089.A001",
+      "evidence": [
+        {
+          "line": 41,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "investigate_and_save_report",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A002",
+      "evidence": [
+        {
+          "line": 130,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_code_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A003",
+      "evidence": [
+        {
+          "line": 162,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_in_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A004",
+      "evidence": [
+        {
+          "line": 197,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "edit_code_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A005",
+      "evidence": [
+        {
+          "line": 227,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "apply_edit_blocks",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A006",
+      "evidence": [
+        {
+          "line": 276,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_terminal_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A007",
+      "evidence": [
+        {
+          "line": 303,
+          "path": "servers/coder/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A008",
+      "evidence": [
+        {
+          "line": 24,
+          "path": "servers/delegation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_available_skills",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A009",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "servers/delegation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delegate_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A010",
+      "evidence": [
+        {
+          "line": 237,
+          "path": "servers/delegation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_task_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A011",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A012",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_diff",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A013",
+      "evidence": [
+        {
+          "line": 83,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_add",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A014",
+      "evidence": [
+        {
+          "line": 94,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_commit",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A015",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_log",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A016",
+      "evidence": [
+        {
+          "line": 123,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_branch",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A017",
+      "evidence": [
+        {
+          "line": 152,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_checkout",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A018",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_pull",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A019",
+      "evidence": [
+        {
+          "line": 180,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_push",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A020",
+      "evidence": [
+        {
+          "line": 195,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_init",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A021",
+      "evidence": [
+        {
+          "line": 205,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_clone",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A022",
+      "evidence": [
+        {
+          "line": 244,
+          "path": "servers/git/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "git_remote",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A023",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "servers/office_reader/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_office_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A024",
+      "evidence": [
+        {
+          "line": 51,
+          "path": "servers/office_reader/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_supported_formats",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A025",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "servers/os_manipulation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_directory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A026",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "servers/os_manipulation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_directories",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A027",
+      "evidence": [
+        {
+          "line": 49,
+          "path": "servers/os_manipulation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "move_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A028",
+      "evidence": [
+        {
+          "line": 83,
+          "path": "servers/os_manipulation/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "move_files_by_regex",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A029",
+      "evidence": [
+        {
+          "line": 14,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "init_planning",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A030",
+      "evidence": [
+        {
+          "line": 113,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "resume_last_run",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A031",
+      "evidence": [
+        {
+          "line": 142,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_plan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A032",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "update_plan_status",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A033",
+      "evidence": [
+        {
+          "line": 221,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mark_step_complete",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A034",
+      "evidence": [
+        {
+          "line": 264,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_finding",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A035",
+      "evidence": [
+        {
+          "line": 349,
+          "path": "servers/planner/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "erase_plans",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A036",
+      "evidence": [
+        {
+          "line": 18,
+          "path": "servers/sys_admin/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_system_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A037",
+      "evidence": [
+        {
+          "line": 46,
+          "path": "servers/sys_admin/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ssh_connect",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A038",
+      "evidence": [
+        {
+          "line": 110,
+          "path": "servers/sys_admin/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ssh_run_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A039",
+      "evidence": [
+        {
+          "line": 141,
+          "path": "servers/sys_admin/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ssh_list_connections",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A040",
+      "evidence": [
+        {
+          "line": 152,
+          "path": "servers/sys_admin/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ssh_disconnect",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A041",
+      "evidence": [
+        {
+          "line": 14,
+          "path": "servers/testing/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_pytest",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A042",
+      "evidence": [
+        {
+          "line": 50,
+          "path": "servers/testing/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_test_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A043",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "servers/testing/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_test_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A044",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "servers/testing/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_test_coverage",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A045",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "servers/web_fetch/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_url_jina",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-089.A046",
+      "evidence": [
+        {
+          "line": 43,
+          "path": "servers/web_fetch/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_web_jina",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-089",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "jiamingkong/agent_demos",
+    "sha": "6fab148888845bc08e762b82ce0477a3a213d712"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 16,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 41,
+        "name": "investigate_and_save_report",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 130,
+        "name": "read_code_file",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 162,
+        "name": "search_in_files",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 197,
+        "name": "edit_code_file",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 227,
+        "name": "apply_edit_blocks",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 276,
+        "name": "run_terminal_command",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 303,
+        "name": "create_file",
+        "owner": "mcp",
+        "path": "servers/coder/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 24,
+        "name": "list_available_skills",
+        "owner": "mcp",
+        "path": "servers/delegation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 47,
+        "name": "delegate_task",
+        "owner": "mcp",
+        "path": "servers/delegation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 237,
+        "name": "check_task_status",
+        "owner": "mcp",
+        "path": "servers/delegation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 58,
+        "name": "git_status",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 68,
+        "name": "git_diff",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 83,
+        "name": "git_add",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 94,
+        "name": "git_commit",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 107,
+        "name": "git_log",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 123,
+        "name": "git_branch",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 152,
+        "name": "git_checkout",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 165,
+        "name": "git_pull",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 180,
+        "name": "git_push",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 195,
+        "name": "git_init",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 205,
+        "name": "git_clone",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 244,
+        "name": "git_remote",
+        "owner": "mcp",
+        "path": "servers/git/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 15,
+        "name": "read_office_file",
+        "owner": "mcp",
+        "path": "servers/office_reader/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 51,
+        "name": "list_supported_formats",
+        "owner": "mcp",
+        "path": "servers/office_reader/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 11,
+        "name": "list_directory",
+        "owner": "mcp",
+        "path": "servers/os_manipulation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "create_directories",
+        "owner": "mcp",
+        "path": "servers/os_manipulation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 49,
+        "name": "move_files",
+        "owner": "mcp",
+        "path": "servers/os_manipulation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 83,
+        "name": "move_files_by_regex",
+        "owner": "mcp",
+        "path": "servers/os_manipulation/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 14,
+        "name": "init_planning",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 113,
+        "name": "resume_last_run",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 142,
+        "name": "read_plan",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 177,
+        "name": "update_plan_status",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 221,
+        "name": "mark_step_complete",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 264,
+        "name": "add_finding",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 349,
+        "name": "erase_plans",
+        "owner": "mcp",
+        "path": "servers/planner/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 18,
+        "name": "get_system_info",
+        "owner": "mcp",
+        "path": "servers/sys_admin/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 46,
+        "name": "ssh_connect",
+        "owner": "mcp",
+        "path": "servers/sys_admin/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 110,
+        "name": "ssh_run_command",
+        "owner": "mcp",
+        "path": "servers/sys_admin/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 141,
+        "name": "ssh_list_connections",
+        "owner": "mcp",
+        "path": "servers/sys_admin/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 152,
+        "name": "ssh_disconnect",
+        "owner": "mcp",
+        "path": "servers/sys_admin/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 14,
+        "name": "run_pytest",
+        "owner": "mcp",
+        "path": "servers/testing/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 50,
+        "name": "list_test_files",
+        "owner": "mcp",
+        "path": "servers/testing/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 70,
+        "name": "run_test_file",
+        "owner": "mcp",
+        "path": "servers/testing/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 106,
+        "name": "get_test_coverage",
+        "owner": "mcp",
+        "path": "servers/testing/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 15,
+        "name": "read_url_jina",
+        "owner": "mcp",
+        "path": "servers/web_fetch/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 43,
+        "name": "search_web_jina",
+        "owner": "mcp",
+        "path": "servers/web_fetch/server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "process_or_os_capability_context",
+      "filesystem_write",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "filesystem_write",
+      "mcp_usage"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

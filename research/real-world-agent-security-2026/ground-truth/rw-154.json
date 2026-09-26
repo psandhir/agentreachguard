@@ -1,0 +1,332 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-154.A001",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "labs/module4/notebooks/1_mcp.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_alerts",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "self.mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A002",
+      "evidence": [
+        {
+          "line": 50,
+          "path": "labs/module4/notebooks/1_mcp.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_forecast",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "self.mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A003",
+      "evidence": [
+        {
+          "line": 189,
+          "path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "research_agent_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "supervisor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A004",
+      "evidence": [
+        {
+          "line": 203,
+          "path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "writer_agent_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "supervisor_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A005",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "labs/module4/notebooks/mcp_servers/weather_server/weather_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_alerts",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "self.mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A006",
+      "evidence": [
+        {
+          "line": 50,
+          "path": "labs/module4/notebooks/mcp_servers/weather_server/weather_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_forecast",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "self.mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A007",
+      "evidence": [
+        {
+          "line": 195,
+          "path": "labs/module4/notebooks/1_mcp.ipynb",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "custom_weather_mcp_server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-154",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.A008",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "labs/module4/notebooks/3_multi-agent-graph.ipynb",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_mcp_server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-154",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-154.C001",
+      "evidence": [
+        {
+          "line": 167,
+          "path": "bootstrap/README.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "arn:aws:iam::123456789012:role/admin",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-154",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-154.C002",
+      "evidence": [
+        {
+          "line": 179,
+          "path": "bootstrap/README.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "arn:aws:iam::123456789012:role/AgenticPlatformCICDRole",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-154",
+      "tier": "C"
+    },
+    {
+      "assertion_id": "RW-154.C003",
+      "evidence": [
+        {
+          "line": 12,
+          "path": "k8s/helm/charts/otel/README.md",
+          "rationale": "Repository deployment/IAM source explicitly declares this identity."
+        }
+      ],
+      "expected_state": "present",
+      "object": "arn:aws:iam::123456789012:role/otel-collector-role",
+      "predicate": "declares_identity",
+      "rationale": "Repository deployment/IAM source explicitly declares this identity.",
+      "subject": "rw-154",
+      "tier": "C"
+    }
+  ],
+  "case_id": "rw-154",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "aws-samples/sample-agentic-platform",
+    "sha": "3013ce28c58c3a6242a8fc8bcfcfc133a4e3f82e"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "PyAIMCPServerStdio",
+        "line": 195,
+        "name": "custom_weather_mcp_server",
+        "path": "labs/module4/notebooks/1_mcp.ipynb",
+        "variable": "custom_weather_mcp_server"
+      },
+      {
+        "kind": "PyAIMCPServerStdio",
+        "line": 35,
+        "name": "tavily_mcp_server",
+        "path": "labs/module4/notebooks/3_multi-agent-graph.ipynb",
+        "variable": "tavily_mcp_server"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "get_alerts",
+        "owner": "self.mcp",
+        "path": "labs/module4/notebooks/1_mcp.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 50,
+        "name": "get_forecast",
+        "owner": "self.mcp",
+        "path": "labs/module4/notebooks/1_mcp.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 189,
+        "name": "research_agent_tool",
+        "owner": "supervisor_agent",
+        "path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 203,
+        "name": "writer_agent_tool",
+        "owner": "supervisor_agent",
+        "path": "labs/module4/notebooks/2_multi-agent-delegation.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 31,
+        "name": "get_alerts",
+        "owner": "self.mcp",
+        "path": "labs/module4/notebooks/mcp_servers/weather_server/weather_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 50,
+        "name": "get_forecast",
+        "owner": "self.mcp",
+        "path": "labs/module4/notebooks/mcp_servers/weather_server/weather_server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected",
+      "labs/module4/notebooks/3_multi-agent-graph.ipynb:python_ast_parse_failed"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network"
+    ]
+  },
+  "tier_c": {
+    "declared_roles": [],
+    "files_reviewed": 243,
+    "review_method": "repository-declared deployment/IAM source review",
+    "runtime_effectiveness": "not_verified",
+    "unresolved": [
+      "repository evidence cannot establish live runtime effectiveness",
+      "identity-to-agent binding is scored only when source evidence is explicit"
+    ],
+    "workload_or_deployer_identities": [
+      {
+        "identity": "arn:aws:iam::123456789012:role/admin",
+        "line": 167,
+        "path": "bootstrap/README.md",
+        "provider": "aws"
+      },
+      {
+        "identity": "arn:aws:iam::123456789012:role/AgenticPlatformCICDRole",
+        "line": 179,
+        "path": "bootstrap/README.md",
+        "provider": "aws"
+      },
+      {
+        "identity": "arn:aws:iam::123456789012:role/otel-collector-role",
+        "line": 12,
+        "path": "k8s/helm/charts/otel/README.md",
+        "provider": "aws"
+      }
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

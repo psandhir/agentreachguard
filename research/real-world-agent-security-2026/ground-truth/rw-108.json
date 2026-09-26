@@ -1,0 +1,276 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-108.A001",
+      "evidence": [
+        {
+          "line": 276,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "searchFlightRoutes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A002",
+      "evidence": [
+        {
+          "line": 283,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getCurrentDate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A003",
+      "evidence": [
+        {
+          "line": 290,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getTransferFlightsByThreePlace",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A004",
+      "evidence": [
+        {
+          "line": 298,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getWeatherByLocation",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A005",
+      "evidence": [
+        {
+          "line": 304,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getWeatherByCity",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A006",
+      "evidence": [
+        {
+          "line": 311,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getFlightInfo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A007",
+      "evidence": [
+        {
+          "line": 318,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getFlightStatus",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A008",
+      "evidence": [
+        {
+          "line": 324,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getAirportFlights",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A009",
+      "evidence": [
+        {
+          "line": 330,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "getFlightsInArea",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-108.A010",
+      "evidence": [
+        {
+          "line": 336,
+          "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "trackMultipleFlights",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-108",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "huanchong-99/Go-Home",
+    "sha": "c08702ae7d1b6818ce932ab0ac649f548f40dfc4"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 29,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 276,
+        "name": "searchFlightRoutes",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 283,
+        "name": "getCurrentDate",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 290,
+        "name": "getTransferFlightsByThreePlace",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 298,
+        "name": "getWeatherByLocation",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 304,
+        "name": "getWeatherByCity",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 311,
+        "name": "getFlightInfo",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 318,
+        "name": "getFlightStatus",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 324,
+        "name": "getAirportFlights",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 330,
+        "name": "getFlightsInArea",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 336,
+        "name": "trackMultipleFlights",
+        "owner": "mcp",
+        "path": "FlightTicketMCP/flight_ticket_mcp_server/main.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

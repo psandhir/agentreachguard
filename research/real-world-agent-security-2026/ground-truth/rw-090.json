@@ -1,0 +1,133 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-090.A001",
+      "evidence": [
+        {
+          "line": 286,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sub_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-090.A002",
+      "evidence": [
+        {
+          "line": 553,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-090.A003",
+      "evidence": [
+        {
+          "line": 135,
+          "path": "webapp_new.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-090",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "cli_agent.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "garland3/redesigned-octo-umbrella",
+    "sha": "741a959071e6859de0387600b23695f678ce8d0c"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 286,
+        "name": "sub_agent",
+        "path": "agent.py",
+        "variable": "sub_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 553,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 135,
+        "name": "agent",
+        "path": "webapp_new.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 14,
+    "tools": [],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp",
+      "filesystem_read",
+      "subagent_delegation",
+      "model_directed_tool_loop"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

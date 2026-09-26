@@ -1,0 +1,53 @@
+{
+  "assertions": [],
+  "case_id": "rw-077",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "chat.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "azizyartas/amazon-hack",
+    "sha": "06aaf6784a2ba294f60261219453a2b955314e89"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 46,
+    "tools": [],
+    "unresolved": []
+  },
+  "tier_c": {
+    "declared_roles": [],
+    "files_reviewed": 14,
+    "review_method": "repository-declared deployment/IAM source review",
+    "runtime_effectiveness": "not_verified",
+    "unresolved": [
+      "repository evidence cannot establish live runtime effectiveness",
+      "identity-to-agent binding is scored only when source evidence is explicit"
+    ],
+    "workload_or_deployer_identities": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

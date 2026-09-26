@@ -1,0 +1,294 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-021.A001",
+      "evidence": [
+        {
+          "line": 57,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "IdeaAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A002",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "WriterAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A003",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "FormatterAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A004",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ContentAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A005",
+      "evidence": [
+        {
+          "line": 57,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_ideas",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "topic_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A006",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "write_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "draft_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A007",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "format_draft",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "format_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A008",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "IdeaAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ContentAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A009",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "WriterAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ContentAssistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-021.A010",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FormatterAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ContentAssistant",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-021",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "proflead/how-to-build-ai-agent",
+    "sha": "6dba7692cf4fa2c41944c6b327af2be78b1ab793"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "topic_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 57,
+        "name": "IdeaAgent",
+        "path": "agent.py",
+        "variable": "topic_agent"
+      },
+      {
+        "aliases": [
+          "draft_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 69,
+        "name": "WriterAgent",
+        "path": "agent.py",
+        "variable": "draft_agent"
+      },
+      {
+        "aliases": [
+          "format_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 81,
+        "name": "FormatterAgent",
+        "path": "agent.py",
+        "variable": "format_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "SequentialAgent",
+        "line": 97,
+        "name": "ContentAssistant",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 97,
+        "path": "agent.py",
+        "source": "ContentAssistant",
+        "source_variable": "root_agent",
+        "target": "IdeaAgent",
+        "target_variable": "topic_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 97,
+        "path": "agent.py",
+        "source": "ContentAssistant",
+        "source_variable": "root_agent",
+        "target": "WriterAgent",
+        "target_variable": "draft_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 97,
+        "path": "agent.py",
+        "source": "ContentAssistant",
+        "source_variable": "root_agent",
+        "target": "FormatterAgent",
+        "target_variable": "format_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 57,
+        "name": "generate_ideas",
+        "owner": "topic_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 69,
+        "name": "write_content",
+        "owner": "draft_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 81,
+        "name": "format_draft",
+        "owner": "format_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

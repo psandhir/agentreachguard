@@ -1,0 +1,1344 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-036.A001",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "product_manager",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A002",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "creative_director",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A003",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "music_selector",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A004",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "software_engineer",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A005",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A006",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A007",
+      "evidence": [
+        {
+          "line": 152,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "polisher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A008",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "curator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A009",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "sequencer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A010",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "refiner_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A011",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ingestion_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A012",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "analyze_audio_mood",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "music_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A013",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_audio_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "music_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A014",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "select_best_track",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "music_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A015",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "check_ffmpeg_installed",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "engineer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A016",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_slideshow",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "engineer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A017",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "approve_plan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A018",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cleanup_workspace",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A019",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_job_workspace",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A020",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "generate_storyboard",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A021",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "stage_files",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A022",
+      "evidence": [
+        {
+          "line": 152,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "polish_images_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "polisher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A023",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "curate_collection_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "curator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A024",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "sequence_story_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "sequencer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A025",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "refine_sequence_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "refiner_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A026",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "product_manager",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A027",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ingestion_pipeline",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A028",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "creative_director",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A029",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "music_selector",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A030",
+      "evidence": [
+        {
+          "line": 160,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "software_engineer",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "montage_workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A031",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "montage_workflow",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A032",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "polisher_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ingestion_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A033",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "curator_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ingestion_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A034",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "sequencer_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ingestion_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.A035",
+      "evidence": [
+        {
+          "line": 209,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "refiner_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ingestion_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-036.B001",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "analyze_audio_mood"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "music_selector",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B002",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_audio_files"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "music_selector",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B003",
+      "evidence": [
+        {
+          "line": 75,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "select_best_track"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "music_selector",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B004",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "check_ffmpeg_installed"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "software_engineer",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B005",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_slideshow"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "software_engineer",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B006",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "approve_plan"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B007",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "cleanup_workspace"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B008",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_job_workspace"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B009",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "generate_storyboard"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B010",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agents/definitions.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "stage_files"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B011",
+      "evidence": [
+        {
+          "line": 152,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "polish_images_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "polisher_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B012",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "curate_collection_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "curator_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B013",
+      "evidence": [
+        {
+          "line": 178,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "sequence_story_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "sequencer_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-036.B014",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "agents/pipelines/ingestion.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "refine_sequence_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "refiner_agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-036",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agents/definitions.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Dannyzen/montagegenerator",
+    "sha": "bad2d0c26723ecd80e6ee1c471536f647c44d7ac"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "pm_agent"
+        ],
+        "kind": "Agent",
+        "line": 31,
+        "name": "product_manager",
+        "path": "agents/definitions.py",
+        "variable": "pm_agent"
+      },
+      {
+        "aliases": [
+          "designer_agent"
+        ],
+        "kind": "Agent",
+        "line": 54,
+        "name": "creative_director",
+        "path": "agents/definitions.py",
+        "variable": "designer_agent"
+      },
+      {
+        "aliases": [
+          "music_agent"
+        ],
+        "kind": "Agent",
+        "line": 75,
+        "name": "music_selector",
+        "path": "agents/definitions.py",
+        "variable": "music_agent"
+      },
+      {
+        "aliases": [
+          "engineer_agent"
+        ],
+        "kind": "Agent",
+        "line": 134,
+        "name": "software_engineer",
+        "path": "agents/definitions.py",
+        "variable": "engineer_agent"
+      },
+      {
+        "kind": "SequentialAgent",
+        "line": 160,
+        "name": "montage_workflow",
+        "path": "agents/definitions.py",
+        "variable": "montage_workflow"
+      },
+      {
+        "kind": "Agent",
+        "line": 177,
+        "name": "root_agent",
+        "path": "agents/definitions.py",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 152,
+        "name": "polisher_agent",
+        "path": "agents/pipelines/ingestion.py",
+        "variable": "polisher_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 165,
+        "name": "curator_agent",
+        "path": "agents/pipelines/ingestion.py",
+        "variable": "curator_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 178,
+        "name": "sequencer_agent",
+        "path": "agents/pipelines/ingestion.py",
+        "variable": "sequencer_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 191,
+        "name": "refiner_agent",
+        "path": "agents/pipelines/ingestion.py",
+        "variable": "refiner_agent"
+      },
+      {
+        "kind": "SequentialAgent",
+        "line": 209,
+        "name": "ingestion_pipeline",
+        "path": "agents/pipelines/ingestion.py",
+        "variable": "ingestion_pipeline"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 160,
+        "path": "agents/definitions.py",
+        "source": "montage_workflow",
+        "source_variable": "montage_workflow",
+        "target": "product_manager",
+        "target_variable": "pm_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 160,
+        "path": "agents/definitions.py",
+        "source": "montage_workflow",
+        "source_variable": "montage_workflow",
+        "target": "ingestion_pipeline",
+        "target_variable": "ingestion_pipeline"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 160,
+        "path": "agents/definitions.py",
+        "source": "montage_workflow",
+        "source_variable": "montage_workflow",
+        "target": "creative_director",
+        "target_variable": "designer_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 160,
+        "path": "agents/definitions.py",
+        "source": "montage_workflow",
+        "source_variable": "montage_workflow",
+        "target": "music_selector",
+        "target_variable": "music_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 160,
+        "path": "agents/definitions.py",
+        "source": "montage_workflow",
+        "source_variable": "montage_workflow",
+        "target": "software_engineer",
+        "target_variable": "engineer_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "source": "root_agent",
+        "source_variable": "root_agent",
+        "target": "montage_workflow",
+        "target_variable": "montage_workflow"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 209,
+        "path": "agents/pipelines/ingestion.py",
+        "source": "ingestion_pipeline",
+        "source_variable": "ingestion_pipeline",
+        "target": "polisher_agent",
+        "target_variable": "polisher_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 209,
+        "path": "agents/pipelines/ingestion.py",
+        "source": "ingestion_pipeline",
+        "source_variable": "ingestion_pipeline",
+        "target": "curator_agent",
+        "target_variable": "curator_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 209,
+        "path": "agents/pipelines/ingestion.py",
+        "source": "ingestion_pipeline",
+        "source_variable": "ingestion_pipeline",
+        "target": "sequencer_agent",
+        "target_variable": "sequencer_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 209,
+        "path": "agents/pipelines/ingestion.py",
+        "source": "ingestion_pipeline",
+        "source_variable": "ingestion_pipeline",
+        "target": "refiner_agent",
+        "target_variable": "refiner_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 75,
+        "name": "analyze_audio_mood",
+        "owner": "music_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 75,
+        "name": "get_audio_files",
+        "owner": "music_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 75,
+        "name": "select_best_track",
+        "owner": "music_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 134,
+        "name": "check_ffmpeg_installed",
+        "owner": "engineer_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 134,
+        "name": "create_slideshow",
+        "owner": "engineer_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 177,
+        "name": "approve_plan",
+        "owner": "root_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 177,
+        "name": "cleanup_workspace",
+        "owner": "root_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 177,
+        "name": "create_job_workspace",
+        "owner": "root_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 177,
+        "name": "generate_storyboard",
+        "owner": "root_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 177,
+        "name": "stage_files",
+        "owner": "root_agent",
+        "path": "agents/definitions.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 152,
+        "name": "polish_images_tool",
+        "owner": "polisher_agent",
+        "path": "agents/pipelines/ingestion.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 165,
+        "name": "curate_collection_tool",
+        "owner": "curator_agent",
+        "path": "agents/pipelines/ingestion.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 178,
+        "name": "sequence_story_tool",
+        "owner": "sequencer_agent",
+        "path": "agents/pipelines/ingestion.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 191,
+        "name": "refine_sequence_tool",
+        "owner": "refiner_agent",
+        "path": "agents/pipelines/ingestion.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "music_selector",
+          "target_kind": "tool",
+          "target_name": "analyze_audio_mood"
+        },
+        {
+          "agent": "music_selector",
+          "target_kind": "tool",
+          "target_name": "get_audio_files"
+        },
+        {
+          "agent": "music_selector",
+          "target_kind": "tool",
+          "target_name": "select_best_track"
+        },
+        {
+          "agent": "software_engineer",
+          "target_kind": "tool",
+          "target_name": "check_ffmpeg_installed"
+        },
+        {
+          "agent": "software_engineer",
+          "target_kind": "tool",
+          "target_name": "create_slideshow"
+        },
+        {
+          "agent": "root_agent",
+          "target_kind": "tool",
+          "target_name": "approve_plan"
+        },
+        {
+          "agent": "root_agent",
+          "target_kind": "tool",
+          "target_name": "cleanup_workspace"
+        },
+        {
+          "agent": "root_agent",
+          "target_kind": "tool",
+          "target_name": "create_job_workspace"
+        },
+        {
+          "agent": "root_agent",
+          "target_kind": "tool",
+          "target_name": "generate_storyboard"
+        },
+        {
+          "agent": "root_agent",
+          "target_kind": "tool",
+          "target_name": "stage_files"
+        },
+        {
+          "agent": "polisher_agent",
+          "target_kind": "tool",
+          "target_name": "polish_images_tool"
+        },
+        {
+          "agent": "curator_agent",
+          "target_kind": "tool",
+          "target_name": "curate_collection_tool"
+        },
+        {
+          "agent": "sequencer_agent",
+          "target_kind": "tool",
+          "target_name": "sequence_story_tool"
+        },
+        {
+          "agent": "refiner_agent",
+          "target_kind": "tool",
+          "target_name": "refine_sequence_tool"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "music_selector",
+        "line": 75,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "analyze_audio_mood"
+      },
+      {
+        "agent": "music_selector",
+        "line": 75,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "get_audio_files"
+      },
+      {
+        "agent": "music_selector",
+        "line": 75,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "select_best_track"
+      },
+      {
+        "agent": "software_engineer",
+        "line": 134,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "check_ffmpeg_installed"
+      },
+      {
+        "agent": "software_engineer",
+        "line": 134,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "create_slideshow"
+      },
+      {
+        "agent": "root_agent",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "approve_plan"
+      },
+      {
+        "agent": "root_agent",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "cleanup_workspace"
+      },
+      {
+        "agent": "root_agent",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "create_job_workspace"
+      },
+      {
+        "agent": "root_agent",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "generate_storyboard"
+      },
+      {
+        "agent": "root_agent",
+        "line": 177,
+        "path": "agents/definitions.py",
+        "target_kind": "tool",
+        "target_name": "stage_files"
+      },
+      {
+        "agent": "polisher_agent",
+        "line": 152,
+        "path": "agents/pipelines/ingestion.py",
+        "target_kind": "tool",
+        "target_name": "polish_images_tool"
+      },
+      {
+        "agent": "curator_agent",
+        "line": 165,
+        "path": "agents/pipelines/ingestion.py",
+        "target_kind": "tool",
+        "target_name": "curate_collection_tool"
+      },
+      {
+        "agent": "sequencer_agent",
+        "line": 178,
+        "path": "agents/pipelines/ingestion.py",
+        "target_kind": "tool",
+        "target_name": "sequence_story_tool"
+      },
+      {
+        "agent": "refiner_agent",
+        "line": 191,
+        "path": "agents/pipelines/ingestion.py",
+        "target_kind": "tool",
+        "target_name": "refine_sequence_tool"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "process_execution",
+      "filesystem_write",
+      "approval_controls",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "filesystem_write",
+      "process_execution"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

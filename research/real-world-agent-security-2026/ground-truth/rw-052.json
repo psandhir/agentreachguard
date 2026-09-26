@@ -1,0 +1,663 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-052.A001",
+      "evidence": [
+        {
+          "line": 883,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A002",
+      "evidence": [
+        {
+          "line": 886,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A003",
+      "evidence": [
+        {
+          "line": 1050,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A004",
+      "evidence": [
+        {
+          "line": 1053,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A005",
+      "evidence": [
+        {
+          "line": 1054,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "resolve_entities",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A006",
+      "evidence": [
+        {
+          "line": 1283,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A007",
+      "evidence": [
+        {
+          "line": 1286,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A008",
+      "evidence": [
+        {
+          "line": 1287,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "resolve_entities",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A009",
+      "evidence": [
+        {
+          "line": 1288,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "invalidate_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A010",
+      "evidence": [
+        {
+          "line": 1610,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A011",
+      "evidence": [
+        {
+          "line": 1613,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A012",
+      "evidence": [
+        {
+          "line": 1614,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A013",
+      "evidence": [
+        {
+          "line": 891,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A014",
+      "evidence": [
+        {
+          "line": 894,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A015",
+      "evidence": [
+        {
+          "line": 1058,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A016",
+      "evidence": [
+        {
+          "line": 1061,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A017",
+      "evidence": [
+        {
+          "line": 1062,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "resolve_entities",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A018",
+      "evidence": [
+        {
+          "line": 1291,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A019",
+      "evidence": [
+        {
+          "line": 1294,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "extract_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A020",
+      "evidence": [
+        {
+          "line": 1295,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "resolve_entities",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A021",
+      "evidence": [
+        {
+          "line": 1296,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "invalidate_events",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A022",
+      "evidence": [
+        {
+          "line": 1618,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A023",
+      "evidence": [
+        {
+          "line": 1621,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A024",
+      "evidence": [
+        {
+          "line": 1622,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A025",
+      "evidence": [
+        {
+          "line": 1518,
+          "path": "temporal_agent_pipeline.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "factual_qa",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-052",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-052.A026",
+      "evidence": [
+        {
+          "line": 1526,
+          "path": "unstructured_guide.ipynb",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "factual_qa",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-052",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-052",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "temporal_agent_pipeline.ipynb",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "FareedKhan-dev/temporal-ai-agent-pipeline",
+    "sha": "51d928a6d4e89f7f2881b7776acfef244ea21196"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 883,
+        "name": "workflow",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 886,
+        "name": "extract_events",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1050,
+        "name": "workflow",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1053,
+        "name": "extract_events",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1054,
+        "name": "resolve_entities",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "resolve_entities"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1283,
+        "name": "workflow",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1286,
+        "name": "extract_events",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1287,
+        "name": "resolve_entities",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "resolve_entities"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1288,
+        "name": "invalidate_events",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "invalidate_events"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1610,
+        "name": "workflow",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1613,
+        "name": "agent",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1614,
+        "name": "action",
+        "path": "temporal_agent_pipeline.ipynb",
+        "variable": "action"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 891,
+        "name": "workflow",
+        "path": "unstructured_guide.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 894,
+        "name": "extract_events",
+        "path": "unstructured_guide.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1058,
+        "name": "workflow",
+        "path": "unstructured_guide.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1061,
+        "name": "extract_events",
+        "path": "unstructured_guide.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1062,
+        "name": "resolve_entities",
+        "path": "unstructured_guide.ipynb",
+        "variable": "resolve_entities"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1291,
+        "name": "workflow",
+        "path": "unstructured_guide.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1294,
+        "name": "extract_events",
+        "path": "unstructured_guide.ipynb",
+        "variable": "extract_events"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1295,
+        "name": "resolve_entities",
+        "path": "unstructured_guide.ipynb",
+        "variable": "resolve_entities"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1296,
+        "name": "invalidate_events",
+        "path": "unstructured_guide.ipynb",
+        "variable": "invalidate_events"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 1618,
+        "name": "workflow",
+        "path": "unstructured_guide.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1621,
+        "name": "agent",
+        "path": "unstructured_guide.ipynb",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1622,
+        "name": "action",
+        "path": "unstructured_guide.ipynb",
+        "variable": "action"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 1518,
+        "name": "factual_qa",
+        "path": "temporal_agent_pipeline.ipynb"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 1526,
+        "name": "factual_qa",
+        "path": "unstructured_guide.ipynb"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

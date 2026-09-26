@@ -1,0 +1,115 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-074.A001",
+      "evidence": [
+        {
+          "line": 258,
+          "path": "agent/main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph_builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-074.A002",
+      "evidence": [
+        {
+          "line": 259,
+          "path": "agent/main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "chat",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-074.A003",
+      "evidence": [
+        {
+          "line": 260,
+          "path": "agent/main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tool_call",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-074",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent/main.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "MKRNaqeebi/GenAlima",
+    "sha": "e237b03c69a80ec69197a3d0532719b66439e7fa"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 258,
+        "name": "graph_builder",
+        "path": "agent/main.py",
+        "variable": "graph_builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 259,
+        "name": "chat",
+        "path": "agent/main.py",
+        "variable": "chat"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 260,
+        "name": "tool_call",
+        "path": "agent/main.py",
+        "variable": "tool_call"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 5,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

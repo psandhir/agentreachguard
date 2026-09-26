@@ -1,0 +1,1816 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "summary": {
+    "cases": 180,
+    "fetch_failures": 2,
+    "assertions": 2088,
+    "explicit_agent_entities": 689,
+    "explicit_tools": 1115,
+    "explicit_mcp_servers": 22,
+    "explicit_delegation_edges": 85,
+    "agent_complete_cases": 71
+  },
+  "cases": [
+    {
+      "case_id": "rw-001",
+      "fetch_error": null,
+      "assertions": 14,
+      "agents": 14,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-002",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 8,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-003",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 10,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-004",
+      "fetch_error": null,
+      "assertions": 28,
+      "agents": 2,
+      "tools": 26,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-005",
+      "fetch_error": null,
+      "assertions": 25,
+      "agents": 5,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 4,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-006",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-007",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-008",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 5,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 3,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-009",
+      "fetch_error": null,
+      "assertions": 33,
+      "agents": 11,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 10,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-010",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-011",
+      "fetch_error": null,
+      "assertions": 35,
+      "agents": 19,
+      "tools": 16,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-012",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-013",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 2,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-014",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-015",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 4,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 3,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-016",
+      "fetch_error": null,
+      "assertions": 14,
+      "agents": 9,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 5,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-017",
+      "fetch_error": null,
+      "assertions": 19,
+      "agents": 4,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 3,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-018",
+      "fetch_error": null,
+      "assertions": 21,
+      "agents": 10,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 9,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-019",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 3,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 2,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-020",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 8,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-021",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 4,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 3,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-022",
+      "fetch_error": null,
+      "assertions": 34,
+      "agents": 11,
+      "tools": 17,
+      "mcp_servers": 6,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-023",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 2,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 4,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-024",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-025",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 2,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-026",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-027",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 3,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-028",
+      "fetch_error": null,
+      "assertions": 13,
+      "agents": 4,
+      "tools": 4,
+      "mcp_servers": 1,
+      "delegation_edges": 2,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-029",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 5,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 2,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-030",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-031",
+      "fetch_error": null,
+      "assertions": 13,
+      "agents": 1,
+      "tools": 11,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-032",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 1,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-033",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-034",
+      "fetch_error": null,
+      "assertions": 31,
+      "agents": 6,
+      "tools": 9,
+      "mcp_servers": 0,
+      "delegation_edges": 7,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-035",
+      "fetch_error": null,
+      "assertions": 58,
+      "agents": 7,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-036",
+      "fetch_error": null,
+      "assertions": 49,
+      "agents": 11,
+      "tools": 14,
+      "mcp_servers": 0,
+      "delegation_edges": 10,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-037",
+      "fetch_error": null,
+      "assertions": 12,
+      "agents": 6,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 4,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-038",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 1,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-039",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-040",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-041",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 6,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-042",
+      "fetch_error": null,
+      "assertions": 98,
+      "agents": 95,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-043",
+      "fetch_error": null,
+      "assertions": 9,
+      "agents": 8,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-044",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 1,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-045",
+      "fetch_error": null,
+      "assertions": 20,
+      "agents": 12,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-046",
+      "fetch_error": null,
+      "assertions": 30,
+      "agents": 16,
+      "tools": 14,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-047",
+      "fetch_error": null,
+      "assertions": 23,
+      "agents": 19,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-048",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 4,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-049",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 1,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-050",
+      "fetch_error": null,
+      "assertions": 32,
+      "agents": 7,
+      "tools": 25,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-051",
+      "fetch_error": null,
+      "assertions": 26,
+      "agents": 20,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-052",
+      "fetch_error": null,
+      "assertions": 26,
+      "agents": 24,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-053",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 3,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-054",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 2,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-055",
+      "fetch_error": null,
+      "assertions": 21,
+      "agents": 15,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-056",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-057",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 4,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-058",
+      "fetch_error": null,
+      "assertions": 14,
+      "agents": 5,
+      "tools": 9,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-059",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-060",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 2,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-061",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 4,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-062",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 4,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-063",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 3,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-064",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 6,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-065",
+      "fetch_error": null,
+      "assertions": 17,
+      "agents": 3,
+      "tools": 14,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-066",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 3,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-067",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 3,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-068",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 6,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-069",
+      "fetch_error": null,
+      "assertions": 25,
+      "agents": 18,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-070",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 5,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-071",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 4,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-072",
+      "fetch_error": "application_path_missing:agents/base/react.py",
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-073",
+      "fetch_error": null,
+      "assertions": 30,
+      "agents": 24,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-074",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 3,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-075",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 3,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-076",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 0,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-077",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-078",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 2,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-079",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-080",
+      "fetch_error": null,
+      "assertions": 28,
+      "agents": 0,
+      "tools": 28,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-081",
+      "fetch_error": null,
+      "assertions": 42,
+      "agents": 0,
+      "tools": 42,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-082",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 0,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-083",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-084",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-085",
+      "fetch_error": null,
+      "assertions": 140,
+      "agents": 0,
+      "tools": 140,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-086",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-087",
+      "fetch_error": null,
+      "assertions": 33,
+      "agents": 0,
+      "tools": 33,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-088",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-089",
+      "fetch_error": null,
+      "assertions": 46,
+      "agents": 0,
+      "tools": 46,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-090",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 3,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-091",
+      "fetch_error": null,
+      "assertions": 16,
+      "agents": 2,
+      "tools": 14,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-092",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 3,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-093",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-094",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 0,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-095",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 3,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-096",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 4,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-097",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-098",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 0,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-099",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 0,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-100",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 0,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-101",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 0,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-102",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 0,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-103",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-104",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-105",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-106",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 0,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-107",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-108",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 0,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-109",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 0,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-110",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-111",
+      "fetch_error": null,
+      "assertions": 15,
+      "agents": 0,
+      "tools": 14,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-112",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 0,
+      "tools": 11,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-113",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-114",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-115",
+      "fetch_error": null,
+      "assertions": 18,
+      "agents": 2,
+      "tools": 16,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-116",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 0,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-117",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 0,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-118",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 0,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-119",
+      "fetch_error": null,
+      "assertions": 15,
+      "agents": 1,
+      "tools": 14,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-120",
+      "fetch_error": null,
+      "assertions": 10,
+      "agents": 2,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-121",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 1,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-122",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 0,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-123",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-124",
+      "fetch_error": null,
+      "assertions": 179,
+      "agents": 41,
+      "tools": 80,
+      "mcp_servers": 2,
+      "delegation_edges": 11,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-125",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-126",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-127",
+      "fetch_error": null,
+      "assertions": 9,
+      "agents": 2,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-128",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 3,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-129",
+      "fetch_error": null,
+      "assertions": 59,
+      "agents": 18,
+      "tools": 41,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-130",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 2,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-131",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 1,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-132",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 2,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-133",
+      "fetch_error": null,
+      "assertions": 12,
+      "agents": 2,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-134",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-135",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-136",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-137",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-138",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-139",
+      "fetch_error": null,
+      "assertions": 19,
+      "agents": 3,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-140",
+      "fetch_error": null,
+      "assertions": 13,
+      "agents": 1,
+      "tools": 8,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-141",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 0,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-142",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 2,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-143",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-144",
+      "fetch_error": null,
+      "assertions": 9,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-145",
+      "fetch_error": null,
+      "assertions": 39,
+      "agents": 15,
+      "tools": 24,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-146",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-147",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 1,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-148",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 2,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-149",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-150",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-151",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 3,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-152",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 3,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-153",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-154",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 0,
+      "tools": 6,
+      "mcp_servers": 2,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-155",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 1,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-156",
+      "fetch_error": null,
+      "assertions": 8,
+      "agents": 1,
+      "tools": 7,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-157",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-158",
+      "fetch_error": null,
+      "assertions": 30,
+      "agents": 1,
+      "tools": 28,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-159",
+      "fetch_error": null,
+      "assertions": 7,
+      "agents": 1,
+      "tools": 6,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-160",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 1,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-161",
+      "fetch_error": null,
+      "assertions": 9,
+      "agents": 1,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-162",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-163",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 2,
+      "tools": 4,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-164",
+      "fetch_error": null,
+      "assertions": 1,
+      "agents": 0,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-165",
+      "fetch_error": null,
+      "assertions": 13,
+      "agents": 1,
+      "tools": 12,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-166",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-167",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 1,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-168",
+      "fetch_error": null,
+      "assertions": 13,
+      "agents": 0,
+      "tools": 13,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-169",
+      "fetch_error": "application_path_missing:agent_c",
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-170",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-171",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 2,
+      "tools": 3,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-172",
+      "fetch_error": null,
+      "assertions": 5,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-173",
+      "fetch_error": null,
+      "assertions": 16,
+      "agents": 1,
+      "tools": 10,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-174",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 11,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-175",
+      "fetch_error": null,
+      "assertions": 3,
+      "agents": 1,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-176",
+      "fetch_error": null,
+      "assertions": 0,
+      "agents": 0,
+      "tools": 0,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-177",
+      "fetch_error": null,
+      "assertions": 11,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": false
+    },
+    {
+      "case_id": "rw-178",
+      "fetch_error": null,
+      "assertions": 6,
+      "agents": 1,
+      "tools": 5,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-179",
+      "fetch_error": null,
+      "assertions": 4,
+      "agents": 2,
+      "tools": 2,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    },
+    {
+      "case_id": "rw-180",
+      "fetch_error": null,
+      "assertions": 2,
+      "agents": 1,
+      "tools": 1,
+      "mcp_servers": 0,
+      "delegation_edges": 0,
+      "complete_agents": true
+    }
+  ]
+}

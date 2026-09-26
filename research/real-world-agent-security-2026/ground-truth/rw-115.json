@@ -1,0 +1,477 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-115.A001",
+      "evidence": [
+        {
+          "line": 532,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A002",
+      "evidence": [
+        {
+          "line": 540,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A003",
+      "evidence": [
+        {
+          "line": 288,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_customer_sentiment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A004",
+      "evidence": [
+        {
+          "line": 323,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_account_balance",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A005",
+      "evidence": [
+        {
+          "line": 334,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_account_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A006",
+      "evidence": [
+        {
+          "line": 345,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_recent_transactions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A007",
+      "evidence": [
+        {
+          "line": 359,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_exchange_rate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A008",
+      "evidence": [
+        {
+          "line": 373,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "lookup_customer",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A009",
+      "evidence": [
+        {
+          "line": 384,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "transfer_funds",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A010",
+      "evidence": [
+        {
+          "line": 411,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_account",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-115",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A011",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_account_balance",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A012",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_account_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A013",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_recent_transactions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A014",
+      "evidence": [
+        {
+          "line": 83,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_exchange_rate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A015",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "lookup_customer",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A016",
+      "evidence": [
+        {
+          "line": 112,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "transfer_funds",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A017",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_customer_sentiment",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-115.A018",
+      "evidence": [
+        {
+          "line": 151,
+          "path": "mcp_server/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_account",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-115",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Meer-Promethean/Voice_Agent",
+    "sha": "f7e94334c253eb058ace3ff23655290b17b7a8ac"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 532,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 540,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 18,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 288,
+        "name": "save_customer_sentiment",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 323,
+        "name": "get_account_balance",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 334,
+        "name": "get_account_info",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 345,
+        "name": "get_recent_transactions",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 359,
+        "name": "get_exchange_rate",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 373,
+        "name": "lookup_customer",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 384,
+        "name": "transfer_funds",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 411,
+        "name": "create_account",
+        "path": "agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 40,
+        "name": "get_account_balance",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 54,
+        "name": "get_account_info",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 68,
+        "name": "get_recent_transactions",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 83,
+        "name": "get_exchange_rate",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 98,
+        "name": "lookup_customer",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 112,
+        "name": "transfer_funds",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 134,
+        "name": "save_customer_sentiment",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 151,
+        "name": "create_account",
+        "owner": "mcp",
+        "path": "mcp_server/server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "sensitive_resource_access",
+      "external_write_or_network",
+      "multiple_trust_boundaries",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "mcp_usage",
+      "multiple_trust_boundaries",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

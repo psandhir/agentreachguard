@@ -1,0 +1,758 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-050.A001",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph_builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A002",
+      "evidence": [
+        {
+          "line": 76,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "chatbot",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A003",
+      "evidence": [
+        {
+          "line": 79,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A004",
+      "evidence": [
+        {
+          "line": 72,
+          "path": "writer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph_builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A005",
+      "evidence": [
+        {
+          "line": 282,
+          "path": "writer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "writer_bot",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A006",
+      "evidence": [
+        {
+          "line": 285,
+          "path": "writer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A007",
+      "evidence": [
+        {
+          "line": 286,
+          "path": "writer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "review",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A008",
+      "evidence": [
+        {
+          "line": 19,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_chapter_infos_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A009",
+      "evidence": [
+        {
+          "line": 34,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_chapter_info_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A010",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_chapter_by_title_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A011",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_chapter_by_index_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A012",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_chapter_tool_to_end_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A013",
+      "evidence": [
+        {
+          "line": 100,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_chapter_tool_after_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A014",
+      "evidence": [
+        {
+          "line": 125,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_chapter_tool_before_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A015",
+      "evidence": [
+        {
+          "line": 148,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "replace_chapter_intent_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A016",
+      "evidence": [
+        {
+          "line": 164,
+          "path": "agent_tools/chapter_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "replace_chapter_title_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A017",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "agent_tools/outline_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_outline_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A018",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_entity_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A019",
+      "evidence": [
+        {
+          "line": 80,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_edge_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A020",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_graph_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A021",
+      "evidence": [
+        {
+          "line": 263,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_entity_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A022",
+      "evidence": [
+        {
+          "line": 335,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_edge_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A023",
+      "evidence": [
+        {
+          "line": 388,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_related_edges_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A024",
+      "evidence": [
+        {
+          "line": 444,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_edges_between_entities_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A025",
+      "evidence": [
+        {
+          "line": 480,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_entity_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A026",
+      "evidence": [
+        {
+          "line": 501,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delete_edge_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A027",
+      "evidence": [
+        {
+          "line": 522,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "append_entity_attributes_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A028",
+      "evidence": [
+        {
+          "line": 559,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "replace_entity_attributes_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A029",
+      "evidence": [
+        {
+          "line": 598,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "append_edge_attributes_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A030",
+      "evidence": [
+        {
+          "line": 635,
+          "path": "agent_tools/world_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "replace_edge_attributes_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A031",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "agent_tools/writer_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_paragraph_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-050.A032",
+      "evidence": [
+        {
+          "line": 76,
+          "path": "writer_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "switch_writing_state_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-050",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-050",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "shadow3aaa/PlotWeave",
+    "sha": "47cc89bae2c88a65f7af2b6ca2507c97dd2e549f"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 69,
+        "name": "graph_builder",
+        "path": "agent.py",
+        "variable": "graph_builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 76,
+        "name": "chatbot",
+        "path": "agent.py",
+        "variable": "chatbot"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 79,
+        "name": "tools",
+        "path": "agent.py",
+        "variable": "tools"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 72,
+        "name": "graph_builder",
+        "path": "writer_agent.py",
+        "variable": "graph_builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 282,
+        "name": "writer_bot",
+        "path": "writer_agent.py",
+        "variable": "writer_bot"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 285,
+        "name": "tools",
+        "path": "writer_agent.py",
+        "variable": "tools"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 286,
+        "name": "review",
+        "path": "writer_agent.py",
+        "variable": "review"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 60,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 19,
+        "name": "get_chapter_infos_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 34,
+        "name": "get_chapter_info_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 48,
+        "name": "delete_chapter_by_title_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 63,
+        "name": "delete_chapter_by_index_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 81,
+        "name": "add_chapter_tool_to_end_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 100,
+        "name": "add_chapter_tool_after_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 125,
+        "name": "add_chapter_tool_before_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 148,
+        "name": "replace_chapter_intent_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 164,
+        "name": "replace_chapter_title_tool",
+        "path": "agent_tools/chapter_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 8,
+        "name": "get_outline_tool",
+        "path": "agent_tools/outline_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 40,
+        "name": "add_entity_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 80,
+        "name": "add_edge_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 177,
+        "name": "search_graph_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 263,
+        "name": "get_entity_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 335,
+        "name": "get_edge_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 388,
+        "name": "get_related_edges_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 444,
+        "name": "get_edges_between_entities_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 480,
+        "name": "delete_entity_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 501,
+        "name": "delete_edge_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 522,
+        "name": "append_entity_attributes_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 559,
+        "name": "replace_entity_attributes_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 598,
+        "name": "append_edge_attributes_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 635,
+        "name": "replace_edge_attributes_tool",
+        "path": "agent_tools/world_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 40,
+        "name": "add_paragraph_tool",
+        "path": "agent_tools/writer_tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 76,
+        "name": "switch_writing_state_tool",
+        "path": "writer_agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

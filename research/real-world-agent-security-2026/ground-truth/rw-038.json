@@ -1,0 +1,163 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-038.A001",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "APDM",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-038.A002",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "malware_detector_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "coordinator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-038.A003",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "phishing_detector_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "coordinator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-038.A004",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "threat_score_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "coordinator_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-038.A005",
+      "evidence": [
+        {
+          "line": 11,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "url_checker_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "coordinator_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-038",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "elitepunith/apdm-agent",
+    "sha": "c2f30462bc8663bec5c4046dc62006f52889c19a"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "coordinator_agent"
+        ],
+        "kind": "Agent",
+        "line": 11,
+        "name": "APDM",
+        "path": "agent.py",
+        "variable": "coordinator_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 9,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 11,
+        "name": "malware_detector_tool",
+        "owner": "coordinator_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 11,
+        "name": "phishing_detector_tool",
+        "owner": "coordinator_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 11,
+        "name": "threat_score_tool",
+        "owner": "coordinator_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 11,
+        "name": "url_checker_tool",
+        "owner": "coordinator_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

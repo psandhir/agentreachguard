@@ -1,0 +1,394 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-140.A001",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A002",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_github_repo_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A003",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_crawl",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A004",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_scrape",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A005",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A006",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "app/llm/tools/github.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_github_repo_content",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-140",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A007",
+      "evidence": [
+        {
+          "line": 12,
+          "path": "app/llm/tools/tavily.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-140",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A008",
+      "evidence": [
+        {
+          "line": 55,
+          "path": "app/llm/tools/tavily.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_crawl",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-140",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.A009",
+      "evidence": [
+        {
+          "line": 88,
+          "path": "app/llm/tools/tavily.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "tavily_scrape",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-140",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-140.B001",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_github_repo_content"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-140.B002",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "tavily_crawl"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-140.B003",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "tavily_scrape"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-140.B004",
+      "evidence": [
+        {
+          "line": 31,
+          "path": "app/llm/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "tavily_search"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-140",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "app/llm/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "indrazm/ai-discord-bot",
+    "sha": "c2fb1924fc8efe7b2eed3929396f0281ae162585"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 31,
+        "name": "agent",
+        "path": "app/llm/agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 31,
+        "name": "get_github_repo_content",
+        "owner": "agent",
+        "path": "app/llm/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 31,
+        "name": "tavily_crawl",
+        "owner": "agent",
+        "path": "app/llm/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 31,
+        "name": "tavily_scrape",
+        "owner": "agent",
+        "path": "app/llm/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 31,
+        "name": "tavily_search",
+        "owner": "agent",
+        "path": "app/llm/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 6,
+        "name": "get_github_repo_content",
+        "path": "app/llm/tools/github.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 12,
+        "name": "tavily_search",
+        "path": "app/llm/tools/tavily.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 55,
+        "name": "tavily_crawl",
+        "path": "app/llm/tools/tavily.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 88,
+        "name": "tavily_scrape",
+        "path": "app/llm/tools/tavily.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "get_github_repo_content"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "tavily_crawl"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "tavily_scrape"
+        },
+        {
+          "agent": "agent",
+          "target_kind": "tool",
+          "target_name": "tavily_search"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "agent",
+        "line": 31,
+        "path": "app/llm/agent.py",
+        "target_kind": "tool",
+        "target_name": "get_github_repo_content"
+      },
+      {
+        "agent": "agent",
+        "line": 31,
+        "path": "app/llm/agent.py",
+        "target_kind": "tool",
+        "target_name": "tavily_crawl"
+      },
+      {
+        "agent": "agent",
+        "line": 31,
+        "path": "app/llm/agent.py",
+        "target_kind": "tool",
+        "target_name": "tavily_scrape"
+      },
+      {
+        "agent": "agent",
+        "line": 31,
+        "path": "app/llm/agent.py",
+        "target_kind": "tool",
+        "target_name": "tavily_search"
+      }
+    ],
+    "eligibility_signals": [
+      "mcp",
+      "github_access",
+      "web_crawl",
+      "discord_surface"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

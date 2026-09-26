@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
-  "phase": "cohort_frozen_truth_pending",
+  "phase": "ground_truth_locked",
   "scanner_freeze_sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
   "cohort_frozen": true,
   "horustrace_results_used_for_selection": false,
@@ -1733,5 +1733,26 @@
     "source_review_complete": true,
     "reason": "After complete 381-repository screening and a dedicated deployment/IAM source review, only four defensible deployment-identity cases survived the independently selected broad cohort. The methodology preregisters this scarcity as a reportable result; no weak cases were promoted to satisfy the target."
   },
-  "ground_truth_locked": false
+  "ground_truth_locked": true,
+  "ground_truth_reference": {
+    "method_version": "source-reference-v1",
+    "locked_at": "2026-09-26",
+    "automated_dual_pass": true,
+    "human_dual_review": false,
+    "summary": {
+      "cases": 180,
+      "fetch_failures": 2,
+      "assertions": 2088,
+      "explicit_agent_entities": 689,
+      "explicit_tools": 1115,
+      "explicit_mcp_servers": 22,
+      "explicit_delegation_edges": 85,
+      "agent_complete_cases": 71
+    },
+    "limitations": [
+      "automated source reference is not a substitute for independent human dual adjudication",
+      "precision is reported only where reference completeness is explicitly established",
+      "dynamic/runtime constructs remain unresolved"
+    ]
+  }
 }

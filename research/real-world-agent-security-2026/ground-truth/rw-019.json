@@ -1,0 +1,220 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-019.A001",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "BronzeToSilverAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A002",
+      "evidence": [
+        {
+          "line": 60,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "SilverToGoldAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A003",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "BSG_Pipeline_Orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A004",
+      "evidence": [
+        {
+          "line": 47,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_bronze_to_silver",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "bronze_to_silver_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A005",
+      "evidence": [
+        {
+          "line": 60,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "process_silver_to_gold",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "silver_to_gold_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A006",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "BronzeToSilverAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "BSG_Pipeline_Orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-019.A007",
+      "evidence": [
+        {
+          "line": 73,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "SilverToGoldAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "BSG_Pipeline_Orchestrator",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-019",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "pedapallisuresh/Data-Pipeline-Agent",
+    "sha": "6944f549cfcb30685dbf2038bc5ba1ccab08299a"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "bronze_to_silver_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 47,
+        "name": "BronzeToSilverAgent",
+        "path": "agent.py",
+        "variable": "bronze_to_silver_agent"
+      },
+      {
+        "aliases": [
+          "silver_to_gold_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 60,
+        "name": "SilverToGoldAgent",
+        "path": "agent.py",
+        "variable": "silver_to_gold_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "SequentialAgent",
+        "line": 73,
+        "name": "BSG_Pipeline_Orchestrator",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 73,
+        "path": "agent.py",
+        "source": "BSG_Pipeline_Orchestrator",
+        "source_variable": "root_agent",
+        "target": "BronzeToSilverAgent",
+        "target_variable": "bronze_to_silver_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 73,
+        "path": "agent.py",
+        "source": "BSG_Pipeline_Orchestrator",
+        "source_variable": "root_agent",
+        "target": "SilverToGoldAgent",
+        "target_variable": "silver_to_gold_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 47,
+        "name": "process_bronze_to_silver",
+        "owner": "bronze_to_silver_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 60,
+        "name": "process_silver_to_gold",
+        "owner": "silver_to_gold_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

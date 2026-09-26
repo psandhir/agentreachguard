@@ -1,0 +1,395 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-111.A001",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "mcp_servers/database_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_tables",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A002",
+      "evidence": [
+        {
+          "line": 112,
+          "path": "mcp_servers/database_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "describe_table",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A003",
+      "evidence": [
+        {
+          "line": 163,
+          "path": "mcp_servers/database_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_data",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A004",
+      "evidence": [
+        {
+          "line": 223,
+          "path": "mcp_servers/database_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_database_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A005",
+      "evidence": [
+        {
+          "line": 127,
+          "path": "mcp_servers/filesystem_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_directory",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A006",
+      "evidence": [
+        {
+          "line": 165,
+          "path": "mcp_servers/filesystem_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A007",
+      "evidence": [
+        {
+          "line": 200,
+          "path": "mcp_servers/filesystem_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "write_file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A008",
+      "evidence": [
+        {
+          "line": 229,
+          "path": "mcp_servers/filesystem_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "read_csv_preview",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A009",
+      "evidence": [
+        {
+          "line": 282,
+          "path": "mcp_servers/filesystem_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_csv_stats",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A010",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "mcp_servers/sqlite_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_tables",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A011",
+      "evidence": [
+        {
+          "line": 61,
+          "path": "mcp_servers/sqlite_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "describe_table",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A012",
+      "evidence": [
+        {
+          "line": 104,
+          "path": "mcp_servers/sqlite_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "query_data",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A013",
+      "evidence": [
+        {
+          "line": 139,
+          "path": "mcp_servers/sqlite_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "execute_write",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A014",
+      "evidence": [
+        {
+          "line": 166,
+          "path": "mcp_servers/sqlite_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_database_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-111.A015",
+      "evidence": [
+        {
+          "line": 191,
+          "path": "tests/unit/test_models.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "database",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-111",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-111",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agents.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Pragna-echuri/Agentic-Autonomous-Data-Analyst-Platform",
+    "sha": "ddc464a7585e6c7c82957357bd243e2254579104"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [
+      {
+        "aliases": [
+          "server"
+        ],
+        "kind": "MCPServerInfo",
+        "line": 191,
+        "name": "database",
+        "path": "tests/unit/test_models.py",
+        "variable": "server"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 49,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 98,
+        "name": "list_tables",
+        "owner": "mcp",
+        "path": "mcp_servers/database_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 112,
+        "name": "describe_table",
+        "owner": "mcp",
+        "path": "mcp_servers/database_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 163,
+        "name": "query_data",
+        "owner": "mcp",
+        "path": "mcp_servers/database_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 223,
+        "name": "get_database_info",
+        "owner": "mcp",
+        "path": "mcp_servers/database_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 127,
+        "name": "list_directory",
+        "owner": "mcp",
+        "path": "mcp_servers/filesystem_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 165,
+        "name": "read_file",
+        "owner": "mcp",
+        "path": "mcp_servers/filesystem_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 200,
+        "name": "write_file",
+        "owner": "mcp",
+        "path": "mcp_servers/filesystem_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 229,
+        "name": "read_csv_preview",
+        "owner": "mcp",
+        "path": "mcp_servers/filesystem_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 282,
+        "name": "get_csv_stats",
+        "owner": "mcp",
+        "path": "mcp_servers/filesystem_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 44,
+        "name": "list_tables",
+        "owner": "mcp",
+        "path": "mcp_servers/sqlite_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 61,
+        "name": "describe_table",
+        "owner": "mcp",
+        "path": "mcp_servers/sqlite_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 104,
+        "name": "query_data",
+        "owner": "mcp",
+        "path": "mcp_servers/sqlite_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 139,
+        "name": "execute_write",
+        "owner": "mcp",
+        "path": "mcp_servers/sqlite_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 166,
+        "name": "get_database_info",
+        "owner": "mcp",
+        "path": "mcp_servers/sqlite_server.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

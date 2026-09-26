@@ -1,0 +1,115 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-092.A001",
+      "evidence": [
+        {
+          "line": 333,
+          "path": "awscli_claude.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-092",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-092.A002",
+      "evidence": [
+        {
+          "line": 408,
+          "path": "azurecli_claude.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-092",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-092.A003",
+      "evidence": [
+        {
+          "line": 540,
+          "path": "gcpcli_claude.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-092",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-092",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent_runner.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "nandangupta-security/CloudSecAIBot",
+    "sha": "7847614f8439bf053d32e8db7fa33675440ed873"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "AWSMCPServer",
+        "line": 333,
+        "name": "server",
+        "path": "awscli_claude.py",
+        "variable": "server"
+      },
+      {
+        "kind": "AzureMCPServer",
+        "line": 408,
+        "name": "server",
+        "path": "azurecli_claude.py",
+        "variable": "server"
+      },
+      {
+        "kind": "GCPMCPServer",
+        "line": 540,
+        "name": "server",
+        "path": "gcpcli_claude.py",
+        "variable": "server"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 10,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

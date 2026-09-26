@@ -1,0 +1,183 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-178.A001",
+      "evidence": [
+        {
+          "line": 80,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-178.A002",
+      "evidence": [
+        {
+          "line": 97,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "reply",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-178.A003",
+      "evidence": [
+        {
+          "line": 108,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_commands",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-178.A004",
+      "evidence": [
+        {
+          "line": 132,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "run_command",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-178.A005",
+      "evidence": [
+        {
+          "line": 169,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "toggle_feature",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-178.A006",
+      "evidence": [
+        {
+          "line": 175,
+          "path": "src/ai/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_group_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-178",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "src/ai/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "MhankBarBar/zero-ichi",
+    "sha": "e4c4ae87ce7b81009b4dd4bc6e671a512e8d2bd6"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 80,
+        "name": "agent",
+        "path": "src/ai/agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 7,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 97,
+        "name": "reply",
+        "owner": "agent",
+        "path": "src/ai/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 108,
+        "name": "get_commands",
+        "owner": "agent",
+        "path": "src/ai/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 132,
+        "name": "run_command",
+        "owner": "agent",
+        "path": "src/ai/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 169,
+        "name": "toggle_feature",
+        "owner": "agent",
+        "path": "src/ai/agent.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 175,
+        "name": "get_group_info",
+        "owner": "agent",
+        "path": "src/ai/agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

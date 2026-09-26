@@ -1,0 +1,274 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-094.A001",
+      "evidence": [
+        {
+          "line": 29,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ver_menu_completo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A002",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ver_menu_por_categoria",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A003",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "buscar_platillo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A004",
+      "evidence": [
+        {
+          "line": 91,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "consultar_inventario_platillo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A005",
+      "evidence": [
+        {
+          "line": 100,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "consultar_todo_inventario",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A006",
+      "evidence": [
+        {
+          "line": 113,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "agregar_inventario",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A007",
+      "evidence": [
+        {
+          "line": 120,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "reducir_inventario",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A008",
+      "evidence": [
+        {
+          "line": 127,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ver_movimientos_inventario",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A009",
+      "evidence": [
+        {
+          "line": 144,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "leer_informacion_restaurante",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-094.A010",
+      "evidence": [
+        {
+          "line": 153,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "leer_archivo",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-094",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Josuehmz/AIAssistant",
+    "sha": "80b7af1a91411cfc040a58494415f457c3bd0e61"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 29,
+        "name": "ver_menu_completo",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 53,
+        "name": "ver_menu_por_categoria",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 70,
+        "name": "buscar_platillo",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 91,
+        "name": "consultar_inventario_platillo",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 100,
+        "name": "consultar_todo_inventario",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 113,
+        "name": "agregar_inventario",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 120,
+        "name": "reducir_inventario",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 127,
+        "name": "ver_movimientos_inventario",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 144,
+        "name": "leer_informacion_restaurante",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 153,
+        "name": "leer_archivo",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

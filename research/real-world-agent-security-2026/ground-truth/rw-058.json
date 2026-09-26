@@ -1,0 +1,385 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-058.A001",
+      "evidence": [
+        {
+          "line": 180,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A002",
+      "evidence": [
+        {
+          "line": 181,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "llm_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A003",
+      "evidence": [
+        {
+          "line": 182,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A004",
+      "evidence": [
+        {
+          "line": 69,
+          "path": "backend/api/chat.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "react_graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A005",
+      "evidence": [
+        {
+          "line": 235,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "react_graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A006",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "tools/mcp_time.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_time_by_timezone",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A007",
+      "evidence": [
+        {
+          "line": 20,
+          "path": "tools/tools_charts.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "highcharts_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A008",
+      "evidence": [
+        {
+          "line": 26,
+          "path": "tools/tools_charts.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "highcharts_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A009",
+      "evidence": [
+        {
+          "line": 10,
+          "path": "tools/tools_execute_sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "execute_sqlite_query",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A010",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "tools/tools_execute_sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "execute_sqlite_query",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A011",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "tools/tools_text2sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "text2sqlite_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A012",
+      "evidence": [
+        {
+          "line": 40,
+          "path": "tools/tools_text2sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "text2sqlite_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A013",
+      "evidence": [
+        {
+          "line": 87,
+          "path": "tools/tools_text2sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_time_by_timezone",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-058.A014",
+      "evidence": [
+        {
+          "line": 92,
+          "path": "tools/tools_text2sqlite.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_time_by_timezone",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-058",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-058",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Tunnello/ChatBI",
+    "sha": "6f6f633d692a8c3de24f516d8bc5c5c56aa067f1"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 180,
+        "name": "builder",
+        "path": "agent.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 181,
+        "name": "llm_agent",
+        "path": "agent.py",
+        "variable": "llm_agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 182,
+        "name": "tools",
+        "path": "agent.py",
+        "variable": "tools"
+      },
+      {
+        "kind": "create_agent",
+        "line": 69,
+        "name": "react_graph",
+        "path": "backend/api/chat.py",
+        "variable": "react_graph"
+      },
+      {
+        "kind": "create_agent",
+        "line": 235,
+        "name": "react_graph",
+        "path": "main.py",
+        "variable": "react_graph"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 88,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 8,
+        "name": "get_time_by_timezone",
+        "owner": "mcp",
+        "path": "tools/mcp_time.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 20,
+        "name": "highcharts_tool",
+        "path": "tools/tools_charts.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 26,
+        "name": "highcharts_tool",
+        "path": "tools/tools_charts.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 10,
+        "name": "execute_sqlite_query",
+        "path": "tools/tools_execute_sqlite.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 15,
+        "name": "execute_sqlite_query",
+        "path": "tools/tools_execute_sqlite.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 35,
+        "name": "text2sqlite_tool",
+        "path": "tools/tools_text2sqlite.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 40,
+        "name": "text2sqlite_tool",
+        "path": "tools/tools_text2sqlite.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 87,
+        "name": "get_time_by_timezone",
+        "path": "tools/tools_text2sqlite.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 92,
+        "name": "get_time_by_timezone",
+        "path": "tools/tools_text2sqlite.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "sensitive_resource_access",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "mcp_usage",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

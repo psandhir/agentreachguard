@@ -1,0 +1,167 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-057.A001",
+      "evidence": [
+        {
+          "line": 128,
+          "path": "02_Agent_Definition.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-057.A002",
+      "evidence": [
+        {
+          "line": 82,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "workflow",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-057.A003",
+      "evidence": [
+        {
+          "line": 83,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-057.A004",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-057.A005",
+      "evidence": [
+        {
+          "line": 293,
+          "path": "mcp/ad_placement_mcp.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_ad_placement",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-057",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "databricks-industry-solutions/contextual-content-placement",
+    "sha": "6e2c8842c4817bf90c0a4542b93df93effb6c53d"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 128,
+        "name": "workflow",
+        "path": "02_Agent_Definition.ipynb",
+        "variable": "workflow"
+      },
+      {
+        "kind": "StateGraph",
+        "line": 82,
+        "name": "workflow",
+        "path": "agent.py",
+        "variable": "workflow"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 83,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 84,
+        "name": "tools",
+        "path": "agent.py",
+        "variable": "tools"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 9,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 293,
+        "name": "get_ad_placement",
+        "owner": "mcp",
+        "path": "mcp/ad_placement_mcp.py"
+      }
+    ],
+    "unresolved": [
+      "00_Movie_Dataset_Creation.ipynb:python_ast_parse_failed",
+      "01a_Data_Preparation.ipynb:python_ast_parse_failed",
+      "02_Agent_Definition.ipynb:python_ast_parse_failed",
+      "03_Agent_Evaluation.ipynb:python_ast_parse_failed",
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

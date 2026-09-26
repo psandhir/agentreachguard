@@ -1,0 +1,301 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-144.A001",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Spark Assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.A002",
+      "evidence": [
+        {
+          "line": 28,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compose_plan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-144",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.A003",
+      "evidence": [
+        {
+          "line": 48,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "knowledge_hint",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-144",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.A004",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "compose_plan",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "spark_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.A005",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "knowledge_hint",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "spark_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.A006",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "use_gateway_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "spark_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-144.B001",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "compose_plan"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Spark Assistant",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-144.B002",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "knowledge_hint"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Spark Assistant",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-144.B003",
+      "evidence": [
+        {
+          "line": 58,
+          "path": "examples/agents/Spark/agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "use_gateway_tool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "Spark Assistant",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-144",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "examples/agents/Spark/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "SATUNIX/gateway",
+    "sha": "f0659bbf7e804865e5142e97092683884110d6d0"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "spark_agent"
+        ],
+        "kind": "Agent",
+        "line": 58,
+        "name": "Spark Assistant",
+        "path": "examples/agents/Spark/agent.py",
+        "variable": "spark_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 1,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 28,
+        "name": "compose_plan",
+        "path": "examples/agents/Spark/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 48,
+        "name": "knowledge_hint",
+        "path": "examples/agents/Spark/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "compose_plan",
+        "owner": "spark_agent",
+        "path": "examples/agents/Spark/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "knowledge_hint",
+        "owner": "spark_agent",
+        "path": "examples/agents/Spark/agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 58,
+        "name": "use_gateway_tool",
+        "owner": "spark_agent",
+        "path": "examples/agents/Spark/agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "Spark Assistant",
+          "target_kind": "tool",
+          "target_name": "compose_plan"
+        },
+        {
+          "agent": "Spark Assistant",
+          "target_kind": "tool",
+          "target_name": "knowledge_hint"
+        },
+        {
+          "agent": "Spark Assistant",
+          "target_kind": "tool",
+          "target_name": "use_gateway_tool"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "Spark Assistant",
+        "line": 58,
+        "path": "examples/agents/Spark/agent.py",
+        "target_kind": "tool",
+        "target_name": "compose_plan"
+      },
+      {
+        "agent": "Spark Assistant",
+        "line": 58,
+        "path": "examples/agents/Spark/agent.py",
+        "target_kind": "tool",
+        "target_name": "knowledge_hint"
+      },
+      {
+        "agent": "Spark Assistant",
+        "line": 58,
+        "path": "examples/agents/Spark/agent.py",
+        "target_kind": "tool",
+        "target_name": "use_gateway_tool"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "tool_composition",
+      "mcp_or_gateway_integration",
+      "external_write_or_network"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

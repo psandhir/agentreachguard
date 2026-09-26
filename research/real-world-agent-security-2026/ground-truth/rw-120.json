@@ -1,0 +1,276 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-120.A001",
+      "evidence": [
+        {
+          "line": 9,
+          "path": "examples/openai-agents-py/README.md",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A002",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "SteelResearch",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A003",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "open_session",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-120",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A004",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "navigate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-120",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A005",
+      "evidence": [
+        {
+          "line": 65,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "snapshot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-120",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A006",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-120",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A007",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A008",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "navigate",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A009",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "open_session",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-120.A010",
+      "evidence": [
+        {
+          "line": 161,
+          "path": "examples/openai-agents-py/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "snapshot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-120",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "examples/openai-agents-py/README.md",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "steel-dev/steel-cookbook",
+    "sha": "40f1326ba885d758a8072848a5eacccb51ba7400"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 9,
+        "name": "agent",
+        "path": "examples/openai-agents-py/README.md",
+        "variable": "agent"
+      },
+      {
+        "aliases": [
+          "agent"
+        ],
+        "kind": "Agent",
+        "line": 161,
+        "name": "SteelResearch",
+        "path": "examples/openai-agents-py/main.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 35,
+        "name": "open_session",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 54,
+        "name": "navigate",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 65,
+        "name": "snapshot",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 106,
+        "name": "extract",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 161,
+        "name": "extract",
+        "owner": "agent",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 161,
+        "name": "navigate",
+        "owner": "agent",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 161,
+        "name": "open_session",
+        "owner": "agent",
+        "path": "examples/openai-agents-py/main.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 161,
+        "name": "snapshot",
+        "owner": "agent",
+        "path": "examples/openai-agents-py/main.py"
+      }
+    ],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

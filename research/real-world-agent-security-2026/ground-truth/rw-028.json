@@ -1,0 +1,402 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-028.A001",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "research_coordinator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A002",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agents/parallel_gap_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "parallel_gap_researcher",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A003",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agents/search_quality_pipeline.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search_quality_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A004",
+      "evidence": [
+        {
+          "line": 59,
+          "path": "mcp_server/search_server.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "search_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A005",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AgentTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "_root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A006",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "_root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A007",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "mcp_server/search_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "my_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-028",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A008",
+      "evidence": [
+        {
+          "line": 119,
+          "path": "mcp_server/search_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "duckduckgo_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A009",
+      "evidence": [
+        {
+          "line": 51,
+          "path": "agent.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_tool",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-028",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A010",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agents/search_quality_pipeline.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "search_quality_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.A011",
+      "evidence": [
+        {
+          "line": 98,
+          "path": "agents/search_quality_pipeline.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "quality_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "search_quality_pipeline",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-028.B001",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "AgentTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "research_coordinator",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-028.B002",
+      "evidence": [
+        {
+          "line": 107,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "research_coordinator",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-028",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "AhmadK-it/research_assistant",
+    "sha": "923bf68dde7186f7ecff050cc3513550b5f68b0d"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "_root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 107,
+        "name": "research_coordinator",
+        "path": "agent.py",
+        "variable": "_root_agent"
+      },
+      {
+        "aliases": [
+          "parallel_agent"
+        ],
+        "kind": "ParallelAgent",
+        "line": 98,
+        "name": "parallel_gap_researcher",
+        "path": "agents/parallel_gap_agent.py",
+        "variable": "parallel_agent"
+      },
+      {
+        "aliases": [
+          "pipeline"
+        ],
+        "kind": "SequentialAgent",
+        "line": 98,
+        "name": "search_quality_pipeline",
+        "path": "agents/search_quality_pipeline.py",
+        "variable": "pipeline"
+      },
+      {
+        "kind": "Agent",
+        "line": 59,
+        "name": "search_agent",
+        "path": "mcp_server/search_server.py",
+        "variable": "search_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 98,
+        "path": "agents/search_quality_pipeline.py",
+        "source": "search_quality_pipeline",
+        "source_variable": "pipeline",
+        "target": "search_agent",
+        "target_variable": "search_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 98,
+        "path": "agents/search_quality_pipeline.py",
+        "source": "search_quality_pipeline",
+        "source_variable": "pipeline",
+        "target": "quality_agent",
+        "target_variable": "quality_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "McpToolset",
+        "line": 51,
+        "name": "search_tool",
+        "path": "agent.py",
+        "variable": "search_tool"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 18,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 107,
+        "name": "AgentTool",
+        "owner": "_root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 107,
+        "name": "FunctionTool",
+        "owner": "_root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "lexical:tool",
+        "line": 36,
+        "name": "my_tool",
+        "path": "mcp_server/search_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 119,
+        "name": "duckduckgo_search",
+        "owner": "mcp",
+        "path": "mcp_server/search_server.py"
+      }
+    ],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "research_coordinator",
+          "target_kind": "tool",
+          "target_name": "AgentTool"
+        },
+        {
+          "agent": "research_coordinator",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "research_coordinator",
+        "line": 107,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "AgentTool"
+      },
+      {
+        "agent": "research_coordinator",
+        "line": 107,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "mcp_usage",
+      "multiple_trust_boundaries",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "mcp_usage",
+      "multiple_trust_boundaries"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

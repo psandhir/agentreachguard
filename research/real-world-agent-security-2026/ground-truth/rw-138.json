@@ -1,0 +1,93 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-138.A001",
+      "evidence": [
+        {
+          "line": 38,
+          "path": "inference-platforms/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "flight-search-agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-138",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "inference-platforms/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "elastic/observability-examples",
+    "sha": "b69114e63fa0bfc483f56d4cb3af3512f58fb451"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "agent"
+        ],
+        "kind": "Agent",
+        "line": 38,
+        "name": "flight-search-agent",
+        "path": "inference-platforms/agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 2,
+    "tools": [],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "external_write_or_network",
+      "approval_configuration",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "mcp_usage"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

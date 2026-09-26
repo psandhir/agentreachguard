@@ -1,0 +1,736 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-158.A001",
+      "evidence": [
+        {
+          "line": 76,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A002",
+      "evidence": [
+        {
+          "line": 323,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_figure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A003",
+      "evidence": [
+        {
+          "line": 345,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_subplots",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A004",
+      "evidence": [
+        {
+          "line": 383,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_subplot_mosaic",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A005",
+      "evidence": [
+        {
+          "line": 408,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_line",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A006",
+      "evidence": [
+        {
+          "line": 431,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_scatter",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A007",
+      "evidence": [
+        {
+          "line": 454,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_bar",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A008",
+      "evidence": [
+        {
+          "line": 477,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_histogram",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A009",
+      "evidence": [
+        {
+          "line": 502,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_contour",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A010",
+      "evidence": [
+        {
+          "line": 525,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_imshow",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A011",
+      "evidence": [
+        {
+          "line": 550,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_pie",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A012",
+      "evidence": [
+        {
+          "line": 575,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_special_axes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A013",
+      "evidence": [
+        {
+          "line": 602,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_polar",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A014",
+      "evidence": [
+        {
+          "line": 625,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_quiver",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A015",
+      "evidence": [
+        {
+          "line": 648,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_3d",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A016",
+      "evidence": [
+        {
+          "line": 671,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_surface_3d",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A017",
+      "evidence": [
+        {
+          "line": 694,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "configure_axes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A018",
+      "evidence": [
+        {
+          "line": 717,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_legend",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A019",
+      "evidence": [
+        {
+          "line": 740,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add_text",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A020",
+      "evidence": [
+        {
+          "line": 763,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "save_figure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A021",
+      "evidence": [
+        {
+          "line": 798,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_style",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A022",
+      "evidence": [
+        {
+          "line": 821,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "apply_tight_layout",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A023",
+      "evidence": [
+        {
+          "line": 842,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "set_figure_title",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A024",
+      "evidence": [
+        {
+          "line": 867,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_boxplot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A025",
+      "evidence": [
+        {
+          "line": 892,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_heatmap",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A026",
+      "evidence": [
+        {
+          "line": 917,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_violinplot",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A027",
+      "evidence": [
+        {
+          "line": 940,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "plot_errorbar",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A028",
+      "evidence": [
+        {
+          "line": 963,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "clear_figure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A029",
+      "evidence": [
+        {
+          "line": 984,
+          "path": "mcp_server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "close_figure",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-158.A030",
+      "evidence": [
+        {
+          "line": 68,
+          "path": "agent.py",
+          "rationale": "Independent source review found explicit MCP server/toolset construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp_server",
+      "predicate": "explicit_mcp_server",
+      "rationale": "Independent source review found explicit MCP server/toolset construction.",
+      "subject": "rw-158",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-158",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "newsbubbles/matplotlib_mcp",
+    "sha": "5628ad1370acb03b4cba265bcf0a322a7ded1c07"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 76,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [
+      {
+        "kind": "MCPServerStdio",
+        "line": 68,
+        "name": "mcp_server",
+        "path": "agent.py",
+        "variable": "mcp_server"
+      }
+    ],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 10,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 323,
+        "name": "create_figure",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 345,
+        "name": "create_subplots",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 383,
+        "name": "create_subplot_mosaic",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 408,
+        "name": "plot_line",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 431,
+        "name": "plot_scatter",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 454,
+        "name": "plot_bar",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 477,
+        "name": "plot_histogram",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 502,
+        "name": "plot_contour",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 525,
+        "name": "plot_imshow",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 550,
+        "name": "plot_pie",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 575,
+        "name": "create_special_axes",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 602,
+        "name": "plot_polar",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 625,
+        "name": "plot_quiver",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 648,
+        "name": "plot_3d",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 671,
+        "name": "plot_surface_3d",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 694,
+        "name": "configure_axes",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 717,
+        "name": "add_legend",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 740,
+        "name": "add_text",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 763,
+        "name": "save_figure",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 798,
+        "name": "set_style",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 821,
+        "name": "apply_tight_layout",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 842,
+        "name": "set_figure_title",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 867,
+        "name": "plot_boxplot",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 892,
+        "name": "plot_heatmap",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 917,
+        "name": "plot_violinplot",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 940,
+        "name": "plot_errorbar",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 963,
+        "name": "clear_figure",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 984,
+        "name": "close_figure",
+        "owner": "mcp",
+        "path": "mcp_server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

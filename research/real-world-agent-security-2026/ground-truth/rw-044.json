@@ -1,0 +1,160 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-044.A001",
+      "evidence": [
+        {
+          "line": 37,
+          "path": "src/ui/app.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-044.A002",
+      "evidence": [
+        {
+          "line": 9,
+          "path": "src/mcp/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "add",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-044.A003",
+      "evidence": [
+        {
+          "line": 18,
+          "path": "src/mcp/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "subtract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-044.A004",
+      "evidence": [
+        {
+          "line": 27,
+          "path": "src/mcp/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "multiply",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-044.A005",
+      "evidence": [
+        {
+          "line": 36,
+          "path": "src/mcp/server.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "divide",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "mcp",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-044",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "README.md",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "aws-samples/sample-bedrock-mcp",
+    "sha": "153ff7f7b99c4c65f4c8ded87131c5bd8d69d114"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "create_react_agent",
+        "line": 37,
+        "name": "agent",
+        "path": "src/ui/app.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 9,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 9,
+        "name": "add",
+        "owner": "mcp",
+        "path": "src/mcp/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 18,
+        "name": "subtract",
+        "owner": "mcp",
+        "path": "src/mcp/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 27,
+        "name": "multiply",
+        "owner": "mcp",
+        "path": "src/mcp/server.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 36,
+        "name": "divide",
+        "owner": "mcp",
+        "path": "src/mcp/server.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

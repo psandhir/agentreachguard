@@ -1,0 +1,728 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-005.A001",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A002",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "anomaly_detection_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A003",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "root_cause_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A004",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "incident_report_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A005",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "data_quality_guardian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A006",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_metric_lineage",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A007",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_metric_timeseries",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A008",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_metrics",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A009",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "detect_metric_anomalies",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "anomaly_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A010",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_metric_timeseries",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "anomaly_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A011",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_metric_lineage",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_cause_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A012",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_recent_changes",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_cause_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A013",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_schema_summary",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_cause_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A014",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "ingestion_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "data_quality_guardian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A015",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "anomaly_detection_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "data_quality_guardian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A016",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "root_cause_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "data_quality_guardian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.A017",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "incident_report_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "data_quality_guardian",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-005.B001",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_metric_lineage"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ingestion_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B002",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_metric_timeseries"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ingestion_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B003",
+      "evidence": [
+        {
+          "line": 17,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "list_metrics"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "ingestion_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B004",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "detect_metric_anomalies"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "anomaly_detection_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B005",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_metric_timeseries"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "anomaly_detection_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B006",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_metric_lineage"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_cause_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B007",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_recent_changes"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_cause_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-005.B008",
+      "evidence": [
+        {
+          "line": 70,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_schema_summary"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "root_cause_agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-005",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "Ojas-Patil26/VeriQ",
+    "sha": "067cb330ab943279b4b8ea13c91c9042bdd9f421"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "LlmAgent",
+        "line": 17,
+        "name": "ingestion_agent",
+        "path": "agent.py",
+        "variable": "ingestion_agent"
+      },
+      {
+        "aliases": [
+          "anomaly_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 44,
+        "name": "anomaly_detection_agent",
+        "path": "agent.py",
+        "variable": "anomaly_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 70,
+        "name": "root_cause_agent",
+        "path": "agent.py",
+        "variable": "root_cause_agent"
+      },
+      {
+        "aliases": [
+          "report_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 106,
+        "name": "incident_report_agent",
+        "path": "agent.py",
+        "variable": "report_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 134,
+        "name": "data_quality_guardian",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 134,
+        "path": "agent.py",
+        "source": "data_quality_guardian",
+        "source_variable": "root_agent",
+        "target": "ingestion_agent",
+        "target_variable": "ingestion_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 134,
+        "path": "agent.py",
+        "source": "data_quality_guardian",
+        "source_variable": "root_agent",
+        "target": "anomaly_detection_agent",
+        "target_variable": "anomaly_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 134,
+        "path": "agent.py",
+        "source": "data_quality_guardian",
+        "source_variable": "root_agent",
+        "target": "root_cause_agent",
+        "target_variable": "root_cause_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 134,
+        "path": "agent.py",
+        "source": "data_quality_guardian",
+        "source_variable": "root_agent",
+        "target": "incident_report_agent",
+        "target_variable": "report_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 17,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 17,
+        "name": "get_metric_lineage",
+        "owner": "ingestion_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 17,
+        "name": "get_metric_timeseries",
+        "owner": "ingestion_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 17,
+        "name": "list_metrics",
+        "owner": "ingestion_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 44,
+        "name": "detect_metric_anomalies",
+        "owner": "anomaly_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 44,
+        "name": "get_metric_timeseries",
+        "owner": "anomaly_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 70,
+        "name": "get_metric_lineage",
+        "owner": "root_cause_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 70,
+        "name": "get_recent_changes",
+        "owner": "root_cause_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 70,
+        "name": "get_schema_summary",
+        "owner": "root_cause_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "ingestion_agent",
+          "target_kind": "tool",
+          "target_name": "get_metric_lineage"
+        },
+        {
+          "agent": "ingestion_agent",
+          "target_kind": "tool",
+          "target_name": "get_metric_timeseries"
+        },
+        {
+          "agent": "ingestion_agent",
+          "target_kind": "tool",
+          "target_name": "list_metrics"
+        },
+        {
+          "agent": "anomaly_detection_agent",
+          "target_kind": "tool",
+          "target_name": "detect_metric_anomalies"
+        },
+        {
+          "agent": "anomaly_detection_agent",
+          "target_kind": "tool",
+          "target_name": "get_metric_timeseries"
+        },
+        {
+          "agent": "root_cause_agent",
+          "target_kind": "tool",
+          "target_name": "get_metric_lineage"
+        },
+        {
+          "agent": "root_cause_agent",
+          "target_kind": "tool",
+          "target_name": "get_recent_changes"
+        },
+        {
+          "agent": "root_cause_agent",
+          "target_kind": "tool",
+          "target_name": "get_schema_summary"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "ingestion_agent",
+        "line": 17,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_metric_lineage"
+      },
+      {
+        "agent": "ingestion_agent",
+        "line": 17,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_metric_timeseries"
+      },
+      {
+        "agent": "ingestion_agent",
+        "line": 17,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "list_metrics"
+      },
+      {
+        "agent": "anomaly_detection_agent",
+        "line": 44,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "detect_metric_anomalies"
+      },
+      {
+        "agent": "anomaly_detection_agent",
+        "line": 44,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_metric_timeseries"
+      },
+      {
+        "agent": "root_cause_agent",
+        "line": 70,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_metric_lineage"
+      },
+      {
+        "agent": "root_cause_agent",
+        "line": 70,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_recent_changes"
+      },
+      {
+        "agent": "root_cause_agent",
+        "line": 70,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_schema_summary"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

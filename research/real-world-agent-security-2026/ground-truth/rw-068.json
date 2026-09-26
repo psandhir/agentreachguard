@@ -1,0 +1,227 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-068.A001",
+      "evidence": [
+        {
+          "line": 1238,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A002",
+      "evidence": [
+        {
+          "line": 1241,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A003",
+      "evidence": [
+        {
+          "line": 1242,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A004",
+      "evidence": [
+        {
+          "line": 1243,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "rag",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A005",
+      "evidence": [
+        {
+          "line": 1244,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "decision",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A006",
+      "evidence": [
+        {
+          "line": 1245,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "visualization",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A007",
+      "evidence": [
+        {
+          "line": 976,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-068",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-068.A008",
+      "evidence": [
+        {
+          "line": 993,
+          "path": "main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "scrape_website_tool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-068",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-068",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "main.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "oskarkyle/FireGPT",
+    "sha": "a91e1d408dffaecdbfc52595b895f93056a6e476"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 1238,
+        "name": "graph",
+        "path": "main.py",
+        "variable": "graph"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1241,
+        "name": "agent",
+        "path": "main.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1242,
+        "name": "action",
+        "path": "main.py",
+        "variable": "action"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1243,
+        "name": "rag",
+        "path": "main.py",
+        "variable": "rag"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1244,
+        "name": "decision",
+        "path": "main.py",
+        "variable": "decision"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 1245,
+        "name": "visualization",
+        "path": "main.py",
+        "variable": "visualization"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 976,
+        "name": "search",
+        "path": "main.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 993,
+        "name": "scrape_website_tool",
+        "path": "main.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

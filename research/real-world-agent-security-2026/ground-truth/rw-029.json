@@ -1,0 +1,318 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-029.A001",
+      "evidence": [
+        {
+          "line": 67,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "VenueScout",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A002",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "TransportAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A003",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ScoutingTeam",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A004",
+      "evidence": [
+        {
+          "line": 86,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "AuditorAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A005",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "GreenEventOrchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A006",
+      "evidence": [
+        {
+          "line": 67,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "venue_scout",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A007",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "transport_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A008",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AgentTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A009",
+      "evidence": [
+        {
+          "line": 93,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A010",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "VenueScout",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ScoutingTeam",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.A011",
+      "evidence": [
+        {
+          "line": 81,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "TransportAgent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "ScoutingTeam",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-029",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "git791/GreenAI-Agent",
+    "sha": "94fdaf7fd9dd4269ac85fef9e850237da0360908"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "venue_scout"
+        ],
+        "kind": "LlmAgent",
+        "line": 67,
+        "name": "VenueScout",
+        "path": "agent.py",
+        "variable": "venue_scout"
+      },
+      {
+        "aliases": [
+          "transport_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 74,
+        "name": "TransportAgent",
+        "path": "agent.py",
+        "variable": "transport_agent"
+      },
+      {
+        "aliases": [
+          "scouting_team"
+        ],
+        "kind": "ParallelAgent",
+        "line": 81,
+        "name": "ScoutingTeam",
+        "path": "agent.py",
+        "variable": "scouting_team"
+      },
+      {
+        "aliases": [
+          "auditor_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 86,
+        "name": "AuditorAgent",
+        "path": "agent.py",
+        "variable": "auditor_agent"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 93,
+        "name": "GreenEventOrchestrator",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 81,
+        "path": "agent.py",
+        "source": "ScoutingTeam",
+        "source_variable": "scouting_team",
+        "target": "VenueScout",
+        "target_variable": "venue_scout"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 81,
+        "path": "agent.py",
+        "source": "ScoutingTeam",
+        "source_variable": "scouting_team",
+        "target": "TransportAgent",
+        "target_variable": "transport_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 2,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 67,
+        "name": "FunctionTool",
+        "owner": "venue_scout",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 74,
+        "name": "FunctionTool",
+        "owner": "transport_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 93,
+        "name": "AgentTool",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 93,
+        "name": "FunctionTool",
+        "owner": "root_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

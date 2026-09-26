@@ -1,0 +1,93 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-059.A001",
+      "evidence": [
+        {
+          "line": 105,
+          "path": "Lab_4_Intro_to_Bedrock_and_Agents/basic_langgraph_agent.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "graph",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-059",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "Lab_4_Intro_to_Bedrock_and_Agents/basic_langgraph_agent.ipynb",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "neo4j-partners/hands-on-lab-neo4j-and-amazon",
+    "sha": "6fcaa60ceccb2f7ee13e69d756f37efe449f05eb"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 105,
+        "name": "graph",
+        "path": "Lab_4_Intro_to_Bedrock_and_Agents/basic_langgraph_agent.ipynb",
+        "variable": "graph"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 3,
+    "tools": [],
+    "unresolved": [
+      "Lab_4_Intro_to_Bedrock_and_Agents/basic_langgraph_agent.ipynb:python_ast_parse_failed",
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "sensitive_resource_access",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

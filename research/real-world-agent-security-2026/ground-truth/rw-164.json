@@ -1,0 +1,69 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-164.A001",
+      "evidence": [
+        {
+          "line": 106,
+          "path": "core/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_documents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "self.agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-164",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "core/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "amscotti/local-LLM-with-RAG",
+    "sha": "832fb9a2970884e61a6ca2eabcfa103b78df4cfb"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 4,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 106,
+        "name": "search_documents",
+        "owner": "self.agent",
+        "path": "core/agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-148.A001",
+      "evidence": [
+        {
+          "line": 201,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "pinescript_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-148.A002",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "api_debug.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "pydantic-ai",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-148.A003",
+      "evidence": [
+        {
+          "line": 149,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "retrieve",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "pinescript_rag",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-148",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "pydantic-ai",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "FaustoS88/Pydantic-AI-Pinescript-Expert",
+    "sha": "03cbd93c486435df08d70185fbab9aa61fff5fbb"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 201,
+        "name": "pinescript_agent",
+        "path": "agent.py",
+        "variable": "pinescript_agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 84,
+        "name": "agent",
+        "path": "api_debug.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "pydantic-ai"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 21,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 149,
+        "name": "retrieve",
+        "owner": "pinescript_rag",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

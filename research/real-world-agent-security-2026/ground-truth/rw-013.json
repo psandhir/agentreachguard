@@ -1,0 +1,139 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-013.A001",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "personalized_outreach_agent/personalized_outreach.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "researcher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-013.A002",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "personalized_outreach_agent/personalized_outreach.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "main_outreach_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-013.A003",
+      "evidence": [
+        {
+          "line": 53,
+          "path": "personalized_outreach_agent/personalized_outreach.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google_search",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "researcher_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-013.A004",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "personalized_outreach_agent/personalized_outreach.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "AgentTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "main_outreach_agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-013",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "personalized_outreach_agent/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "philiptitus/FionaAgents",
+    "sha": "2d52329c05b334024a1bd0b0efb765a45b319dbc"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "LlmAgent",
+        "line": 53,
+        "name": "researcher_agent",
+        "path": "personalized_outreach_agent/personalized_outreach.py",
+        "variable": "researcher_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 63,
+        "name": "main_outreach_agent",
+        "path": "personalized_outreach_agent/personalized_outreach.py",
+        "variable": "main_outreach_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 3,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 53,
+        "name": "google_search",
+        "owner": "researcher_agent",
+        "path": "personalized_outreach_agent/personalized_outreach.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 63,
+        "name": "AgentTool",
+        "owner": "main_outreach_agent",
+        "path": "personalized_outreach_agent/personalized_outreach.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

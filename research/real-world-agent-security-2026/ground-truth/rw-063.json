@@ -1,0 +1,182 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-063.A001",
+      "evidence": [
+        {
+          "line": 33,
+          "path": "graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-063.A002",
+      "evidence": [
+        {
+          "line": 34,
+          "path": "graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-063.A003",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "graph.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "tools",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-063.A004",
+      "evidence": [
+        {
+          "line": 12,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "estimate_savings",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-063",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-063.A005",
+      "evidence": [
+        {
+          "line": 44,
+          "path": "tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "store_contact_info",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-063",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-063",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "graph.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "aniket-work/Lets_Build_Lead_Generation_Startup_Using_AI_Agents",
+    "sha": "862d312c799727858e7d9b0ff27ca3d873733d04"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 33,
+        "name": "builder",
+        "path": "graph.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 34,
+        "name": "assistant",
+        "path": "graph.py",
+        "variable": "assistant"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 35,
+        "name": "tools",
+        "path": "graph.py",
+        "variable": "tools"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 6,
+    "tools": [
+      {
+        "kind": "decorator:tool",
+        "line": 12,
+        "name": "estimate_savings",
+        "path": "tools.py"
+      },
+      {
+        "kind": "decorator:tool",
+        "line": 44,
+        "name": "store_contact_info",
+        "path": "tools.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "sensitive_resource_access",
+      "external_write_or_network",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

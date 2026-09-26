@@ -1,0 +1,162 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-048.A001",
+      "evidence": [
+        {
+          "line": 224,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "builder",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-048.A002",
+      "evidence": [
+        {
+          "line": 226,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "assistant",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-048.A003",
+      "evidence": [
+        {
+          "line": 228,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "action",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-048.A004",
+      "evidence": [
+        {
+          "line": 9,
+          "path": "examples.ipynb",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "langgraph",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-048",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "langgraph",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "AminHP-GenAI/customer-support-persian",
+    "sha": "3b149671b83b7c0385488188614c8118fce46b65"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "StateGraph",
+        "line": 224,
+        "name": "builder",
+        "path": "agent.py",
+        "variable": "builder"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 226,
+        "name": "assistant",
+        "path": "agent.py",
+        "variable": "assistant"
+      },
+      {
+        "kind": "workflow_node",
+        "line": 228,
+        "name": "action",
+        "path": "agent.py",
+        "variable": "action"
+      },
+      {
+        "kind": "Agent",
+        "line": 9,
+        "name": "agent",
+        "path": "examples.ipynb",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "langgraph"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 11,
+    "tools": [],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement",
+      "examples.ipynb:python_ast_parse_failed",
+      "examples_multimodal.ipynb:python_ast_parse_failed"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "tool_composition",
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

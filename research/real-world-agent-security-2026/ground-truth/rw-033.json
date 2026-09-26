@@ -1,0 +1,367 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-033.A001",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "cineagent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.A002",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.A003",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_checkout",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.A004",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "discover_theaters",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.A005",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_movie_detail",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.A006",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "search_movies",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "root_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-033.B001",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cineagent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-033.B002",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "create_checkout"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cineagent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-033.B003",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "discover_theaters"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cineagent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-033.B004",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "get_movie_detail"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cineagent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-033.B005",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "search_movies"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cineagent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-033",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "moonpy-a11y/agent_payments",
+    "sha": "b08e4bec80ea2f8a3664d670bc6fc52b8a50d1ae"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "Agent",
+        "line": 13,
+        "name": "cineagent",
+        "path": "agent.py",
+        "variable": "root_agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": true,
+      "delegation_edges": true,
+      "mcp_servers": true,
+      "tools": true
+    },
+    "source_files_reviewed": 5,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 13,
+        "name": "FunctionTool",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 13,
+        "name": "create_checkout",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 13,
+        "name": "discover_theaters",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 13,
+        "name": "get_movie_detail",
+        "owner": "root_agent",
+        "path": "agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 13,
+        "name": "search_movies",
+        "owner": "root_agent",
+        "path": "agent.py"
+      }
+    ],
+    "unresolved": []
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "cineagent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "cineagent",
+          "target_kind": "tool",
+          "target_name": "create_checkout"
+        },
+        {
+          "agent": "cineagent",
+          "target_kind": "tool",
+          "target_name": "discover_theaters"
+        },
+        {
+          "agent": "cineagent",
+          "target_kind": "tool",
+          "target_name": "get_movie_detail"
+        },
+        {
+          "agent": "cineagent",
+          "target_kind": "tool",
+          "target_name": "search_movies"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "cineagent",
+        "line": 13,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "cineagent",
+        "line": 13,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "create_checkout"
+      },
+      {
+        "agent": "cineagent",
+        "line": 13,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "discover_theaters"
+      },
+      {
+        "agent": "cineagent",
+        "line": 13,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "get_movie_detail"
+      },
+      {
+        "agent": "cineagent",
+        "line": 13,
+        "path": "agent.py",
+        "target_kind": "tool",
+        "target_name": "search_movies"
+      }
+    ],
+    "eligibility_signals": [
+      "external_write_or_transaction_semantics",
+      "approval_controls",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "approval_controls",
+      "external_write_or_transaction_semantics",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

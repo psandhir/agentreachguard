@@ -1,0 +1,907 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-009.A001",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "audit_pipeline_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A002",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "qa_feedback_loop_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A003",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "cloud_architecture_review_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A004",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/cost_pattern_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "cost_pattern_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A005",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/deep_audit_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "deep_audit_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A006",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/iac_ingestion_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "iac_ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A007",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/performance_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "performance_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A008",
+      "evidence": [
+        {
+          "line": 13,
+          "path": "agents/qa_reviewer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "qa_reviewer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A009",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/reliability_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "reliability_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A010",
+      "evidence": [
+        {
+          "line": 3,
+          "path": "agents/report_synthesizer_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "report_synthesizer_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A011",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/security_audit_agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "google-adk",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "security_audit_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A012",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/cost_pattern_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "cost_pattern_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A013",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/deep_audit_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "deep_audit_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A014",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/iac_ingestion_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "iac_ingestion_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A015",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/performance_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "performance_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A016",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/reliability_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "reliability_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A017",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/security_audit_agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "FunctionTool",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "security_audit_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A018",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "security_audit_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "audit_pipeline_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A019",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "cost_pattern_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "audit_pipeline_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A020",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "reliability_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "audit_pipeline_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A021",
+      "evidence": [
+        {
+          "line": 45,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "performance_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "audit_pipeline_agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A022",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "audit_pipeline_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "qa_feedback_loop_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A023",
+      "evidence": [
+        {
+          "line": 84,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "qa_reviewer_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "qa_feedback_loop_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A024",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "iac_ingestion_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "cloud_architecture_review_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A025",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "qa_feedback_loop_orchestrator",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "cloud_architecture_review_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A026",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "deep_audit_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "cloud_architecture_review_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.A027",
+      "evidence": [
+        {
+          "line": 95,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit sub-agent/handoff relationship."
+        }
+      ],
+      "expected_state": "present",
+      "object": "report_synthesizer_agent",
+      "predicate": "delegates_to",
+      "rationale": "Independent source review found an explicit sub-agent/handoff relationship.",
+      "subject": "cloud_architecture_review_orchestrator",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-009.B001",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/cost_pattern_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "cost_pattern_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-009.B002",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/deep_audit_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "deep_audit_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-009.B003",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/iac_ingestion_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "iac_ingestion_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-009.B004",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/performance_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "performance_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-009.B005",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agents/reliability_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "reliability_agent",
+      "tier": "B"
+    },
+    {
+      "assertion_id": "RW-009.B006",
+      "evidence": [
+        {
+          "line": 6,
+          "path": "agents/security_audit_agent.py",
+          "rationale": "The tool is explicitly bound to the source-reviewed agent."
+        }
+      ],
+      "expected_state": "present",
+      "object": {
+        "kind": "tool",
+        "name": "FunctionTool"
+      },
+      "predicate": "can_invoke",
+      "rationale": "The tool is explicitly bound to the source-reviewed agent.",
+      "subject": "security_audit_agent",
+      "tier": "B"
+    }
+  ],
+  "case_id": "rw-009",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "google-adk",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "vivekcommit/Cloud_Architecture_Review",
+    "sha": "16ac50de750de9d4681a501f936184804a819754"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "LlmAgent",
+        "line": 45,
+        "name": "audit_pipeline_agent",
+        "path": "agent.py",
+        "variable": "audit_pipeline_agent"
+      },
+      {
+        "aliases": [
+          "qa_feedback_loop"
+        ],
+        "kind": "LoopAgent",
+        "line": 84,
+        "name": "qa_feedback_loop_orchestrator",
+        "path": "agent.py",
+        "variable": "qa_feedback_loop"
+      },
+      {
+        "aliases": [
+          "root_agent"
+        ],
+        "kind": "LlmAgent",
+        "line": 95,
+        "name": "cloud_architecture_review_orchestrator",
+        "path": "agent.py",
+        "variable": "root_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 6,
+        "name": "cost_pattern_agent",
+        "path": "agents/cost_pattern_agent.py",
+        "variable": "cost_pattern_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "deep_audit_agent",
+        "path": "agents/deep_audit_agent.py",
+        "variable": "deep_audit_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "iac_ingestion_agent",
+        "path": "agents/iac_ingestion_agent.py",
+        "variable": "iac_ingestion_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "performance_agent",
+        "path": "agents/performance_agent.py",
+        "variable": "performance_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 13,
+        "name": "qa_reviewer_agent",
+        "path": "agents/qa_reviewer_agent.py",
+        "variable": "qa_reviewer_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 5,
+        "name": "reliability_agent",
+        "path": "agents/reliability_agent.py",
+        "variable": "reliability_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 3,
+        "name": "report_synthesizer_agent",
+        "path": "agents/report_synthesizer_agent.py",
+        "variable": "report_synthesizer_agent"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 6,
+        "name": "security_audit_agent",
+        "path": "agents/security_audit_agent.py",
+        "variable": "security_audit_agent"
+      }
+    ],
+    "delegation_edges": [
+      {
+        "kind": "sub_agents",
+        "line": 45,
+        "path": "agent.py",
+        "source": "audit_pipeline_agent",
+        "source_variable": "audit_pipeline_agent",
+        "target": "security_audit_agent",
+        "target_variable": "security_audit_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 45,
+        "path": "agent.py",
+        "source": "audit_pipeline_agent",
+        "source_variable": "audit_pipeline_agent",
+        "target": "cost_pattern_agent",
+        "target_variable": "cost_pattern_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 45,
+        "path": "agent.py",
+        "source": "audit_pipeline_agent",
+        "source_variable": "audit_pipeline_agent",
+        "target": "reliability_agent",
+        "target_variable": "reliability_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 45,
+        "path": "agent.py",
+        "source": "audit_pipeline_agent",
+        "source_variable": "audit_pipeline_agent",
+        "target": "performance_agent",
+        "target_variable": "performance_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 84,
+        "path": "agent.py",
+        "source": "qa_feedback_loop_orchestrator",
+        "source_variable": "qa_feedback_loop",
+        "target": "audit_pipeline_agent",
+        "target_variable": "audit_pipeline_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 84,
+        "path": "agent.py",
+        "source": "qa_feedback_loop_orchestrator",
+        "source_variable": "qa_feedback_loop",
+        "target": "qa_reviewer_agent",
+        "target_variable": "qa_reviewer_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 95,
+        "path": "agent.py",
+        "source": "cloud_architecture_review_orchestrator",
+        "source_variable": "root_agent",
+        "target": "iac_ingestion_agent",
+        "target_variable": "iac_ingestion_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 95,
+        "path": "agent.py",
+        "source": "cloud_architecture_review_orchestrator",
+        "source_variable": "root_agent",
+        "target": "qa_feedback_loop_orchestrator",
+        "target_variable": "qa_feedback_loop"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 95,
+        "path": "agent.py",
+        "source": "cloud_architecture_review_orchestrator",
+        "source_variable": "root_agent",
+        "target": "deep_audit_agent",
+        "target_variable": "deep_audit_agent"
+      },
+      {
+        "kind": "sub_agents",
+        "line": 95,
+        "path": "agent.py",
+        "source": "cloud_architecture_review_orchestrator",
+        "source_variable": "root_agent",
+        "target": "report_synthesizer_agent",
+        "target_variable": "report_synthesizer_agent"
+      }
+    ],
+    "frameworks": [
+      "google-adk"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 25,
+    "tools": [
+      {
+        "kind": "agent_tool_reference",
+        "line": 6,
+        "name": "FunctionTool",
+        "owner": "cost_pattern_agent",
+        "path": "agents/cost_pattern_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 5,
+        "name": "FunctionTool",
+        "owner": "deep_audit_agent",
+        "path": "agents/deep_audit_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 5,
+        "name": "FunctionTool",
+        "owner": "iac_ingestion_agent",
+        "path": "agents/iac_ingestion_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 5,
+        "name": "FunctionTool",
+        "owner": "performance_agent",
+        "path": "agents/performance_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 5,
+        "name": "FunctionTool",
+        "owner": "reliability_agent",
+        "path": "agents/reliability_agent.py"
+      },
+      {
+        "kind": "agent_tool_reference",
+        "line": 6,
+        "name": "FunctionTool",
+        "owner": "security_audit_agent",
+        "path": "agents/security_audit_agent.py"
+      }
+    ],
+    "unresolved": [
+      "kaggle_notebook.py:python_ast_parse_failed"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [
+        {
+          "agent": "cost_pattern_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "deep_audit_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "iac_ingestion_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "performance_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "reliability_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        },
+        {
+          "agent": "security_audit_agent",
+          "target_kind": "tool",
+          "target_name": "FunctionTool"
+        }
+      ],
+      "structural_only": true
+    },
+    "authority_relationships": [
+      {
+        "agent": "cost_pattern_agent",
+        "line": 6,
+        "path": "agents/cost_pattern_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "deep_audit_agent",
+        "line": 5,
+        "path": "agents/deep_audit_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "iac_ingestion_agent",
+        "line": 5,
+        "path": "agents/iac_ingestion_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "performance_agent",
+        "line": 5,
+        "path": "agents/performance_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "reliability_agent",
+        "line": 5,
+        "path": "agents/reliability_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      },
+      {
+        "agent": "security_audit_agent",
+        "line": 6,
+        "path": "agents/security_audit_agent.py",
+        "target_kind": "tool",
+        "target_name": "FunctionTool"
+      }
+    ],
+    "eligibility_signals": [
+      "multiple_agents",
+      "explicit_delegation_or_composition",
+      "external_write_or_network",
+      "sensitive_resource_access",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "external_write_or_network",
+      "sensitive_resource_access"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

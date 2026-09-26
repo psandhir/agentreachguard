@@ -1,0 +1,272 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-002.A001",
+      "evidence": [
+        {
+          "line": 71,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "fast",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A002",
+      "evidence": [
+        {
+          "line": 109,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "PersonalAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A003",
+      "evidence": [
+        {
+          "line": 120,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "IoTAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A004",
+      "evidence": [
+        {
+          "line": 169,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "ResearchAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A005",
+      "evidence": [
+        {
+          "line": 187,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "FinanceAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A006",
+      "evidence": [
+        {
+          "line": 249,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "CrawlStoriesAgent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A007",
+      "evidence": [
+        {
+          "line": 379,
+          "path": "backend/agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "Jarvis",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-002.A008",
+      "evidence": [
+        {
+          "line": 536,
+          "path": "backend/services/context_compaction.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "fastagent",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "shell",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-002",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "backend/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "fastagent",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "omnigentx/jarvis",
+    "sha": "90d1eb1620912e752be2e6fe8156923a0394216d"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "FastAgent",
+        "line": 71,
+        "name": "fast",
+        "path": "backend/agent.py",
+        "variable": "fast"
+      },
+      {
+        "aliases": [
+          "personal_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 109,
+        "name": "PersonalAgent",
+        "path": "backend/agent.py",
+        "variable": "personal_agent"
+      },
+      {
+        "aliases": [
+          "iot_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 120,
+        "name": "IoTAgent",
+        "path": "backend/agent.py",
+        "variable": "iot_agent"
+      },
+      {
+        "aliases": [
+          "research_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 169,
+        "name": "ResearchAgent",
+        "path": "backend/agent.py",
+        "variable": "research_agent"
+      },
+      {
+        "aliases": [
+          "finance_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 187,
+        "name": "FinanceAgent",
+        "path": "backend/agent.py",
+        "variable": "finance_agent"
+      },
+      {
+        "aliases": [
+          "crawl_stories_agent"
+        ],
+        "kind": "decorator:agent",
+        "line": 249,
+        "name": "CrawlStoriesAgent",
+        "path": "backend/agent.py",
+        "variable": "crawl_stories_agent"
+      },
+      {
+        "aliases": [
+          "jarvis_main"
+        ],
+        "kind": "decorator:agent",
+        "line": 379,
+        "name": "Jarvis",
+        "path": "backend/agent.py",
+        "variable": "jarvis_main"
+      },
+      {
+        "kind": "LlmAgent",
+        "line": 536,
+        "name": "shell",
+        "path": "backend/services/context_compaction.py",
+        "variable": "shell"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "fastagent"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 100,
+    "tools": [],
+    "unresolved": [
+      "dynamic_source_constructs_detected",
+      "source_scope_file_limit_reached"
+    ]
+  },
+  "tier_b": {
+    "attack_path_reference": {
+      "runtime_exploitability": "not_verified",
+      "source_supported_authority_pairs": [],
+      "structural_only": true
+    },
+    "authority_relationships": [],
+    "eligibility_signals": [
+      "mcp_usage",
+      "multiple_agents_or_dynamic_agents",
+      "multiple_trust_boundaries",
+      "tool_composition"
+    ],
+    "limitations": [
+      "reference evaluates static structural validity, not runtime exploitability",
+      "dynamic authority is unresolved unless explicit in pinned source"
+    ],
+    "review_method": "independent dual-pass source reference",
+    "security_relevant_signals": [
+      "mcp_usage",
+      "multiple_trust_boundaries"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

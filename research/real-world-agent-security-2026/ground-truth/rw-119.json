@@ -1,0 +1,379 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-119.A001",
+      "evidence": [
+        {
+          "line": 129,
+          "path": "core/agents/factory.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "openai-agents",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A002",
+      "evidence": [
+        {
+          "line": 159,
+          "path": "core/agents/delegation_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_agents",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A003",
+      "evidence": [
+        {
+          "line": 170,
+          "path": "core/agents/delegation_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "delegate_task",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A004",
+      "evidence": [
+        {
+          "line": 208,
+          "path": "core/agents/delegation_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_models",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A005",
+      "evidence": [
+        {
+          "line": 232,
+          "path": "core/agents/delegation_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "create_agent",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A006",
+      "evidence": [
+        {
+          "line": 298,
+          "path": "core/agents/delegation_tools.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_available_tools",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A007",
+      "evidence": [
+        {
+          "line": 35,
+          "path": "core/tools/channel.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_channels",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A008",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "core/tools/channel.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "send_to_channel",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A009",
+      "evidence": [
+        {
+          "line": 67,
+          "path": "core/tools/configure_extension.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "configure_extension",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A010",
+      "evidence": [
+        {
+          "line": 52,
+          "path": "core/tools/extensions_doctor.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "extensions_doctor",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A011",
+      "evidence": [
+        {
+          "line": 240,
+          "path": "core/tools/file_manager.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "file",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A012",
+      "evidence": [
+        {
+          "line": 26,
+          "path": "core/tools/restart.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_restart",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A013",
+      "evidence": [
+        {
+          "line": 54,
+          "path": "core/tools/secure_input.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "request_secure_input",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A014",
+      "evidence": [
+        {
+          "line": 155,
+          "path": "sandbox/extensions/inbox/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inbox_list",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-119.A015",
+      "evidence": [
+        {
+          "line": 185,
+          "path": "sandbox/extensions/inbox/main.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "inbox_read",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-119",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-119",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "AGENTS.md",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "VitalyOborin/yodoca",
+    "sha": "2af56ec52e0a7ff211c2276e8301e83da8a95dcd"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 129,
+        "name": "agent",
+        "path": "core/agents/factory.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 100,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 159,
+        "name": "list_agents",
+        "path": "core/agents/delegation_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 170,
+        "name": "delegate_task",
+        "path": "core/agents/delegation_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 208,
+        "name": "list_models",
+        "path": "core/agents/delegation_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 232,
+        "name": "create_agent",
+        "path": "core/agents/delegation_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 298,
+        "name": "list_available_tools",
+        "path": "core/agents/delegation_tools.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 35,
+        "name": "list_channels",
+        "path": "core/tools/channel.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 54,
+        "name": "send_to_channel",
+        "path": "core/tools/channel.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 67,
+        "name": "configure_extension",
+        "path": "core/tools/configure_extension.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 52,
+        "name": "extensions_doctor",
+        "path": "core/tools/extensions_doctor.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 240,
+        "name": "file",
+        "path": "core/tools/file_manager.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 26,
+        "name": "request_restart",
+        "path": "core/tools/restart.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 54,
+        "name": "request_secure_input",
+        "path": "core/tools/secure_input.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 155,
+        "name": "inbox_list",
+        "path": "sandbox/extensions/inbox/main.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 185,
+        "name": "inbox_read",
+        "path": "sandbox/extensions/inbox/main.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected",
+      "source_scope_file_limit_reached"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

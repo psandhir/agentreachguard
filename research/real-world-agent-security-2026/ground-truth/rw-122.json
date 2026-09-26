@@ -1,0 +1,200 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-122.A001",
+      "evidence": [
+        {
+          "line": 177,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "list_available_tickers",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A002",
+      "evidence": [
+        {
+          "line": 192,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_ticker_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A003",
+      "evidence": [
+        {
+          "line": 201,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_price_history",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A004",
+      "evidence": [
+        {
+          "line": 211,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "resolve_trade_contract",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A005",
+      "evidence": [
+        {
+          "line": 225,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_order_books",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A006",
+      "evidence": [
+        {
+          "line": 230,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_positions",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-122.A007",
+      "evidence": [
+        {
+          "line": 235,
+          "path": "coinjure/strategy/agent.py",
+          "rationale": "Independent source review found an explicit tool definition or bound tool reference."
+        }
+      ],
+      "expected_state": "present",
+      "object": "get_recent_news",
+      "predicate": "explicit_tool_reference",
+      "rationale": "Independent source review found an explicit tool definition or bound tool reference.",
+      "subject": "rw-122",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-122",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "coinjure/strategy/agent.py",
+    "automated_reference": true,
+    "framework_stratum": "openai-agents",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "ulab-uiuc/coinjure",
+    "sha": "51bd34c0e3172973714181332bbdffac46716071"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [],
+    "delegation_edges": [],
+    "frameworks": [
+      "openai-agents"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 14,
+    "tools": [
+      {
+        "kind": "decorator:function_tool",
+        "line": 177,
+        "name": "list_available_tickers",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 192,
+        "name": "get_ticker_history",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 201,
+        "name": "get_price_history",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 211,
+        "name": "resolve_trade_contract",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 225,
+        "name": "get_order_books",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 230,
+        "name": "get_positions",
+        "path": "coinjure/strategy/agent.py"
+      },
+      {
+        "kind": "decorator:function_tool",
+        "line": 235,
+        "name": "get_recent_news",
+        "path": "coinjure/strategy/agent.py"
+      }
+    ],
+    "unresolved": [
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}

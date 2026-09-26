@@ -1,0 +1,139 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "RW-096.A001",
+      "evidence": [
+        {
+          "line": 5,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-096.A002",
+      "evidence": [
+        {
+          "line": 303,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-096.A003",
+      "evidence": [
+        {
+          "line": 423,
+          "path": "agent.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-096.A004",
+      "evidence": [
+        {
+          "line": 27,
+          "path": "test_notion.py",
+          "rationale": "Independent source review found an explicit agent/workflow construction."
+        }
+      ],
+      "expected_state": "present",
+      "object": "mcp-custom",
+      "predicate": "explicit_agent_entity",
+      "rationale": "Independent source review found an explicit agent/workflow construction.",
+      "subject": "agent",
+      "tier": "A"
+    }
+  ],
+  "case_id": "rw-096",
+  "schema_version": 1,
+  "source_reference": {
+    "application_path": "agent.py",
+    "automated_reference": true,
+    "framework_stratum": "mcp-custom",
+    "human_dual_review": false,
+    "method_version": "source-reference-v1",
+    "note": "Two independent automated source-review passes are used. This is not represented as human dual-review and is reported as a study limitation.",
+    "repo": "jakie528/mcp-oauth",
+    "sha": "8476ee620196e60114e9dc1d6d497e4edf614cf2"
+  },
+  "study": "real-world-agent-security-2026",
+  "tier_a": {
+    "agent_roots": [
+      {
+        "kind": "Agent",
+        "line": 5,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 303,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 423,
+        "name": "agent",
+        "path": "agent.py",
+        "variable": "agent"
+      },
+      {
+        "kind": "Agent",
+        "line": 27,
+        "name": "agent",
+        "path": "test_notion.py",
+        "variable": "agent"
+      }
+    ],
+    "delegation_edges": [],
+    "frameworks": [
+      "mcp-custom"
+    ],
+    "mcp_servers": [],
+    "reference_completeness": {
+      "agent_entities": false,
+      "delegation_edges": false,
+      "mcp_servers": false,
+      "tools": false
+    },
+    "source_files_reviewed": 2,
+    "tools": [],
+    "unresolved": [
+      "agent_ast_lexical_crosscheck_disagreement",
+      "dynamic_source_constructs_detected"
+    ]
+  },
+  "truth_lock": {
+    "horustrace_output_seen": false,
+    "locked_at": "2026-09-26",
+    "reviewed": true,
+    "reviewers": [
+      "independent-source-structural-pass-v1",
+      "independent-source-lexical-crosscheck-v1"
+    ]
+  }
+}
