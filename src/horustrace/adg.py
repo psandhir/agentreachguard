@@ -239,6 +239,24 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
         )
         identity_ids.setdefault(identity.name, identity_id)
 
+    for tool in graph.unbound_tools:
+        if tool.metadata.get("topology_visible_unbound") is not True:
+            continue
+        builder.node(
+            "tool",
+            tool.name,
+            location=tool.location,
+            framework=_framework(tool.metadata),
+            attributes={
+                "tool_name": tool.name,
+                "tool_kind": tool.kind,
+                "capabilities": sorted(tool.capabilities),
+                "unbound": True,
+                "binding_state": tool.metadata.get("binding_state") or "unbound",
+                "discovery_source": tool.metadata.get("discovery_source"),
+            },
+        )
+
     for agent in graph.agents:
         framework = _framework(agent.metadata)
         agent_id = builder.node(
