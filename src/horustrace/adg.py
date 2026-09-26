@@ -290,6 +290,9 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             attributes={
                 "agent_type": agent.metadata.get("agent_type"),
                 "workflow": agent.metadata.get("workflow"),
+                "discovery_basis": agent.metadata.get("discovery_basis"),
+                "semantic_entity_id": agent.metadata.get("semantic_entity_id"),
+                "semantic_entity_kind": agent.metadata.get("semantic_entity_kind"),
             },
         )
         agent_ids[id(agent)] = agent_id
