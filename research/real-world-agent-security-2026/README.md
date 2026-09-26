@@ -22,7 +22,7 @@ Do not run HorusTrace on candidate repositories before the cohort and independen
 Files:
 
 - `protocol.json` — pre-registered study design and thresholds;
-- `candidates.json` — source-only candidate discovery/screening ledger; currently 365 unique exact-SHA repositories, all pending source/metadata screening;
+- `candidates.json` — frozen source-only candidate discovery/screening ledger; 381 exact-SHA repositories, 196 included and 185 excluded;
 - `cohort.json` — exact-SHA cohort; initially empty and unfrozen;
 - `ground-truth.schema.json` — schema for case truth documents;
 - `ground-truth/` — case truth documents after cohort freeze;
@@ -212,3 +212,28 @@ Accordingly, screening completion does **not** freeze the candidate pool. A boun
 The completion pass also corrected prior-study exposure provenance for four repositories found by cross-checking the frozen public-corpus and deployment-authority manifests. Two are included and two excluded. These corrections do not change selection decisions and allow later results to report previously unseen generalization separately.
 
 No HorusTrace result was used in any screening decision.
+
+
+## Bounded non-ADK extension and candidate-pool freeze
+
+After complete adjudication of the original 365-repository snapshot, the eligible set could not satisfy the preregistered framework balance without exceeding the Google ADK maximum. A bounded 16-repository source-only extension was therefore completed before cohort selection. No HorusTrace output was used.
+
+Frozen candidate-pool state:
+
+- repositories reviewed: 381
+- included: 196
+- excluded: 185
+- pending: 0
+- candidate pool frozen: yes
+- HorusTrace execution before freeze: none
+- included by framework:
+  - Google ADK: 51
+  - OpenAI Agents SDK: 31
+  - Pydantic AI: 35
+  - LangGraph: 36
+  - FastAgent: 3
+  - MCP/custom: 40
+
+The extension deliberately targeted non-ADK applications. It raises OpenAI Agents SDK above its preregistered minimum and expands the framework-neutral MCP/custom pool. FastAgent remains a documented ecosystem-coverage shortfall: only three defensible evalstate FastAgent applications were found despite exhaustive source screening, and inclusion criteria were not weakened to manufacture the preregistered minimum.
+
+Tier B depth is ample: 147 of 196 eligible repositories have source-observed deep-authority/security signals. Tier C remains scarce at screening time; only five repositories are provisionally deployment/IAM eligible. The methodology explicitly treats failure to find 25 defensible public deployment cases as a reportable study result rather than a reason to alter selection rules.
