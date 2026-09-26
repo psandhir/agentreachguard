@@ -305,6 +305,52 @@ def _function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef, ser
     return None
 
 
+def _custom_mcp_wrapper_classes(tree: ast.AST) -> dict[str, str]:
+    """Return source-proven custom MCP wrapper classes and their transport."""
+    result: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ClassDef):
+            continue
+        lowered = node.name.lower()
+        if "mcp" not in lowered or (
+            "server" not in lowered and "connection" not in lowered
+        ):
+            continue
+
+        calls = {
+            _call_name(child.func) or ""
+            for child in ast.walk(node)
+            if isinstance(child, ast.Call)
+        }
+        strong = {
+            "Server",
+            "FastMCP",
+            "ClientSession",
+            "StdioServerParameters",
+            "stdio_client",
+            "stdio_server",
+            "sse_client",
+            "sse_client_async",
+            "streamable_http_client",
+            "streamablehttp_client",
+        }
+        if not (calls & strong):
+            continue
+
+        if calls & {"StdioServerParameters", "stdio_client", "stdio_server"}:
+            transport = "stdio"
+        elif calls & {"sse_client", "sse_client_async"}:
+            transport = "sse"
+        elif calls & {"streamable_http_client", "streamablehttp_client"}:
+            transport = "streamable-http"
+        elif calls & {"Server", "FastMCP"}:
+            transport = "server"
+        else:
+            transport = "unknown"
+        result[node.name] = transport
+    return result
+
+
 def scan_python_file(path: Path) -> Graph:
     graph = Graph()
     try:
@@ -319,6 +365,7 @@ def scan_python_file(path: Path) -> Graph:
     server_aliases: set[str] = set()
     servers: list[MCPServer] = []
     clients: set[str] = set()
+    custom_wrappers = _custom_mcp_wrapper_classes(tree)
 
     for node in ast.walk(tree):
         if not isinstance(node, (ast.Assign, ast.AnnAssign)):
@@ -356,6 +403,20 @@ def scan_python_file(path: Path) -> Graph:
                 )
             )
             server_aliases.add(name)
+        elif call_name in custom_wrappers:
+            servers.append(
+                MCPServer(
+                    name=name,
+                    transport=custom_wrappers[call_name],
+                    authenticated=None,
+                    location=_location(path, value),
+                    metadata={
+                        "framework": "mcp",
+                        "source": "custom_mcp_wrapper_instance",
+                        "wrapper_class": call_name,
+                    },
+                )
+            )
         elif call_name == "StdioServerParameters":
             servers.append(_stdio_server(path, value, name))
         elif call_name == "MultiServerMCPClient":
