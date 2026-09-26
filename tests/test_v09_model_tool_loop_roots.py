@@ -51,6 +51,15 @@ class Agent:
     }
     assert agent.tools == []
     assert agent.mcp_servers == []
+    assert graph.adg is not None
+    node = next(
+        item
+        for item in graph.adg.nodes
+        if item.kind == "agent" and item.name == "agent"
+    )
+    assert node.attributes["discovery_basis"] == "model_tools_selection_dispatch"
+    assert node.attributes["semantic_entity_kind"] == "agent"
+    assert node.attributes["semantic_entity_id"] == agent.metadata["semantic_entity_id"]
     assert effective_authority_report(graph)["relationships"] == []
 
 
