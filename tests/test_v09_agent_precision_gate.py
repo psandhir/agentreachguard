@@ -69,6 +69,6 @@ session:
         for agent in graph.agents
     ]
     assert observed == [
-        ("FunnelAgent", "agent.py", 4, True, None),
+        ("FunnelAgent", "agent.py", 4, None, None),
         ("AgroAsesorIA", "agentGemini/agent.py", 4, True, None),
     ]
