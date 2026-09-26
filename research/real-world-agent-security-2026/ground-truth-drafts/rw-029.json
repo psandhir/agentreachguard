@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-029",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "git791/GreenAI-Agent",
   "sha": "94fdaf7fd9dd4269ac85fef9e850237da0360908",
   "application_path": "agent.py",
   "framework_stratum": "google-adk",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,36 +21,125 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "VenueScout",
+        "kind": "LlmAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "TransportAgent",
+        "kind": "LlmAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "ScoutingTeam",
+        "kind": "ParallelAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "AuditorAgent",
+        "kind": "LlmAgent",
+        "path": "agent.py"
+      },
+      {
+        "name": "GreenEventOrchestrator",
+        "kind": "LlmAgent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "FunctionTool",
+        "binding": "tools list"
+      },
+      {
+        "name": "search_green_venues",
+        "binding": "tools list"
+      },
+      {
+        "name": "estimate_transport_emissions",
+        "binding": "tools list"
+      },
+      {
+        "name": "AgentTool",
+        "binding": "tools list"
+      },
+      {
+        "name": "agent",
+        "binding": "tools list"
+      },
+      {
+        "name": "scouting_team",
+        "binding": "tools list"
+      },
+      {
+        "name": "auditor_agent",
+        "binding": "tools list"
+      },
+      {
+        "name": "func",
+        "binding": "tools list"
+      },
+      {
+        "name": "confirm_venue_selection",
+        "binding": "tools list"
+      },
+      {
+        "name": "check_company_policy",
+        "binding": "tools list"
+      }
+    ],
     "mcp_servers": [],
-    "delegation_edges": [],
-    "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
-    ]
+    "delegation_edges": [
+      {
+        "from": "GreenEventOrchestrator",
+        "to": "venue_scout",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "GreenEventOrchestrator",
+        "to": "transport_agent",
+        "kind": "sub_agent"
+      }
+    ],
+    "unresolved": []
   },
   "assertions": [
     {
       "assertion_id": "RW-029.FRAMEWORK",
       "subject": "git791/GreenAI-Agent",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening; this automated pass does not alter that adjudication.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-029.AGENT_ROOT",
+      "subject": "git791/GreenAI-Agent",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "VenueScout",
+        "TransportAgent",
+        "ScoutingTeam",
+        "AuditorAgent",
+        "GreenEventOrchestrator"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically from pinned source; manual verification is still required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],

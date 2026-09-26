@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-034",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "salomonerobert/adk-design-agent",
   "sha": "b3aba77570f3891f836ac031257fe25872fc4000",
   "application_path": "agent.py",
   "framework_stratum": "google-adk",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,48 +21,82 @@
     ],
     "agent_roots": [
       {
-        "path": "agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "social_media_agent",
+        "kind": "LlmAgent",
+        "path": "agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "generate_image",
+        "binding": "tools list"
+      },
+      {
+        "name": "edit_image",
+        "binding": "tools list"
+      },
+      {
+        "name": "list_asset_versions",
+        "binding": "tools list"
+      },
+      {
+        "name": "list_reference_images",
+        "binding": "tools list"
+      },
+      {
+        "name": "load_artifacts_tool",
+        "binding": "tools list"
+      }
+    ],
     "mcp_servers": [],
-    "delegation_edges": [],
-    "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
-    ]
+    "delegation_edges": [
+      {
+        "from": "social_media_agent",
+        "to": "deep_think_loop",
+        "kind": "sub_agent"
+      }
+    ],
+    "unresolved": []
   },
   "assertions": [
     {
       "assertion_id": "RW-034.FRAMEWORK",
       "subject": "salomonerobert/adk-design-agent",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening; this automated pass does not alter that adjudication.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-034.AGENT_ROOT",
+      "subject": "salomonerobert/adk-design-agent",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "social_media_agent"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agent.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically from pinned source; manual verification is still required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],
   "tier_b_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "multiple_agents",
-      "explicit_delegation_or_composition",
-      "tool_composition",
-      "sensitive_resource_access"
-    ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "manual authority/attack-path adjudication pending"
   },
   "tier_c_draft": null
 }

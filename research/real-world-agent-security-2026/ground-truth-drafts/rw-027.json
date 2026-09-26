@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-027",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "google/pubmed-rag",
   "sha": "909b6e280b0f78ebc32fe4756513c859fe078491",
   "application_path": "agents/pipelines/full_review/agent.py",
   "framework_stratum": "google-adk",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": false,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,40 +21,67 @@
     ],
     "agent_roots": [
       {
-        "path": "agents/pipelines/full_review/agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "pubmed_full_review",
+        "kind": "SequentialAgent",
+        "path": "agents/pipelines/full_review/agent.py"
       }
     ],
     "tools": [],
     "mcp_servers": [],
-    "delegation_edges": [],
+    "delegation_edges": [
+      {
+        "from": "pubmed_full_review",
+        "to": "librarian_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "pubmed_full_review",
+        "to": "analyst_agent",
+        "kind": "sub_agent"
+      },
+      {
+        "from": "pubmed_full_review",
+        "to": "reporter_agent",
+        "kind": "sub_agent"
+      }
+    ],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No direct tool binding was extracted automatically; imported or dynamic tools require manual review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-027.FRAMEWORK",
       "subject": "google/pubmed-rag",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "agents/pipelines/full_review/agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
-        },
-        {
-          "path": "agents/README.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening; this automated pass does not alter that adjudication.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-027.AGENT_ROOT",
+      "subject": "google/pubmed-rag",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "pubmed_full_review"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "agents/pipelines/full_review/agent.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically from pinned source; manual verification is still required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],

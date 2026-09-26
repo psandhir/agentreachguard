@@ -2,17 +2,18 @@
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
   "case_id": "rw-032",
-  "status": "first_pass_source_draft",
+  "status": "machine_extracted_source_pass",
   "repo": "allen-stephen/memory-bank-samples",
   "sha": "ac7fdb1ed89f96c4f4e4d96548c09260e9e387da",
   "application_path": "app/agent.py",
   "framework_stratum": "google-adk",
   "review": {
-    "reviewer": "assistant-source-pass-1",
+    "reviewer": "assistant-source-extractor",
     "reviewed_at": "2026-09-26",
     "horustrace_output_seen": false,
+    "manual_verification_required": true,
     "second_review_required": true,
-    "note": "Draft only. This file is intentionally outside the locked ground-truth directory and must not be treated as final truth."
+    "note": "Automated conservative source extraction only; not final ground truth."
   },
   "tier_a": {
     "frameworks": [
@@ -20,62 +21,209 @@
     ],
     "agent_roots": [
       {
-        "path": "app/agent.py",
-        "status": "source_screened_application_root_candidate",
-        "basis": "Frozen cohort application path; exact agent-root name/count requires detailed review."
+        "name": "root_agent",
+        "kind": "Agent",
+        "path": "app/agent.py"
       }
     ],
-    "tools": [],
+    "tools": [
+      {
+        "name": "get_weather",
+        "binding": "tools list"
+      },
+      {
+        "name": "get_current_time",
+        "binding": "tools list"
+      },
+      {
+        "name": "Memory",
+        "binding": "tools list"
+      },
+      {
+        "name": "Bank",
+        "binding": "tools list"
+      },
+      {
+        "name": "PreloadMemoryTool",
+        "binding": "tools list"
+      },
+      {
+        "name": "retrieves",
+        "binding": "tools list"
+      },
+      {
+        "name": "memories",
+        "binding": "tools list"
+      },
+      {
+        "name": "at",
+        "binding": "tools list"
+      },
+      {
+        "name": "the",
+        "binding": "tools list"
+      },
+      {
+        "name": "start",
+        "binding": "tools list"
+      },
+      {
+        "name": "of",
+        "binding": "tools list"
+      },
+      {
+        "name": "each",
+        "binding": "tools list"
+      },
+      {
+        "name": "turn",
+        "binding": "tools list"
+      },
+      {
+        "name": "and",
+        "binding": "tools list"
+      },
+      {
+        "name": "injects",
+        "binding": "tools list"
+      },
+      {
+        "name": "them",
+        "binding": "tools list"
+      },
+      {
+        "name": "into",
+        "binding": "tools list"
+      },
+      {
+        "name": "system",
+        "binding": "tools list"
+      },
+      {
+        "name": "instruction.",
+        "binding": "tools list"
+      },
+      {
+        "name": "The",
+        "binding": "tools list"
+      },
+      {
+        "name": "model",
+        "binding": "tools list"
+      },
+      {
+        "name": "sees",
+        "binding": "tools list"
+      },
+      {
+        "name": "past",
+        "binding": "tools list"
+      },
+      {
+        "name": "user",
+        "binding": "tools list"
+      },
+      {
+        "name": "preferences",
+        "binding": "tools list"
+      },
+      {
+        "name": "facts",
+        "binding": "tools list"
+      },
+      {
+        "name": "as",
+        "binding": "tools list"
+      },
+      {
+        "name": "context",
+        "binding": "tools list"
+      },
+      {
+        "name": "without",
+        "binding": "tools list"
+      },
+      {
+        "name": "needing",
+        "binding": "tools list"
+      },
+      {
+        "name": "an",
+        "binding": "tools list"
+      },
+      {
+        "name": "explicit",
+        "binding": "tools list"
+      },
+      {
+        "name": "tool",
+        "binding": "tools list"
+      },
+      {
+        "name": "call.",
+        "binding": "tools list"
+      },
+      {
+        "name": "Alternative",
+        "binding": "tools list"
+      },
+      {
+        "name": "LoadMemoryTool",
+        "binding": "tools list"
+      },
+      {
+        "name": "calls",
+        "binding": "tools list"
+      }
+    ],
     "mcp_servers": [],
     "delegation_edges": [],
     "unresolved": [
-      "Detailed agent-root name/count enumeration pending reviewer verification.",
-      "Tool inventory pending reviewer verification.",
-      "MCP server/binding inventory pending reviewer verification.",
-      "Delegation-edge inventory pending reviewer verification."
+      "No direct delegation edge was extracted automatically; dynamic/imported delegation requires manual review."
     ]
   },
   "assertions": [
     {
       "assertion_id": "RW-032.FRAMEWORK",
       "subject": "allen-stephen/memory-bank-samples",
-      "predicate": "contains_substantive_agent_application_in_framework_stratum",
+      "predicate": "uses_framework_stratum",
       "object": "google-adk",
       "expected_state": "present",
       "evidence": [
         {
           "path": "app/agent.py",
-          "rationale": "Frozen cohort application path established by source-only screening before HorusTrace execution."
-        },
-        {
-          "path": "AGENT_GUIDE.md",
-          "rationale": "Original discovery evidence path retained as an independent source pointer."
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
         }
       ],
-      "rationale": "Repository was admitted to the frozen cohort by source-only screening as a substantive application in this framework stratum; exact structural enumeration remains pending detailed ground-truth review.",
+      "rationale": "Cohort inclusion was established by prior source-only screening; this automated pass does not alter that adjudication.",
       "category": "framework",
+      "tier": "A"
+    },
+    {
+      "assertion_id": "RW-032.AGENT_ROOT",
+      "subject": "allen-stephen/memory-bank-samples",
+      "predicate": "has_agent_root_candidate",
+      "object": [
+        "root_agent"
+      ],
+      "expected_state": "present",
+      "evidence": [
+        {
+          "path": "app/agent.py",
+          "rationale": "Pinned application source used for conservative automated syntax extraction; manual verification remains required."
+        }
+      ],
+      "rationale": "Agent constructors/decorators were extracted syntactically from pinned source; manual verification is still required.",
+      "category": "agent_root",
       "tier": "A"
     }
   ],
   "tier_b_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "sensitive_resource_access",
-      "external_write_or_network",
-      "tool_composition",
-      "persistent_memory"
-    ],
-    "review_status": "detailed_authority_and_attack_path_review_pending"
+    "review_status": "manual authority/attack-path adjudication pending"
   },
   "tier_c_draft": {
     "selected": true,
-    "source_screening_signals": [
-      "gcp_agent_engine",
-      "cloud_run",
-      "service_account",
-      "explicit_gcp_roles",
-      "deployment_script"
-    ],
-    "review_status": "deployment_identity_and_iam_review_pending"
+    "review_status": "manual deployment/IAM adjudication pending"
   }
 }
