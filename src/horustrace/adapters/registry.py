@@ -11,6 +11,8 @@ from horustrace.adapters.google_adk import is_google_adk_file
 from horustrace.adapters.google_adk import scan_python_file as scan_google_adk_python
 from horustrace.adapters.langgraph import is_langgraph_file
 from horustrace.adapters.langgraph import scan_python_file as scan_langgraph_python
+from horustrace.adapters.langchain_tools import is_langchain_tool_file
+from horustrace.adapters.langchain_tools import scan_python_file as scan_langchain_tools_python
 from horustrace.adapters.mcp_python import is_mcp_python_file
 from horustrace.adapters.mcp_python import scan_python_file as scan_mcp_python
 from horustrace.adapters.openai_agents import is_openai_agents_file
@@ -23,6 +25,7 @@ from horustrace.models import Graph
 PYTHON_FRAMEWORK_ADAPTERS: tuple[PythonFrameworkAdapter, ...] = (
     PythonFrameworkAdapter("google-adk", is_google_adk_file, scan_google_adk_python),
     PythonFrameworkAdapter("langgraph", is_langgraph_file, scan_langgraph_python),
+    PythonFrameworkAdapter("langchain-tools", is_langchain_tool_file, scan_langchain_tools_python),
     PythonFrameworkAdapter("openai-agents", is_openai_agents_file, scan_openai_python),
     PythonFrameworkAdapter("pydantic-ai", is_pydantic_ai_file, scan_pydantic_ai_python),
     PythonFrameworkAdapter("fast-agent", is_fast_agent_file, scan_fast_agent_python),
