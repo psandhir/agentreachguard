@@ -37,5 +37,16 @@ def test_real_world_agent_security_protocol_is_valid() -> None:
         "pydantic-ai": 66,
     }
     assert report["candidates"]["frozen"] is True
-    assert report["cohort"]["frozen"] is False
-    assert report["cohort"]["cases"] == 0
+    assert report["cohort"]["frozen"] is True
+    assert report["cohort"]["cases"] == 180
+    assert report["cohort"]["tier_b"] == 60
+    assert report["cohort"]["tier_c"] == 4
+    assert report["cohort"]["truth_locked"] is False
+    assert report["cohort"]["framework_counts"] == {
+        "fastagent": 3,
+        "google-adk": 37,
+        "langgraph": 35,
+        "mcp-custom": 40,
+        "openai-agents": 31,
+        "pydantic-ai": 34,
+    }

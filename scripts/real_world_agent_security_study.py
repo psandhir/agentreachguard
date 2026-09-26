@@ -552,9 +552,29 @@ def validate_cohort(
         raise StudyProtocolError(
             f"{path}: tier_b_case_ids must contain exactly {protocol['tier_b_target']} unique IDs"
         )
-    if len(tier_c_ids) != protocol["tier_c_target"] or len(tier_c_set) != len(tier_c_ids):
-        raise StudyProtocolError(
-            f"{path}: tier_c_case_ids must contain exactly {protocol['tier_c_target']} unique IDs"
+    if len(tier_c_set) != len(tier_c_ids):
+        raise StudyProtocolError(f"{path}: tier_c_case_ids must contain unique IDs")
+    if len(tier_c_ids) != protocol["tier_c_target"]:
+        shortfall = document.get("tier_c_shortfall")
+        if not isinstance(shortfall, dict):
+            raise StudyProtocolError(
+                f"{path}: Tier C shortfall requires documented tier_c_shortfall"
+            )
+        if shortfall.get("target") != protocol["tier_c_target"]:
+            raise StudyProtocolError(
+                f"{path}: tier_c_shortfall.target must preserve the preregistered target"
+            )
+        if shortfall.get("selected") != len(tier_c_ids):
+            raise StudyProtocolError(
+                f"{path}: tier_c_shortfall.selected must equal selected Tier C cases"
+            )
+        if shortfall.get("source_review_complete") is not True:
+            raise StudyProtocolError(
+                f"{path}: Tier C shortfall requires completed source review"
+            )
+        _require_nonempty_string(
+            shortfall.get("reason"),
+            f"{path}: tier_c_shortfall.reason",
         )
     if not tier_b_set <= known_ids or not tier_c_set <= known_ids:
         raise StudyProtocolError(f"{path}: tier subsets must reference cohort cases")
