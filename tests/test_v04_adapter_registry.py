@@ -11,6 +11,7 @@ def test_framework_registry_has_stable_adapter_order() -> None:
     assert [adapter.name for adapter in PYTHON_FRAMEWORK_ADAPTERS] == [
         "google-adk",
         "langgraph",
+        "langchain-tools",
         "openai-agents",
         "pydantic-ai",
         "fast-agent",
@@ -22,6 +23,10 @@ def test_framework_registry_detects_supported_python_frameworks(tmp_path: Path) 
     cases = {
         "adk.py": ("from google.adk import Agent\n", "google-adk"),
         "langgraph.py": ("from langgraph.graph import StateGraph\n", "langgraph"),
+        "langchain_tools.py": (
+            "from langchain_core.tools import tool\n",
+            "langchain-tools",
+        ),
         "openai.py": ("from agents import Agent\n", "openai-agents"),
         "fast_agent.py": (
             "from fast_agent import FastAgent\nfast = FastAgent('demo')\n",
