@@ -65,6 +65,6 @@ def test_traversal_limit_aborts_safely(tmp_path: Path, monkeypatch) -> None:
 
     for index in range(3):
         (tmp_path / f"file{index}.txt").write_text("x")
-    monkeypatch.setattr(scanner, "MAX_FILES_VISITED", 2)
+    monkeypatch.setattr(scanner, "MAX_REPOSITORY_ENTRIES_VISITED", 2)
     with pytest.raises(ScannerError, match="traversal"):
         scan(tmp_path)

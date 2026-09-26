@@ -35,6 +35,7 @@ from horustrace.limits import (
     MAX_FILE_SIZE_BYTES,
     MAX_FILES_VISITED,
     MAX_NOTEBOOK_FILE_SIZE_BYTES,
+    MAX_REPOSITORY_ENTRIES_VISITED,
     ScanLimitError,
     validate_json_safety,
     validate_yaml_safety,
@@ -366,6 +367,27 @@ def _is_source_fragment(path: Path) -> bool:
     return any(part.lower() in SOURCE_FRAGMENT_DIRS for part in path.parts)
 
 
+def _is_supported_scan_candidate(path: Path) -> bool:
+    return (
+        path.suffix.lower() in {".py", ".ipynb", ".tf", ".yaml", ".yml"}
+        or path.name
+        in (
+            MCP_FILENAMES
+            | MANIFEST_FILENAMES
+            | SUPPRESSION_FILENAMES
+            | FAST_AGENT_CONFIG_FILENAMES
+        )
+        or path.name == ".env"
+        or path.name.startswith(".env.")
+    )
+
+
+def _is_repository_candidate(path: Path) -> bool:
+    # pyproject.toml is retained for console-script entrypoint provenance even
+    # though it is not parsed as a primary security-analysis input.
+    return _is_supported_scan_candidate(path) or path.name == "pyproject.toml"
+
+
 def _ignored(path: Path, root: Path) -> bool:
     relative = path.relative_to(root)
     if any(part in DEFAULT_IGNORES for part in relative.parts):
@@ -407,10 +429,25 @@ def _unreadable_path_diagnostic(
 
 
 def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
-    """Walk a repository without letting one unreadable path abort the scan."""
+    """Walk a repository without letting irrelevant payload exhaust scan limits."""
     candidates: list[Path] = []
     stack = [root]
     containment_root = canonical_root(root)
+    entries_visited = 0
+
+    def add_candidate(candidate: Path) -> None:
+        if not _is_repository_candidate(candidate):
+            # Preserve historical coverage accounting even though irrelevant
+            # payload no longer consumes the analysis-candidate safety budget.
+            graph.coverage.files_considered += 1
+            graph.coverage.files_skipped += 1
+            return
+        if len(candidates) >= MAX_FILES_VISITED:
+            raise ScannerError(
+                f"{root}: repository analysis exceeds the "
+                f"{MAX_FILES_VISITED}-candidate safety limit"
+            )
+        candidates.append(candidate)
 
     while stack:
         directory = stack.pop()
@@ -427,10 +464,11 @@ def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
             continue
 
         for candidate in entries:
-            if len(candidates) >= MAX_FILES_VISITED:
+            entries_visited += 1
+            if entries_visited > MAX_REPOSITORY_ENTRIES_VISITED:
                 raise ScannerError(
                     f"{root}: repository traversal exceeds the "
-                    f"{MAX_FILES_VISITED}-file safety limit"
+                    f"{MAX_REPOSITORY_ENTRIES_VISITED}-entry safety limit"
                 )
             try:
                 if candidate.is_symlink():
@@ -451,7 +489,7 @@ def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
                         graph.coverage.files_skipped += 1
                         continue
                     if target.is_file() and not _ignored(candidate, root):
-                        candidates.append(candidate)
+                        add_candidate(candidate)
                     continue
 
                 if candidate.is_dir():
@@ -459,7 +497,7 @@ def _repository_candidates(root: Path, graph: Graph) -> list[Path]:
                         stack.append(candidate)
                     continue
                 if candidate.is_file() and not _ignored(candidate, root):
-                    candidates.append(candidate)
+                    add_candidate(candidate)
             except (OSError, RuntimeError) as exc:
                 _unreadable_path_diagnostic(
                     graph,
@@ -946,9 +984,7 @@ def scan(
         if real_candidate in seen_real_paths:
             graph.coverage.files_skipped += 1
             continue
-        supported = (candidate.suffix.lower() in {".py", ".ipynb", ".tf", ".yaml", ".yml"}
-                     or candidate.name in MCP_FILENAMES | MANIFEST_FILENAMES | SUPPRESSION_FILENAMES
-                     or candidate.name == ".env" or candidate.name.startswith(".env."))
+        supported = _is_supported_scan_candidate(candidate)
         if not supported:
             graph.coverage.files_skipped += 1
             continue
