@@ -204,7 +204,7 @@ def _custom_class_agents(path: Path, tree: ast.AST) -> list[Agent]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.ClassDef):
             continue
-        if "agent" not in node.name.lower():
+        if node.name != "Agent":
             continue
         signals = _class_signals(node)
         if not all(signals.values()):
