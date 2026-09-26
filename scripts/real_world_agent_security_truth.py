@@ -380,16 +380,16 @@ def extract_python(path: str, text: str) -> tuple[list[Fact], list[Fact], list[F
 
 
 ASSIGN_RE = re.compile(
-    r"(?m)^\s*(?:const|let|var)?\s*([A-Za-z_][\w]*)\s*=\s*(?:new\s+)?"
+    r"(?m)^\s*(?:const|let|var)?\s*([A-Za-z_]\w*)\s*=\s*(?:new\s+)?"
     r"(Agent|LlmAgent|SequentialAgent|ParallelAgent|LoopAgent|RemoteA2aAgent|Workflow|"
     r"FastAgent|StateGraph|create_react_agent|create_agent|create_deep_agent|"
     r"create_supervisor|create_swarm)\s*\("
 )
 MCP_RE = re.compile(
-    r"(?m)^\s*(?:const|let|var)?\s*([A-Za-z_][\w]*)\s*=\s*(?:new\s+)?"
-    r"([A-Za-z_][\w]*(?:MCP|Mcp)[A-Za-z_\w]*(?:Server|Toolset)[A-Za-z_\w]*)\s*\("
+    r"(?m)^\s*(?:const|let|var)?\s*([A-Za-z_]\w*)\s*=\s*(?:new\s+)?"
+    r"([A-Za-z_]\w*(?:MCP|Mcp)\w*(?:Server|Toolset)\w*)\s*\("
 )
-TOOL_RE = re.compile(r"(?m)^\s*(?:@(?:\w+\.)?(?:tool|tool_plain|function_tool)\b.*\n\s*)?(?:async\s+)?def\s+([A-Za-z_][\w]*)\s*\(")
+TOOL_RE = re.compile(r"(?m)^\s*(?:@(?:\w+\.)?(?:tool|tool_plain|function_tool)\b.*\n\s*)?(?:async\s+)?def\s+([A-Za-z_]\w*)\s*\(")
 
 
 def line_of(text: str, start: int) -> int:
@@ -408,8 +408,8 @@ def lexical_extract(path: str, text: str) -> tuple[list[Fact], list[Fact], list[
     tools: list[Fact] = []
     if Path(path).suffix.lower() == ".py":
         for m in re.finditer(
-            r"(?m)^\s*@(?:[A-Za-z_][\w]*\.)?(tool|tool_plain|function_tool)(?:\([^)]*\))?\s*\n"
-            r"\s*(?:async\s+)?def\s+([A-Za-z_][\w]*)\s*\(",
+            r"(?m)^\s*@(?:[A-Za-z_]\w*\.)?(tool|tool_plain|function_tool)(?:\([^)]*\))?\s*\n"
+            r"\s*(?:async\s+)?def\s+([A-Za-z_]\w*)\s*\(",
             text,
         ):
             tools.append(Fact(name=m.group(2), path=path, line=line_of(text, m.start()), kind=f"lexical:{m.group(1)}"))
