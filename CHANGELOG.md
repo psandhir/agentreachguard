@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.9.0 - 2026-09-26
+
+- Complete the Recall Foundation milestone against the unchanged frozen 180-repository cohort with **180/180 successful scans** and all preregistered v0.9 hard gates passing.
+- Raise agent/workflow recall from **0.4993 to 0.8584** while retaining locked-reference precision **0.9526**.
+- Raise LangGraph agent/workflow recall to **0.9613** and tool recall to **0.9660** through explicit workflow-node semantics, improved control-flow modeling and standalone LangChain tool discovery.
+- Add conservative framework-neutral model/tool-loop discovery requiring model invocation, model-visible tools, model-selected calls and concrete dispatch; MCP/custom agent recall reaches **0.6250**.
+- Expand MCP discovery across programmatic clients/servers, source-proven custom wrappers, OpenAI Agents MCP definitions and Pydantic AI MCP constructs; explicit MCP-server recall rises from **0.2727 to 0.8636**.
+- Make unbound MCP entities topology-visible without fabricating agent `INVOKES` or effective-authority relationships.
+- Harden repository traversal across unreadable paths, symlinks and large unrelated source trees while retaining explicit safety ceilings and coverage diagnostics.
+- Remove an ADK project-descriptor false positive so the formal raw precision gate passes without modifying locked study truth.
+- Preserve the key limitation that effective-authority precision remains **0.2778**; authority-fidelity redesign is deferred to v0.10.
+- Publish the full frozen-180 evidence trail and residual-error ledger under `docs/research/v0.9-recall-foundation-closeout.md`.
+
 ## 0.8.0 - 2026-09-24
 
 - Add Deployment Evidence v1, a local-first JSON/YAML contract for workload identity, IAM binding, inheritance, conditions and role-permission evidence without cloud API calls or target-agent execution.

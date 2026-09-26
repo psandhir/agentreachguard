@@ -16,10 +16,10 @@ security layers:
 4. **Data & network reachability** — sensitive resources, resource scope, outbound destinations and allowlist violations.
 5. **Attack-path analysis** — potential risk combinations such as untrusted content → delegated agent → shell, or confidential data → agent → external write.
 
-> Status: **v0.8.0**. Findings, effective-authority relationships, Authority Contract assessments and deployed-authority reconciliation are deterministic within supported evidence. HorusTrace does not prove runtime exploitability or silently infer complete live cloud authority.
+> Status: **v0.9.0**. Cross-framework semantic discovery now has substantially broader LangGraph, MCP/custom and explicit MCP-server coverage while preserving unresolved state when static evidence is insufficient. Effective-authority relationships, policy assessments and deployed-authority reconciliation remain static evidence; HorusTrace does not prove runtime exploitability or silently infer complete live cloud authority.
 
-Release notes: [`docs/releases/v0.8.0.md`](docs/releases/v0.8.0.md)  
-Frozen-90 static validation baseline: [`docs/research/frozen-90-v0.6.0-baseline.md`](docs/research/frozen-90-v0.6.0-baseline.md)
+Release notes: [`docs/releases/v0.9.0.md`](docs/releases/v0.9.0.md)  
+Frozen-180 v0.9 validation closeout: [`docs/research/v0.9-recall-foundation-closeout.md`](docs/research/v0.9-recall-foundation-closeout.md)
 
 ## Security model
 
