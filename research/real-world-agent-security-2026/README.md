@@ -44,7 +44,7 @@ Phase 2 begins with a 365-repository source-only discovery snapshot:
 
 Each row records the immutable commit SHA plus the GitHub code-search query and evidence path that caused discovery. Discovery is deliberately over-inclusive: a match is not an inclusion decision.
 
-Candidate screening is now in progress. The first balanced pilot reviewed 12 repositories (two from each original discovery stratum): 10 included, 2 excluded, 353 pending. One discovery match was re-stratified from FastAgent to LangGraph after source review showed that "FastAgent" was a project-local class name rather than use of the evalstate FastAgent framework.
+Candidate screening is complete. The original 365-repository snapshot produced 180 source-qualified inclusions and 185 exclusions; a bounded 16-repository non-ADK extension then produced the frozen 381-candidate pool used for cohort selection.
 
 Every completed screening record must be source-only and contain a rationale, license/provenance status, a defensible application path for included candidates, Tier B/Tier C eligibility signals, and a completed prior-study exposure check. HorusTrace must not be run during this phase.
 
@@ -60,7 +60,7 @@ The pilot validates several important screening rules before scaling review to a
 - absence of a GitHub-detected license is recorded explicitly rather than silently ignored;
 - previous HorusTrace exposure is checked before a candidate is considered reviewed.
 
-The candidate pool remains unfrozen. No cohort selection or HorusTrace execution has occurred.
+Historical sections below preserve the phase-by-phase screening record. The candidate pool and final 180-case cohort are now frozen, source reference is locked, and the frozen baseline has been executed.
 
 
 ## Screening batch 1
@@ -259,3 +259,19 @@ Tier B is frozen at 60 source-complex cases: 12 Google ADK, 12 OpenAI Agents, 11
 Tier C is frozen at four defensible cases after a dedicated source-only deployment/IAM review. The preregistered target remains 25; the 21-case shortfall is a study finding, not a reason to weaken evidence requirements or alter broad-cohort selection. The study harness permits this only when the shortfall is explicitly documented and source review is complete.
 
 Ground truth remains pending. HorusTrace still must not be executed against the cohort until truth is locked.
+
+
+## Study completion
+
+The preregistered 2026 real-world baseline is complete through roadmap derivation.
+
+Final artifacts:
+
+- `final-report.md` — study conclusions, measured threshold outcomes, limitations and framework analysis;
+- `results/frozen-baseline.json` / `results/frozen-baseline.md` — immutable frozen-scanner baseline;
+- `results/error-taxonomy.json` — machine-readable product error taxonomy;
+- `product-roadmap.md` — prioritized development sequence derived from measured baseline errors.
+
+The original scanner baseline remains pinned to `418db4e29798a7d25df686dd7bccfd9fefa225bd`. Product changes discovered by the study must be validated as deltas against the same frozen cohort; the original baseline and locked truth must not be overwritten.
+
+The source reference is an independent automated dual-pass reference, not a human dual-review panel. Accordingly, finding precision/recall and exhaustive attack-path accuracy are not claimed by this study.

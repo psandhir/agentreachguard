@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "study": "real-world-agent-security-2026",
+  "scanner_sha": "418db4e29798a7d25df686dd7bccfd9fefa225bd",
+  "derived_from": "results/frozen-baseline.json",
+  "categories": [
+    {
+      "id": "framework_root_discovery",
+      "priority": "P0",
+      "evidence": {
+        "missed_agent_entities": 346,
+        "langgraph_misses": 252,
+        "mcp_custom_agent_recall": 0.0625
+      },
+      "interpretation": "Primary recall bottleneck; LangGraph and framework-neutral/custom loops dominate."
+    },
+    {
+      "id": "tool_discovery",
+      "priority": "P0",
+      "evidence": {
+        "missed_tools": 814,
+        "mcp_custom_misses": 408,
+        "langgraph_misses": 137,
+        "openai_misses": 152
+      },
+      "interpretation": "Tool discovery is insufficient for authority analysis; framework-neutral and LangGraph patterns are the largest gaps."
+    },
+    {
+      "id": "mcp_discovery_binding",
+      "priority": "P0",
+      "evidence": {
+        "truth": 22,
+        "matched": 6,
+        "missed": 16,
+        "recall": 0.2727
+      },
+      "interpretation": "Strategic product gap because MCP reachability is a core HorusTrace thesis."
+    },
+    {
+      "id": "authority_binding",
+      "priority": "P0",
+      "evidence": {
+        "truth": 126,
+        "tp": 77,
+        "fn": 49,
+        "precision": 0.2778,
+        "recall": 0.6111,
+        "langgraph_false_positives": 50
+      },
+      "interpretation": "Requires provenance-aware graph binding, not policy-rule tuning."
+    },
+    {
+      "id": "deployment_identity",
+      "priority": "P1",
+      "evidence": {
+        "tier_c_cases": 4,
+        "reference_identities": 7,
+        "matched": 0,
+        "recall": 0
+      },
+      "interpretation": "Zero identity recall on small but source-defensible deployment subset."
+    },
+    {
+      "id": "scanner_unreadable_path",
+      "priority": "P1",
+      "evidence": {
+        "execution_failures": 1,
+        "case_id": "rw-177"
+      },
+      "interpretation": "Filesystem traversal must degrade to coverage diagnostics rather than abort."
+    },
+    {
+      "id": "attack_path_validation_evidence",
+      "priority": "P1",
+      "evidence": {
+        "reported": 3,
+        "source_adjudicable": 0
+      },
+      "interpretation": "Current reference cannot validate attack-path quality; create human-adjudicated path benchmark before making accuracy claims."
+    },
+    {
+      "id": "finding_semantic_validation",
+      "priority": "P2",
+      "evidence": {
+        "findings": 268
+      },
+      "interpretation": "Do not expand rule catalogue until a representative finding sample is independently adjudicated and structural coverage improves."
+    }
+  ],
+  "threshold_outcomes": {
+    "agent_root_precision": {
+      "meets_threshold": true,
+      "threshold": 0.95,
+      "value": 0.9706
+    },
+    "agent_root_recall": {
+      "meets_threshold": false,
+      "threshold": 0.9,
+      "value": 0.4993
+    },
+    "attack_path_structural_support_precision": {
+      "meets_threshold": false,
+      "note": "proxy over source-adjudicable reported paths; not runtime exploitability",
+      "threshold": 0.8,
+      "value": null
+    },
+    "authority_edge_precision": {
+      "meets_threshold": false,
+      "threshold": 0.9,
+      "value": 0.2778
+    },
+    "authority_edge_recall": {
+      "meets_threshold": false,
+      "threshold": 0.8,
+      "value": 0.6111
+    }
+  },
+  "limitations": [
+    "ground truth uses an automated dual-pass source reference, not independent human dual review",
+    "finding assertion precision/recall not established",
+    "attack-path recall/precision not established",
+    "runtime effectiveness not verified",
+    "Tier-C sample is four cases rather than preregistered target 25"
+  ]
+}
