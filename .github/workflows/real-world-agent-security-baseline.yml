@@ -1,0 +1,91 @@
+name: Real World Agent Security Frozen Baseline
+
+on:
+  push:
+    branches:
+      - research/real-world-study-baseline
+    paths:
+      - ".github/workflows/real-world-agent-security-baseline.yml"
+      - "scripts/real_world_agent_security_execute.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: real-world-agent-security-baseline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  baseline:
+    name: Frozen scanner baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      SCANNER_SHA: 418db4e29798a7d25df686dd7bccfd9fefa225bd
+
+    steps:
+      - name: Check out study branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Validate locked study state
+        run: |
+          python scripts/real_world_agent_security_study.py --validate-only
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("research/real-world-agent-security-2026")
+          cohort = json.loads((root / "cohort.json").read_text())
+          assert cohort["cohort_frozen"] is True
+          assert cohort["ground_truth_locked"] is True
+          assert cohort["scanner_freeze_sha"] == "418db4e29798a7d25df686dd7bccfd9fefa225bd"
+          print("locked study state verified")
+          PY
+
+      - name: Install preregistered frozen HorusTrace
+        shell: bash
+        run: |
+          set -euo pipefail
+          FROZEN=/tmp/horustrace-frozen
+          git init -q "$FROZEN"
+          git -C "$FROZEN" remote add origin https://github.com/psandhir/horustrace.git
+          git -C "$FROZEN" fetch --quiet --depth=1 origin "$SCANNER_SHA"
+          git -C "$FROZEN" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$FROZEN" rev-parse HEAD)" = "$SCANNER_SHA"
+          python -m pip install --disable-pip-version-check "$FROZEN"
+          command -v horustrace
+          horustrace --help >/dev/null
+
+      - name: Execute frozen 180-case baseline
+        run: |
+          mkdir -p research/real-world-agent-security-2026/results
+          python scripts/real_world_agent_security_execute.py \
+            --scanner "$(command -v horustrace)" \
+            --scanner-sha "$SCANNER_SHA" \
+            --workers 8 \
+            --output-json research/real-world-agent-security-2026/results/frozen-baseline.json \
+            --output-markdown research/real-world-agent-security-2026/results/frozen-baseline.md
+          cat research/real-world-agent-security-2026/results/frozen-baseline.md
+
+      - name: Check generated diff
+        run: git diff --check
+
+      - name: Commit immutable baseline artifacts
+        shell: bash
+        run: |
+          git config user.name "horustrace-study-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add research/real-world-agent-security-2026/results/frozen-baseline.json
+          git add research/real-world-agent-security-2026/results/frozen-baseline.md
+          if git diff --cached --quiet; then
+            echo "No baseline result changes."
+            exit 0
+          fi
+          git commit -m "research: record frozen real-world baseline"
+          git push origin HEAD:research/real-world-study-baseline
