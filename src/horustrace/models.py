@@ -486,9 +486,27 @@ class ScanCoverage:
 
 
 @dataclass(slots=True)
+class WorkflowNode:
+    """Non-principal workflow topology entity.
+
+    Workflow nodes describe graph execution structure without implying autonomous
+    agent authority. Adapters may classify their semantic role while security rules
+    continue to operate on Graph.agents and their explicitly bound capabilities.
+    """
+
+    name: str
+    role: str = "unknown"
+    framework: str = "generic"
+    location: SourceLocation | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    provenance: list[EvidenceFact] = field(default_factory=list)
+
+
+@dataclass(slots=True)
 class Graph:
     coverage: ScanCoverage = field(default_factory=ScanCoverage)
     agents: list[Agent] = field(default_factory=list)
+    workflow_nodes: list[WorkflowNode] = field(default_factory=list)
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
     unresolved_mcp_references: list[MCPServer] = field(default_factory=list)
