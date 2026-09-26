@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "study": "real-world-agent-security-2026",
-  "phase": "candidate_screening_complete_unfrozen",
+  "phase": "candidate_pool_frozen",
   "protocol_sha": null,
   "horustrace_results_used_for_selection": false,
-  "candidate_pool_frozen": false,
+  "candidate_pool_frozen": true,
   "minimum_pool_size": 300,
   "discovery_snapshot": {
     "captured_at": "2026-09-25",
@@ -10982,13 +10982,531 @@
         }
       },
       "exclusion_reason": "mcp_plumbing_without_model_directed_agent_loop"
+    },
+    {
+      "repo": "IAmTomShaw/stock-tracker-agent",
+      "sha": "c2e02428e3360ed00a94052b211d2422c6c8155c",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool",
+        "evidence_path": "lib/agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "lib/agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "multi_agent",
+            "state_mutation",
+            "sms_side_effect",
+            "web_search"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "elchanio-76/deep_research",
+      "sha": "fbe2b3181382862e8238c445baeb71bab708f9d5",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool function_tool",
+        "evidence_path": "src/agents/qa_agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "src/agents/qa_agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "agent_as_tool",
+            "web_search",
+            "quality_analysis"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "indrazm/ai-discord-bot",
+      "sha": "c2fb1924fc8efe7b2eed3929396f0281ae162585",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool",
+        "evidence_path": "app/llm/agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "app/llm/agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "mcp",
+            "github_access",
+            "web_crawl",
+            "discord_surface"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "Danejw/ai-companion-backend",
+      "sha": "5868863046a6b3e69cba9d07e98fb2bd357976d1",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner function_tool WebSearchTool FileSearchTool",
+        "evidence_path": "app/my_agents.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "app/my_agents.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "multiple_agents",
+            "agent_as_tool",
+            "web_search",
+            "file_search"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "engagepy/openai_agent_sales",
+      "sha": "ffa3be97dbbae504bdd6d45f668888af61b043c5",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool",
+        "evidence_path": "agent/custom_agents.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent/custom_agents.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "guardrail_agent",
+            "web_search",
+            "dynamic_agents"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "brookr/serverless-agents",
+      "sha": "9b533fa9fb77502e1321b061c30d5ec5ac41f9f6",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool",
+        "evidence_path": "api/agents.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "api/agents.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "totalhack/zillion",
+      "sha": "d508864b13a942942895936559f538c7f7d246c6",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner function_tool",
+        "evidence_path": "zillion/agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "zillion/agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "warehouse_introspection",
+            "report_planning",
+            "tool_validation"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "IAmTomShaw/tourist-agent",
+      "sha": "b4dccafce5c3bbd00405a18ec7e25665c6272ad1",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "openai-agents",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from agents import Agent Runner WebSearchTool",
+        "evidence_path": "src/agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "src/agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive openai-agents application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": false,
+          "signals": []
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "Croups/smart-web-scraper",
+      "sha": "a157701a22ae1853a00156b2364830130958c82d",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "pydantic-ai",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "from pydantic_ai import Agent RunContext",
+        "evidence_path": "scraping_agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "scraping_agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive pydantic-ai application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "browser_or_web_access",
+            "structured_extraction"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "jakie528/mcp-oauth",
+      "sha": "8476ee620196e60114e9dc1d6d497e4edf614cf2",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool OAuth Agent",
+        "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "oauth",
+            "remote_mcp",
+            "model_directed_tool_loop"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "7bernie/meridian-chatbot",
+      "sha": "d8be1cf5ddf4bda6a38e30d4e857031df3199039",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool OpenAI agent",
+        "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "remote_mcp",
+            "model_directed_tool_loop"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "ibrahimsaleem/mcp-security-lab",
+      "sha": "77cf0df7cba2cf3f247f1a86b3ec7a77651146f2",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool OpenAI Gemini agent",
+        "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "model_directed_tool_loop",
+            "security_lab",
+            "mcp_tool_manifest"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "AndreaCadonna/redmine-ai-cli",
+      "sha": "1b2976858b61f8f0b6fe1ce1d0d0173cd52e4452",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool Redmine agent",
+        "evidence_path": "agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "redmine",
+            "model_directed_tool_loop",
+            "enterprise_mutation_surface"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "nandangupta-security/CloudSecAIBot",
+      "sha": "7847614f8439bf053d32e8db7fa33675440ed873",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool cloud security agent",
+        "evidence_path": "agent_runner.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent_runner.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "aws_azure_gcp",
+            "cloud_security",
+            "model_directed_tool_loop"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "sashi-does/gamma",
+      "sha": "01f9ed81dd9aa33634ede60ed2914b5e29162a52",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "ClientSession call_tool Auto-PPT Agent",
+        "evidence_path": "agent_ppt.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "agent_ppt.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "filesystem",
+            "presentation_write",
+            "model_planning"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
+    },
+    {
+      "repo": "garland3/redesigned-octo-umbrella",
+      "sha": "741a959071e6859de0387600b23695f678ce8d0c",
+      "decision": "include",
+      "previously_studied": false,
+      "previously_studied_check": "checked",
+      "framework_stratum": "mcp-custom",
+      "discovery": {
+        "method": "bounded_pre_freeze_github_code_search_extension",
+        "query": "FastMCP Client tool_calls CLI agent",
+        "evidence_path": "cli_agent.py"
+      },
+      "screening": {
+        "reviewed_at": "2026-09-26",
+        "source_only": true,
+        "application_path": "cli_agent.py",
+        "rationale": "Bounded pre-freeze extension: pinned source defines a substantive mcp-custom application with a model-directed tool/workflow loop; added to correct framework imbalance without using HorusTrace output.",
+        "license_status": "public_repository_provenance_checked; license_not_adjudicated",
+        "tier_b": {
+          "eligible": true,
+          "signals": [
+            "mcp",
+            "filesystem_read",
+            "subagent_delegation",
+            "model_directed_tool_loop"
+          ]
+        },
+        "tier_c": {
+          "eligible": false,
+          "signals": []
+        }
+      }
     }
   ],
   "screening_progress": {
-    "reviewed": 365,
-    "included": 180,
+    "reviewed": 381,
+    "included": 196,
     "excluded": 185,
     "pending": 0,
-    "note": "Source-only screening complete for the original 365-repository discovery snapshot. The resulting inclusion set reaches 180 but is too Google-ADK-heavy for the preregistered final cohort stratum cap, so the candidate pool remains unfrozen pending a small non-ADK extension before cohort selection."
+    "note": "Original 365-repository screening plus a bounded 16-repository non-ADK pre-freeze extension are complete. The candidate pool is frozen before cohort selection; no HorusTrace results influenced discovery or screening."
+  },
+  "extension_snapshot": {
+    "frozen_at": "2026-09-26",
+    "purpose": "correct preregistered framework imbalance before cohort freeze",
+    "source_only": true,
+    "horustrace_results_used": false,
+    "added_repositories": 16,
+    "framework_counts": {
+      "openai-agents": 8,
+      "pydantic-ai": 1,
+      "mcp-custom": 7
+    }
   }
 }
