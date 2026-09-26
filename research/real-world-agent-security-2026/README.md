@@ -163,3 +163,23 @@ Batch 5 retained several high-value security cases, including an ADK payment age
 `omnigentx/jarvis` is a confirmed genuine evalstate FastAgent application and is retained in the FastAgent stratum. `RooCodeInc/Roomote` uses an internal custom subsystem named "fast-agent" but not evalstate FastAgent; it is re-stratified to MCP/custom and retained as a substantive custom cloud coding-agent system.
 
 The corrected candidate-universe counts are now FastAgent 26 and MCP/custom 67. The original discovery snapshot remains unchanged.
+
+
+## Screening batch 6
+
+The sixth scaled screening batch reviewed 24 additional repositories.
+
+Cumulative state:
+
+- reviewed: 156
+- included: 77
+- excluded: 79
+- pending: 209
+- candidate pool frozen: no
+- HorusTrace execution: none
+
+Retained cases include a multi-agent ADK cloud-architecture reviewer, Document AI OCR over sensitive documents, BigQuery + Fivetran MCP water-risk analysis, a confirmation/budget-bounded payment example, a Pydantic AI SQL agent, a multi-agent trading workflow, a LangGraph shell-execution example, a persistent/HITL travel planner, and a realtime voice agent with MCP banking tools.
+
+All four FastAgent-labelled candidates in this tranche were analysis, metadata, specification, or digest content rather than runnable applications. After batch 6 the FastAgent stratum has 3 included cases, 19 excluded, and only 4 currently labelled candidates pending. Thus the preregistered minimum of 12 cannot be reached from the remaining FastAgent-labelled candidates alone; it would require future source-based re-stratifications into FastAgent. The study will preserve and report that coverage limitation if it remains at freeze time.
+
+With 77 inclusions from 156 reviewed, the cumulative inclusion yield is now below 50%, so early cohort selection would be methodologically unsafe.
