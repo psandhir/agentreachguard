@@ -58,13 +58,53 @@
       "fp": 78
     }
   },
+  "v09_gates": {
+    "overall_agent_precision": {
+      "value": 0.9526,
+      "required": ">= 0.9500",
+      "meets": true
+    },
+    "langgraph_agent_recall": {
+      "value": 0.9613,
+      "required": ">= 0.8000",
+      "meets": true
+    },
+    "langgraph_tool_recall": {
+      "value": 0.966,
+      "required": ">= 0.7000",
+      "meets": true
+    },
+    "mcp_custom_agent_recall": {
+      "value": 0.625,
+      "required": ">= 0.6000",
+      "meets": true
+    },
+    "mcp_custom_tool_recall": {
+      "value": 0.6324,
+      "required": ">= 0.6000",
+      "meets": true
+    },
+    "explicit_mcp_server_recall": {
+      "value": 0.8636,
+      "required": ">= 0.8500",
+      "meets": true
+    },
+    "delegation_precision": {
+      "value": 0.9444,
+      "required": ">= 0.9000",
+      "meets": true
+    },
+    "scanner_execution_success": {
+      "value": 1,
+      "required": ">= 1.0000",
+      "meets": true
+    }
+  },
   "adjudication": {
     "original_locked_truth_preserved": true,
     "note": "research/real-world-agent-security-2026/adjudications/rw-089-agent-root.json",
-    "agent_precision_original": 0.9526,
-    "agent_precision_post_hoc": 0.9569,
-    "adjusted_precision_tp": 222,
-    "adjusted_fp": 10,
-    "required_for_release_gate": false
+    "formal_gate_uses_locked_truth": true,
+    "formal_agent_precision": 0.9526,
+    "post_hoc_disagreement_retained": true
   }
 }
