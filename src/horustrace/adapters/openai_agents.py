@@ -895,5 +895,11 @@ def scan_python_file(path: Path) -> Graph:
     bound_tool_ids = {id(tool) for agent in graph.agents for tool in agent.tools}
     bound_server_ids = {id(server) for agent in graph.agents for server in agent.mcp_servers}
     graph.unbound_tools.extend(tool for tool in tools.values() if id(tool) not in bound_tool_ids)
-    graph.unbound_mcp_servers.extend(server for server in mcp_servers.values() if id(server) not in bound_server_ids)
+    for server in mcp_servers.values():
+        if id(server) in bound_server_ids:
+            continue
+        server.metadata.setdefault("topology_visible_unbound", True)
+        server.metadata.setdefault("binding_state", "unbound")
+        server.metadata.setdefault("discovery_source", "openai_agents_mcp")
+        graph.unbound_mcp_servers.append(server)
     return graph
