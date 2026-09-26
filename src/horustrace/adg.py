@@ -257,6 +257,29 @@ def build_adg(graph: Graph, root: Path) -> AgentDependencyGraph:
             },
         )
 
+    for server in graph.unbound_mcp_servers:
+        if server.metadata.get("topology_visible_unbound") is not True:
+            continue
+        builder.node(
+            "mcp_server",
+            server.name,
+            location=server.location,
+            framework=_framework(server.metadata),
+            attributes={
+                "transport": server.transport,
+                "url": server.url,
+                "command": server.command,
+                "authenticated": server.authenticated,
+                "approval": server.approval,
+                "allowed_tools": list(server.allowed_tools),
+                "denied_tools": list(server.denied_tools),
+                "unbound": True,
+                "binding_state": server.metadata.get("binding_state") or "unbound",
+                "discovery_source": server.metadata.get("discovery_source"),
+                "binding_origin": server.metadata.get("binding_origin"),
+            },
+        )
+
     for agent in graph.agents:
         framework = _framework(agent.metadata)
         agent_id = builder.node(
