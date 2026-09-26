@@ -7,6 +7,9 @@ assertions, and locks the reference set before baseline execution.
 """
 from __future__ import annotations
 
+TRUTH_WORKFLOW_TRIGGER_AFTER_HARNESS_MERGE = True
+
+
 import argparse
 import ast
 import concurrent.futures
