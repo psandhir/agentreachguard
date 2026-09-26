@@ -294,7 +294,13 @@ def _function_tool(path: Path, node: ast.FunctionDef | ast.AsyncFunctionDef, ser
             kind="mcp_exposed_tool",
             capabilities=capabilities,
             location=_location(path, node),
-            metadata={"framework": "mcp", "server": receiver},
+            metadata={
+                "framework": "mcp",
+                "server": receiver,
+                "topology_visible_unbound": True,
+                "binding_state": "unbound",
+                "discovery_source": "mcp_python_tool_decorator",
+            },
         )
     return None
 
@@ -463,6 +469,10 @@ def scan_python_file(path: Path) -> Graph:
         if key in seen:
             continue
         seen.add(key)
+        server.metadata.setdefault("framework", "mcp")
+        server.metadata.setdefault("topology_visible_unbound", True)
+        server.metadata.setdefault("binding_state", "unbound")
+        server.metadata.setdefault("discovery_source", "mcp_python")
         graph.unbound_mcp_servers.append(server)
         if server.metadata.get("dynamic_command"):
             graph.coverage.diagnostics.append(

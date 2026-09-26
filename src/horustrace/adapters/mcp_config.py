@@ -72,7 +72,14 @@ def scan_mcp_config(path: Path) -> Graph:
                 allowed_tools=[str(v) for v in allowed_tools] if isinstance(allowed_tools, list) else [],
                 denied_tools=[str(v) for v in denied_tools] if isinstance(denied_tools, list) else [],
                 location=SourceLocation(path=path),
-                metadata={"raw_keys": sorted(config.keys()), "auth_keys": auth_keys},
+                metadata={
+                    "raw_keys": sorted(config.keys()),
+                    "auth_keys": auth_keys,
+                    "framework": "mcp",
+                    "topology_visible_unbound": True,
+                    "binding_state": "unbound",
+                    "discovery_source": "mcp_config",
+                },
             )
         )
     return graph
