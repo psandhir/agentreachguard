@@ -506,7 +506,6 @@ class WorkflowNode:
 class Graph:
     coverage: ScanCoverage = field(default_factory=ScanCoverage)
     agents: list[Agent] = field(default_factory=list)
-    workflow_nodes: list[WorkflowNode] = field(default_factory=list)
     unbound_tools: list[Tool] = field(default_factory=list)
     unbound_mcp_servers: list[MCPServer] = field(default_factory=list)
     unresolved_mcp_references: list[MCPServer] = field(default_factory=list)
@@ -517,6 +516,7 @@ class Graph:
     suppressed_findings: list[Any] = field(default_factory=list)
     suppression_diagnostics: list[dict[str, Any]] = field(default_factory=list)
     configuration_audit: dict[str, Any] = field(default_factory=dict)
+    workflow_nodes: list[WorkflowNode] = field(default_factory=list)
 
     def all_tools(self) -> list[Tool]:
         tools = list(self.unbound_tools)
