@@ -259,3 +259,19 @@ Tier B is frozen at 60 source-complex cases: 12 Google ADK, 12 OpenAI Agents, 11
 Tier C is frozen at four defensible cases after a dedicated source-only deployment/IAM review. The preregistered target remains 25; the 21-case shortfall is a study finding, not a reason to weaken evidence requirements or alter broad-cohort selection. The study harness permits this only when the shortfall is explicitly documented and source review is complete.
 
 Ground truth remains pending. HorusTrace still must not be executed against the cohort until truth is locked.
+
+
+## Study completion
+
+The preregistered 2026 real-world baseline is complete through roadmap derivation.
+
+Final artifacts:
+
+- `final-report.md` — study conclusions, measured threshold outcomes, limitations and framework analysis;
+- `results/frozen-baseline.json` / `results/frozen-baseline.md` — immutable frozen-scanner baseline;
+- `results/error-taxonomy.json` — machine-readable product error taxonomy;
+- `product-roadmap.md` — prioritized development sequence derived from measured baseline errors.
+
+The original scanner baseline remains pinned to `418db4e29798a7d25df686dd7bccfd9fefa225bd`. Product changes discovered by the study must be validated as deltas against the same frozen cohort; the original baseline and locked truth must not be overwritten.
+
+The source reference is an independent automated dual-pass reference, not a human dual-review panel. Accordingly, finding precision/recall and exhaustive attack-path accuracy are not claimed by this study.
